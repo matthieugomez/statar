@@ -1,4 +1,4 @@
-# DT %>% egen(as.character,"v1*")
+# DT %>% ereplace(as.character,"v1*")
 
 
 ereplace=function(DT,fun,cols=names(DT),i=TRUE,by=NULL,...){
