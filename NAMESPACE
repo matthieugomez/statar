@@ -1,2 +1,5 @@
 import(data.table)
 import(stringr)
+export(gen)
+export(replace)
+export(set)
