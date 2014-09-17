@@ -1,3 +1,9 @@
+# DT %>% set(order,"v*")
+# DT %>% set(sort,"v*")
+# DT %>% set(sort,"v?")
+# DT %>% set(rename,"v1","v11")
+
+
 set=function(DT,fun,cols=names(DT),i=NULL,by=NULL,...,newcols=NULL){
   func=as.character(substitute(fun))
   colsc=unlist(str_split(cols,pattern=" "))
