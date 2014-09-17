@@ -17,5 +17,5 @@ DT %>% select(id) %>% filter(v1==2) %>% describe(,d=T)
 
 DT %>% egen(mean,"v1","v1_mean",by=year,filter=id==3)
 DT %>% ereplace(mean,"v*",by=year,filter=id==3)
-DT %>% ereplace(as.character,"\*",by=year,filter=id==3)
+DT %>% ereplace(as.character,"*",by=year,filter=id==3)
 ````
