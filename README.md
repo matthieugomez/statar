@@ -4,8 +4,8 @@ stataR
 A tentative package for Stata users
 
 ````R
-DT %>% set(order,"v\*")
-DT %>% set(sort,"v\*")
+DT %>% set(order,"v*")
+DT %>% set(sort,"v*")
 DT %>% set(sort,"v?")
 DT %>% set(rename,"v1","v11")
 
