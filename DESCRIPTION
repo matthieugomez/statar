@@ -1,0 +1,10 @@
+Package: stataR
+Title: Stata Commans in R
+Version: 0.1
+Author: Matthieu Gomez <mattg@princeton.edu> 
+Description: Gives Equivalent Stata Commands
+Depends: 
+	R (>= 3.1.0)
+Imports:
+	stringr,
+	data.table
