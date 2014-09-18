@@ -31,5 +31,5 @@ Package can be installed via `devtools`
 
 ````R
 library(devtools)
-devtools::install_github("hadley/devtools")
+devtools::install_github("matthieugomez/stataR")
 ````
