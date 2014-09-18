@@ -1,6 +1,5 @@
 
 panel=function(DT,id,time,fun,gen=func){
-
     func=paste(as.character(substitute(fun)),collapse="")
     timevar=as.character(substitute(time))
     idsub = substitute(id)

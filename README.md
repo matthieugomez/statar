@@ -2,7 +2,7 @@ stataR
 ======
 
 A tentative package for Stata users built on `data.table`
-Only commands that are non-intuitive to reproduce in `data.table` are presented.
+for Stata commands non-intuitive to reproduce.
 Variable arguments accept character vectors and wildcards. They can be negated with "-"
 
 ````R
@@ -28,8 +28,7 @@ DT %>% ereplace(as.character,"*")
 DT %<>% panel(id="id1 id2",t="time",fill)
 
 DT %>% panel(id="id1 id2",t="time",L3.v2)
-DT %>% panel(id="id1 id2",t="time",L3.v2,gen=L3.v2)
-DT %>% panel(id="id1 id2",t="time","F1.v2",gen="F1_v2")
+DT %>% panel(id="id1 id2",t="time",L3.v2,gen="L3.v2")
 ````
 
 
