@@ -15,9 +15,7 @@ DT %>% edo(keep,-"id*")
 DT %>% edo(summarize,"v1")
 DT %>% edo(sum,"v*",d=T)
 
-## egen and ereplace apply one function to several variables
-DT %>% egen(mean,"v1","v1_mean",i=,by="year",na.rm=T)
-
+## ereplace applies one function to several variables
 DT %>% ereplace(max,c("v1","v2"),by="year")
 DT %>% ereplace(max,-c("id1","id2"),by="id*")
 DT %>% ereplace(max,-"id*",by="year")
