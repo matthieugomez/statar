@@ -29,7 +29,7 @@ DT %<>% panel(id="id1 id2",t="time",fill)
 
 DT %>% panel(id="id1 id2",t="time",L3.v2)
 DT %>% panel(id="id1 id2",t="time",L3.v2,gen=L3.v2)
-DT %>% panel(id="id1 id2",t="time","F1.v2,gen="F1_v2")
+DT %>% panel(id="id1 id2",t="time","F1.v2",gen="F1_v2")
 ````
 
 
