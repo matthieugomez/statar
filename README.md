@@ -16,7 +16,7 @@ DT %>% edo(sum,"v*",d=T)
 ## apply one function to several variables
 
 
-DT %>% ereplace(mean,"v1","v1_mean",i=,by=,na.rm=T)
+DT %>% egem(mean,"v1","v1_mean",i=,by=,na.rm=T)
 DT %>% ereplace(max,c("v1","v2"),by=year)
 DT %>% ereplace(max,-c("id1","id2"),by=year)
 DT %>% ereplace(max,-"id*",by=year)
