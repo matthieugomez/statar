@@ -1,9 +1,13 @@
 stataR
 ======
 
-A tentative package for Stata users
+A conveniencepackage for Stata users built on `data.tabe`
+
+All variable arguments acceptcharacter vectors or wildcards. All variable argument can be negated with "-"
 
 ````R
+
+# edo allows to use some stata commands
 DT %>% edo(order,"v*")
 DT %>% edo(sort,"v*")
 DT %>% edo(rename,"v1","v11")
@@ -13,7 +17,7 @@ DT %>% edo(summarize,"v1")
 DT %>% edo(sum,"v*",d=T)
 
 
-## apply one function to several variables
+## egen and ereplace apply one function to several variables
 
 
 DT %>% egen(mean,"v1","v1_mean",i=,by=,na.rm=T)
@@ -29,4 +33,3 @@ DT %>% ereplace(as.character,"*")
 
 
 
-Variable arguments accept character vectors or wildcards. The argument can be negated with "-"
