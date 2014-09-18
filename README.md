@@ -4,18 +4,25 @@ stataR
 A tentative package for Stata users
 
 ````R
-DT %>% set(order,"v*")
-DT %>% set(sort,"v*")
-DT %>% set(sort,"v?")
-DT %>% set(rename,"v1","v11")
+DT %>% make(order,"v*")
+DT %>% make(sort,"v*")
+DT %>% make(rename,"v1","v11")
+DT %>% make(keep,"v?")
+
+DT %>% make(summarize,"v1")
+DT %>% make(sum,"v*",d=T)
 
 
-DT %>% select(id) %>% describe
-DT %>% select(id) %>% filter(v1==2) %>% describe(,d=T)
+## apply a function to a list of variable
+
+DT %>% egen(mean,"v1","v1_mean",i=,by=)
+DT %>% egen(mean,"v1","v1_mean",i=,by=,na.rm=T)
+DT %>% egen(mean,"v1 v2","v1_mean v2_mean",i=,by=)
 
 
-
-DT %>% egen(mean,"v1","v1_mean",by=year,filter=id==3)
 DT %>% ereplace(max,"v*",by=year)
 DT %>% ereplace(as.character,"*")
+
+
+DT %>% edo(pmax,"v*",by=year)
 ````

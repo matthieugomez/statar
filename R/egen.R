@@ -1,6 +1,6 @@
 # DT %>% egen(mean,"v1","v1_mean")
 
-egen=function(DT,fun,cols,gen,filter=TRUE,by=NULL,...){
+egen=function(DT,fun,cols,gen,,...,i=TRUE,by=NULL){
   func=as.character(substitute(fun))
   colsc=unlist(str_split(cols,pattern=" "))
   cc=NULL
@@ -9,6 +9,6 @@ egen=function(DT,fun,cols,gen,filter=TRUE,by=NULL,...){
   }
  colsc=cc
  stopifnot(length(colsc)==length(gen) & !is.element(gen,names(DT)))
- eval(substitute(DT[filter,gen:=lapply(.SD,function(x){fun(x,...)}),by,.SD=colsc]))
+ eval(substitute(DT[i,gen:=lapply(.SD,funx,...),by,.SD=colsc]))
 }
 
