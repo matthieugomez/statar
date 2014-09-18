@@ -2,7 +2,7 @@ stataR
 ======
 
 A tentative package for Stata users built on `data.table`
-for Stata commands non-intuitive to reproduce.
+for less intuitive commands. 
 Variable arguments accept character vectors and wildcards. They can be negated with "-"
 
 ````R
