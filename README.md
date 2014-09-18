@@ -18,7 +18,7 @@ DT %>% edo(summarize,"v1")
 DT %>% edo(sum,"v*",d=T)
 
 
-## ereplace applies one function to several variables
+## ereplace applies one function to several variables. Any functions that operate on vectors is allowed.
 DT %>% ereplace(max,c("v1","v2"),by="year")
 DT %>% ereplace(max,-c("id1","id2"),by="id*")
 DT %>% ereplace(max,-"id*",by="year")
