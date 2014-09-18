@@ -1,5 +1,4 @@
 import(data.table)
-import(stringr)
 export(edo)
 export(egen)
 export(ereplace)
