@@ -2,8 +2,7 @@ stataR
 ======
 
 A tentative package for Stata users built on `data.table`
-for less intuitive commands. 
-Variable arguments accept character vectors and wildcards. They can be negated with "-"
+for less intuitive commands. This is a beta version. Variable arguments accept character vectors and wildcards. They can be negated with "-"
 
 ````R
 # edo allows to use some stata commands. Abbreviations are allowed.
@@ -26,7 +25,8 @@ DT %>% ereplace(as.character,"*")
 ## Panel
 
 DT %<>% panel(id="id1 id2",t="time",fill)
-# <> is needed since rows cannot be dropped/created by reference. Magrittr symbol %<>% is just equivalent to DT <- DT %>% panel(id="id1 id2",t="time",fill)
+# <> is needed since rows cannot be dropped/created by reference. 
+#  %<>%, from Magrittr, is just equivalent to DT <- DT %>% panel(id="id1 id2",t="time",fill)
 DT %>% panel(id="id1 id2",t="time",L3.v2)
 DT %>% panel(id="id1 id2",t="time",L3.v2,gen="L3.v2")
 ````
