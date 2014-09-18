@@ -1,7 +1,7 @@
 stataR
 ======
 
-A conveniencepackage for Stata users built on `data.tabe`
+A tentative package for Stata users built on `data.tabe`
 
 All variable arguments acceptcharacter vectors or wildcards. All variable argument can be negated with "-"
 
