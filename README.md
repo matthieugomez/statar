@@ -18,9 +18,9 @@ DT %>% edo(sum,"v*",d=T)
 
 
 ## egen and ereplace apply one function to several variables
-DT %>% egen(mean,"v1","v1_mean",i=,by=,na.rm=T)
-DT %>% ereplace(max,c("v1","v2"),by=year)
-DT %>% ereplace(max,-c("id1","id2"),by=year)
+DT %>% egen(mean,"v1","v1_mean",i=,by="year",na.rm=T)
+DT %>% ereplace(max,c("v1","v2"),by="year")
+DT %>% ereplace(max,-c("id1","id2"),by="id*")
 DT %>% ereplace(max,-"id*",by=year)
 DT %>% ereplace(max,"v*",by=year)
 DT %>% ereplace(as.character,"*")
