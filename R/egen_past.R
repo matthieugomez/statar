@@ -1,6 +1,5 @@
-# DT %>% egen(mean,"v1","v1_mean")
 
-egen=function(DT,fun,cols,gen,,...,i=TRUE,by=NULL){
+gen_each=function(DT,fun,cols,gen,,...,i=TRUE,by=NULL){
   func=as.character(substitute(fun))
   colsc=unlist(str_split(cols,pattern=" "))
   cc=NULL

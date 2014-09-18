@@ -1,6 +1,3 @@
-# DT %>% ereplace(as.character,"v1*")
-
-
 ereplace=function(DT,fun,cols=names(DT),...,i=TRUE,by=NULL){
 	func=as.character(substitute(fun))
 	colsub = substitute(cols)
