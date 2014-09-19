@@ -17,35 +17,33 @@ DT %>% eset(rename,"v1","v11")
 DT %>% eset(keep,"v?")
 DT %>% eset(keep,-"id*")
 
-
 # edo for commands that don't modify dataset. Abbreviations for command names are allowed.
 DT %>% edo(summarize,"v1")
 DT %>% edo(sum,"v*",d=T)
 
-
-
-
-
 ## Panel
 DT %<>% panel(id="id1 id2",t="time",fill)
-#  %<>%, from Magrittr, is just equivalent to DT <- DT %>% panel(id="id1 id2",t="time",fill)
-# Reassignment is needed rows cannot be dropped/created by reference in data.table (for now)
+# The command `fill` creates a new dataset since rows cannot be dropped/created by reference in data.table (for now)
 DT %>% panel(id="id1 id2",t="time",L3.v2)
 DT %>% panel(id="id1 id2",t="time",L3.v2,gen="L3_v2")
 
 ## Join
-join(DTm,DTu,1:1,all=T,gen="_merge")
-join(DTm,DTu,m:1,all=T,gen="_merge")
-join(DTm,DTu,1:1,all=T,nogen=T)
-join(DTm,DTu,m:m,all.x=T)
-join(DTm,DTu,m:m,all.y=T)
-# m:m does a multiple to multiple matches, similar to Stata `joinby` and *not* to Stata `merge`. Default option are the ones specified in the first line. Merge is on variables with t he same name. Datasets are coerced to data.tables and eventually resorted.
+DTm %<>% join(DTm,DTu,type=1:1,all=T,gen="_merge")
+DTm %<>% join(DTm,DTu,m:1,all=T,gen="_merge")
+DTm %<>% join(DTm,DTu,1:1,all=T,nogen=T)
+DTm %<>% join(DTm,DTu,m:m,all.x=T)
+DTm %<>% join(DTm,DTu,m:m,all.y=T)
+
+# m:m does a multiple to multiple matches, similar to Stata `joinby` and *not* to Stata `merge`. 
+#Default option for all and gen are the ones specified in the first line. 
+# The merge is on variables with the same name. Datasets are eventually coerced to data.tables and  sorted in place.
+# The command join creates a new dataset.
 ````
 
 
 
 
-The ackage can be installed via `devtools`
+The package can be installed via `devtools`
 
 ````R
 library(devtools)
