@@ -38,6 +38,11 @@ DTm %<>% join(DTm,DTu,m:m,all.y=T)
 #Default option for all and gen are the ones specified in the first line. 
 # The merge is on variables with the same name. Datasets are eventually coerced to data.tables and  sorted in place.
 # The command join creates a new dataset.
+
+
+## newname
+newname <- tempname(names(DT))
+
 ````
 
 

@@ -1,12 +1,12 @@
-#join(DTm,DTu,1:1,all=T,gen="_merge")
+#ejoin(DTm,DTu,1:1,all=T,gen="_merge")
 # The variable "_merge" is 3 for matching rows, 2 for rows in using only, 1 for rows in master only 
 # 1:1 m:1 1:m m:m are about the number of rows in each master that should match rows in the other. Great to notice that you have duplicates when you thought you did not
-#join(DTm,DTu,m:1,all=T,gen="_merge")
-#join(DTm,DTu,1:1,all=T,nogen=T)
-#join(DTm,DTu,m:m,all.x=T)
-#join(DTm,DTu,m:m,all.y=T)
+#ejoin(DTm,DTu,m:1,all=T,gen="_merge")
+#ejoin(DTm,DTu,1:1,all=T,nogen=T)
+#ejoin(DTm,DTu,m:m,all.x=T)
+#ejoin(DTm,DTu,m:m,all.y=T)
 
-join=function(DTm,DTu,type,all=FALSE,all.x=all,all.y=all,nogen=FALSE,gen="merge"){
+ejoin=function(DTm,DTu,type,all=FALSE,all.x=all,all.y=all,nogen=FALSE,gen="merge"){
   if (!is.data.table(DTm)){
     setDT(DTm)
     message("Master coerced to data.table")

@@ -1,4 +1,4 @@
-tempvar=function(l) {
+tempname=function(l) {
     maxTries <- 1e+06
     ii <- 0L
     while (ii < maxTries) {
