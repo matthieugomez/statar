@@ -1,8 +1,8 @@
 stataR
 ======
 
-A tentative package for Stata users built on `data.table`
-for less intuitive commands. This is a beta version. Variable arguments accept character vectors and wildcards. They can be negated with "-"
+A tentative beta package for Stata users built on `data.table`. The goal is to code common Stata idioms in R when they're harder to do in `data.table`.
+
 
 ````R
 # eset for commands that modify dataset in place. Abbreviations for command names are allowed.
@@ -33,6 +33,16 @@ DT %<>% panel(id="id1 id2",t="time",fill)
 DT %>% panel(id="id1 id2",t="time",L3.v2)
 DT %>% panel(id="id1 id2",t="time",L3.v2,gen="L3_v2")
 ````
+
+## Join
+join(DTm,DTu,1:1,all=T,gen="_merge")
+join(DTm,DTu,m:1,all=T,gen="_merge")
+join(DTm,DTu,1:1,all=T,nogen=T)
+join(DTm,DTu,m:m,all.x=T)
+join(DTm,DTu,m:m,all.y=T)
+# m:m does a multiple to multiple matches, similar to Stata `joinby` and *not* to Stata `merge`. Default option are the ones specified in the first line. Merge is on variables with t he same name. Datasets are coerced to data.tables and eventually resorted.
+
+Variable arguments accept character vectors and wildcards. They can be negated with "-"
 
 
 
