@@ -33,8 +33,8 @@ DT <- data.table(
   date = c(1992, NA, 1991, 1990, 1994, 1992, 1991), 
   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% epanel(id="id",t="date",L3.value)
-DT %>% epanel(id="id",t="date",L3.value,gen="L3_value")
+DT %>% epanel(id="id",t="date",L1.value)
+DT %>% epanel(id="id",t="date",L3.value,gen="L3.value")
 
 DT %>% epanel(id="id",t="date",fill)
 
