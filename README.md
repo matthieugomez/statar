@@ -1,11 +1,11 @@
 stataR
 ======
 
-A tentative *beta* package for Stata users. The goal is to code common Stata idioms in R when they're harder to do in `data.table`.
+A tentative *beta* package for Stata users. I coded common Stata idioms when they're not intuitive in `data.table`.
 
-Some words abour the syntax
-- Variable arguments accept character vectors and wildcards. They can be negated with "-". 
-- Possible commands within `eset` and `edo` are predefined - allowing for the use of shortcuts like Stata
+Syntax is close to Stata:
+- Arguments in the option `cols` accept character vectors and wildcards. They can be negated with "-". 
+- Possible commands within `eset` and `edo` are predefined - which allows the use of shortcuts like `sum` instead of `summarize`.
 
 
 ````R
@@ -17,7 +17,7 @@ DT <- data.table(
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) 
 )
 # eset (modify dataset)
-DT %>% eset(order,"v*")
+DT %>% eset(order,cols="v*")
 DT %>% eset(sort,"v*")
 DT %>% eset(rename,"v1","v11")
 DT %>% eset(keep,-"id*")
@@ -33,28 +33,27 @@ DT <- data.table(
   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% epanel(id="id",t="date",L1.value)
-DT %>% epanel(id="id",t="date",L3.value,gen="L3.value")
+DT %>% epanel(cols="id",t="date",L1.value)
+DT %>% epanel(cols="id",t="date",L3.value,gen="L3.value")
 
-DT <- DT %>% epanel(id="id",t="date",fill)
+DT <- DT %>% epanel(cols="id",t="date",fill)
 
 ## ejoin (creates new dataset)
 ejoin(DTm,DTu,type=1:1,all=TRUE,gen="_merge")
-ejoin(DTm,DTu,m:1,all=TRUE,gen="_merge")
-ejoin(DTm,DTu,1:1,all=TRUE,nogen=TRYE)
+ejoin(DTm,DTu,m:1)
+ejoin(DTm,DTu,1:1,nogen=TRUE)
 ejoin(DTm,DTu,m:m,all.x=TRUE)
 ejoin(DTm,DTu,m:m,all.y=TRUE)
 
-# Datasets are coerced to data.tables and sorted in place.
-# The merge is based on common names between the two datasets. 
-# A new dataset is created
-# m:m creates multiple rows for multiple matches, similar to Stata `joinby`. 
-# Default option values for all and gen are specified in the first line. 
+# datasets are coerced to data.tables and sorted in place.
+# the command merges on common names between the two datasets and creates a new dataset.
+# the option m:m creates multiple rows for multiple matches, similar to Stata joinby. 
+# default options for all and gen are specified in the first line. 
 
 
 
-## newname
-newname <- tempname(names(DT))
+## tempname(l) creates a name not present in the vector l
+tempname <- tempname(names(DT))
 ````
 
 
