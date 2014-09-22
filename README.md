@@ -1,4 +1,4 @@
-stataR
+statar
 ======
 
 A tentative *beta* set of R commands for Stata users. I coded useful Stata commands when they're not intuitive in `data.table`.
@@ -26,11 +26,9 @@ DT %>% eset(rename,"v1","v11")
 DT %>% eset(keep,-"id*")
 DT %>% eset(keep,"v?")
 
-
 # edo (don't modify dataset)
 DT %>% edo(summarize,"v2")
-DT %>% edo(sum,"v*",d=T)
-
+DT %>% edo(sum,"v*",d=TRUE)
 
 # epanel 
 DT <- data.table(
@@ -41,7 +39,6 @@ DT <- data.table(
 DT %>% epanel(cols="id",t="date",L1.value)
 DT %>% epanel(cols="id",t="date",L3.value,gen="L3.value")
 DT <- DT %>% epanel(cols="id",t="date",fill)
-
 
 ## ejoin (creates new dataset)
 # datasets are sorted in place.
@@ -54,17 +51,13 @@ ejoin(DTm,DTu,1:1,nogen=TRUE)
 ejoin(DTm,DTu,m:m,all.x=TRUE)
 ejoin(DTm,DTu,m:m,all.y=TRUE)
 
-
 # tempname(l) creates a name not present in the vector l
 tempname <- tempname(names(DT))
 ````
-
-
-
 
 The package can be installed via `devtools`
 
 ````R
 library(devtools)
-devtools::install_github("matthieugomez/stataR")
+devtools::install_github("matthieugomez/statar")
 ````
