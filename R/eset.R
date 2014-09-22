@@ -1,7 +1,7 @@
 
 eset=function(DT,fun,cols=names(DT),...,i=NULL,by=NULL,d=FALSE){
   func=as.character(substitute(fun))
-  func <-match.arg(func,c("sort","order","rename","summarize","balance"))
+  func <-match.arg(func,c("sort","order","rename","summarize","keep"))
   options=eval(substitute(alist(...)))
   colsub = substitute(cols)
   colvars = idvars_q(colsub,names(DT))
