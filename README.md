@@ -1,13 +1,14 @@
 stataR
 ======
 
-A tentative *beta* package for Stata users. I coded common Stata idioms when they're not intuitive in `data.table`.
+A tentative *beta* set of R commands for Stata users. I coded useful Stata commands when they're not intuitive in `data.table`.
 
 Syntax is close to Stata:
-- Arguments in the option `cols` accept character vectors and wildcards. They can be negated with "-". 
+- Arguments in the option `cols` can be character vectors and wildcards. They can be negated with "-". 
 - Possible commands within `eset` and `edo` are predefined - which allows the use of shortcuts like `sum` instead of `summarize`.
 
-
+All functions coerce the input in  a data.table
+Examples:
 ````R
 N=1e6; K=100
 DT <- data.table(
@@ -18,7 +19,7 @@ DT <- data.table(
 )
 # eset (modify dataset)
 DT %>% eset(order,cols="v*")
-DT %>% eset(sort,"v*")
+DT %>% eset(sort,c("v1","v2"))
 DT %>% eset(rename,"v1","v11")
 DT %>% eset(keep,-"id*")
 DT %>% eset(keep,"v?")
@@ -39,20 +40,17 @@ DT %>% epanel(cols="id",t="date",L3.value,gen="L3.value")
 DT <- DT %>% epanel(cols="id",t="date",fill)
 
 ## ejoin (creates new dataset)
+# datasets are sorted in place.
+# the command merges on common names between the two datasets and creates a new dataset.
+# the option m:m creates multiple rows for multiple matches, similar to Stata joinby. 
+# default options for all and gen are specified in the first line. 
 ejoin(DTm,DTu,type=1:1,all=TRUE,gen="_merge")
 ejoin(DTm,DTu,m:1)
 ejoin(DTm,DTu,1:1,nogen=TRUE)
 ejoin(DTm,DTu,m:m,all.x=TRUE)
 ejoin(DTm,DTu,m:m,all.y=TRUE)
 
-# datasets are coerced to data.tables and sorted in place.
-# the command merges on common names between the two datasets and creates a new dataset.
-# the option m:m creates multiple rows for multiple matches, similar to Stata joinby. 
-# default options for all and gen are specified in the first line. 
-
-
-
-## tempname(l) creates a name not present in the vector l
+# tempname(l) creates a name not present in the vector l
 tempname <- tempname(names(DT))
 ````
 

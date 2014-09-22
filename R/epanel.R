@@ -1,5 +1,9 @@
 
 epanel=function(DT,cols,time,fun,gen=func){
+    if (!is.data.table(DT)){
+      setDT(DT)
+      message("Data.frame coerced to data.table")
+    }
     func=paste(as.character(substitute(fun)),collapse="")
     timevar=as.character(substitute(time))
     colsub = substitute(cols)
