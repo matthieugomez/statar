@@ -1,8 +1,7 @@
 stataR
 ======
 
-A tentative beta package for Stata users built on `data.table`. The goal is to code common Stata idioms in R when they're harder to do in `data.table`.
-
+A tentative *beta* package for Stata users. The goal is to code common Stata idioms in R when they're harder to do in `data.table`.
 
 Variable arguments accept character vectors and wildcards. They can be negated with "-". 
 Possible commands within `eset` and `edo` are predefined - allowing for the use of shortcuts.
@@ -10,7 +9,7 @@ Possible commands within `eset` and `edo` are predefined - allowing for the use 
 
 
 ````R
-# eset for commands that modify dataset in place. Abbreviations for command names are allowed.
+# eset (inplace). Abbreviations for command names are allowed.
 DT %>% eset(order,"v*")
 DT %>% eset(sort,"v*")
 DT %>% eset(rename,"v1","v11")
@@ -21,18 +20,17 @@ DT %>% eset(keep,-"id*")
 DT %>% edo(summarize,"v1")
 DT %>% edo(sum,"v*",d=T)
 
-## Panel
-DT %<>% panel(id="id1 id2",t="time",fill)
-# The command `fill` creates a new dataset since rows cannot be dropped/created by reference in data.table (for now)
-DT %>% panel(id="id1 id2",t="time",L3.v2)
-DT %>% panel(id="id1 id2",t="time",L3.v2,gen="L3_v2")
+## Panel (inplace)
+DT %>% epanel(id="id1 id2",t="time",fill)
+DT %>% epanel(id="id1 id2",t="time",L3.v2)
+DT %>% epanel(id="id1 id2",t="time",L3.v2,gen="L3_v2")
 
-## Join
-DTm %<>% join(DTm,DTu,type=1:1,all=T,gen="_merge")
-DTm %<>% join(DTm,DTu,m:1,all=T,gen="_merge")
-DTm %<>% join(DTm,DTu,1:1,all=T,nogen=T)
-DTm %<>% join(DTm,DTu,m:m,all.x=T)
-DTm %<>% join(DTm,DTu,m:m,all.y=T)
+## Join (creates new dataset)
+join(DTm,DTu,type=1:1,all=T,gen="_merge")
+join(DTm,DTu,m:1,all=T,gen="_merge")
+join(DTm,DTu,1:1,all=T,nogen=T)
+join(DTm,DTu,m:m,all.x=T)
+join(DTm,DTu,m:m,all.y=T)
 
 # m:m does a multiple to multiple matches, similar to Stata `joinby` and *not* to Stata `merge`. 
 #Default option for all and gen are the ones specified in the first line. 
@@ -42,7 +40,6 @@ DTm %<>% join(DTm,DTu,m:m,all.y=T)
 
 ## newname
 newname <- tempname(names(DT))
-
 ````
 
 

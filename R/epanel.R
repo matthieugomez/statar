@@ -29,7 +29,7 @@ epanel=function(DT,id,time,fun,gen=func){
             ))
         setnames(ans,c(idvars,timevar))
         setkeyv(ans,c(idvars,timevar))
-        return(DT[ans])
+        eval.parent(substitute(DT <- DT[ans]))
     }
     match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")
      if (!is.na(match[1,1])){
@@ -41,6 +41,7 @@ epanel=function(DT,id,time,fun,gen=func){
         DT1[,(timevar):= eval(operation)]
         DT[DT1,(gen):=eval(parse(text=paste0("i.",valuevar)))]
         if (!gen %chin% names(DT)) DT[,(gen):=NA]
+        DT[is.na(date), val_lag := NA]
     }
 }
 

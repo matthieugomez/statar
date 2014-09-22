@@ -1,7 +1,7 @@
 import(data.table)
+import(stringr)
 export(edo)
 export(egen)
-export(ereplace)
 export(epanel)
 export(ejoin)
 export(tempname)

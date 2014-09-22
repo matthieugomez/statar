@@ -49,10 +49,10 @@ ejoin=function(DTm,DTu,type,all=FALSE,all.x=all,all.y=all,nogen=FALSE,gen="merge
   message(paste0("Master and using datasets are now keyed by : ",paste(var,collapse=" ")))
 
 if (!nogen){
-    idm=tempvar(c(names(DTm),names(DTu),gen))
+    idm=tempname(c(names(DTm),names(DTu),gen))
     DTm1<- copy(DTm)
     DTm1[,c(idm):=1L]
-    idu=tempvar(c(names(DTm),names(DTu),gen,idm))
+    idu=tempname(c(names(DTm),names(DTu),gen,idm))
     DTu1<- copy(DTu)
     DTu1[,c(idu):=1L]
 }
