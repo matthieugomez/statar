@@ -3,24 +3,7 @@ epanel=function(DT,id,time,fun,gen=func){
     func=paste(as.character(substitute(fun)),collapse="")
     timevar=as.character(substitute(time))
     idsub = substitute(id)
-    if (is.call(idsub) && idsub[[1L]] == "-") {
-        idm = TRUE
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())
-    } else idm = FALSE
-    if (!is.character(id)) stop("ids should be column numbers or names")
-    if (any(is.na(id))) stop("Some items of ids are NA)")
-    if (any(!id %chin%  names(DT))){
-        #try wildcard 
-        if (length(id) !=1L) stop("Some items of ids are not column names")
-        id_vector <- strsplit(id, "\\s+")[[1]]
-        id=NULL
-         for (c in id_vector){
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)
-            if (!length(temp)) stop("Some items of ids are not column names")
-            id <- c(id,temp)
-        }
-    }
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id
+    idvars = idvars_q(idsub,names(DT))
     if (func=="fill"){
         setkeyv(DT,c(idvars,timevar))
         eval(substitute(
