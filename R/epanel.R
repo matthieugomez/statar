@@ -8,7 +8,7 @@ epanel=function(DT,id,time,fun,gen=func){
     if (func=="fill"){
         setkeyv(DT,c(idvars,timevar))
         eval(substitute(
-            ans <- DT[list(seq.int(t[1L], t[.N])), by = idvars],
+            ans <- DT[,list(seq.int(t[1L], t[.N])), by = idvars],
             list(t=as.name(timevar))
             ))
         setnames(ans,c(idvars,timevar))
