@@ -30,7 +30,7 @@ DT %>% edo(sum,"v*",d=T)
 ## Panel (inplace)
 DT <- data.table(
   id = c(1, 1, 1, 1, 1, 2, 2), 
-  date = c(1992, NA, 1991, 1990, 1994, 1992, 1991), 
+  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT %>% epanel(id="id",t="date",L1.value)
