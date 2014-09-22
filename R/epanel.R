@@ -4,7 +4,7 @@ epanel=function(DT,id,time,fun,gen=func){
     timevar=as.character(substitute(time))
     idsub = substitute(id)
     idvars = idvars_q(idsub,names(DT))
-    if (eval(sub(!nrow(DT[is.na(timevar)])))) stop(paste(timevar,"should not have missing values"))
+    if (eval(substitute(!nrow(DT[is.na(t)]),list(t=as.name(timevar))))) stop(paste(timevar,"should not have missing values"))
     if (func=="fill"){
         setkeyv(DT,c(idvars,timevar))
         eval(substitute(
@@ -25,7 +25,6 @@ epanel=function(DT,id,time,fun,gen=func){
         DT1[,(timevar):= eval(operation)]
         DT[DT1,(gen):=eval(parse(text=paste0("i.",valuevar)))]
         if (!gen %chin% names(DT)) DT[,(gen):=NA]
-        DT[is.na(date), c(gen) := NA]
     }
 }
 

@@ -1,3 +1,62 @@
+DT[,v4:=1]
+DT[J(v1,v4),a:=v4]
+DT[J(v1,v4),a:=v4,allow.cartesian=TRUE]
+DT
+DT[J(v1,v4),a:=i.v4,allow.cartesian=TRUE]
+setkey(DT,v1)
+DT
+DT[J(v1,v2),a:=i.v2]
+DT[J(v1,v2),a:=i.v2,allow.cartesian=T]
+DT[J(v1,v2),a:=i.v2,allow.cartesian=TRUE]
+DT
+DT[J(v1,v2),a:=v2,allow.cartesian=TRUE]
+DT
+DT[J(v1,v2=v1+1),a:=v2,allow.cartesian=TRUE]
+DT
+N<-1000#
+DT <- data.table(#
+  id = sample(c("id01","id02","id03"),N, TRUE),     #
+  v1 = sample(5, N, TRUE),                          #
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE) #
+  )
+setkey(DT,v1)
+DT[J(v1,v2=v1+1),a:=i.v2,allow.cartesian=TRUE]
+DT
+DT[J(v1,v4=v1+1),a:=i.v4,allow.cartesian=TRUE]
+DT
+DT[J(v1,v4=v1-1),a:=i.v4,allow.cartesian=TRUE]
+DT
+DT[J(v1,v4=v1-1),a:=v4,allow.cartesian=TRUE]
+DT
+DT[J(v1,v4=v1),a:=v4,allow.cartesian=TRUE]
+DT
+DT[J(v1,v4=v1),allow.cartesian=TRUE]
+?data.table
+DT[J(v1,v4=v1),allow.cartesian=TRUE]
+DT[J(v1,v4=v4-1),v:=i.v4, allow.cartesian=TRUE]
+DT[J(v1,v4=v1-1),v:=i.v4, allow.cartesian=TRUE]
+DT
+N<-1000#
+DT <- data.table(#
+  id = sample(c("id01","id02","id03"),N, TRUE),     #
+  V1 = sample(5, N, TRUE),                          #
+  V2 =  sample(round(runif(100,max=100),4), N, TRUE) #
+  )
+setkey(DT,V1)
+DT[J(V1)]
+DT[J(V1,V2),allow.cartesian=TRUE]
+DT[J(V1,V3=V2),allow.cartesian=TRUE]
+N<-1000#
+DT <- data.table(#
+  id = sample(c("id01","id02","id03"),N, TRUE),     #
+  v1 = sample(5, N, TRUE),                          #
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE) #
+  )
+setkey(DT,v1)#
+		DT[J(v1=v1,v2=v2)]
+DT
+DT[J(v1=v1,v2=v2),allow.cartesian=TRUE]
+DT[J(v1=v1,v2=1:nrow(DT)),allow.cartesian=TRUE]
 DT[J(v1=1:5,v2=5:1),allow.cartesian=TRUE]
 DT[J(v1=1:5,5:1),allow.cartesian=TRUE]
 ?data.table
@@ -531,195 +590,115 @@ table(DT1$v1)
 table(DT1$V1)
 filter(ArrTime==1502)
 DT %>% filter(ArrTime==1502)
-library(dplyr)#
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502)
-nrow(DT)
-nrow(DT %>% group_by(V1) %>% filter(ArrTime==1502))
-nrowhflights  %>% group_by(DayOfWeek) %>% filter(ArrTime==1502))
-nrowhflights  %>% group_by(DayOfWeek) %>% filter(ArrTime==1502)
-hflights  %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
-library(dplyr)#
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
- DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-library(dplyr)#
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-DF <- data.frame(#
-  id = sample(c("id01","id02","id03"),N, TRUE),     #
-  v1 = sample(5, N, TRUE),                          #
-  v2 =  sample(round(runif(100,max=100),4), N, TRUE) #
-  )#
-object_size(DF)
-library(pryr)
-library(pryr)#
-N <- 1e3#
-DF <- data.frame(#
-  id = sample(c("id01","id02","id03"),N, TRUE),     #
-  v1 = sample(5, N, TRUE),                          #
-  v2 =  sample(round(runif(100,max=100),4), N, TRUE) #
-  )#
-object_size(DF)#
-DF <- DF1
-DF1 <- DF
-DF2 <-DF$v1
-DF3 <- DF[1:(5e2)]
-DF3 <- DF[1:(5e2),]
-object_size(DF,DF1)
-object_size(DF,DF2)
-object_size(DF,DF3)
-names(DF1)<c("id","col1","col2")
-names(DF1)<-c("id","col1","col2")
-object_size(DF,DF1)
-formula <- reformulate(termlabels = c("x","z"), response = "y")
-formula
-idvars=function(id,l){#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(id[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-}
-DT
-idvars(quote(Year),l)
-idvars(quote(Year), names(DT))
-is.call(quote(Year))
-is.call(quote(-Year))
-quote(-Year)[[1]]
-(quote(-Year)[[1]])==quote(-)
-quote(-Year)[[1]])==quote(-)
-quote(-Year)[[1]]==quote(-)
-quote(-Year)[[1]]=="-"
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+suppressMessages(library("magrittr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+library(devtools)#
+devtools::install_github("matthieugomez/stataR")#
+suppressMessages(library(stataR))
+DT <- data.table(#
+  id = c(1, 1, 1, 1, 1, 2, 2), #
+  date = c(1992, NA, 1991, 1990, 1994, 1992, 1991), #
+  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)
+DT %>% epanel(id="id",t="date",L1.value)
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-idvars=function(id,l){#
-#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(id[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    id<-as.character(id)#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
+epanel=function(DT,id,time,fun,gen=func){#
+    func=paste(as.character(substitute(fun)),collapse="")#
+    timevar=as.character(substitute(time))#
+    idsub = substitute(id)#
+    idvars = idvars_q(idsub,names(DT))#
+    if (eval(substitute(!nrow(DT[is.na(t)]))),list(t=as.name(timevar)))) stop(paste(timevar,"should not have missing values"))#
+    if (func=="fill"){#
+        setkeyv(DT,c(idvars,timevar))#
+        eval(substitute(#
+            ans <- DT[list(seq.int(t[1L], t[.N])), by = idvars],#
+            list(t=as.name(timevar))#
+            ))#
+        setnames(ans,c(idvars,timevar))#
+        setkeyv(ans,c(idvars,timevar))#
+        return(DT[ans])#
     }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
+    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
+     if (!is.na(match[1,1])){#
+        valuevar=match[1,4]#
+        setkeyv(DT,c(idvars,timevar))#
+        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
+        if (match[1,2]=="L") operation="+" else operation="-"#
+        operation= parse(text=paste0(timevar,operation,match[1,3]))#
+        DT1[,(timevar):= eval(operation)]#
+        DT[DT1,(gen):=eval(parse(text=paste0("i.",valuevar)))]#
+        if (!gen %chin% names(DT)) DT[,(gen):=NA]#
+    }#
 }
-idvars(quote(Year), names(DT))
-idvars(quote(Year), names(DT))
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-idvars=function(id,l){#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(id[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    id <- as.character(id)#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
+epanel=function(DT,id,time,fun,gen=func){#
+    func=paste(as.character(substitute(fun)),collapse="")#
+    timevar=as.character(substitute(time))#
+    idsub = substitute(id)#
+    idvars = idvars_q(idsub,names(DT))#
+    if (eval(substitute(!nrow(DT[is.na(t)]))),list(t=as.name(timevar))) stop(paste(timevar,"should not have missing values"))#
+    if (func=="fill"){#
+        setkeyv(DT,c(idvars,timevar))#
+        eval(substitute(#
+            ans <- DT[list(seq.int(t[1L], t[.N])), by = idvars],#
+            list(t=as.name(timevar))#
+            ))#
+        setnames(ans,c(idvars,timevar))#
+        setkeyv(ans,c(idvars,timevar))#
+        return(DT[ans])#
     }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-    return(idvars)#
+    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
+     if (!is.na(match[1,1])){#
+        valuevar=match[1,4]#
+        setkeyv(DT,c(idvars,timevar))#
+        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
+        if (match[1,2]=="L") operation="+" else operation="-"#
+        operation= parse(text=paste0(timevar,operation,match[1,3]))#
+        DT1[,(timevar):= eval(operation)]#
+        DT[DT1,(gen):=eval(parse(text=paste0("i.",valuevar)))]#
+        if (!gen %chin% names(DT)) DT[,(gen):=NA]#
+    }#
 }
-idvars(quote(Year), names(DT))
-idvars(quote(-Year), names(DT))
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-idvars=function(id,l){#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(id[[2L]], parent.frame(), parent.frame())#
-    } else {#
-        idm = FALSE#
-        id <- as.character(id)#
+epanel=function(DT,id,time,fun,gen=func){#
+    func=paste(as.character(substitute(fun)),collapse="")#
+    timevar=as.character(substitute(time))#
+    idsub = substitute(id)#
+    idvars = idvars_q(idsub,names(DT))#
+    if (eval(substitute(!nrow(DT[is.na(t)]),list(t=as.name(timevar))))) stop(paste(timevar,"should not have missing values"))#
+    if (func=="fill"){#
+        setkeyv(DT,c(idvars,timevar))#
+        eval(substitute(#
+            ans <- DT[list(seq.int(t[1L], t[.N])), by = idvars],#
+            list(t=as.name(timevar))#
+            ))#
+        setnames(ans,c(idvars,timevar))#
+        setkeyv(ans,c(idvars,timevar))#
+        return(DT[ans])#
     }#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
+    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
+     if (!is.na(match[1,1])){#
+        valuevar=match[1,4]#
+        setkeyv(DT,c(idvars,timevar))#
+        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
+        if (match[1,2]=="L") operation="+" else operation="-"#
+        operation= parse(text=paste0(timevar,operation,match[1,3]))#
+        DT1[,(timevar):= eval(operation)]#
+        DT[DT1,(gen):=eval(parse(text=paste0("i.",valuevar)))]#
+        if (!gen %chin% names(DT)) DT[,(gen):=NA]#
     }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-    return(idvars)#
 }
-idvars(quote(-Year), names(DT))
-quote(-Year)[[2]]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-idvars=function(id,l){#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = as.character(id[[2L]])#
-    } else {#
-        idm = FALSE#
-        id <- as.character(id)#
-    }#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-    return(idvars)#
-}
-quote(-Year)[[2]]
-idvars(quote(-Year), names(DT))
-idvars(c("Year","Month"), names(DT))
