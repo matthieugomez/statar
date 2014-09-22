@@ -2,11 +2,12 @@
 idvars_q=function(id,l){
     if (is.call(id) && id[[1L]] == "-") {
         idm = TRUE
-        id = as.character(id[[2L]])
-    } else {
-        idm = FALSE
-        id <- as.character(id)
+        id = id[[2L]]
     }
+    else{
+        idm = FALSE
+    }
+    id <- eval(id,parent.frame())
     if (!is.character(id)) stop("ids should be column numbers or names")
     if (any(is.na(id))) stop("Some items of ids are NA)")
     if (any(!id %chin%  l)){
