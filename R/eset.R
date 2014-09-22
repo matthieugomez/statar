@@ -5,23 +5,22 @@ eset=function(DT,fun,cols=names(DT),...,i=NULL,by=NULL,d=FALSE){
   options=eval(substitute(alist(...)))
   colsub = substitute(cols)
   colvars = idvars_q(colsub,names(DT))
-  if (colm) ansvars = setdiff(names(DT), cols) else ansvars = cols
   if (func=="sort"){
-    eval(substitute(setkeyv(DT,ansvars,...)))
+    eval(substitute(setkeyv(DT,colvars,...)))
   }
   if (func=="order"){
-    eval(substitute(setcolorder(DT,c(ansvars,setdiff(names(DT),ansvars),...))))
+    eval(substitute(setcolorder(DT,c(colvars,setdiff(names(DT),colvars),...))))
   }
   if (func=="rename"){
-    eval(substitute(setnames(DT,ansvars,...)))
+    eval(substitute(setnames(DT,colvars,...)))
   }
   if (func=="keep"){
-    if (colm) ansvars = setdiff(names(DT), ansvars) else ansvars = ansvars
-      DT[,(ansvars):=NULL] 
+    colvars = setdiff(names(DT), colvars)
+    DT[,(colvars):=NULL] 
   }
 
   if (func=="summarize"){
-      eval(substitute(DT[,describe(.SD,d),.SDcols=ansvars,...]))
+      eval(substitute(DT[,describe(.SD,d),.SDcols=colvars,...]))
   }
 
   if (func=="balance"){
