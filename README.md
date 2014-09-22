@@ -36,7 +36,7 @@ DT <- data.table(
 DT %>% epanel(id="id",t="date",L1.value)
 DT %>% epanel(id="id",t="date",L3.value,gen="L3.value")
 
-DT %>% epanel(id="id",t="date",fill)
+DT <- DT %>% epanel(id="id",t="date",fill)
 
 ## Join (creates new dataset)
 join(DTm,DTu,type=1:1,all=TRUE,gen="_merge")

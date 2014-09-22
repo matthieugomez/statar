@@ -12,7 +12,7 @@ epanel=function(DT,id,time,fun,gen=func){
             ))
         setnames(ans,c(idvars,timevar))
         setkeyv(ans,c(idvars,timevar))
-        eval.parent(substitute(DT <- DT[ans]))
+        return(DT[ans])
     }
     match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")
      if (!is.na(match[1,1])){
