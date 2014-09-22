@@ -1,5 +1,6 @@
 import(data.table)
 import(stringr)
+export(eset)
 export(edo)
 export(egen)
 export(epanel)
