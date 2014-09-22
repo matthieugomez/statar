@@ -26,11 +26,11 @@ DT %>% epanel(id="id1 id2",t="time",L3.v2)
 DT %>% epanel(id="id1 id2",t="time",L3.v2,gen="L3_v2")
 
 ## Join (creates new dataset)
-join(DTm,DTu,type=1:1,all=T,gen="_merge")
-join(DTm,DTu,m:1,all=T,gen="_merge")
-join(DTm,DTu,1:1,all=T,nogen=T)
-join(DTm,DTu,m:m,all.x=T)
-join(DTm,DTu,m:m,all.y=T)
+join(DTm,DTu,type=1:1,all=TRUE,gen="_merge")
+join(DTm,DTu,m:1,all=TRUE,gen="_merge")
+join(DTm,DTu,1:1,all=TRUE,nogen=TRYE)
+join(DTm,DTu,m:m,all.x=TRUE)
+join(DTm,DTu,m:m,all.y=TRUE)
 
 # m:m does a multiple to multiple matches, similar to Stata `joinby` and *not* to Stata `merge`. 
 #Default option for all and gen are the ones specified in the first line. 

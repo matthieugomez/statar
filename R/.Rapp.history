@@ -1,2581 +1,725 @@
-DT[is.na("v3"),"v3":=4]
-DT[is.na("v3")]
-DT[is.na("v3"),]
-DT[!is.na("v3"),]
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(by,ansvars))#
-        ans <- DT[, seq.int(get(ansvars)[1L], get(ansvars)[.N]), by = by]#
-        setnames(ans,"V1",ansvars)#
-        setkeyv(ans,c(by,ansvars))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match=str_match(func,"(\\-|\\+)([0-9]*)(.*)"))#
-     if (!is.na(match[1,1)){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(paste0(timevar,match[1,2],match[1,3])#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(sub(operation)),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(by,ansvars))#
-        ans <- DT[, seq.int(get(ansvars)[1L], get(ansvars)[.N]), by = by]#
-        setnames(ans,"V1",ansvars)#
-        setkeyv(ans,c(by,ansvars))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match=str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1)){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(paste0(timevar,match[1,2],match[1,3])#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(sub(operation)),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-str_match
-str_match("L3ok","(\\-|\\+)([0-9]*)(.*)")
-str_match("-3ok","(\\-|\\+)([0-9]*)(.*)")
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(by,ansvars))#
-        ans <- DT[, seq.int(get(ansvars)[1L], get(ansvars)[.N]), by = by]#
-        setnames(ans,"V1",ansvars)#
-        setkeyv(ans,c(by,ansvars))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(paste0(timevar,match[1,2],match[1,3])#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(sub(operation)),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(by,ansvars))#
-        ans <- DT[, seq.int(get(ansvars)[1L], get(ansvars)[.N]), by = by]#
-        setnames(ans,"V1",ansvars)#
-        setkeyv(ans,c(by,ansvars))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3])#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(by,ansvars))#
-        ans <- DT[, seq.int(get(ansvars)[1L], get(ansvars)[.N]), by = by]#
-        setnames(ans,"V1",ansvars)#
-        setkeyv(ans,c(by,ansvars))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
+DT[J(v1=1:5,v2=5:1),allow.cartesian=TRUE]
+DT[J(v1=1:5,5:1),allow.cartesian=TRUE]
+?data.table
+DT[J(v1=1:5,v4=5:1),v5:=i.v4,allow.cartesian=TRUE]
 DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %>%panel(fill,"id1 id2","year")
-DT %>%panel(fill,"id1 id2","year")
-DT %>%panel("id1 id2","year","fill")
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-panel=function(DT,ids,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), idvars = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year","fill")
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    timevar=time#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), idvars = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year","fill")
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    timevar=time#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year","fill")
+DT[J(v1=1:5,v4=5:1),v6:=v4,allow.cartesian=TRUE]
 DT
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(ids))) stop("Some items of ids are NA)")#
-    if (any(!ids %chin% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-    timevar=time#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT
-DT %>%panel("id1 id2","year","fill")
-DT
-DT %>%panel("id1 id2","year",fill)
-DT
-fun="fill"
-func=as.character(subs(fun))
-func
-func=as.character(quote(func))
-func
-func=as.character(quote(fill))
-func
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,ids,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-    idsub = substitute(ids)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        ids = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(ids)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(idchins))) stop("Some items of ids are NA)")#
-    if (any(!ids %% names(DT))){#
-        #try wildcard #
-        if (length(ids) !=1L) stop("Some items of ids are not idumn names")#
-        ids_vector <- strsplit(ids, "\\s+")[[1]]#
-        ids=NULL#
-         for (c in ids_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            ids <- c(ids,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), ids) else idvars = ids#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %% names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(ids, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(ids, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-debug(panel)
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %>%panel("id1 id2","year",fill)
-idvars
-timevar
-ans
-ans
-DT
-DT
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, timevar=seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, timevar=seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, timevar=seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,:=,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, timevar=seq.int(get(timevar)[1L], get(timevar)[.N]), by = idvars]#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- DT[, list(get(timevar)=seq.int(get(timevar)[1L], get(timevar)[.N])), by = idvars]#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- eval(substitute(DT[, list(t)=seq.int(t)[1L], t)[.N])), by = idvars],list(t=as.name(timevar)))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- eval(substitute(DT[, list(t=seq.int(t)[1L], t)[.N])), by = idvars],list(t=as.name(timevar)))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- eval(substitute(DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],list(t=as.name(timevar)))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- eval(substitute(DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],list(t=as.name(timevar)))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- eval(substitute(DT[, list(t=seq.int(t[1L], t[.N]))), by = idvars],list(t=as.name(timevar)))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT
-DT[, list(year=seq.int(year[1L], year[.N]))), by = idvars]
-DT[, list(year=seq.int(year[1L], year[.N])), by = idvars]
-DT[, list(year=seq.int(year[1L], year[.N])), by = id1]
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- eval(substitute(DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],list(t=as.name(timevar))))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-DT
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        ans <- eval(substitute(DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],list(t=as.name(timevar))))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-debug(panel)
-DT %>%panel("id1 id2","year",fill)
-timevar
-timevar
-idvars
-DT %>%panel("id1 id2","year",fill)
-ans
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-       eval(substitute( ans <- DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],list(t=as.name(timevar))))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-       eval(substitute( ans <- DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],list(t=as.name(timevar))))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-       setkeyv(DT,c(idvars,timevar))#
-       eval(substitute( ans <- DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],#
-        list(t=as.name(timevar))))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-debug(panel)
-DT %>%panel("id1 id2","year",fill)
-substitute( ans <- DT[, list(t=seq.int(t[1L], t[.N])), by = idvars],#
-        list(t=as.name(timevar)))
-DT
-DT[,list("ok"=1)]
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-       setkeyv(DT,c(idvars,timevar))#
-       eval(substitute( ans <- DT[, list(timevar=seq.int(t[1L], t[.N])), by = idvars],#
-        list(t=as.name(timevar))))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT[,list(ok"=1)]
-"
-DT[,list("ok"=1)]
-DT[,list("ok"=1)]
-DT[,list(ok=1)]
-DT[,list(ok=1)]
-ok="nonok"
-DT[,list(ok=1)]
-DT[,list(c(ok)=1)]
-eval(subs(list(v=seq(1,.N)),list(v=x))
+?mutate_each_q
+library(dplyr
 )
-list(x=seq(1,.N))
-x=ok
-x="xx"
-list(c(x)=seq(1,.N))
-list(get("x")=seq(1,.N))
-list(eval(x)=seq(1,.N))
-list(eval(x)=seq(1,.N)))
-eval(subs(list(v=seq(1,.N)),list(v=x))
+?mutate_each_q
+mutate_each_q
+?colwise
+?new.env
+?eval
+sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))
+call=quote(mean(x))
+call <- quote(mean(a))
+eval(call,sample_df,parent.frame())
+?eval
+mutate_q
+debug(mutate_each)
+sample_df %>% mutate_each(funs(mean))
+debug(mutate_each_q)
+funs
+vars
+eval(call,tbl,env)
+debug(mutate_each_q)
+sample_df %>% mutate_each(funs(mean))
+call
+eval(call,tbl,enclos=env)
+env
+tbl
+call
+a
+eval(call,tbl)
+env=list2env(tblt,parent=parent.frame())
+env=list2env(tbl,parent=parent.frame())
+eval(call,env)
+eval(call,tbl,parent.frame())
+eval(call,tbl,env)
+eval(call,tbl,enclos = env)
+call
+sample_df %>% mutate_each(funs(mean))
+eval(call,tbl)
+eval(call,tbl,env)
+?eval
+eval(call,tbl, enclos = env)
+eval(call, envir = tbl, enclos = env)
+sample_df %>% mutate_each(funs(mean))
+eval(call,list2env(tbl,parent=env))
+call
+tbl
+env
+is.identical(env,parent.frame())
+eval(call,tbl)
+sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))
+library(dplyr)
+debug(mutate_each)
+debug(mutate_each_q)
+sample_df %>% mutate_each(funs(mean))
+eval(call,tbl,env)
+eval(call,tbl)
+list2env(tbl,parent=env)
+eval(call,list2env)
+eval(call,list2env(tbl,parent=env))
+?list2env
+list2env(tbl,parent=env)
+sample_df %>% mutate_each(funs(mean))
+funs
+vars
+colwiseq
+colwise_q
+eval(call,env)
+eval(call,tbl)
+eval(call)
+funs
+?as.fun_list
+as.fun_list
+colwise_q
+funs
+vars
+is.list(vars)
+funs
+as.fun_list
+debug(as.fun_list)
+sample_df %>% mutate_each(funs(mean))
+debug(as.fun_list.fun_list)
+sample_df %>% mutate_each(funs(mean))
+getAnywhere(as.fun_list.fun_list
 )
-DT$V1
-DT
-DT[,V1:=3]
-DT$V1
-DT[,list(mean(id1))]
-DT[,list(mean(id1)),by=V1]
-?setname
-?setnames
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
+sample_df %>% mutate_each(funs(mean))
+funs
+function(funs){funs;print("ok")}
+f=function(funs){funs;print("ok")}
+debug(f)
+f(funs(mean))
+funs
+f=mean
+as.character(f)
+as.character(f[[1]])
+as.character(body(f)[[1]])
+as.character(body(mean)[[1]])
+as.character(body(f)[[1]])
+as.character(body(f)[[2]])
+as.character(body(f)[[3]])
+as.character(body(f)[[1]])
+as.character(body(f)[[2]])
+fun_calls(mean)
+dplyr:::fun_calls(mean)
+dplyr::::fun_calls(mean)
+dplyr:::fun_calls(mean)
+dplyr::fun_calls(mean)
+dplyr:::fun_calls(mean)
+fun_calls <- function(f) {#
+  if (is.function(f)) {#
+    fun_calls(body(f))#
+  } else if (is.call(f)) {#
+    fname <- as.character(f[[1]])#
 #
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
+    # Calls inside .Internal are special and shouldn't be included#
+    if (identical(fname, ".Internal")) return(fname)#
 #
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-       setkeyv(DT,c(idvars,timevar))#
-       eval(substitute( ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-        setnames(ans,"V1","timevar")#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
+    unique(c(fname, unlist(lapply(f[-1], fun_calls), use.names = FALSE)))#
+  }#
 }
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute( ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT<-DT[ans,v:=1,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
+fun_calls(mean)
+is.call(body(mean))
+fname <- fun_calls(mean)
+fname
+f <-mean
+lapply(f[-1], fun_calls)
+f=body(mean)
+lapply(f[-1], fun_calls)
+f
+fname
+f[-1]
+f
+str(f)
+f[[1]]
+f[[2]]
+f[[3]]
+unique(c(fname, unlist(lapply(f[-1], fun_calls), use.names = FALSE)))
+unlist(lapply(f[-1], fun_calls)
+)
+unlist(lapply(f[-1], fun_calls))
+fun_calls(mean)
+f(x){fun_calls(x)}
+f = function(x){fun_calls(x)}
+f(x)
+f(1)
+f(mean)
+mutate_each
+funs
+funs_q
+funs(mean)
+funs_q(quote(mean))
+m=quote(mean)
+funs_q(m)
+funs(mean)
+funs_q(mean)
+is.call(quote(mean))
+quote(mean)
+?dots
+dots
+dplyr:: dots
+dplyr:::dots
+dplyr:::dots(mean)
+funs_q(list(mean))
+funs_q(quote(list(mean)))
+funs(mean)
+quote(mean)
+is.call(mean)
+quote(mean(x,y))
+is.call(mean)
+is.call(quote(mean(x,y)))
+call=quote(mean(x,y))
+names(calls)
+names(call)
+names2(call)
+dplyr:::names2(call)
+make_call(call)
+dplyr:::make_call(call)
+funs(mean)
+c("mean")
+as.fun_list(mean)
+as.fun_list(funs(mean))
+dplyr:::as.fun_list(funs(mean))
+undebug(as.fun_list)
+undebug(dplyr:::as.fun_list)
+dplyr:::as.fun_list(funs(mean))
+?debug
+isdebugged(dplyr:::as.fun_list)
+undebug(dplyr:::as.fun_list)
+dplyr:::as.fun_list(funs(mean))
+undebug(funs)
+dplyr:::as.fun_list(funs(mean))
+undebug(as.fun_list)
+f <- function(abc = 1, def = 2, ghi = 3) {#
+  list(sys = sys.call(), match = match.call())#
 }
-setnames(ans,"V1",timevar)
-setnames(DT,"V1",timevar)
-setkeyv(ans,c(idvars,timevar))
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute( ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=NULL,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute( ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=NULL,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(sub(ans <- DT[, list(seq.int([1L], t[.N])), by = idvars],list(t=as.name(timevar)))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=NULL,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(ans <- DT[, list(seq.int([1L], t[.N])), by = idvars],list(t=as.name(timevar))))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=NULL,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int([1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=NULL,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=NULL,allow.cartesian=TRUE]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=1,allow.cartesian=TRUE]#
-        DT[V1:=NULL]#
-#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=1,allow.cartesian=TRUE]#
-        DT[,V1:=NULL]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-DT
-DT
-debug(panel)
-DT %>%panel("id1 id2","year",fill)
-ans
-DT
-DT
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans,V1:=1,allow.cartesian=TRUE,nomatch=0]#
-        DT[,V1:=NULL]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %>%panel("id1 id2","year",fill)
-DT
-DT
-DT
-DT %>%panel("id1 id2","year",fill)
-DT %>%panel("id1 id2","year",fill)
-DT
-?nomatch
-?"[.data.table"
-DT
-DT[id:=1]
-DT[J(id1),id4:=1]
-DT[J(id1),id4:=1,allow.cartesian=TRUE]
-DT
-?setnames
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-setkey(DT, id1,id2,year)
-DT
-ans = DT[, list(year = seq.int(year[1L], year[.N])), by = list(id1,id2)]
-setkey(ans)[DT, `:=`(value = i.value, v = 1L)]
-DT
-?inner_join
-DT
-DT %<>%panel("id1 id2","year",fill)
-DT
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be idumn numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not idumn names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not idumn names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,"V1",timevar)#
-        setkeyv(ans,c(idvars,timevar))#
-        ans[DT]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %<>%panel("id1 id2","year",fill)
-DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",fill)
-DT
-DT %<>%panel("id1 id2","year",fill)
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        ans[DT]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT
-DT %<>%panel("id1 id2","year",fill)
-DT
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        DT[ans]#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",fill)
-DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-debug(panel)
-DT %<>%panel("id1 id2","year",fill)
-ans
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-    func=as.character(substitute(fun))#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %<>%panel("id1 id2","year",fill)
+f(d=2,2)
+as.call(list(quote(mean), quote(1:10)))
+as.call(list("mean", quote(1:10)))
+library(pryr)
+library(dots)
+dots
+?alist
+funs(mean)
+library(dplyr)
+funs(mean)
+as.fun_list(funs(mean))
+dplyr:::as.fun_list(funs(mean))
+dplyr:::as.fun_list("mean")
+dplyr:::as.fun_list("mean",env=parent.frame())
+L <- list(quote(mutate), .data = substitute(DF), quote(mean(v1)))
+names(L)
+Lc= as.call(L)
+Lc
+funs(mean)
+?mutate
+"mean"
+matches("width")
+library(dplyr)
+matches("width")
+x <- quote(read.csv("important.csv", row.names = FALSE))
+x
+sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))
+matches("width")
+sample_df %>% summarize(funs(mean),matches("with"))
+sample_df %>% summarize_each(funs(mean),matches("with"))
+sample_df %>% summarise_each(funs(mean),matches("with"))
+sample_df %>% summarise_each(funs(mean),matches("a"))
+debug(summarise_each)
+sample_df %>% summarise_each(funs(mean),matches("a"))
+dots(...)
+debug(summarise_each_q)
+vars
+sample_df %>% summarise_each(funs(mean),matches("a"))
+undebug(summarise_eachq)
+undebug(summarise_each)
+sample_df %>% summarise_each(funs(mean),matches("a"))
+undebug(summarise_each_q)
+undebug(summarise_eachq)
+sample_df %>% summarise_each(funs(mean),matches("a"))
+sample_df %>% summarise_each(funs(mean),matches("ok"))
+sample_df %>% summarise_each(funs(mean),starts_with("ok"))
+sample_df %>% summarise_each("mean",starts_with("ok"))
+sample_df %>% mutate_each("mean",starts_with("ok"))
+?summarise
+debug(summarse_each_q)
+debug(summarise_each_q)
+sample_df %>% summarise_each("mean",starts_with("ok"))
+funs
+attr(funs,"env")
+?attr
+sample_df %>% summarise_each("mean",9)
+library(hflights)
+hflights_df <- tbl_df(hflights)
+hflights_df %>% summarise_each(funs(mean),starts_with("ok"))
+sample_df %>% summarize_each(funs(mean),matches("ok"))
+library(dpryr)#
+sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))#
+sample_df %>% summarise_each(funs(mean),matches("ok"))
+\
+undebug(summarise_each_q)
+library(dpryr)#
+sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))#
+sample_df %>% summarise_each(funs(mean),matches("ok"))
+sample_df %>% summarise_each(funs(mean),1)
+sample_df %>% summarise_each(funs(mean),9)
+sample_df %>% summarise_each(funs(mean),salut)
+sample_df %>% summarise_each(funs(mean),"salut")
+>sample_df %>% summarise_each(funs(mean),"ok")
+sample_df %>% summarise_each(funs(mean),"ok")
+sample_df
+?summarise
+sample_df %>% summarise_each(funs(mean),ok)
+?mutate
+sample_df %>% summarise_each(funs(mean),-matches("a","b","c"))
+sample_df %>% summarise_each(funs(mean),-matches("a|b|c"))
+?mutate_each_q
+sample_df %>% summarise_each_q("mean",-matches("a|b|c"))
+sample_df %>% summarise_each_q("mean","ok")
+sample_df %>% summarise_each_q("mean",quote(a))
+sample_df %>% mutate_each_q("mean",quote(a))
+sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))#
+sample_df %>% summarise_each_q("mean",a)
+sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))
+sample_df %>% summarise_each("mean",a)
+sample_df %>% mutate_each("mean",a)
+remove.packages("dplyr")
+install.packages("dplyr")
+sample_df %>% mutate_each("mean",a)
+sample_df %>% mutate("mean",a)
+devtools::install_github("hadley/lazyeval")#
+devtools::install_github("hadley/dplyr")
+?contrains
+?contains
+library(dplyr)
+?contains
+?select
+?select_
+?select
+library(dplyr)
+?select
+N=1e4; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+select_(DT,contains("v"))
+library(data.table)
+select_(DT,contains("v"))
+N=1e4; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+select_(DT,contains("v"))
+select(DT,contains("v"))
+contains("v"))
+?contains
+selevt_vars(names(DT),"Petal.Length")
+select_vars(names(DT),"Petal.Length")
+select_vars(names(DT),"v2")
+select_vars(names(DT),"v1")
 traceback()
-debug(panel)
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",fill)
+names(DT)
+select_vars(names(DT),contrains("v"))
+select_vars(names(DT),contains("v"))
+dplyr:::names2
+?setNames
+library(data.table)
+?setNames
+debug(select_vars_)
+select_vars(names(DT),contains("v"))
+vars
+as.list(seq_along(vars))
+names_list
+ind_list
+names_list
+select_funs
+debug(mutate_each_q(sample_df,funs(mean),starts_with("v")))
+debug(mutate_each)
+mutate_each(sample_df,funs(mean),starts_with("v")))
+mutate_each(sample_df,funs(mean),starts_with("v"))))
+mutate_each(sample_df,funs(mean),starts_with("v"))
+vars
+library(pryr)#
+library(dplyr)
+library(data.table)#
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+setDF(DT)#
+DT1 <- DT#
+setDT(DT)#
+setDT(DT1)
+DT1[y:=mean(v1)]
+DT1[,y:=mean(v1)]
+object_size(DT,DT1)
 DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",L3)
+DT1
+?copy
+DT = data.table(id    = c(1,1,1,1,1,2,2),#
+                 date  = c(1992,NA,1991,1990,1994,1992,1991),#
+                 value = c(4.1,4.5,3.3,5.3,3.0,3.2,5.2)#
+                )#
+ setkey(DT, id, date)#
+ DT[, value_lagged := DT[J(id, date-1), value], ]
 DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",L3)
+DT = data.table(id    = c(1,1,1,1,1,2,2),#
+                 date  = c(1992,NA,1991,1990,1994,1992,1991),#
+                 value = c(4.1,4.5,3.3,5.3,3.0,3.2,5.2)#
+                )#
+ setkey(DT, id, date)#
+ DT[, value_lagged := DT[J(id, date-1), value] ]
 DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",L3)
-match
-DT %<>%panel("id1 id2","year",+3)
-DT %<>%panel("id1 id2","year",+3)
-DT %<>%panel("id1 id2","year",+3)
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",+3)
-match
-func
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= deparse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %<>%panel("id1 id2","year",+3)
-?deparse
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(\\-|\\+)([0-9]*)(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= parse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %<>%panel("id1 id2","year",+3)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
-#
-panel=function(DT,id,time,fun,gen=NULL){#
-#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
-        idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,3]#
-        if (match[1,2]=="L") match[1,2]=="+" else match[1,2]=="-"#
-        if (length(gen)) newname=gen else  newname=paste0(match[1,2],match[1,3])#
-        operation= parse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
-}
-DT %<>%panel("id1 id2","year",+3)
+DT[1,value:=NA]
 DT
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-debug(panel)
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",+3)
-match
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",F3.value)
-match
-valuevar
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
+DT[is.na(date), val_lag := NA]
+DT
+DT = data.table(id    = c(1,1,1,1,1,2,2),#
+                 date  = c(1992,NA,1991,1990,1994,1992,1991),#
+                 value = c(4.1,4.5,3.3,5.3,3.0,3.2,5.2)#
+                )#
+ setkey(DT, id, date)#
+ DT[, value_lagged := DT[J(id, date-1), value] ]
+DT
+value_lagged=value
+value_lagged="value"
+DT[value==NA]
+DT[value_lagged==NA]
+DT[(value_lagged)==NA]
+DT[c(value_lagged)==NA]
+DT
+rm(value_lagged)
+value=date
+value="date"
+DT[value==1990]
+DT[(value)==1990]
+DT[c(value)==1990]
+DT[date==1990]
+DT[eval(substitute(v==1990,list(as.name("date"))]
+DT[eval(substitute(v==1990,list(as.name("date")))]
+DT[eval(substitute(v==1990,list(as.name(v="date")))]
+DT[eval(substitute(v==1990,list(as.name(v="date"))]
+DT[eval(subs(v==1990,list(as.name(v="date"))]
+DT[eval(subs(v==1990,list(as.name(v="date"))))]
+DT[eval(subs(v==1990,list(as.name(v="date")))]
+DT[eval(subs(v==1990,list(as.name(v="date"))))]
+DT[eval(subs(v==1990,list(v=as.name(v="date"))))]
+DT[eval(subs(v==1990,list(v=as.name("date"))))]
+DT[eval(subs(v==1990,list(v=as.name("date"))))]#
+2#
+How do I perform a semi-join with data.table? A semi-join is like an inner join except that it only returns the columns of X (not also those of Y), and does not repeat the rows of X to match the rows of Y. For example, the following code performs an inner join:#
 #
-panel=function(DT,id,time,fun,gen=func){#
-#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
+x <- data.table(x = 1:2, y = c("a", "b"))#
+setkey(x, x)
+x
+w = unique(x[y,which=TRUE])
+x <- data.table(x = 1:2, y = c("a", "b"))#
+setkey(x, x)#
+y <- data.table(x = c(1, 1), z = 10:11)
+w = unique(x[y,which=TRUE])
+w
+w = unique(x[y))
+w = unique(x[y])
+w
+bdt <- as.data.table(baseball)
+library(plyr)
+bdt <- as.data.table(baseball)
+bdt
+bdt[bdt[, .I[g == max(g)], by = id]$V1]
+bdt[, .I[g == max(g)], by = id]
+library(dplyr)
+setnames(bdt,"id","V1")
+bdt
+?setnames
+setnames
+bdt %>% group_by(V1) %>% filter(g==max(g))
+bdt %>% group_by(r) %>% filter(g==max(g))
+bdt %>% group_by(V1) %>% filter(g==max(g))
+debug
+debug(filter)
+bdt %>% group_by(V1) %>% filter(g==max(g))
+indices
+bdt %>% group_by(V1) %>% filter(g==max(g))
+setnames(bdt,V1,id)
+setnames(bdt,"V1","id")
+bdt[,r:=V1]
+setnames(bdt,"r","V1")
+bdt %>% group_by(V1) %>% filter(g==max(g))
+bdt %>% group_by(r) %>% filter(g==max(g))
+bdt %>% group_by(id) %>% filter(g==max(g))
+bdt %>% group_by(bb) %>% filter(g==max(g))
+DT
+setnames("date","id")
+setnames(DT,"date","id")
+DT$id
+library(hflights)#
+dim(hflights)
+setnames(DT,"TailNum","V1")
+DT=as.data.table(hflights)
+setnames(DT,"TailNum","V1")
+DT %>% group_by(TailNum) %>% summarise(planes)
+DT %>% group_by(V1) %>% summarise(planes)
+DT
+DT %>% group_by(V1) %>% summarise(Cancelled)
+DT
+DT=as.data.table(hflights)
+setnames(DT,"Year","V1")
+DT %>% group_by(V1) %>% summarise(Cancelled)
+DT %>% group_by(V1) %>% filter(planes=max(planes))
+DT
+DT %>% group_by(V1) %>% filter(Canelled=max(Cancelled))
+library(dplyr)#
+DT <- as.data.table(hflights)#
+setnames(DT,"DayOfWeek","V1")
+DT
+DT %>% group_by(V1) %>% filter(ArrTime==max(ArrTime))
+DT %>% group_by(V1) %>% filter(n()==1)
+DT %>% group_by(V1) %>% summarise(ArrTime)
+DT %>% group_by(V1) %>% summarise(ArrTime,plane)
+DT %>% group_by(V1) %>% summarise(ArrTime,Month)
+library(dplyr)#
+DT <- as.data.table(hflights)#
+setnames(DT,"DayOfWeek","V1")#
+DT %>% group_by(V1) %>% summarise(ArrTime)
+?summarise
+summarise
+?quickdf
+library(dplyr)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+setnames(DT,"DayOfWeek","V1")
+DT %>% group_by(V1) %>% summarise(ArrTime)
+library(dplyr)#
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)
+setnames(DT,"DayOfWeek","V1")
+DT %>% group_by(V1) %>% summarise(ArrTime)
+DT %>% group_by(V1) %>% filter(ArrTime==1502)
+debug(filter)
+DT %>% group_by(V1) %>% filter(ArrTime==1502)
+call
+eval(call, env)
+DT1 <- DT %>% group_by(V1) %>% summarise(ArrTime)
+tabulate(DT1$V1)
+table(DT1$V1)
+library(dplyr)#
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+setnames(DT,"DayOfWeek","V1")#
+DT1 <- DT %>% group_by(V1) %>% filter(ArrTime==1502)
+DT1
+table(DT1$v1)
+table(DT1$V1)
+filter(ArrTime==1502)
+DT %>% filter(ArrTime==1502)
+library(dplyr)#
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502)
+nrow(DT)
+nrow(DT %>% group_by(V1) %>% filter(ArrTime==1502))
+nrowhflights  %>% group_by(DayOfWeek) %>% filter(ArrTime==1502))
+nrowhflights  %>% group_by(DayOfWeek) %>% filter(ArrTime==1502)
+hflights  %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
+library(dplyr)#
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+ DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+library(dplyr)#
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+DF <- data.frame(#
+  id = sample(c("id01","id02","id03"),N, TRUE),     #
+  v1 = sample(5, N, TRUE),                          #
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE) #
+  )#
+object_size(DF)
+library(pryr)
+library(pryr)#
+N <- 1e3#
+DF <- data.frame(#
+  id = sample(c("id01","id02","id03"),N, TRUE),     #
+  v1 = sample(5, N, TRUE),                          #
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE) #
+  )#
+object_size(DF)#
+DF <- DF1
+DF1 <- DF
+DF2 <-DF$v1
+DF3 <- DF[1:(5e2)]
+DF3 <- DF[1:(5e2),]
+object_size(DF,DF1)
+object_size(DF,DF2)
+object_size(DF,DF3)
+names(DF1)<c("id","col1","col2")
+names(DF1)<-c("id","col1","col2")
+object_size(DF,DF1)
+formula <- reformulate(termlabels = c("x","z"), response = "y")
+formula
+idvars=function(id,l){#
+    if (is.call(id) && id[[1L]] == "-") {#
         idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
+        id = eval(id[[2L]], parent.frame(), parent.frame())#
     } else idm = FALSE#
     if (!is.character(id)) stop("ids should be column numbers or names")#
     if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
+    if (any(!id %chin%  l)){#
         #try wildcard #
         if (length(id) !=1L) stop("Some items of ids are not column names")#
         id_vector <- strsplit(id, "\\s+")[[1]]#
         id=NULL#
          for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
+            temp <- grep(glob2rx(c),l,value=TRUE)#
             if (!length(temp)) stop("Some items of ids are not column names")#
             id <- c(id,temp)#
         }#
     }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,4]#
-        if (match[1,2]=="L") match[1,2]=="+" else match[1,2]=="-"#
-        operation= parse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
+    if (idm) idvars = setdiff(l, id) else idvars = id#
 }
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
+DT
+idvars(quote(Year),l)
+idvars(quote(Year), names(DT))
+is.call(quote(Year))
+is.call(quote(-Year))
+quote(-Year)[[1]]
+(quote(-Year)[[1]])==quote(-)
+quote(-Year)[[1]])==quote(-)
+quote(-Year)[[1]]==quote(-)
+quote(-Year)[[1]]=="-"
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-panel=function(DT,id,time,fun,gen=func){#
+idvars=function(id,l){#
 #
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
+    if (is.call(id) && id[[1L]] == "-") {#
         idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
+        id = eval(id[[2L]], parent.frame(), parent.frame())#
     } else idm = FALSE#
+    id<-as.character(id)#
     if (!is.character(id)) stop("ids should be column numbers or names")#
     if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
+    if (any(!id %chin%  l)){#
         #try wildcard #
         if (length(id) !=1L) stop("Some items of ids are not column names")#
         id_vector <- strsplit(id, "\\s+")[[1]]#
         id=NULL#
          for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
+            temp <- grep(glob2rx(c),l,value=TRUE)#
             if (!length(temp)) stop("Some items of ids are not column names")#
             id <- c(id,temp)#
         }#
     }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,4]#
-        if (match[1,2]=="L") match[1,2]=="+" else match[1,2]=="-"#
-        operation= parse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
+    if (idm) idvars = setdiff(l, id) else idvars = id#
 }
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-DT %<>%panel("id1 id2","year",F3.value)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
+idvars(quote(Year), names(DT))
+idvars(quote(Year), names(DT))
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-panel=function(DT,id,time,fun,gen=func){#
-#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
+idvars=function(id,l){#
+    if (is.call(id) && id[[1L]] == "-") {#
         idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
+        id = eval(id[[2L]], parent.frame(), parent.frame())#
     } else idm = FALSE#
+    id <- as.character(id)#
     if (!is.character(id)) stop("ids should be column numbers or names")#
     if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
+    if (any(!id %chin%  l)){#
         #try wildcard #
         if (length(id) !=1L) stop("Some items of ids are not column names")#
         id_vector <- strsplit(id, "\\s+")[[1]]#
         id=NULL#
          for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
+            temp <- grep(glob2rx(c),l,value=TRUE)#
             if (!length(temp)) stop("Some items of ids are not column names")#
             id <- c(id,temp)#
         }#
     }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,4]#
-        if (match[1,2]=="L") match[1,2]="+" else match[1,2]="-"#
-        operation= parse(text=paste0(timevar,match[1,2],match[1,3]))#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        DT1 <- DT1[,timevar := eval(operation),.SDcols=timevars]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
+    if (idm) idvars = setdiff(l, id) else idvars = id#
+    return(idvars)#
 }
-DT %<>%panel("id1 id2","year",F3.value)
-setwd("/Users/Matthieu/Dropbox/Github/stataR/R")#
+idvars(quote(Year), names(DT))
+idvars(quote(-Year), names(DT))
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-panel=function(DT,id,time,fun,gen=func){#
-#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-#
-    idsub = substitute(id)#
-    if (is.call(idsub) && idsub[[1L]] == "-") {#
+idvars=function(id,l){#
+    if (is.call(id) && id[[1L]] == "-") {#
         idm = TRUE#
-        id = eval(idsub[[2L]], parent.frame(), parent.frame())#
-    } else idm = FALSE#
+        id = eval(id[[2L]], parent.frame(), parent.frame())#
+    } else {#
+        idm = FALSE#
+        id <- as.character(id)#
+    }#
     if (!is.character(id)) stop("ids should be column numbers or names")#
     if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  names(DT))){#
+    if (any(!id %chin%  l)){#
         #try wildcard #
         if (length(id) !=1L) stop("Some items of ids are not column names")#
         id_vector <- strsplit(id, "\\s+")[[1]]#
         id=NULL#
          for (c in id_vector){#
-            temp <- grep(glob2rx(c),names(DT),value=TRUE)#
+            temp <- grep(glob2rx(c),l,value=TRUE)#
             if (!length(temp)) stop("Some items of ids are not column names")#
             id <- c(id,temp)#
         }#
     }#
-#
-    if (idm) idvars = setdiff(names(DT), id) else idvars = id#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[, list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,4]#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-#
-        if (match[1,2]=="L") operation="+" else operation="-"#
-        operation= parse(text=paste0(timevar,operation,match[1,3]))#
-        DT1[,(timevar):= eval(operation)]#
-        DT[DT1,newname:=i.valuevar]#
-    }#
+    if (idm) idvars = setdiff(l, id) else idvars = id#
+    return(idvars)#
 }
-DT %<>%panel("id1 id2","year",F3.value)
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-debug(paste)
-DT %<>%panel("id1 id2","year",F3.value)
-DT = data.table(id1 = c(33,33,33,32,32),#
-                id2 = c(29,29,29,28,28),  #
-               year = c(1990,1993,1994,1991,1992),#
-              value = c(3.5,3.3,3.1,3.1,4.5))
-debug(paste)
-DT %>% panel("id1 id2","year",F3.value)
-DT %>% panel("id1 id2","year",F3.value)
-DT %>% panel("id1 id2","year",F3.value)
-panel)
-panel)
+idvars(quote(-Year), names(DT))
+quote(-Year)[[2]]
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#
+idvars=function(id,l){#
+    if (is.call(id) && id[[1L]] == "-") {#
+        idm = TRUE#
+        id = as.character(id[[2L]])#
+    } else {#
+        idm = FALSE#
+        id <- as.character(id)#
+    }#
+    if (!is.character(id)) stop("ids should be column numbers or names")#
+    if (any(is.na(id))) stop("Some items of ids are NA)")#
+    if (any(!id %chin%  l)){#
+        #try wildcard #
+        if (length(id) !=1L) stop("Some items of ids are not column names")#
+        id_vector <- strsplit(id, "\\s+")[[1]]#
+        id=NULL#
+         for (c in id_vector){#
+            temp <- grep(glob2rx(c),l,value=TRUE)#
+            if (!length(temp)) stop("Some items of ids are not column names")#
+            id <- c(id,temp)#
+        }#
+    }#
+    if (idm) idvars = setdiff(l, id) else idvars = id#
+    return(idvars)#
+}
+quote(-Year)[[2]]
+idvars(quote(-Year), names(DT))
+idvars(c("Year","Month"), names(DT))
