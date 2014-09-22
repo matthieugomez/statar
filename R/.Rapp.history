@@ -1,3 +1,8 @@
+DT[J(v1=v1+20,v4=1)]
+DT[J(v1=v1+20,v4=1),a:=v4]
+DT
+DT[J(v1,v4),a:=v4]
+DT[J(v1,v4),a:=i.v4]
 DT[,v4:=1]
 DT[J(v1,v4),a:=v4]
 DT[J(v1,v4),a:=v4,allow.cartesian=TRUE]
@@ -590,28 +595,6 @@ table(DT1$v1)
 table(DT1$V1)
 filter(ArrTime==1502)
 DT %>% filter(ArrTime==1502)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-suppressMessages(library("magrittr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-library(devtools)#
-devtools::install_github("matthieugomez/stataR")#
-suppressMessages(library(stataR))
-DT <- data.table(#
-  id = c(1, 1, 1, 1, 1, 2, 2), #
-  date = c(1992, NA, 1991, 1990, 1994, 1992, 1991), #
-  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)
-DT %>% epanel(id="id",t="date",L1.value)
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
 epanel=function(DT,id,time,fun,gen=func){#
@@ -619,67 +602,7 @@ epanel=function(DT,id,time,fun,gen=func){#
     timevar=as.character(substitute(time))#
     idsub = substitute(id)#
     idvars = idvars_q(idsub,names(DT))#
-    if (eval(substitute(!nrow(DT[is.na(t)]))),list(t=as.name(timevar)))) stop(paste(timevar,"should not have missing values"))#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,4]#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        if (match[1,2]=="L") operation="+" else operation="-"#
-        operation= parse(text=paste0(timevar,operation,match[1,3]))#
-        DT1[,(timevar):= eval(operation)]#
-        DT[DT1,(gen):=eval(parse(text=paste0("i.",valuevar)))]#
-        if (!gen %chin% names(DT)) DT[,(gen):=NA]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-epanel=function(DT,id,time,fun,gen=func){#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-    idsub = substitute(id)#
-    idvars = idvars_q(idsub,names(DT))#
-    if (eval(substitute(!nrow(DT[is.na(t)]))),list(t=as.name(timevar))) stop(paste(timevar,"should not have missing values"))#
-    if (func=="fill"){#
-        setkeyv(DT,c(idvars,timevar))#
-        eval(substitute(#
-            ans <- DT[list(seq.int(t[1L], t[.N])), by = idvars],#
-            list(t=as.name(timevar))#
-            ))#
-        setnames(ans,c(idvars,timevar))#
-        setkeyv(ans,c(idvars,timevar))#
-        return(DT[ans])#
-    }#
-    match <- str_match(func,"(L|F)([0-9]*)\\.(.*)")#
-     if (!is.na(match[1,1])){#
-        valuevar=match[1,4]#
-        setkeyv(DT,c(idvars,timevar))#
-        DT1 <- DT[,c(idvars,timevar,valuevar), with=FALSE]#
-        if (match[1,2]=="L") operation="+" else operation="-"#
-        operation= parse(text=paste0(timevar,operation,match[1,3]))#
-        DT1[,(timevar):= eval(operation)]#
-        DT[DT1,(gen):=eval(parse(text=paste0("i.",valuevar)))]#
-        if (!gen %chin% names(DT)) DT[,(gen):=NA]#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-epanel=function(DT,id,time,fun,gen=func){#
-    func=paste(as.character(substitute(fun)),collapse="")#
-    timevar=as.character(substitute(time))#
-    idsub = substitute(id)#
-    idvars = idvars_q(idsub,names(DT))#
-    if (eval(substitute(!nrow(DT[is.na(t)]),list(t=as.name(timevar))))) stop(paste(timevar,"should not have missing values"))#
+    if (eval(substitute(!nrow(DT[is.na(t)])==0),list(t=as.name(timevar))))) stop(paste(timevar,"should not have missing values"))#
     if (func=="fill"){#
         setkeyv(DT,c(idvars,timevar))#
         eval(substitute(#
