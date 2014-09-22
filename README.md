@@ -20,17 +20,23 @@ DT <- data.table(
 DT %>% eset(order,"v*")
 DT %>% eset(sort,"v*")
 DT %>% eset(rename,"v1","v11")
-DT %>% eset(keep,"v?")
 DT %>% eset(keep,-"id*")
+DT %>% eset(keep,"v?")
 
 # edo for commands that don't modify dataset. Abbreviations for command names are allowed.
-DT %>% edo(summarize,"v1")
+DT %>% edo(summarize,"v2")
 DT %>% edo(sum,"v*",d=T)
 
 ## Panel (inplace)
-DT %>% epanel(id="id1 id2",t="time",fill)
-DT %>% epanel(id="id1 id2",t="time",L3.v2)
-DT %>% epanel(id="id1 id2",t="time",L3.v2,gen="L3_v2")
+DT <- data.table(
+  id = c(1, 1, 1, 1, 1, 2, 2), 
+  date = c(1992, NA, 1991, 1990, 1994, 1992, 1991), 
+  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+)
+DT %>% epanel(id="id",t="date",L3.value)
+DT %>% epanel(id="id",t="date",L3.value,gen="L3_value")
+
+DT %>% epanel(id="id",t="date",fill)
 
 ## Join (creates new dataset)
 join(DTm,DTu,type=1:1,all=TRUE,gen="_merge")
