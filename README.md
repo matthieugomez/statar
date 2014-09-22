@@ -9,6 +9,13 @@ Possible commands within `eset` and `edo` are predefined - allowing for the use 
 
 
 ````R
+N=1e6; K=100
+DT <- data.table(
+  id = 1:N,
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
+)
 # eset (inplace). Abbreviations for command names are allowed.
 DT %>% eset(order,"v*")
 DT %>% eset(sort,"v*")
