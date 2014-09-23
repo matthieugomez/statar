@@ -6,5 +6,5 @@ Description: R commands for Stata users
 Depends: 
 	R (>= 3.1.0)
 Imports:
-	data.table
+	data.table,
 	stringr
