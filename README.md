@@ -44,15 +44,15 @@ DT <- DT %>% epanel(cols = "id",t = "date", fill)
 # datasets are sorted in place.
 # the command merges on common names between the two datasets and creates a new dataset.
 # the option m:m creates multiple rows for multiple matches, similar to Stata joinby. 
-# default options for all and gen are specified in the first line. 
-ejoin(DTm, DTu, type=1:1, all=TRUE, gen = "_merge")
+# default options  are specified in the first line. 
+ejoin(DTm, DTu, type=1:1, keep=c("master","matched","using"), gen = "_merge")
 ejoin(DTm, DTu, m:1)
-ejoin(DTm, DTu, 1:1, nogen = TRUE)
-ejoin(DTm, DTu, m:m, all.x = TRUE)
-ejoin(DTm, DTu, m:m, all.y = TRUE)
+ejoin(DTm, DTu, m:m, keep = "matched",nogen=TRUE)
 
-# tempname(l) creates a name not present in the vector l
-tempname <- tempname("temp", DT)
+# tempname(prefix,where) creates a name starting with a given prefix that is not assigned in the environment specified by the second variable
+tempvar <- tempname("temp", DT)
+tempname <- tempname("temp", globalenv())
+
 ````
 
 The package can be installed via the package `devtools`

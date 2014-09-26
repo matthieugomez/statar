@@ -9,3 +9,17 @@ tempname=function(prefix, where, inherits=TRUE) {
 }
 
 
+tempname_list=function(prefix, l) {
+    i <- 0L
+    name <- prefix
+    while (name %in% l) {
+        i <- i + 1L
+        name <- paste0(prefix, as.character(i))
+    }
+    name
+}
+
+
+
+
+
