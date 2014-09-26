@@ -1,287 +1,353 @@
-debug(mutate_each_q)
-funs
-vars
-eval(call,tbl,env)
-debug(mutate_each_q)
-sample_df %>% mutate_each(funs(mean))
+DT[,id1:=4] %>%mutate(m=mean(id))
+DT[,id1:=4] %>% mutate(m=mean(id))
+debug(mutate.data.table)
+DT[,id1:=4] %>% mutate(m=mean(id))
 call
-eval(call,tbl,enclos=env)
-env
-tbl
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+DT[,id1:=4] %>% mutate(m=mean(id))
 call
-a
-eval(call,tbl)
-env=list2env(tblt,parent=parent.frame())
-env=list2env(tbl,parent=parent.frame())
-eval(call,env)
-eval(call,tbl,parent.frame())
-eval(call,tbl,env)
-eval(call,tbl,enclos = env)
-call
-sample_df %>% mutate_each(funs(mean))
-eval(call,tbl)
-eval(call,tbl,env)
-?eval
-eval(call,tbl, enclos = env)
-eval(call, envir = tbl, enclos = env)
-sample_df %>% mutate_each(funs(mean))
-eval(call,list2env(tbl,parent=env))
-call
-tbl
-env
-is.identical(env,parent.frame())
-eval(call,tbl)
-sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))
 library(dplyr)
-debug(mutate_each)
-debug(mutate_each_q)
-sample_df %>% mutate_each(funs(mean))
-eval(call,tbl,env)
-eval(call,tbl)
-list2env(tbl,parent=env)
-eval(call,list2env)
-eval(call,list2env(tbl,parent=env))
-?list2env
-list2env(tbl,parent=env)
-sample_df %>% mutate_each(funs(mean))
-funs
-vars
-colwiseq
-colwise_q
-eval(call,env)
-eval(call,tbl)
-eval(call)
-funs
-?as.fun_list
-as.fun_list
-colwise_q
-funs
-vars
-is.list(vars)
-funs
-as.fun_list
-debug(as.fun_list)
-sample_df %>% mutate_each(funs(mean))
-debug(as.fun_list.fun_list)
-sample_df %>% mutate_each(funs(mean))
-getAnywhere(as.fun_list.fun_list
+DT[,id1:=4] %>% mutate(m=mean(id))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT[,id1:=4] %>% mutate(m=mean(id))
+library(dplyr)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-sample_df %>% mutate_each(funs(mean))
-funs
-function(funs){funs;print("ok")}
-f=function(funs){funs;print("ok")}
-debug(f)
-f(funs(mean))
-funs
-f=mean
-as.character(f)
-as.character(f[[1]])
-as.character(body(f)[[1]])
-as.character(body(mean)[[1]])
-as.character(body(f)[[1]])
-as.character(body(f)[[2]])
-as.character(body(f)[[3]])
-as.character(body(f)[[1]])
-as.character(body(f)[[2]])
-fun_calls(mean)
-dplyr:::fun_calls(mean)
-dplyr::::fun_calls(mean)
-dplyr:::fun_calls(mean)
-dplyr::fun_calls(mean)
-dplyr:::fun_calls(mean)
-fun_calls <- function(f) {#
-  if (is.function(f)) {#
-    fun_calls(body(f))#
-  } else if (is.call(f)) {#
-    fname <- as.character(f[[1]])#
-#
-    # Calls inside .Internal are special and shouldn't be included#
-    if (identical(fname, ".Internal")) return(fname)#
-#
-    unique(c(fname, unlist(lapply(f[-1], fun_calls), use.names = FALSE)))#
-  }#
-}
-fun_calls(mean)
-is.call(body(mean))
-fname <- fun_calls(mean)
-fname
-f <-mean
-lapply(f[-1], fun_calls)
-f=body(mean)
-lapply(f[-1], fun_calls)
-f
-fname
-f[-1]
-f
-str(f)
-f[[1]]
-f[[2]]
-f[[3]]
-unique(c(fname, unlist(lapply(f[-1], fun_calls), use.names = FALSE)))
-unlist(lapply(f[-1], fun_calls)
+library(data.table)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-unlist(lapply(f[-1], fun_calls))
-fun_calls(mean)
-f(x){fun_calls(x)}
-f = function(x){fun_calls(x)}
-f(x)
-f(1)
-f(mean)
-mutate_each
-funs
-funs_q
-funs(mean)
-funs_q(quote(mean))
-m=quote(mean)
-funs_q(m)
-funs(mean)
-funs_q(mean)
-is.call(quote(mean))
-quote(mean)
-?dots
-dots
-dplyr:: dots
-dplyr:::dots
-dplyr:::dots(mean)
-funs_q(list(mean))
-funs_q(quote(list(mean)))
-funs(mean)
-quote(mean)
-is.call(mean)
-quote(mean(x,y))
-is.call(mean)
-is.call(quote(mean(x,y)))
-call=quote(mean(x,y))
-names(calls)
-names(call)
-names2(call)
-dplyr:::names2(call)
-make_call(call)
-dplyr:::make_call(call)
-funs(mean)
-c("mean")
-as.fun_list(mean)
-as.fun_list(funs(mean))
-dplyr:::as.fun_list(funs(mean))
-undebug(as.fun_list)
-undebug(dplyr:::as.fun_list)
-dplyr:::as.fun_list(funs(mean))
-?debug
-isdebugged(dplyr:::as.fun_list)
-undebug(dplyr:::as.fun_list)
-dplyr:::as.fun_list(funs(mean))
-undebug(funs)
-dplyr:::as.fun_list(funs(mean))
-undebug(as.fun_list)
-f <- function(abc = 1, def = 2, ghi = 3) {#
-  list(sys = sys.call(), match = match.call())#
-}
-f(d=2,2)
-as.call(list(quote(mean), quote(1:10)))
-as.call(list("mean", quote(1:10)))
-library(pryr)
-library(dots)
-dots
-?alist
-funs(mean)
+DT %>% DT[,mean(id)]
+DT %>% mutate(mean(id))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
 library(dplyr)
-funs(mean)
-as.fun_list(funs(mean))
-dplyr:::as.fun_list(funs(mean))
-dplyr:::as.fun_list("mean")
-dplyr:::as.fun_list("mean",env=parent.frame())
-L <- list(quote(mutate), .data = substitute(DF), quote(mean(v1)))
-names(L)
-Lc= as.call(L)
-Lc
-funs(mean)
-?mutate
-"mean"
-matches("width")
+DT %>% mutate(mean(id))
 library(dplyr)
-matches("width")
-x <- quote(read.csv("important.csv", row.names = FALSE))
+DT %>% mutate(mean(id))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+DT %>% mutate(mean(id))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate(mean(id))
+DT %>% mutate(mean(cols))
+f=function(x){y<-1g(x)}#
+g=function(x){eval(x)}
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}#
+#
+f(quote(y))
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}#
+f(quote(y))
+debug(g)
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}#
+f(quote(y))
+debug(g)
+f(quote(y))
 x
-sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))
-matches("width")
-sample_df %>% summarize(funs(mean),matches("with"))
-sample_df %>% summarize_each(funs(mean),matches("with"))
-sample_df %>% summarise_each(funs(mean),matches("with"))
-sample_df %>% summarise_each(funs(mean),matches("a"))
-debug(summarise_each)
-sample_df %>% summarise_each(funs(mean),matches("a"))
-dots(...)
-debug(summarise_each_q)
-vars
-sample_df %>% summarise_each(funs(mean),matches("a"))
-undebug(summarise_eachq)
-undebug(summarise_each)
-sample_df %>% summarise_each(funs(mean),matches("a"))
-undebug(summarise_each_q)
-undebug(summarise_eachq)
-sample_df %>% summarise_each(funs(mean),matches("a"))
-sample_df %>% summarise_each(funs(mean),matches("ok"))
-sample_df %>% summarise_each(funs(mean),starts_with("ok"))
-sample_df %>% summarise_each("mean",starts_with("ok"))
-sample_df %>% mutate_each("mean",starts_with("ok"))
-?summarise
-debug(summarse_each_q)
-debug(summarise_each_q)
-sample_df %>% summarise_each("mean",starts_with("ok"))
-funs
-attr(funs,"env")
-?attr
-sample_df %>% summarise_each("mean",9)
-library(hflights)
-hflights_df <- tbl_df(hflights)
-hflights_df %>% summarise_each(funs(mean),starts_with("ok"))
-sample_df %>% summarize_each(funs(mean),matches("ok"))
-library(dpryr)#
-sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))#
-sample_df %>% summarise_each(funs(mean),matches("ok"))
-\
-undebug(summarise_each_q)
-library(dpryr)#
-sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))#
-sample_df %>% summarise_each(funs(mean),matches("ok"))
-sample_df %>% summarise_each(funs(mean),1)
-sample_df %>% summarise_each(funs(mean),9)
-sample_df %>% summarise_each(funs(mean),salut)
-sample_df %>% summarise_each(funs(mean),"salut")
->sample_df %>% summarise_each(funs(mean),"ok")
-sample_df %>% summarise_each(funs(mean),"ok")
-sample_df
-?summarise
-sample_df %>% summarise_each(funs(mean),ok)
-?mutate
-sample_df %>% summarise_each(funs(mean),-matches("a","b","c"))
-sample_df %>% summarise_each(funs(mean),-matches("a|b|c"))
-?mutate_each_q
-sample_df %>% summarise_each_q("mean",-matches("a|b|c"))
-sample_df %>% summarise_each_q("mean","ok")
-sample_df %>% summarise_each_q("mean",quote(a))
-sample_df %>% mutate_each_q("mean",quote(a))
-sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))#
-sample_df %>% summarise_each_q("mean",a)
-sample_df <- data.frame(a = 1:5, b = 5:1, c = c(5, 3, 1, 4, 1))
-sample_df %>% summarise_each("mean",a)
-sample_df %>% mutate_each("mean",a)
-remove.packages("dplyr")
-install.packages("dplyr")
-sample_df %>% mutate_each("mean",a)
-sample_df %>% mutate("mean",a)
+eval(y)
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}#
+f(quote(y))
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}
+y<-3#
+f=function(x){g(x)}#
+g=function(x){y<-1; eval(x)}
+f(quote(y))
+y<-3#
+    z<-3#
+    f=function(x){y<-1; g(x)}#
+    g=function(x){z<-1; eval(x)}#
+    f(quote(y))#
+    f(quote(z))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}#
+f(quote(z))
+f(quote(y))
+g(quote(z)
+)
+g(quote(z))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}#
+f(quote(z))
+f(quote(y))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; print(x)}
+g(quote(z))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(w){z<-1; eval(w)}
+f(quote(z))
+f(quote(y))
+y<-3#
+z<-3#
+f=function(x){x<-1; g(x)}#
+g=function(x){z<-1; eval(x)}
+f(quote(y))
+f(quote(z))
+y<-3#
+z<-3#
+f=function(){y<-1; g(x)}#
+g=function(){z<-1; print(x)}
+f()
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; print(x)}
+f(z)
+y<-3#
+x <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}
+f()
+f(quote(y))
+f(quote(x))
+y<-3#
+x <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}
+f()
+y<-3#
+z <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}#
+f(quote(y))#
+f(quote(z))
+y<-1
+f(quote(y))
+y<-3#
+z <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval	x <-5#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g(x)#
+	}#
+	g=function(x){#
+		print(a)#
+	}(x)}#
+f(quote(y))#
+f(quote(z))
+x <-5#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g(x)#
+	}#
+	g=function(x){#
+		print(a)#
+	}
+f(5)
+a <-5#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g()#
+	}#
+	g=function(){#
+		print(a)#
+	}#
+	f(1)
+a <-3#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g()#
+	}#
+	g=function(){#
+		print(a)#
+	}#
+	f()
+a<-6#
+	f()
+library(dplyr)
+DT
+DT %>% mutate(mean(v1))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT %>% mutate(mean(v1))
+debug(mutate.data.table)
+debug(dplyr::mutate.data.table)
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+debug(dplyr::mutate.data.table)
+DT %>% mutate(mean(v1))
+library(dplyr)
+DT %>% mutate(mean(v1))
+traceback()
+DT
+DT=setDT(DT)
+DT %>% mutate(mean(v1))
+debug(dplyr::mutate.data.table)
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT %>% mutate(mean(v1))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate(mean(v1))
+ok<-4
+DT %>% mutate(mean(v1))
+?parent.frame
+f=function(){a<-1; eval(a,globalenv())}
+f(a)
+f(x)
+f()
+a
+f=function(){a<-1; eval(a,globalenv(),globalenv())}
+f()
+a
+?eval
+f=function(){a<-1; eval(a,enclos=globalenv())
+}
+f()
+f=function(){a<-1; eval(a,enclos=parent.frame())
+}
+f()
+f=function(){a<-1; eval(a,envir=parent.frame())
+}
+f()
+f=function(){a<-1; eval(a,envir=parent.frame())
+)
+f=function(){a<-1; eval(a,envir=parent.frame())}
+f()
+f=function(){a<-1; eval(a,envir=parent.frame(1))}
+f()
+f=function(){a<-1; eval(a,envir=parent.frame(2))}
+f()
+f=function(){a<-1; eval(quote(a),envir=parent.frame(2))}
+f()
+f=function(){a<-1; eval(quote(a),envir=parent.frame())}
+f()
+f=function(){a<-1; eval(quote(a))}
+f()
+f=function(){a<-1; eval(quote(a),parent.frame())}
+f()
+f=function(x){a<-1; eval(x)}#
+f()
+f=function(x){a<-1; eval(x)}#
+f(quote(a))
+f=function(x){a<-1; eval(x,parent.frame())}
+f(quote(a))
+a=3
+library(R)
+library(pryr)
+subs(a)
+?new.env
+f=function(x){a<-1; eval(x,parent.frame())}
+f=function(DT){eval(DT[,mean(a)],parent.frame())}
+f(DT)
+DT
+f(DT[,a:=4))
+f(DT[,a:=4]))
+f(DT[,a:=4])
+f(DT[,a:=1:N])
+a
+library(pryr)
+pryr::call_true
+DT
+DT[,mean(b)]
+b<-5
+DT[,mean(b)]
+DT %>%mutate(mean(b))
+library(devtools)#
+devtools::install_github("hadley/dplyr")
+DT %>% mutate(mean(b))
+library(dplyr)
+DT %>% mutate(mean(b))
+library(dplyr)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate(mean(b))
+devtools::install_github("hadley/lazyeval")#
+devtools::install_github("hadley/dplyr")]
 devtools::install_github("hadley/lazyeval")#
 devtools::install_github("hadley/dplyr")
-?contrains
-?contains
 library(dplyr)
-?contains
-?select
-?select_
-?select
+DT %>% mutate(mean(b))
 library(dplyr)
-?select
-N=1e4; K=100#
+library(data.table)
+N=1e6; K=100#
 set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
@@ -289,11 +355,42 @@ DT <- data.table(#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
+DT %>% mutate(mean(b))
+devtools::install_github("hadley/lazyeval")#
+devtools::install_github("hadley/dplyr")
+devtools::install_github("hadley/lazyeval")#
+devtools::install_github("hadley/dplyr",vignettes=FALSE)
+install_github("Rdatatable/data.table", build_vignettes=FALSE)
+debtools:install_github("hadley/dplyr", build_vignettes=FALSE)
+devtools:install_github("hadley/dplyr", build_vignettes=FALSE)
+devtools::install_github("hadley/dplyr", build_vignettes=FALSE)
+DT
 library(data.table)
-select_(DT,contains("v"))
+DT
+subset
+test = function(arg1,arg2, verbose=0) {   #
+  r1 = mean(arg1)#
+  r2 = mean(arg2)#
+#
+  res = (2/pi * r1 *cos(r2))#
+  if (verbose>1) browser()#
+  return(res)#
+}
+test(3,2,verbose=2)
 library(data.table)
-select_(DT,contains("v"))
-N=1e4; K=100#
+test(3,2,verbose=2)
+re
+test = function(arg1,arg2, verbose=0) {   #
+  r1 = mean(arg1)#
+  r2 = mean(arg2)#
+#
+  res = (2/pi * r1 *cos(r2))#
+  if (verbose>1) recover()#
+  return(res)#
+}
+test(3,2,verbose=2)
+0
+N=1e6; K=100#
 set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
@@ -301,403 +398,629 @@ DT <- data.table(#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-select_(DT,contains("v"))
-select(DT,contains("v"))
-contains("v"))
-?contains
-selevt_vars(names(DT),"Petal.Length")
-select_vars(names(DT),"Petal.Length")
-select_vars(names(DT),"v2")
-select_vars(names(DT),"v1")
-traceback()
-names(DT)
-select_vars(names(DT),contrains("v"))
-select_vars(names(DT),contains("v"))
-dplyr:::names2
-?setNames
-library(data.table)
-?setNames
-debug(select_vars_)
-select_vars(names(DT),contains("v"))
-vars
-as.list(seq_along(vars))
-names_list
-ind_list
-names_list
-select_funs
-debug(mutate_each_q(sample_df,funs(mean),starts_with("v")))
+body(mutate_each)
+library(dplyr)
+body(mutate_each)
+trace(mutate_each,quote(recover(),at=3,print=F)
+)
+trace(mutate_each,quote(recover()),at=3,print=F)
+mutate_eacch(DT,funs(mean))
+mutate_each(DT,funs(mean))
+trace(mutate_each,quote(recover()),at=3)
+as.list(body(mutate_each))
+untrace(mutate_each)
+trace(mutate_each,quote(recover()),at=4)
+trace(mutate_each,quote(recover()),at=3)
+as.list(body(mutate_each))
+mutate_each(DT,funs(mean))
+untrace(mutate_each)
+browseOnce <- function() {#
+  old <- getOption("error")#
+  function() {#
+    options(error = old)#
+    browser()#
+  }#
+}#
+options(error = browseOnce())
+mutate_each(DT,funs(f))
+mutate_each(DT,funs(asfew))
+summarise_each(DT,funs(asfew))
+f <- function(x) {#
+    r <- x - g(x)#
+    r#
+}#
+g <- function(y) {#
+    r <- y * h(y)#
+    r#
+}#
+h <- function(z) {#
+    r <- log(z)#
+    if (r < 10) #
+        r^2 else r^3#
+}
+trace(h, exist=recover)
+trace(h, exit=recover)
+untrace(h)
+trace(f, exit=recover)
+f(4)
+trace(f, exit=browser)
+f(4)
+untrace(f)
+f(4)
+trace(f, exit=recover)
+f(4)
 debug(mutate_each)
-mutate_each(sample_df,funs(mean),starts_with("v")))
-mutate_each(sample_df,funs(mean),starts_with("v"))))
-mutate_each(sample_df,funs(mean),starts_with("v"))
-vars
-library(pryr)#
+f <- function(x) {#
+        r <- x - g(x)#
+        r#
+    }#
+    g <- function(y) {#
+        r <- y * h(y)#
+        r#
+    }#
+    h <- function(z) {#
+        r <- log(z)#
+        if (r < 10) #
+            r^2 else r^3#
+    }
+trace(f, exit=recover)
+f(4)
+trace(f, exit=entry)
+trace(f, entry=recover)
+?trace
+f(4)
+recover()
+f("a")
+debug(mutate_each)
+mutate_each(DT,funs(mean))
+debug(dplyr::mutate_each_q)
+mutate_each(DT,funs(mean))
+undebug(dplyr::mutate_each_q)
+undebug(mutate_each)
+mutate_each(DT,funs(mean))
+?debug
+?borwser
+?browser
+debug(dplyr::mutate_each_q)
+debug(dplyr::mutate_each)
+mutate_each(DT,funs(mean))
+s
+?browser
+mutate_each(DT,funs(mean))
+s
+n
+s
+n
+f
+?browser
+x <- 1#
+		quote(x)
+library(speedglm)
+?speedlm
 library(dplyr)
+n_group
+ngroup
+n_groups
+set.seed(123)
+x=matrix(rnorm(10^6),10^4,100)
+system.time({svd(x)})
 library(data.table)#
-N=1e8; K=100#
+N=2e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
+  id4 = sample(K, N, TRUE),                          # large groups (int)#
+  id5 = sample(K, N, TRUE),                          # large groups (int)#
+  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+system.time(speedlm(v3~v2,DT) )
+library(speedlm)
+library(speedglm)
+system.time(speedlm(v3~v2,DT) )
+system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
+system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
+library(biglm)
+system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
+system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
+system.time( summary(speedlm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
+library(data.table)#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
+  id4 = sample(K, N, TRUE),                          # large groups (int)#
+  id5 = sample(K, N, TRUE),                          # large groups (int)#
+  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
+system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
+> system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
+system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
+rm(ls())
+rm(list=ls())
+library(data.table)#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
+  id4 = sample(K, N, TRUE),                          # large groups (int)#
+  id5 = sample(K, N, TRUE),                          # large groups (int)#
+  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
+system.time( summary(speedlm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
+system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
+system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
+rm(list=ls())
+library(data.table)#
+N=2e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
+  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
+  id4 = sample(K, N, TRUE),                          # large groups (int)#
+  id5 = sample(K, N, TRUE),                          # large groups (int)#
+  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
+system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
+system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
+library(dplyr)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+dplyr:::unique_name("dt",globalenv())
+unique_name <- function(prefix,env){#
+  i <- 0L#
+  name <- prefix#
+  while (exists(name,env)) {#
+    i <- i + 1L#
+    name <- paste0(prefix,as.character(i))#
+    }#
+  name#
+}
+unique_name("dt",globalenv())
+unique_name23("dt",globalenv())
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+?unique_name
+?dplyr:::unique_name
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+library(dplyr)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+library(dplyr)
+debug(filter_data.table)
+debug(dplyr:::filter_data.table)
+debug(dplyr::::filter_data.table)
+debug(filter)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+s
+n
+dots_env
+exists("dt",dots_env)
+exists("dt1",dots_env)
+unique_name("dt1",dots_env)
+s
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+s
+n
+s
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+debug(filter)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+s
+n
+dt_unique
+vars_unique
+call
+env
+ls(env)
+DT
+v=Year
+v="Year"
+DT$c(v)
+?assign
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+DT
+DT[,3,with=FALSE]
+DT[,3,with=FALSE,drop=TRUE]
+?data.table
+setDF(table)[,length(table)-1]
+setDF(DT)[,length(DT)]
+library(dplyr)
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
+[1] 173#
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==) %>% nrow
+mtcars %>% filter(cyl==dt)
+dt=3
+mtcars %>% filter(cyl==dt)
+mtcars
+dt=6
+mtcars %>% filter(cyl==dt)
+devtools::install_github("hadley/dplyr",vignettes=FALSE)
+devtools::install_github("hadley/dplyr")
+library(dplyr)
+dt=6#
+    setDT(mtcars) %>% filter(cyl==dt)
+library(data.table)
+dt=6#
+    setDT(mtcars) %>% filter(cyl==dt)
+setDT(mtcars)
+DT <- as.data.table(mtcars)
+setDT(mtcars) %>% filter(cyl==dt)
+DT <- as.data.table(mtcars) #
+    dt=6#
+   DT %>% filter(cyl==dt)
+library(dplyr)
+dt=6
+mtcars %>% filter(cyl==dt)
+mtcars %>% mutate(mean(3))
+mtcars %>% mutate(mean(c(3)))
+mtcars %>% mutate(mean(3))
+env$`_DT` <- mtcars
+`_dt`=1
+env$`_dt` <- mtcars
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)#
+   library(data.table)#
+   DT <- as.data.table(mtcars) #
+   dt <- 6#
+   DT %>% filter(cyl==dt)
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+library(dplyr)#
+   library(data.table)#
+   DT <- as.data.table(mtcars) #
+   dt <- 6#
+   DT %>% filter(cyl==dt)
+library(dplyr)#
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
+DT = fread("\"ok\" \"1993\"\n\"ok\" \"1993\"", colClasses = c("character", "numeric"))
+setnames(DT,"DayOfWeek","V1")#
+ DT %>% group_by(V1) %>% filter(ArrTime==1502)
+DT %>% group_by(V1) %>% filter(ArrTime==1502)
+DT
+DT <- as.data.table(mtcars)
+DT
+DT %>% group_by(V1) %>% filter(ArrTime==1502)
+library(dplyr)#
+library(hflights)#
+library(data.table)#
+DT <- as.data.table(hflights)#
+DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502)
+setnames(DT,"DayOfWeek","V1")
+DT %>% group_by(V1) %>% filter(ArrTime==1502)
+library(dplyr)
+mtcars %>% mutate(mean(1))
+remove.packages("dplyr")#
+install.packages("dplyr")
+library(dplyr)
+mtcars %>% mutate(mean(1))
+mtcars %>% mutate(mean(c(1)))
+mtcars %>% mutate(mean(1))
+library(dplyr)
+mtcars %>% mutate(mean(1))
+mtcars %>% mutate(mean(2))
+mtcars %>% mutate(mean(3))
+mtcars %>% mutate(mean(c(3)))
+mtcars %>% mutate(3)
+mtcars %>% mutate(1)
+mean(3)
+mtcars %>% mutate(1)
+mtcars %>% mutate(mean(1))
+mtcars_dt=as.data.table
+mtcars_dt=as.data.table(mtcars)
+mtcars_dt %>% mutate(mean(1))
+library(data.table)
+mtcars_dt=as.data.table(mtcars)
+mtcars_dt %>% mutate(mean(1))
+mtcars %>% group_by(cyl) %>% mutate(mean(1))
+library(dplyr)#
+mtcars %>% group_by(cyl) %>% mutate(mean(1))#
+as.data.table(mtcars) %>% group_by(cyl) %>% mutate(mean(1))
+library(dplyr)#
+mtcars %>% group_by(cyl) %>% mutate(mean(2))#
+as.data.table(mtcars) %>% group_by(cyl) %>% mutate(mean(1))
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+mtcars %>% mutate(mean(1))
+mtcars %>% mutate(mean(2))
+library(dplyr)#
+mtcars %>% mutate(mean(2))#
+as.data.table(mtcars) ) %>% mutate(mean(2))
+library(dplyr)#
+mtcars %>% mutate(mean(2))#
+as.data.table(mtcars) %>% mutate(mean(2))
+library(dplyr)#
+as.data.table(mtcars) %>% mutate(mean(2))#
+mtcars %>% mutate(mean(2))
+?mutate
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+library(dplyr)#
+mtcars %>% mutate(mean(2))#
+as.data.table(mtcars) %>% mutate(mean(2))
+library(data.table)
+library(dplyr)#
+mtcars %>% mutate(mean(2))#
+as.data.table(mtcars) %>% mutate(mean(2))
+?mutate
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(2))#
+mtcars %>% mutate(mean(2))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(2))#
+mtcars %>% mutate(mean(2.4))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(2))#
+mtcars %>% mutate(mean(2))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(2))#
+mtcars %>% mutate(mean(2))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+install_github("Rdatatable/data.table", build_vignettes=FALSE)
+devtools::install_github("Rdatatable/data.table", build_vignettes=FALSE)
+library(data.table)
+N=1e6; K=100#
 set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
-  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
-)
-setDF(DT)#
-DT1 <- DT#
-setDT(DT)#
-setDT(DT1)
-DT1[y:=mean(v1)]
-DT1[,y:=mean(v1)]
-object_size(DT,DT1)
-DT
-DT1
-?copy
-DT = data.table(id    = c(1,1,1,1,1,2,2),#
-                 date  = c(1992,NA,1991,1990,1994,1992,1991),#
-                 value = c(4.1,4.5,3.3,5.3,3.0,3.2,5.2)#
-                )#
- setkey(DT, id, date)#
- DT[, value_lagged := DT[J(id, date-1), value], ]
-DT
-DT = data.table(id    = c(1,1,1,1,1,2,2),#
-                 date  = c(1992,NA,1991,1990,1994,1992,1991),#
-                 value = c(4.1,4.5,3.3,5.3,3.0,3.2,5.2)#
-                )#
- setkey(DT, id, date)#
- DT[, value_lagged := DT[J(id, date-1), value] ]
-DT
-DT[1,value:=NA]
-DT
-DT[is.na(date), val_lag := NA]
-DT
-DT = data.table(id    = c(1,1,1,1,1,2,2),#
-                 date  = c(1992,NA,1991,1990,1994,1992,1991),#
-                 value = c(4.1,4.5,3.3,5.3,3.0,3.2,5.2)#
-                )#
- setkey(DT, id, date)#
- DT[, value_lagged := DT[J(id, date-1), value] ]
-DT
-value_lagged=value
-value_lagged="value"
-DT[value==NA]
-DT[value_lagged==NA]
-DT[(value_lagged)==NA]
-DT[c(value_lagged)==NA]
-DT
-rm(value_lagged)
-value=date
-value="date"
-DT[value==1990]
-DT[(value)==1990]
-DT[c(value)==1990]
-DT[date==1990]
-DT[eval(substitute(v==1990,list(as.name("date"))]
-DT[eval(substitute(v==1990,list(as.name("date")))]
-DT[eval(substitute(v==1990,list(as.name(v="date")))]
-DT[eval(substitute(v==1990,list(as.name(v="date"))]
-DT[eval(subs(v==1990,list(as.name(v="date"))]
-DT[eval(subs(v==1990,list(as.name(v="date"))))]
-DT[eval(subs(v==1990,list(as.name(v="date")))]
-DT[eval(subs(v==1990,list(as.name(v="date"))))]
-DT[eval(subs(v==1990,list(v=as.name(v="date"))))]
-DT[eval(subs(v==1990,list(v=as.name("date"))))]
-DT[eval(subs(v==1990,list(v=as.name("date"))))]#
-2#
-How do I perform a semi-join with data.table? A semi-join is like an inner join except that it only returns the columns of X (not also those of Y), and does not repeat the rows of X to match the rows of Y. For example, the following code performs an inner join:#
-#
-x <- data.table(x = 1:2, y = c("a", "b"))#
-setkey(x, x)
-x
-w = unique(x[y,which=TRUE])
-x <- data.table(x = 1:2, y = c("a", "b"))#
-setkey(x, x)#
-y <- data.table(x = c(1, 1), z = 10:11)
-w = unique(x[y,which=TRUE])
-w
-w = unique(x[y))
-w = unique(x[y])
-w
-bdt <- as.data.table(baseball)
-library(plyr)
-bdt <- as.data.table(baseball)
-bdt
-bdt[bdt[, .I[g == max(g)], by = id]$V1]
-bdt[, .I[g == max(g)], by = id]
-library(dplyr)
-setnames(bdt,"id","V1")
-bdt
-?setnames
-setnames
-bdt %>% group_by(V1) %>% filter(g==max(g))
-bdt %>% group_by(r) %>% filter(g==max(g))
-bdt %>% group_by(V1) %>% filter(g==max(g))
-debug
-debug(filter)
-bdt %>% group_by(V1) %>% filter(g==max(g))
-indices
-bdt %>% group_by(V1) %>% filter(g==max(g))
-setnames(bdt,V1,id)
-setnames(bdt,"V1","id")
-bdt[,r:=V1]
-setnames(bdt,"r","V1")
-bdt %>% group_by(V1) %>% filter(g==max(g))
-bdt %>% group_by(r) %>% filter(g==max(g))
-bdt %>% group_by(id) %>% filter(g==max(g))
-bdt %>% group_by(bb) %>% filter(g==max(g))
-DT
-setnames("date","id")
-setnames(DT,"date","id")
-DT$id
-library(hflights)#
-dim(hflights)
-setnames(DT,"TailNum","V1")
-DT=as.data.table(hflights)
-setnames(DT,"TailNum","V1")
-DT %>% group_by(TailNum) %>% summarise(planes)
-DT %>% group_by(V1) %>% summarise(planes)
-DT
-DT %>% group_by(V1) %>% summarise(Cancelled)
-DT
-DT=as.data.table(hflights)
-setnames(DT,"Year","V1")
-DT %>% group_by(V1) %>% summarise(Cancelled)
-DT %>% group_by(V1) %>% filter(planes=max(planes))
-DT
-DT %>% group_by(V1) %>% filter(Canelled=max(Cancelled))
-library(dplyr)#
-DT <- as.data.table(hflights)#
-setnames(DT,"DayOfWeek","V1")
-DT
-DT %>% group_by(V1) %>% filter(ArrTime==max(ArrTime))
-DT %>% group_by(V1) %>% filter(n()==1)
-DT %>% group_by(V1) %>% summarise(ArrTime)
-DT %>% group_by(V1) %>% summarise(ArrTime,plane)
-DT %>% group_by(V1) %>% summarise(ArrTime,Month)
-library(dplyr)#
-DT <- as.data.table(hflights)#
-setnames(DT,"DayOfWeek","V1")#
-DT %>% group_by(V1) %>% summarise(ArrTime)
-?summarise
-summarise
-?quickdf
-library(dplyr)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-setnames(DT,"DayOfWeek","V1")
-DT %>% group_by(V1) %>% summarise(ArrTime)
-library(dplyr)#
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)
-setnames(DT,"DayOfWeek","V1")
-DT %>% group_by(V1) %>% summarise(ArrTime)
-DT %>% group_by(V1) %>% filter(ArrTime==1502)
-debug(filter)
-DT %>% group_by(V1) %>% filter(ArrTime==1502)
-call
-eval(call, env)
-DT1 <- DT %>% group_by(V1) %>% summarise(ArrTime)
-tabulate(DT1$V1)
-table(DT1$V1)
-library(dplyr)#
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-setnames(DT,"DayOfWeek","V1")#
-DT1 <- DT %>% group_by(V1) %>% filter(ArrTime==1502)
-DT1
-table(DT1$v1)
-table(DT1$V1)
-filter(ArrTime==1502)
-DT %>% filter(ArrTime==1502)
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-suppressMessages(library("magrittr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-library(devtools)#
-devtools::install_github("matthieugomez/stataR")
-DT[,v2:=v2-5w5]
-DT[,v2:=(v2-5w5)]
-DT[,v2:=v2-5e5]
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT[,v2:=v2-5e5]
-DT %>% edo(sum,"v*")
-suppressMessages(library(stataR))
-DT %>% edo(sum,"v*")
-options(mc.cores=4)
-DT %>% edo(sum,"v*")
-system.time(DT %>% edo(sum,"v*"))
-options(mc.cores=1)
-system.time(DT %>% edo(sum,"v*"))
-options(mc.cores=4)
-system.time(DT %>% edo(sum,"v*"))
-system.time(DT %>% edo(sum,"v*"),d=T)
-DT %>% edo(sum,"v*",d=T)
-kurtosis
-library(e1071)
-install.packages("kurtosis")
-library(e1071)
-install.packages("e1071")
-library(e1071)
-kurtosis(DT$v2)
-kurtosis(DT$v2)+3
-skewness(DT$v2)+3
-skewness(DT$v2)
-skewness(DT$v1)
-skewness(DT$v3)
-suppressMessages(library("magrittr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-library(devtools)#
-devtools::install_github("matthieugomez/stataR")#
-suppressMessages(library(stataR))#
-options(mc.cores=3)
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          #
-  v2 =  sample(1e6, N, TRUE),                       #
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) #
-)
-DT %>% eset(sort,c("v1","v2"))
-debug(eset)
-DT %>% eset(sort,c("v1","v2"))
-debug(idvars_q)
-debug(statar:::idvars_q)
-debug(stataR:::idvars_q)
-DT %>% eset(sort,c("v1","v2"))
-colsub
-id
-is.call(id)
-idvars_q=function(id,l){#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = as.character(id[[2L]])#
-    } else {#
-        idm = FALSE#
-        id <- as.character(id)#
+DT[FALSE,v1:=1]
+DT[FALSE,v5:=1]
+DT[FALSE,v5:=1]
+unique_name=function(prefix,env) {#
+    i <- 0L#
+    name <- prefix#
+    while (exists(prefix, env) {#
+        i <- i + 1L#
+        name =paste0(prefix, as.character(ii))#
     }#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-    return(idvars)#
-}
-idvars_q(id)
-idvars_q(id,names(DT))
-idvars_q(quote(c("v1"))
-)
-id=quote(c("v1"))
-is.call(id)
-id
-is.character(id)
-as.character(id)
-quote(id)
-l=quote(-id)
-l[[2]]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-idvars_q=function(id,l){#
-    if (is.call(id)) && (id[[1L]] == "-") {#
-        idm = TRUE#
-        id = id[[2L]]#
-    }#
-    else{#
-        idm = FALSE#
-    }#
-    id <- eval(id,parent.frame())#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-    return(idvars)#
+    name#
 }
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-idvars_q=function(id,l){#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = id[[2L]]#
+unique_name=function(prefix,env) {#
+    i <- 0L#
+    name <- prefix#
+    while (exists(prefix, env)) {#
+        i <- i + 1L#
+        name =paste0(prefix, as.character(ii))#
     }#
-    else{#
-        idm = FALSE#
-    }#
-    id <- eval(id,parent.frame())#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-    return(idvars)#
+    name#
 }
-idvars_q(quote(id),names(DT))
-names(DT)
-is.call(quote(id))
-debug(idvars_q)
-idvars_q(quote(id),names(DT))
-id
-id
-idvars_q(quote("id"),names(DT))
-id
-undebug(idvars_q)
-idvars_q(quote("id"),names(DT))
-idvars_q(quote(c("id","v1")),names(DT))
-idvars_q(-"v1",names(DT))
-idvars_q(quote(-"v1"),names(DT))
+DT
+unique_name("temp",DT)
+DT[,temp:=1]
+DT
+unique_name("temp",DT)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+unique_name=function(prefix,env) {#
+    i <- 0L#
+    name <- prefix#
+    while (exists(prefix, env)) {#
+        i <- i + 1L#
+        name =paste0(prefix, as.character(i))#
+    }#
+    name#
+}
+unique_name("temp",DT)

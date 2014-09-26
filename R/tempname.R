@@ -1,11 +1,11 @@
-tempname=function(l) {
-    maxTries <- 1e+06
-    ii <- 0L
-    while (ii < maxTries) {
-        name =paste0("temp",as.character(ii))
-        if (!name %in% l) {
-            return(name)
-        }
-        ii <- ii + 1L
+tempname=function(prefix, where, inherits=TRUE) {
+    i <- 0L
+    name <- prefix
+    while (exists(name, where = where, inherits = inherits)) {
+        i <- i + 1L
+        name <- paste0(prefix, as.character(i))
     }
+    name
 }
+
+
