@@ -28,7 +28,7 @@ DT %>% eset(keep, "v?")
 
 # edo (don't modify dataset)
 DT %>% edo(summarize, "v2")
-DT %>% edo(sum,"v*", d = TRUE)
+DT %>% edo(sum, "v*", d = TRUE)
 
 # epanel 
 DT <- data.table(
@@ -38,7 +38,7 @@ DT <- data.table(
 )
 DT %>% epanel(cols = "id", t = "date", L1.value)
 DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value")
-DT <- DT %>% epanel(cols = "id",t = "date", fill)
+DT <- DT %>% epanel(cols = "id", t = "date", fill)
 
 ## ejoin (creates new dataset)
 # datasets are sorted in place.
