@@ -1,8 +1,7 @@
 
-epanel <- function(DT,cols,time,fun,gen=func){
+epanel <- function(DT,cols,time,fun,gen=func,inplace = FALSE){
     if (!is.data.table(DT)){
-      setDT(DT)
-      message("Data.frame coerced to data.table")
+      message("Input is not a data.table")
     }
     func <- paste(as.character(substitute(fun)), collapse = "")
     timevar <- as.character(substitute(time))
@@ -23,6 +22,8 @@ epanel <- function(DT,cols,time,fun,gen=func){
     match <- stringr::str_match(func,"(L|F)([0-9]*)\\.(.*)")
      if (!is.na(match[1,1])){
         if (gen %in% names(DT)) stop(paste0(gen," already exists in the data.table"))
+        if (!inplace)    DT <- copy(DT
+        }
         valuevar <- match[1,4]
         DT1 <- DT[, c(colvars, timevar, valuevar), with = FALSE]
         if (match[1,2] == "L") operation <- "+" else operation <- "-"

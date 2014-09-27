@@ -19,14 +19,14 @@ DT <- data.table(
   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
 )
 
-# eset (modify dataset)
+# eset (set of commands that modify dataset)
 DT %>% eset(order, cols = "v*")
 DT %>% eset(sort, c("v1", "v2"))
 DT %>% eset(rename, "v1", "v11")
 DT %>% eset(keep, -"id*")
 DT %>% eset(keep, "v?")
 
-# edo (don't modify dataset)
+# edo
 DT %>% edo(summarize, "v2")
 DT %>% edo(sum, "v*", d = TRUE)
 
@@ -36,11 +36,11 @@ DT <- data.table(
   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% epanel(cols = "id", t = "date", L1.value)
-DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value")
+DT <- DT %>% epanel(cols = "id", t = "date", L1.value, inplace = FALSE)
+DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
 DT <- DT %>% epanel(cols = "id", t = "date", fill)
 
-## ejoin (creates new dataset)
+## ejoin 
 # datasets are sorted in place.
 # the command merges on common names between the two datasets and creates a new dataset.
 # the option m:m creates multiple rows for multiple matches, similar to Stata joinby. 
