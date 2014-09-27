@@ -1,3 +1,223 @@
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+DT[,id1:=4] %>% mutate(m=mean(id))
+call
+library(dplyr)
+DT[,id1:=4] %>% mutate(m=mean(id))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT[,id1:=4] %>% mutate(m=mean(id))
+library(dplyr)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% DT[,mean(id)]
+DT %>% mutate(mean(id))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT %>% mutate(mean(id))
+library(dplyr)
+DT %>% mutate(mean(id))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+DT %>% mutate(mean(id))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate(mean(id))
+DT %>% mutate(mean(cols))
+f=function(x){y<-1g(x)}#
+g=function(x){eval(x)}
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}#
+#
+f(quote(y))
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}#
+f(quote(y))
+debug(g)
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){eval(x)}#
+f(quote(y))
+debug(g)
+f(quote(y))
+x
+eval(y)
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}#
+f(quote(y))
+y<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}
+y<-3#
+f=function(x){g(x)}#
+g=function(x){y<-1; eval(x)}
+f(quote(y))
+y<-3#
+    z<-3#
+    f=function(x){y<-1; g(x)}#
+    g=function(x){z<-1; eval(x)}#
+    f(quote(y))#
+    f(quote(z))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}#
+f(quote(z))
+f(quote(y))
+g(quote(z)
+)
+g(quote(z))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}#
+f(quote(z))
+f(quote(y))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; print(x)}
+g(quote(z))
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(w){z<-1; eval(w)}
+f(quote(z))
+f(quote(y))
+y<-3#
+z<-3#
+f=function(x){x<-1; g(x)}#
+g=function(x){z<-1; eval(x)}
+f(quote(y))
+f(quote(z))
+y<-3#
+z<-3#
+f=function(){y<-1; g(x)}#
+g=function(){z<-1; print(x)}
+f()
+y<-3#
+z<-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; print(x)}
+f(z)
+y<-3#
+x <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}
+f()
+f(quote(y))
+f(quote(x))
+y<-3#
+x <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){y<-1; eval(x)}
+f()
+y<-3#
+z <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval(x)}#
+f(quote(y))#
+f(quote(z))
+y<-1
+f(quote(y))
+y<-3#
+z <-3#
+f=function(x){y<-1; g(x)}#
+g=function(x){z<-1; eval	x <-5#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g(x)#
+	}#
+	g=function(x){#
+		print(a)#
+	}(x)}#
+f(quote(y))#
+f(quote(z))
+x <-5#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g(x)#
+	}#
+	g=function(x){#
+		print(a)#
+	}
+f(5)
+a <-5#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g()#
+	}#
+	g=function(){#
+		print(a)#
+	}#
+	f(1)
+a <-3#
+	f=function(y){#
+		print(a)#
+		a <-5#
+		print(a)#
+		g()#
+	}#
+	g=function(){#
+		print(a)#
+	}#
+	f()
+a<-6#
+	f()
+library(dplyr)
+DT
+DT %>% mutate(mean(v1))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT %>% mutate(mean(v1))
+debug(mutate.data.table)
+debug(dplyr::mutate.data.table)
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+debug(dplyr::mutate.data.table)
+DT %>% mutate(mean(v1))
+library(dplyr)
+DT %>% mutate(mean(v1))
 traceback()
 DT
 DT=setDT(DT)
@@ -637,1382 +857,391 @@ as.data.table(mtcars) %>% mutate(mean(2))#
 mtcars %>% mutate(mean(2))
 ?mutate
 install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-unique_name=function(prefix,env) {#
-    i <- 0L#
-    name <- prefix#
-    while (exists(name, env)) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-N=1e6; K=100#
-set.seed(1)#
+library(statar)
+?edo
+N <- 100; K <- 10#
 DT <- data.table(#
   id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2")#
+DT %>% edo(sum, "v*", d = TRUE)
 library(data.table)
-unique_name("temp",DT)
-N=1e6; K=100#
-set.seed(1)#
+N <- 100; K <- 10#
 DT <- data.table(#
   id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-unique_name("temp",DT)
-DT[,temp:=1]
-unique_name("temp",DT)
-temp="ok"
-DT
-DT[,temp:=NULL]
-DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-tempname=function(prefix,env) {#
-    i <- 0L#
-    name <- prefix#
-    while (exists(name, env)) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-tempname("temp",DT)
-?exists
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-tempname=function(prefix,env,inherits=TRUE) {#
-    i <- 0L#
-    name <- prefix#
-    while (exists(name, env,inherits)) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-tempname("temp",DT)
-tempname("temp",DT,inherits=FALSE)
-DT
-tempname("temp",DT,inherits=FALSE)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-tempname=function(prefix,envir = env,inherits=TRUE) {#
-    i <- 0L#
-    name <- prefix#
-    while (exists(name, envir = env,inherits = inherits)) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-tempname("temp",DT,inherits=FALSE)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-tempname=function(prefix,envir,inherits=TRUE) {#
-    i <- 0L#
-    name <- prefix#
-    while (exists(name, envir = env,inherits = inherits)) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-tempname("temp",DT,inherits=FALSE)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-tempname=function(prefix,envir,inherits=TRUE) {#
-    i <- 0L#
-    name <- prefix#
-    while (exists(name, envir = envir,inherits = inherits)) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-tempname("temp",DT,inherits=FALSE)
-exists("temp",DT)
-exists("temp",envir=DT)
-?exists
-exists("temp",frame=DT)
-exists("temp",where=DT)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-tempname=function(prefix, where, inherits=TRUE) {#
-    i <- 0L#
-    name <- prefix#
-    while (exists(name, where = where, inherits = inherits)) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-exists("temp",where=DT)
-exists("temp",where=DT,inherits=TRUE)
-tempname("temp",DT)
-tempname("temp",DT)
-tempname("temp",names(DT))
-tempname("temp",as.list(names(DT)))
-tempname("temp",names(DT))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-tempname_list=function(prefix, l) {#
-    i <- 0L#
-    name <- prefix#
-    while (name %in% l) {#
-        i <- i + 1L#
-        name <- paste0(prefix, as.character(i))#
-    }#
-    name#
-}
-tempname_list("temp",names(DT))
-DT[,temp:=1]
-tempname_list("temp",names(DT))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, all= FALSE, all.x=all, all.y=all, nogen=FALSE, gen="merge"){#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-if (!nogen){#
-    idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-    DTm1[, c(idm) := 1L]#
-    idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-    DTu1[, c(idu) := 1L]#
-}#
-  DT_output <- merge(DTm1, DTu1, all= all, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-df1 = data.frame(CustomerId=c(1:6),Product=c(rep("Toaster",3),rep("Radio",3)))#
-df2 = data.frame(CustomerId=c(2,4,6),State=c(rep("Alabama",2),rep("Ohio",1)))
-ejoin(df1,df2,1:1)
-library(string)
-library(stringr)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, all= FALSE, all.x=all, all.y=all, nogen=FALSE, gen="merge"){#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-if (!nogen){#
-    idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-    DTm1[, c(idm) := 1L]#
-    idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-    DTu1[, c(idu) := 1L]#
-}#
-  DT_output <- merge(DTm1, DTu1, all= all, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, all= FALSE, all.x=all, all.y=all, nogen=FALSE, gen="merge"){#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-if (!nogen){#
-    idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-    DTm[, c(idm) := 1L]#
-    idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-    DTu[, c(idu) := 1L]#
-}#
-  DT_output <- merge(DTm, DTu, all= all, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1)
-df1
-df2
-ejoin(df1,df2,1:1,all=TRUE)
-?merge
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, all = TRUE, all.x = all, all.y = all, nogen=FALSE, gen="merge"){#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-if (!nogen){#
-    idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-    DTm[, c(idm) := 1L]#
-    idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-    DTu[, c(idu) := 1L]#
-}#
-  DT_output <- merge(DTm, DTu, all= all, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1,all=TRUE)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-if (!nogen){#
-    idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-    DTm[, c(idm) := 1L]#
-    idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-    DTu[, c(idu) := 1L]#
-}#
-  DT_output <- merge(DTm, DTu, all= all, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  print(keep)#
-}
-ejoin(df1,df2,1:1,all=TRUE)
-ejoin(df1,df2,1:1)
-?merge
-?merge
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if !(keep %in% c("master","matched","using")){#
-    stop(`keep must be a character vector of the form c("master","matched","using")`)#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if !(matched %in% keep){#
-     DT_output <- DT_output[idm == 1L & idu == 1L]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if !(keep %in% c("master","matched","using")){#
-    stop(`keep must be a character vector of the form c("master","matched","using")`)#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if !(keep %in% c("master","matched","using")){#
-    stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  }#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (!keep %in% c("master","matched","using")){#
-    stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  }#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (!keep %in% c("master","matched","using")){#
-    stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  }#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if !(matched %in% keep){#
-     DT_output <- DT_output[idm == 1L & idu == 1L]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (!keep %in% c("master","matched","using")){#
-    stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  }#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!matched %in% keep){#
-     DT_output <- DT_output[idm == 1L & idu == 1L]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (!keep %in% c("master","matched","using")){#
-    stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  }#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!matched %in% keep){#
-     DT_output <- DT_output[idm ~= 1L | idu ~= 1L]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (!keep %in% c("master","matched","using")){#
-    stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  }#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!matched %in% keep){#
-     DT_output <- DT_output[!(idm == 1L | idu == 1L)]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1)
-c("master", "matched", "using") %in%  c("master", "matched", "using")
-c("master", "matched", "using") %in%  c("master", "matched", "using")
-setdiff(c("master", "matched",  c("master", "matched", "using"))
-)
-setdiff(c("master", "matched"),  c("master", "matched", "using"))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (!length(setdiff(keep,c("master","matched","using")))    stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!"matched" %in% keep){#
-     DT_output <- DT_output[!(idm == 1L | idu == 1L)]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (!length(setdiff(keep,c("master","matched","using")))) stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!"matched" %in% keep){#
-     DT_output <- DT_output[!(idm == 1L | idu == 1L)]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (length(setdiff(keep,c("master","matched","using")))) stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!"matched" %in% keep){#
-     DT_output <- DT_output[!(idm == 1L | idu == 1L)]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-    eval(substitute(print(table(DT_output$v)), list(v= as.name(gen))))#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (length(setdiff(keep,c("master","matched","using")))) stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!"matched" %in% keep){#
-     DT_output <- DT_output[!(idm == 1L | idu == 1L)]#
-   }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1)
-ejoin(df1,df2,1:1,keep="master")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (length(setdiff(keep,c("master","matched","using")))) stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!"matched" %in% keep){#
-     eval(substitute(DT_output <- DT_output[!(v1 == 1L | v2 == 1L)],list(v1=as.name(idm),v2=as.name(idu))))#
-  }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1,keep="master")
-ejoin(df1,df2,1:1)
-df1
-df2
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){#
-  all.x <- FALSE#
-  all.y <- FALSE#
-  if (length(setdiff(keep,c("master","matched","using")))) stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")#
-  if ("master" %in% keep){#
-    all.x = TRUE#
-  }#
-  if ("using" %in% keep){#
-    all.y = TRUE#
-  }#
-  if (!is.data.table(DTm)){#
-    setDT(DTm)#
-    message("Master coerced to data.table")#
-  }#
-  if (!is.data.table(DTu)){#
-    setDT(DTu)#
-    message("Using coerced to data.table")#
-  }#
-#
-  typec <- paste(as.character(substitute(type)), collapse = "")#
-  if (!nogen){#
-    if (gen %chin% names(DTm)){#
-      stop(paste0(gen," alreay exists in master"))#
-    }#
-    if (gen %chin% names(DTu)){#
-      stop(paste0(gen," alreay exists in using"))#
-    }#
-  }#
-#
-  var=intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  match <- stringr::str_match(typec,":(1|m)(1|m)")#
-  if (is.na(match[1,1])) stop("Third argument must be 1:1,1:m, m:1 or m:m")#
-  if (match[1,2] == "1"){#
-    if (anyDuplicated(DTm)){ #
-      stop("Variables don't uniquely identify observations in the master dataset")#
-    }#
-  }#
-#
-  if (match[1,3] == "1"){#
-    if (anyDuplicated(DTu)){ #
-      stop("Variables don't uniquely identify observations in the using dataset")#
-    }#
-  }#
-#
-  setkeyv(DTm, cols = var)#
-  setkeyv(DTu, cols = var)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(var, collapse = " ")))#
-#
-  idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-  DTm[, c(idm) := 1L]#
-  idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-  DTu[, c(idu) := 1L]#
-#
-  DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-  if (!"matched" %in% keep){#
-     eval(substitute(DT_output <- DT_output[!(v1 == 1L & v2 == 1L)],list(v1=as.name(idm),v2=as.name(idu))))#
-  }#
-#
-  if (!nogen){#
-    DT_output[, c(gen) := 3L]#
-    eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))#
-    eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))#
-    DT_output[, c(idm) := NULL]#
-    DT_output[, c(idu) := NULL]#
-    DTm[, c(idm) := NULL]#
-    DTu[, c(idu) := NULL]#
-  }#
-  DT_output#
-}
-ejoin(df1,df2,1:1)
-ejoin(df1,df2,1:1,keep="matched")
-f=function(DT){setkeyv(DT,"CustomerId");DT[,c(ok):=1]}
-f(df1)
-f=function(DT,ok){setkeyv(DT,"CustomerId");DT[,c(ok):=1]}
-f(df1,"ok")
-f=function(DT,ok){DT[,c(ok):=1]}
-f(df1,"ok")
-f=function(DT,v){eval(substitute(DT[,c(v):=1],list(v=as.name(x))))}
-f(df1,"ok")
-f=function(DT,x){eval(substitute(DT[,c(v):=1],list(v=as.name(x))))}
-f(df1,"ok")
-f=function(DT,x){eval(substitute(DT[,v:=1],list(v=as.name(x))))}
-f(df1,"ok")
-DT
-f=function(DT){DT[,ok:=1]}
-f(DT)
-f=function(DT,ok){DT[,c(ok):=1]}
-f(df1,"ok")
-f(DT,"ok")
-df1
-f(df1,"ok")
-df1 = data.frame(CustomerId=c(1:6),Product=c(rep("Toaster",3),rep("Radio",3)))
-f=function(df,x){setDT(df)}
-f(df1)
-df1
-is.data.table(df1)
-df1[,ok:=1]
-library(data.table)#
-df=data.frame(id = 1:10)#
-f=function(df){setDT(df)}#
-df1[, temp := 1]
-library(data.table)#
-df=data.frame(id = 1:10)#
-f=function(df){setDT(df)}#
-f(df)#
-df[,temp:=1]
-library(data.table)#
-    df=data.frame(id = 1:10)#
-    setDT(df)#
-    f(df)#
-    df[,temp:=1]
-library(data.table)#
-df=data.frame(id = 1:10)#
-f=function(df){setDT(df)}#
-f(df)
-df[,temp:=1]
-github
-sessionInfo()
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2")#
+DT %>% edo(sum, "v*", d = TRUE)
+library(dplyr)
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2")#
+DT %>% edo(sum, "v*", d = TRUE)
+devtools:document("/Users/Matthieu/Dropbox/Github/statar-package"_
+devtools:document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2")#
+DT %>% edo(sum, "v*", d = TRUE)
 library(data.table)
-library(data.table)#
-df=data.frame(id = 1:10)#
-f=function(df){setDT(df)}#
-f(df)
-df[,temp:=1]
-library(data.table)#
-df=data.frame(id = 1:10)#
-f=function(df){setDT(df)}#
-f(df)#
-df[, temp := 1]
-ejoin(df1,df2,1:1,keep="master")
-ejoin(df1,df2,1:1,keep="master matched")
-ejoin(df1,df2,1:1,keep=c("master","matched"))
-ejoin(df1,df2,1:1,keep=c("using","matched"))
-ejoin(df1,df2,1:1,keep=c("matched"))
-tempname
-exists
-?exists
-tempname <- tempname("temp", globalenv())
+library(dplyr)
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2")#
+DT %>% edo(sum, "v*", d = TRUE)
+lazyeval
+edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
+  if (!is.data.table(DT)){#
+    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
+  }#
+  cmdc=as.character(substitute(cmd))#
+  cmdc <-match.arg(cmdc,c("summarize"))#
+  options=eval(substitute(alist(...)))#
+  colsub = substitute(cols)#
+  colvars = idvars_q(colsub,names(DT))#
+  bysub <- substitute(by)#
+  byvars <- idvars_q(bysub,names(DT))#
+  if (cmdc=="summarize"){#
+      eval(substitute(invisible(DT[i,describe(.SD,...),by = byvars,.SDcols=colvars])))#
+  }#
+}
+edo(DT,sum,by="id1")
+idvars_q=function(id,l){#
+    if (is.call(id) && id[[1L]] == "-") {#
+        idm = TRUE#
+        id = id[[2L]]#
+    }#
+    else{#
+        idm = FALSE#
+    }#
+    id <- eval(id,parent.frame())#
+    if (!is.character(id)) stop("ids should be column numbers or names")#
+    if (any(is.na(id))) stop("Some items of ids are NA)")#
+    if (any(!id %chin%  l)){#
+        #try wildcard #
+        if (length(id) !=1L) stop("Some items of ids are not column names")#
+        id_vector <- strsplit(id, "\\s+")[[1]]#
+        id=NULL#
+         for (c in id_vector){#
+            temp <- grep(glob2rx(c),l,value=TRUE)#
+            if (!length(temp)) stop("Some items of ids are not column names")#
+            id <- c(id,temp)#
+        }#
+    }#
+    if (idm) idvars = setdiff(l, id) else idvars = id#
+    return(idvars)#
+}
+edo(DT,sum,by="id1")
+debug(edo)
+edo(DT,sum,by="id1")
+bysub
+DT
+edo(DT,sum,by="id")
+edo(DT,sum)
+bysub
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
+  if (!is.data.table(DT)){#
+    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
+  }#
+  cmdc=as.character(substitute(cmd))#
+  cmdc <-match.arg(cmdc,c("summarize"))#
+  options=eval(substitute(alist(...)))#
+  colsub = substitute(cols)#
+  colvars = idvars_q(colsub,names(DT))#
+  bysub <- substitute(by)#
+  byvars <- NULL#
+  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
+  if (cmdc=="summarize"){#
+      eval(substitute(invisible(DT[i,describe(.SD,...),by = byvars,.SDcols=colvars])))#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
+  if (!is.data.table(DT)){#
+    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
+  }#
+  cmdc=as.character(substitute(cmd))#
+  cmdc <-match.arg(cmdc,c("summarize"))#
+  options=eval(substitute(alist(...)))#
+  colsub = substitute(cols)#
+  colvars = idvars_q(colsub,names(DT))#
+  bysub <- substitute(by)#
+  byvars <- NULL#
+  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
+  if (cmdc=="summarize"){#
+      eval(substitute(invisible(DT[i,describe(.SD,...),by = byvars,.SDcols=colvars])))#
+  }#
+}
+edo(DT,sum,by="id1")
+edo(DT,sum,by="id")
+debug(edo)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
+  if (!is.data.table(DT)){#
+    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
+  }#
+  cmdc=as.character(substitute(cmd))#
+  cmdc <-match.arg(cmdc,c("summarize"))#
+  options=eval(substitute(alist(...)))#
+  colsub = substitute(cols)#
+  colvars = idvars_q(colsub,names(DT))#
+  bysub <- substitute(by)#
+  byvars <- NULL#
+  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
+  if (cmdc=="summarize"){#
+      eval(substitute(invisible(DT[i,describe(.SD,...), by = byvars, .SDcols = colvars])))#
+  }#
+}
+debug(edo)
+edo(DT,sum,by="id")
+cmdc
+substitute(invisible(DT[i, describe(.SD, ...), by = byvars, #
+        .SDcols = colvars]))
+DT[NULL, describe(.SD), by = "id", .SDcols = c("id", #
+"v1", "v2", "v3")])
+DT[NULL, describe(.SD), by = "id", .SDcols = c("id", #
+"v1", "v2", "v3")]
+DT[, describe(.SD), by = "id", .SDcols = c("id", #
+"v1", "v2", "v3")]
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores", 2L)){#
+  # import from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+      x.original <- x#
+      first.part <- ""#
+      if (is.na(x) | is.null(x)) {#
+          return("")#
+      }#
+      if (simply.output == TRUE) {#
+          if (!is.numeric(x)) {#
+              return(.remove.special.chars(x))#
+          }#
+      }#
+      if (x.original < 0) {#
+          x <- abs(x)#
+      }#
+      if (!is.na(decimal.places)) {#
+          if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+              0)) {#
+              round.result <- round(x, digits = decimal.places)#
+          }#
+          else {#
+              temp.places <- decimal.places#
+              if (!.is.all.integers(x)) {#
+                while ((round(x, digits = temp.places) == 0) & #
+                  (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                  temp.places <- temp.places + 1#
+                }#
+              }#
+              round.result <- round(x, digits = temp.places)#
+              decimal.places <- temp.places#
+          }#
+          if ((round.up.positive == TRUE) & (round.result < #
+              x)) {#
+              if (x > (10^((-1) * (decimal.places + 1)))) {#
+                round.result <- round.result + 10^((-1) * decimal.places)#
+              }#
+              else {#
+                round.result <- 0#
+              }#
+          }#
+      }#
+      else {#
+          round.result <- x#
+      }#
+      round.result.char <- as.character(format(round.result, #
+          scientific = FALSE))#
+      split.round.result <- unlist(strsplit(round.result.char, #
+          "\\."))#
+      for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+          if (.format.digit.separator.where[i] <= 0) {#
+              .format.digit.separator.where[i] <<- -1#
+          }#
+      }#
+      separator.count <- 1#
+      length.integer.part <- nchar(split.round.result[1])#
+      digits.in.separated.unit <- 0#
+      for (i in seq(from = length.integer.part, to = 1)) {#
+          if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+              (substr(split.round.result[1], i, i) != "-")) {#
+              first.part <- paste(.format.digit.separator, #
+                first.part, sep = "")#
+              if (separator.count < length(.format.digit.separator.where)) {#
+                separator.count <- separator.count + 1#
+              }#
+              digits.in.separated.unit <- 0#
+          }#
+          first.part <- paste(substr(split.round.result[1], #
+              i, i), first.part, sep = "")#
+          digits.in.separated.unit <- digits.in.separated.unit + #
+              1#
+      }#
+      if (x.original < 0) {#
+          if (.format.dec.mark.align == TRUE) {#
+              first.part <- paste("-", first.part, sep = "")#
+          }#
+          else {#
+              first.part <- paste("$-$", first.part, sep = "")#
+          }#
+      }#
+      if (!is.na(decimal.places)) {#
+          if (decimal.places <= 0) {#
+              return(first.part)#
+          }#
+      }#
+      if (.format.initial.zero == FALSE) {#
+          if ((round.result >= 0) & (round.result < 1)) {#
+              first.part <- ""#
+          }#
+      }#
+      if (length(split.round.result) == 2) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+          if (nchar(split.round.result[2]) < decimal.places) {#
+              decimal.part <- split.round.result[2]#
+              for (i in seq(from = 1, to = (decimal.places - #
+                nchar(split.round.result[2])))) {#
+                decimal.part <- paste(decimal.part, "0", sep = "")#
+              }#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          else {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+      }#
+      else if (length(split.round.result) == 1) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          decimal.part <- ""#
+          for (i in seq(from = 1, to = decimal.places)) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+          }#
+          return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+      }#
+      else {#
+          return(NULL)#
+      }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+#
+  if (details==FALSE) {#
+   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a,mean(x,na.rm=na.rm),sd(x,na.rm= na.rm),quantile(x,c(0,1),type=1,na.rm=na.rm))}))#
+    sum <- as.matrix(sum_mean)#
+    rownames(sum) <-  c("Rows","N","Mean","Sd","Min","Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    sum_mean <- colMeans(M ,na.rm=na.rm)#
+    f=function(x,m){#
+      sum_higher <- colMeans(DT[,list((x-m)^2,(x-m)^3,(x-m)^4)],na.rm=na.rm)#
+      sum_higher[1] <- sqrt(sum_higher[1])#
+      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+   # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- stringr::str_replace(y,"0+$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- stringr::str_replace(y,"\\.$","")#
+      y <- stringr::str_replace(y,"-0","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  print(noquote(format(print,justify="right")),right=TRUE)#
+}
+DT[, describe(.SD), by = "id", .SDcols = c("id", #
+"v1", "v2", "v3")]
+?data.table
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+edo=function(DT,cmd,cols=names(DT),...,i = TRUE,by = NULL){#
+  if (!is.data.table(DT)){#
+    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
+  }#
+  cmdc=as.character(substitute(cmd))#
+  cmdc <-match.arg(cmdc,c("summarize"))#
+  options=eval(substitute(alist(...)))#
+  colsub = substitute(cols)#
+  colvars = idvars_q(colsub,names(DT))#
+  bysub <- substitute(by)#
+  byvars <- NULL#
+  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
+  if (cmdc=="summarize"){#
+      eval(substitute(invisible(DT[i,describe(.SD,...), by = byvars, .SDcols = colvars])))#
+  }#
+}
+edo(DT,sum,by="id")
+DT %>% edo(sum, "v*", d = TRUE,i= v1==1,by="v1")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+?edo
+library(statar)
+?edo
+?eset
+devtools::install_github("matthieugomez/statar")
