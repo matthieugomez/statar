@@ -4,7 +4,7 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
   if (convert) {
      ordered[] <- lapply(ordered, type.convert, as.is = TRUE)
    }
-  data2 <- data.table.dcast(DT, formula)
+  data2 <- dcast.data.table(DT, formula)
   data2
 }
 
