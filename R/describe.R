@@ -193,7 +193,7 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
     }
     y
   })
-  print(noquote(format(print,justify="right")),right=TRUE,row.names=F)
+  print(noquote(format(print,justify="right")),right=TRUE,row.names=FALSE)
 }
 
 
