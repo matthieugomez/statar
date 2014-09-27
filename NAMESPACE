@@ -1,5 +1,5 @@
 import(data.table)
-import(stringr)
+import(dplyr)
 export(eset)
 export(edo)
 export(epanel)
