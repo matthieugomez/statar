@@ -28,20 +28,22 @@ DT %>% eset(keep, "v?")
 DT %>% edo(summarize, "v2")
 DT %>% edo(sum, "v*", d = TRUE)
 
-# epanel 
+# expand 
 DT <- data.table(
  id = c(1, 1, 1, 1, 1, 2, 2),
  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT <- DT %>% epanel(cols = "id", t = "date", L1.value)
-DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
-DT <- DT %>% epanel(cols = "id", t = "date", fill)
+DT <- DT %>% group_by(id) %>% expand(date)
+DT <- DT %>% expand(date)
 
 ## ejoin 
 ejoin(DTm, DTu, m:1)
 ejoin(DTm, DTu, type = 1:1, keep = "matched", gen = "_merge")
 ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
+
+## tidyr::spread is rewritten to use dcast.data.table, when applied to data.tables making it more efficient
+
 
 # tempname creates a name not assigned in the environment specified by the second variable
 tempvar <- tempname("temp", DT)

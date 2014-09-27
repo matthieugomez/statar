@@ -1,22 +1,22 @@
-#' Set of commands for panel data 
-#' 
-#' @param DT A data.table.
-#' @param cols A character vector corresponding to the panel id
-#' @param time A character vector corresponding to time
-#' @param cmd Commmand to use. Can be of the form L3.varlue or fill
-#' @param inplace A boolean that specifies whether the dataset should be modified in place or not (option is only available wheb creating lagged/forward variables)
-#' @examples
-#' library(data.table)
-#' library(dplyr)
-#' DT <- data.table(
-#'  id = c(1, 1, 1, 1, 1, 2, 2), 
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-#')
-#' DT <- DT %>% epanel(cols = "id", t = "date", L1.value, inplace = FALSE)
-#' DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
-#' DT <- DT %>% epanel(cols = "id", t = "date", fill)
-#' @export
+# Set of commands for panel data 
+# 
+# @param DT A data.table.
+# @param cols A character vector corresponding to the panel id
+# @param time A character vector corresponding to time
+# @param cmd Commmand to use. Can be of the form L3.varlue or fill
+# @param inplace A boolean that specifies whether the dataset should be modified in place or not (option is only available wheb creating lagged/forward variables)
+# @examples
+# library(data.table)
+# library(dplyr)
+# DT <- data.table(
+#  id = c(1, 1, 1, 1, 1, 2, 2), 
+#  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
+#  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+#)
+# DT <- DT %>% epanel(cols = "id", t = "date", L1.value, inplace = FALSE)
+# DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
+# DT <- DT %>% epanel(cols = "id", t = "date", fill)
+# @export
 epanel <- function(DT, cols, time, cmd, gen = cmdc, inplace = FALSE){
     if (!is.data.table(DT)){
       message("Input is not a data.table")
