@@ -10,12 +10,10 @@ ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen
     all.y = TRUE
   }
   if (!is.data.table(DTm)){
-    setDT(DTm)
-    message("Master coerced to data.table")
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))
   }
   if (!is.data.table(DTu)){
-    setDT(DTu)
-    message("Using coerced to data.table")
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))
   }
 
   typec <- paste(as.character(substitute(type)), collapse = "")
