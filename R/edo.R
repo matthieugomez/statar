@@ -3,7 +3,10 @@
 #' @param DT A data.table.
 #' @param cmd  One stata commandout of the following: summarize. Abbreviations are accepted.
 #' @param cols A character vector of columns on which to apply the command.
-#' @param ... Options to pass to the datata command.
+#' @param ... Options to pass to the stata command.
+#' @param i Apply commands on certain rows
+#' @param by Apply commands within groups
+
 #' @examples
 #' library(data.table)
 #' library(dplyr)
@@ -17,7 +20,7 @@
 #' DT %>% edo(summarize, "v2")
 #' DT %>% edo(sum, "v*", d = TRUE)
 #' @export
-edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){
+edo=function(DT,cmd,cols=names(DT),...,i = TRUE,by = NULL){
   if (!is.data.table(DT)){
     stop(paste0("First argument is not a data.table. Convert it first using setDT()"))
   }
@@ -26,7 +29,10 @@ edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){
   options=eval(substitute(alist(...)))
   colsub = substitute(cols)
   colvars = idvars_q(colsub,names(DT))
+  bysub <- substitute(by)
+  byvars <- NULL
+  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}
   if (cmdc=="summarize"){
-      eval(substitute(invisible(DT[,describe(.SD,d),.SDcols=colvars,...])))
+      eval(substitute(invisible(DT[i,describe(.SD,...), by = byvars, .SDcols = colvars])))
   }
 }

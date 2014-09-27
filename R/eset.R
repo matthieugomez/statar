@@ -20,7 +20,7 @@
 #' DT %>% eset(keep, -"id*")
 #' DT %>% eset(keep, "v?")
 #' @export
-eset=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){
+eset=function(DT,cmd,cols=names(DT),...){
   if (!is.data.table(DT)){
     stop(paste0("First argument is not a data.table. Convert it first using setDT()"))
   }
