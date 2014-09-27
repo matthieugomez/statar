@@ -11,6 +11,13 @@ Syntax is close to Stata:
 Examples:
 ````R
 # edo: stata commands that modify dataset
+N <- 100; K <- 10
+DT <- data.table(
+  id = 1:N,
+  v1 =  sample(5, N, TRUE),
+  v2 =  sample(1e6, N, TRUE),
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
+)
 DT %>% eset(order, cols = "v*")
 DT %>% eset(sort, c("v1", "v2"))
 DT %>% eset(rename, "v1", "v11")
@@ -22,9 +29,14 @@ DT %>% edo(summarize, "v2")
 DT %>% edo(sum, "v*", d = TRUE)
 
 # epanel 
+DT <- data.table(
+ id = c(1, 1, 1, 1, 1, 2, 2),
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+)
 DT <- DT %>% epanel(cols = "id", t = "date", L1.value)
-DT <- DT %>% epanel(cols = "id", t = "date", fill)
 DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
+DT <- DT %>% epanel(cols = "id", t = "date", fill)
 
 ## ejoin 
 ejoin(DTm, DTu, m:1)
