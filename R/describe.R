@@ -158,8 +158,7 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
   if (details==FALSE) {
    sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a,mean(x,na.rm=na.rm),sd(x,na.rm= na.rm),quantile(x,c(0,1),type=1,na.rm=na.rm))}))
     sum <- as.matrix(sum_mean)
-    sum <- cbind(c("Rows","N","Mean","Sd","Min","Max"),sum)
-    rownames(sum) <- NULL
+    rownames(sum) <-  c("Rows","N","Mean","Sd","Min","Max")
 
   } else {
     N <- nrow(M)
@@ -174,8 +173,7 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
       sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)
     }
     sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))
-    sum <- cbind(c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max"),sum)
-    rownames(sum) <- NULL
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
   print <- apply(sum,c(1,2),
@@ -186,14 +184,14 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
       if (y==""){
         y <- "0"
       }
-      y <- str_replace(y,"\\.$","")
-      y <- str_replace(y,"-0","0")
+      y <- stringr::str_replace(y,"\\.$","")
+      y <- stringr::str_replace(y,"-0","0")
     } else{
       y <- x
     }
     y
   })
-  print(noquote(format(print,justify="right")),right=TRUE,row.names=FALSE)
+  print(noquote(format(print,justify="right")),right=TRUE)
 }
 
 
