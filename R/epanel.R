@@ -36,18 +36,22 @@ epanel <- function(DT, cols, time, cmd, gen = cmdc, inplace = FALSE){
         setnames(ans, c(colvars, timevar))
         setkeyv(ans, c(colvars, timevar))
         return(DT[ans])
-    }
-    match <- stringr::str_match(cmdc,"(L|F)([0-9]*)\\.(.*)")
-     if (!is.na(match[1,1])){
-        if (gen %in% names(DT)) stop(paste0(gen," already exists in the data.table"))
-        if (!inplace) DT <- copy(DT)
-        valuevar <- match[1,4]
-        DT1 <- DT[, c(colvars, timevar, valuevar), with = FALSE]
-        if (match[1,2] == "L") operation <- "+" else operation <- "-"
-        operation <- parse(text=paste0(timevar, operation, match[1,3]))
-        DT1[,(timevar) := eval(operation)]
-        DT[DT1,(gen) := eval(parse(text=paste0("i.", valuevar)))]
-        if (!gen %chin% names(DT)) DT[, (gen) := NA]
+    } else{
+        match <- stringr::str_match(cmdc,"(L|F)([0-9]*)\\.(.*)")
+        if (!is.na(match[1,1])){
+            if (gen %in% names(DT)) stop(paste0(gen," already exists in the data.table"))
+            if (!inplace) DT <- copy(DT)
+            valuevar <- match[1,4]
+            DT1 <- DT[, c(colvars, timevar, valuevar), with = FALSE]
+            if (match[1,2] == "L") operation <- "+" else operation <- "-"
+            operation <- parse(text=paste0(timevar, operation, match[1,3]))
+            DT1[,(timevar) := eval(operation)]
+            DT[DT1,(gen) := eval(parse(text=paste0("i.", valuevar)))]
+            if (!gen %chin% names(DT)) DT[, (gen) := NA]
+            return(DT)
+        } else {
+            stop("command not found")
+        }
     }
 }
 
