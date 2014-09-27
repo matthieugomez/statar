@@ -1,9 +1,12 @@
 #' Set of Stata commands that modify datasets
+#'
 #' @param DT A data.table.
 #' @param cmd  One stata commandout of the following: sort, order, rename, keep, drop. Abbreviations are accepted.
 #' @param cols A character vector of columns on which to apply the command.
 #' @param ... Options to pass to the datata command.
 #' @examples
+#' library(data.table)
+#' library(dplyr)
 #' N <- 100; K <- 10
 #' DT <- data.table(
 #'   id = 1:N,
@@ -17,7 +20,7 @@
 #' DT %>% eset(keep, -"id*")
 #' DT %>% eset(keep, "v?")
 #' @export
-eset=function(DT,fun,cols=names(DT),...,i=NULL,by=NULL){
+eset=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){
   if (!is.data.table(DT)){
     stop(paste0("First argument is not a data.table. Convert it first using setDT()"))
   }

@@ -20,6 +20,8 @@ epanel(DT, cols, time, cmd, gen = cmdc, inplace = FALSE)
 Set of commands for panel data
 }
 \examples{
+library(data.table)
+library(dplyr)
 DT <- data.table(
  id = c(1, 1, 1, 1, 1, 2, 2),
  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),

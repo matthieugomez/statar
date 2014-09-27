@@ -6,6 +6,8 @@
 #' @param cmd Commmand to use. Can be of the form L3.varlue or fill
 #' @param inplace A boolean that specifies whether the dataset should be modified in place or not (option is only available wheb creating lagged/forward variables)
 #' @examples
+#' library(data.table)
+#' library(dplyr)
 #' DT <- data.table(
 #'  id = c(1, 1, 1, 1, 1, 2, 2), 
 #'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 

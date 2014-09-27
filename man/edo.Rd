@@ -3,21 +3,23 @@
 \alias{edo}
 \title{Set of Stata commands that don't modify datasets}
 \usage{
-edo(DT, fun, cols = names(DT), ..., i = NULL, by = NULL)
+edo(DT, cmd, cols = names(DT), ..., i = NULL, by = NULL)
 }
 \arguments{
 \item{DT}{A data.table.}
 
+\item{cmd}{One stata commandout of the following: summarize. Abbreviations are accepted.}
+
 \item{cols}{A character vector of columns on which to apply the command.}
 
 \item{...}{Options to pass to the datata command.}
-
-\item{cmd}{One stata commandout of the following: summarize. Abbreviations are accepted.}
 }
 \description{
 Set of Stata commands that don't modify datasets
 }
 \examples{
+library(data.table)
+library(dplyr)
 N <- 100; K <- 10
 DT <- data.table(
   id = 1:N,

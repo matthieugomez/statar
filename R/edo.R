@@ -5,6 +5,8 @@
 #' @param cols A character vector of columns on which to apply the command.
 #' @param ... Options to pass to the datata command.
 #' @examples
+#' library(data.table)
+#' library(dplyr)
 #' N <- 100; K <- 10
 #' DT <- data.table(
 #'   id = 1:N,
@@ -15,7 +17,7 @@
 #' DT %>% edo(summarize, "v2")
 #' DT %>% edo(sum, "v*", d = TRUE)
 #' @export
-edo=function(DT,fun,cols=names(DT),...,i=NULL,by=NULL){
+edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){
   if (!is.data.table(DT)){
     stop(paste0("First argument is not a data.table. Convert it first using setDT()"))
   }
@@ -24,7 +26,7 @@ edo=function(DT,fun,cols=names(DT),...,i=NULL,by=NULL){
   options=eval(substitute(alist(...)))
   colsub = substitute(cols)
   colvars = idvars_q(colsub,names(DT))
-  if (funclist=="summarize"){
+  if (cmdc=="summarize"){
       eval(substitute(invisible(DT[,describe(.SD,d),.SDcols=colvars,...])))
   }
 }
