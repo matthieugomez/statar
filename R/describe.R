@@ -1,7 +1,3 @@
-# DT %>% select(id) %>% describe
-# DT %>% select(id) %>% filter(v1==2) %>% describe(,d=T)
-
-## describe
 describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores", 2L)){
   # import from stargazer
   .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, 

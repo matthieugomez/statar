@@ -1,4 +1,16 @@
-
+#' Join two data.tables together (similar to Stata command joinby)
+#' 
+#' @param DTm A data.table.
+#' @param DTu A data.table.
+#' @param type 1:1 one to one merge, m:1 many to one merge, 1:m one to many, m:m many to many (all pairwise combinations)
+#' @param keep A character vector that specifies rows to keep
+#' @param gen A character that specifies name of new variable to mark result, or the boolean FALSE if no such variable is created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
+#' @return A data.table that joins rows in master and using datasets. 
+#' @examples
+#' ejoin(DTm, DTu, type = 1:1, keep = c("master", "matched", "using"), gen = "_merge")
+#' ejoin(DTm, DTu, m:1, keep = "matched")
+#' ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
+#' @export
 ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), gen = "_merge"){
   all.x <- FALSE
   all.y <- FALSE

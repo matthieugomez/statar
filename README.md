@@ -7,7 +7,6 @@ Syntax is close to Stata:
 - Arguments in the option `cols` can be character vectors and wildcards. They can be negated with "-". 
 - Possible commands within `eset` and `edo` are predefined - which allows the use of shortcuts like `sum` instead of `summarize`.
 
-All functions coerce the input in a data.table.
 
 Examples:
 ````R
@@ -41,15 +40,11 @@ DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRU
 DT <- DT %>% epanel(cols = "id", t = "date", fill)
 
 ## ejoin 
-# datasets are sorted in place.
-# the command merges on common names between the two datasets and creates a new dataset.
-# the option m:m creates multiple rows for multiple matches, similar to Stata joinby. 
-# default options  are specified in the first line. 
 ejoin(DTm, DTu, type = 1:1, keep = c("master", "matched", "using"), gen = "_merge")
 ejoin(DTm, DTu, m:1, "matched")
 ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
 
-# tempname(prefix,where) creates a name starting with a given prefix that is not assigned in the environment specified by the second variable
+# tempname (prefix,where) creates a name not assigned in the environment specified by the second variable
 tempvar <- tempname("temp", DT)
 tempname <- tempname("temp", globalenv())
 
