@@ -3,7 +3,7 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
   response <- setdiff(names(data), c(key_col, value_col))
   length_lhs <- length(response)
   if (!length_lhs) {
-  	response <- tempname("temp",DT)
+  	response <- tempname("temp",data)
   	data[,(tempvar):=.N] 
   }
   formula <- reformulate(termlabels = key_col , response = response)
