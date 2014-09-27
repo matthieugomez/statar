@@ -47,7 +47,7 @@ DT <- DT %>% epanel(cols = "id", t = "date", fill)
 # default options  are specified in the first line. 
 ejoin(DTm, DTu, type = 1:1, keep = c("master", "matched", "using"), gen = "_merge")
 ejoin(DTm, DTu, m:1, "matched")
-ejoin(DTm, DTu, m:m, keep = c("master", "matched"), nogen = TRUE)
+ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
 
 # tempname(prefix,where) creates a name starting with a given prefix that is not assigned in the environment specified by the second variable
 tempvar <- tempname("temp", DT)

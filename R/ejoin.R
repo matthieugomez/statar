@@ -1,5 +1,5 @@
 
-ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen = FALSE, gen = "merge"){
+ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), gen = "_merge"){
   all.x <- FALSE
   all.y <- FALSE
   if (length(setdiff(keep,c("master","matched","using")))) stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")
@@ -17,7 +17,7 @@ ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen
   }
 
   typec <- paste(as.character(substitute(type)), collapse = "")
-  if (!nogen){
+  if (!gen == FALSE){
     if (gen %chin% names(DTm)){
       stop(paste0(gen," alreay exists in master"))
     }
@@ -59,7 +59,7 @@ ejoin =  function(DTm, DTu, type, keep = c(c("master","matched","using")), nogen
      eval(substitute(DT_output <- DT_output[!(v1 == 1L & v2 == 1L)],list(v1=as.name(idm),v2=as.name(idu))))
   }
 
-  if (!nogen){
+  if (!gen == FALSE){
     DT_output[, c(gen) := 3L]
     eval(substitute(DT_output[is.na(v), c(gen) := 1L],list(v=as.name(idu))))
     eval(substitute(DT_output[is.na(v), c(gen) := 2L],list(v=as.name(idm))))
