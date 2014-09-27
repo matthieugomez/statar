@@ -19,12 +19,14 @@ DT <- data.table(
 )
 
 
-# edo
-DT %>% edo(order, cols = "v*")
-DT %>% edo(sort, c("v1", "v2"))
-DT %>% edo(rename, "v1", "v11")
-DT %>% edo(keep, -"id*")
-DT %>% edo(keep, "v?")
+# edo: stata commands that modify dataset
+DT %>% eset(order, cols = "v*")
+DT %>% eset(sort, c("v1", "v2"))
+DT %>% eset(rename, "v1", "v11")
+DT %>% eset(keep, -"id*")
+DT %>% eset(keep, "v?")
+
+# eset: stata commands that don't modify dataset
 DT %>% edo(summarize, "v2")
 DT %>% edo(sum, "v*", d = TRUE)
 

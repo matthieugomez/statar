@@ -3,4 +3,5 @@
 export(edo)
 export(ejoin)
 export(epanel)
+export(eset)
 export(tempname)
