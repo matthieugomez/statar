@@ -174,7 +174,8 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
     sum <- do.call(cbind,c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max"),parallel::mcMap(f,M,sum_mean))
    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
-  print <- apply(sum,c(1,2),function(x){
+  print <- apply(sum,c(1,2),
+    function(x){
     if (is.numeric(x)){
       y <- .iround(x,decimal.places=3)
       y <- stringr::str_replace(y,"0+$","")
@@ -183,11 +184,10 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
       }
       y <- str_replace(y,"\\.$","")
       y <- str_replace(y,"-0","0")
-    }  else{
-      y < -x
+    } else{
+      y < x
     }
-
-
+    y
   })
   print(noquote(format(print,justify="right")),right=TRUE)
 }
