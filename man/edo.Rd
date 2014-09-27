@@ -3,7 +3,7 @@
 \alias{edo}
 \title{Set of Stata commands that don't modify datasets}
 \usage{
-edo(DT, cmd, cols = names(DT), ..., i = NULL, by = NULL)
+edo(DT, cmd, cols = names(DT), ..., i = TRUE, by = NULL)
 }
 \arguments{
 \item{DT}{A data.table.}
@@ -12,7 +12,11 @@ edo(DT, cmd, cols = names(DT), ..., i = NULL, by = NULL)
 
 \item{cols}{A character vector of columns on which to apply the command.}
 
-\item{...}{Options to pass to the datata command.}
+\item{...}{Options to pass to the stata command.}
+
+\item{i}{Apply commands on certain rows}
+
+\item{by}{Apply commands within groups}
 }
 \description{
 Set of Stata commands that don't modify datasets
@@ -29,5 +33,7 @@ DT <- data.table(
 )
 DT \%>\% edo(summarize, "v2")
 DT \%>\% edo(sum, "v*", d = TRUE)
+DT \%>\% edo(sum, "v*", i = v1 == 1)
+DT \%>\% edo(sum, "v*", d = TRUE, by = "v1")
 }
 

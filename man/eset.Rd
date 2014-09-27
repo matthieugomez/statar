@@ -3,7 +3,7 @@
 \alias{eset}
 \title{Set of Stata commands that modify datasets}
 \usage{
-eset(DT, cmd, cols = names(DT), ..., i = NULL, by = NULL)
+eset(DT, cmd, cols = names(DT), ...)
 }
 \arguments{
 \item{DT}{A data.table.}

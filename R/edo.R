@@ -19,20 +19,22 @@
 #' )
 #' DT %>% edo(summarize, "v2")
 #' DT %>% edo(sum, "v*", d = TRUE)
+#' DT %>% edo(sum, "v*", i = v1 == 1)
+#' DT %>% edo(sum, "v*", d = TRUE, by = "v1")
 #' @export
 edo=function(DT,cmd,cols=names(DT),...,i = TRUE,by = NULL){
   if (!is.data.table(DT)){
     stop(paste0("First argument is not a data.table. Convert it first using setDT()"))
   }
   cmdc=as.character(substitute(cmd))
-  cmdc <-match.arg(cmdc,c("summarize"))
+  cmdc <-match.arg(cmdc,c("summarize","summarise"))
   options=eval(substitute(alist(...)))
   colsub = substitute(cols)
   colvars = idvars_q(colsub,names(DT))
   bysub <- substitute(by)
   byvars <- NULL
   if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}
-  if (cmdc=="summarize"){
+  if (cmdc=="summarize" | cmdc=="summarise"){
       eval(substitute(invisible(DT[i,describe(.SD,...), by = byvars, .SDcols = colvars])))
   }
 }
