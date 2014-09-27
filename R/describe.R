@@ -175,13 +175,17 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
   print <- apply(sum,c(1,2),function(x){
-    y <- .iround(x,decimal.places=3)
-    y<- stringr::str_replace(y,"0+$","")
-    if (y==""){
-      y <- "0"
+    if (is.numeric(x)){
+      y <- .iround(x,decimal.places=3)
+      y <- stringr::str_replace(y,"0+$","")
+      if (y==""){
+        y <- "0"
+      }
+      y <- str_replace(y,"\\.$","")
+      y <- str_replace(y,"-0","0")
+    }  else{
+      y < -x
     }
-    y<- str_replace(y,"\\.$","")
-    y<- str_replace(y,"-0","0")
 
 
   })
