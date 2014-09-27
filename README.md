@@ -10,15 +10,6 @@ Syntax is close to Stata:
 
 Examples:
 ````R
-N=1e6; K=100
-DT <- data.table(
-  id = 1:N,
-  v1 =  sample(5, N, TRUE),                          
-  v2 =  sample(1e6, N, TRUE),                       
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
-)
-
-
 # edo: stata commands that modify dataset
 DT %>% eset(order, cols = "v*")
 DT %>% eset(sort, c("v1", "v2"))

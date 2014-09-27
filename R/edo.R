@@ -1,5 +1,3 @@
-#' @import data.table
-NULL
 #' Set of Stata commands that don't modify datasets
 #' 
 #' @param DT A data.table.
