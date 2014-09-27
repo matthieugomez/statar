@@ -171,7 +171,7 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
       n_NA <- sum(is.na(x))
       sum <- c(N-NA,NA,m,sum_higher,sum_quantile)
     }
-    sum <- do.call(cbind,,parallel::mcMap(f,M,sum_mean))
+    sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))
     sum <- cbind(c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max"),sum)
    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
