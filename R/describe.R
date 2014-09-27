@@ -159,6 +159,8 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
    sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a,mean(x,na.rm=na.rm),sd(x,na.rm= na.rm),quantile(x,c(0,1),type=1,na.rm=na.rm))}))
     sum <- as.matrix(sum_mean)
     sum <- cbind(c("Rows","N","Mean","Sd","Min","Max"),sum)
+    rownames(sum) <- NULL
+
   } else {
     N <- nrow(M)
     sum_mean <- colMeans(M ,na.rm=na.rm)
@@ -169,10 +171,11 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
       sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
       sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)
       n_NA <- sum(is.na(x))
-      sum <- c(N-NA,NA,m,sum_higher,sum_quantile)
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)
     }
     sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))
     sum <- cbind(c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max"),sum)
+    rownames(sum) <- NULL
    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
   print <- apply(sum,c(1,2),
