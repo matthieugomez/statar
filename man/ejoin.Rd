@@ -7,9 +7,9 @@ ejoin(DTm, DTu, type, keep = c(c("master", "matched", "using")),
   gen = "_merge")
 }
 \arguments{
-\item{DTm}{A data.table.}
+\item{DTm}{The master data.table.}
 
-\item{DTu}{A data.table.}
+\item{DTu}{The using data.table.}
 
 \item{type}{1:1 one to one merge, m:1 many to one merge, 1:m one to many, m:m many to many (all pairwise combinations)}
 
@@ -18,7 +18,7 @@ ejoin(DTm, DTu, type, keep = c(c("master", "matched", "using")),
 \item{gen}{A character that specifies name of new variable to mark result, or the boolean FALSE if no such variable is created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 }
 \value{
-A data.table that joins rows in master and using datasets.
+A data.table that joins rows in master and using datases. Matching is done on common names. The data.table master and using are sorted in place.
 }
 \description{
 Join two data.tables together (similar to Stata command joinby)

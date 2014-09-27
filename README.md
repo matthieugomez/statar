@@ -5,7 +5,7 @@ A tentative *beta* set of R commands for Stata users.
 
 Syntax is close to Stata:
 - Arguments in the option `cols` can be character vectors and wildcards. They can be negated with "-". 
-- Possible commands within `eset` and `edo` are predefined - which allows the use of shortcuts like `sum` instead of `summarize`.
+- Possible commands within `edo` are predefined - which allows the use of shortcuts like `sum` instead of `summarize`.
 
 
 Examples:
@@ -18,14 +18,13 @@ DT <- data.table(
   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
 )
 
-# eset (set of commands that modify dataset)
-DT %>% eset(order, cols = "v*")
-DT %>% eset(sort, c("v1", "v2"))
-DT %>% eset(rename, "v1", "v11")
-DT %>% eset(keep, -"id*")
-DT %>% eset(keep, "v?")
 
 # edo
+DT %>% edo(order, cols = "v*")
+DT %>% edo(sort, c("v1", "v2"))
+DT %>% edo(rename, "v1", "v11")
+DT %>% edo(keep, -"id*")
+DT %>% edo(keep, "v?")
 DT %>% edo(summarize, "v2")
 DT %>% edo(sum, "v*", d = TRUE)
 
