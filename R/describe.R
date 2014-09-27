@@ -1,4 +1,4 @@
-describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores", 2L)){
+describe <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){
   # import from stargazer
   .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, 
       simply.output = FALSE,  .format.digit.separator = ",") {
@@ -152,9 +152,9 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
   # Now starts the code 
 
   if (details==FALSE) {
-   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a,mean(x,na.rm=na.rm),sd(x,na.rm= na.rm),quantile(x,c(0,1),type=1,na.rm=na.rm))}))
+   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x,c(0,1),type=1,na.rm=na.rm))}))
     sum <- as.matrix(sum_mean)
-    rownames(sum) <-  c("Rows","N","Mean","Sd","Min","Max")
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")
 
   } else {
     N <- nrow(M)

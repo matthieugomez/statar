@@ -1,75 +1,3 @@
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-DT[,id1:=4] %>% mutate(m=mean(id))
-call
-library(dplyr)
-DT[,id1:=4] %>% mutate(m=mean(id))
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-DT[,id1:=4] %>% mutate(m=mean(id))
-library(dplyr)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT %>% DT[,mean(id)]
-DT %>% mutate(mean(id))
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-DT %>% mutate(mean(id))
-library(dplyr)
-DT %>% mutate(mean(id))
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-DT %>% mutate(mean(id))
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT %>% mutate(mean(id))
-DT %>% mutate(mean(cols))
-f=function(x){y<-1g(x)}#
-g=function(x){eval(x)}
-f=function(x){y<-1; g(x)}#
-g=function(x){eval(x)}
-f=function(x){y<-1; g(x)}#
-g=function(x){eval(x)}#
-#
-f(quote(y))
-y<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){eval(x)}#
-f(quote(y))
-debug(g)
-y<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){eval(x)}#
-f(quote(y))
-debug(g)
-f(quote(y))
 x
 eval(y)
 y<-3#
@@ -888,10 +816,25 @@ DT <- data.table(#
 )#
 DT %>% edo(summarize, "v2")#
 DT %>% edo(sum, "v*", d = TRUE)
-devtools:document("/Users/Matthieu/Dropbox/Github/statar-package"_
-devtools:document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+library(statar)
+?edo
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2")#
+DT %>% edo(sum, "v*", d = TRUE)#
+DT %>% edo(sum, "v*", i = v1 == 1)#
+DT %>% edo(sum, "v*", d = TRUE, by = "v1")
 devtools::install_github("matthieugomez/statar")
+?edo
+library(data.table)#
+library(dplyr)#
 N <- 100; K <- 10#
 DT <- data.table(#
   id = 1:N,#
@@ -900,9 +843,12 @@ DT <- data.table(#
   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
 )#
 DT %>% edo(summarize, "v2")#
-DT %>% edo(sum, "v*", d = TRUE)
-library(data.table)
-library(dplyr)
+DT %>% edo(sum, "v*", d = TRUE)#
+DT %>% edo(sum, "v*", i = v1 == 1)#
+DT %>% edo(sum, "v*", d = TRUE, by = "v1")
+library(statar)
+library(data.table)#
+library(dplyr)#
 N <- 100; K <- 10#
 DT <- data.table(#
   id = 1:N,#
@@ -911,122 +857,37 @@ DT <- data.table(#
   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
 )#
 DT %>% edo(summarize, "v2")#
-DT %>% edo(sum, "v*", d = TRUE)
-lazyeval
-edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
-  if (!is.data.table(DT)){#
-    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
-  }#
-  cmdc=as.character(substitute(cmd))#
-  cmdc <-match.arg(cmdc,c("summarize"))#
-  options=eval(substitute(alist(...)))#
-  colsub = substitute(cols)#
-  colvars = idvars_q(colsub,names(DT))#
-  bysub <- substitute(by)#
-  byvars <- idvars_q(bysub,names(DT))#
-  if (cmdc=="summarize"){#
-      eval(substitute(invisible(DT[i,describe(.SD,...),by = byvars,.SDcols=colvars])))#
-  }#
-}
-edo(DT,sum,by="id1")
-idvars_q=function(id,l){#
-    if (is.call(id) && id[[1L]] == "-") {#
-        idm = TRUE#
-        id = id[[2L]]#
-    }#
-    else{#
-        idm = FALSE#
-    }#
-    id <- eval(id,parent.frame())#
-    if (!is.character(id)) stop("ids should be column numbers or names")#
-    if (any(is.na(id))) stop("Some items of ids are NA)")#
-    if (any(!id %chin%  l)){#
-        #try wildcard #
-        if (length(id) !=1L) stop("Some items of ids are not column names")#
-        id_vector <- strsplit(id, "\\s+")[[1]]#
-        id=NULL#
-         for (c in id_vector){#
-            temp <- grep(glob2rx(c),l,value=TRUE)#
-            if (!length(temp)) stop("Some items of ids are not column names")#
-            id <- c(id,temp)#
-        }#
-    }#
-    if (idm) idvars = setdiff(l, id) else idvars = id#
-    return(idvars)#
-}
-edo(DT,sum,by="id1")
+DT %>% edo(sum, "v*", d = TRUE)#
+DT %>% edo(sum, "v*", i = v1 == 1)#
+DT %>% edo(sum, "v*", d = TRUE, by = "v1")
 debug(edo)
-edo(DT,sum,by="id1")
-bysub
-DT
-edo(DT,sum,by="id")
-edo(DT,sum)
-bysub
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
-  if (!is.data.table(DT)){#
-    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
-  }#
-  cmdc=as.character(substitute(cmd))#
-  cmdc <-match.arg(cmdc,c("summarize"))#
-  options=eval(substitute(alist(...)))#
-  colsub = substitute(cols)#
-  colvars = idvars_q(colsub,names(DT))#
-  bysub <- substitute(by)#
-  byvars <- NULL#
-  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
-  if (cmdc=="summarize"){#
-      eval(substitute(invisible(DT[i,describe(.SD,...),by = byvars,.SDcols=colvars])))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
-  if (!is.data.table(DT)){#
-    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
-  }#
-  cmdc=as.character(substitute(cmd))#
-  cmdc <-match.arg(cmdc,c("summarize"))#
-  options=eval(substitute(alist(...)))#
-  colsub = substitute(cols)#
-  colvars = idvars_q(colsub,names(DT))#
-  bysub <- substitute(by)#
-  byvars <- NULL#
-  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
-  if (cmdc=="summarize"){#
-      eval(substitute(invisible(DT[i,describe(.SD,...),by = byvars,.SDcols=colvars])))#
-  }#
-}
-edo(DT,sum,by="id1")
-edo(DT,sum,by="id")
-debug(edo)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-edo=function(DT,cmd,cols=names(DT),...,i=NULL,by=NULL){#
-  if (!is.data.table(DT)){#
-    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
-  }#
-  cmdc=as.character(substitute(cmd))#
-  cmdc <-match.arg(cmdc,c("summarize"))#
-  options=eval(substitute(alist(...)))#
-  colsub = substitute(cols)#
-  colvars = idvars_q(colsub,names(DT))#
-  bysub <- substitute(by)#
-  byvars <- NULL#
-  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
-  if (cmdc=="summarize"){#
-      eval(substitute(invisible(DT[i,describe(.SD,...), by = byvars, .SDcols = colvars])))#
-  }#
-}
-debug(edo)
-edo(DT,sum,by="id")
-cmdc
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2")#
+DT %>% edo(sum, "v*", d = TRUE)#
+DT %>% edo(sum, "v*", i = v1 == 1)#
+DT %>% edo(sum, "v*", d = TRUE, by = "v1")
+s
+n
+n
 substitute(invisible(DT[i, describe(.SD, ...), by = byvars, #
-        .SDcols = colvars]))
-DT[NULL, describe(.SD), by = "id", .SDcols = c("id", #
-"v1", "v2", "v3")])
-DT[NULL, describe(.SD), by = "id", .SDcols = c("id", #
-"v1", "v2", "v3")]
-DT[, describe(.SD), by = "id", .SDcols = c("id", #
-"v1", "v2", "v3")]
+    .SDcols = colvars]))
+q
+?browser
+f
+f
+f
+f
+debug(describe)
+DT[v1 == 1, describe(.SD), by = NULL, .SDcols = c("v1", #
+"v2", "v3")]
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores", 2L)){#
   # import from stargazer#
@@ -1217,31 +1078,124 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
   })#
   print(noquote(format(print,justify="right")),right=TRUE)#
 }
-DT[, describe(.SD), by = "id", .SDcols = c("id", #
-"v1", "v2", "v3")]
-?data.table
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-edo=function(DT,cmd,cols=names(DT),...,i = TRUE,by = NULL){#
-  if (!is.data.table(DT)){#
-    stop(paste0("First argument is not a data.table. Convert it first using setDT()"))#
-  }#
-  cmdc=as.character(substitute(cmd))#
-  cmdc <-match.arg(cmdc,c("summarize"))#
-  options=eval(substitute(alist(...)))#
-  colsub = substitute(cols)#
-  colvars = idvars_q(colsub,names(DT))#
-  bysub <- substitute(by)#
-  byvars <- NULL#
-  if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}#
-  if (cmdc=="summarize"){#
-      eval(substitute(invisible(DT[i,describe(.SD,...), by = byvars, .SDcols = colvars])))#
-  }#
-}
-edo(DT,sum,by="id")
-DT %>% edo(sum, "v*", d = TRUE,i= v1==1,by="v1")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+DT[v1 == 1, describe(.SD), by = NULL, .SDcols = c("v1", #
+"v2", "v3")]
+invisible(DT[v1 == 1, describe(.SD), by = NULL, .SDcols = c("v1", #
+"v2", "v3")])
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2",d=TRUE)
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2", d = TRUE)
+substitute(invisible(DT[i, describe(.SD, ...), by = byvars, #
+        .SDcols = colvars]))
+invisible(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])
+eval(invisible(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]))
+eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]))
+eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])))
+eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])
+invisible(eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]))
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2*", d = TRUE)
+debug(describe)
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2*", d = TRUE)
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2*", d = TRUE)
+s
+n
+M
+N
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% edo(summarize, "v2*", d = TRUE)
+substitute(invisible(DT[i, describe(.SD, ...), by = byvars, #
+            .SDcols = colvars]))
+invisible(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])
+DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]
+DT[TRUE, describe(.SD, d = TRUE), .SDcols = "v2"]
+DT[, describe(.SD, d = TRUE), .SDcols = "v2"]
+DT
+DT[, describe(.SD, d = TRUE), .SDcols = "v2"]
+DT
+DT[, describe(.SD, d = TRUE), .SDcols = "v2"]
+DT[, describe(M = .SD, d = TRUE), .SDcols = "v2"]
+DT[, .SD, .SDcols = "v2"]
+DT
+DT[, .SD, .SDcols = "v2"]
+DT[, .SD, .SDcols = c("v2")]
+DT[, .SD]
+DT[, as.list(.SD)]
+DT[, .SD]
+DT
+DT[, .SD,.SDcols=names(DT)]
+DT
+DT[, .SD,.SDcols = names(DT)]
+DT[, colMeans(.SD),.SDcols = names(DT)]
+DT
+DT[, .SD,.SDcols = names(DT)]
+library(data.table)
+DT[, .SD,.SDcols = names(DT)]
+DT
+DT[,mean(v1)]
+DT
+DT[,mean(v2)]
+DT[,mean(v2),]
+is.data.table(DT)
 ?edo
-library(statar)
-?edo
-?eset
-devtools::install_github("matthieugomez/statar")
+library(data.table)#
+library(dplyr)#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)
+DT[,mean(v1)]

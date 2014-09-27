@@ -26,15 +26,14 @@ edo=function(DT,cmd,cols=names(DT),...,i = TRUE,by = NULL){
   if (!is.data.table(DT)){
     stop(paste0("First argument is not a data.table. Convert it first using setDT()"))
   }
-  cmdc=as.character(substitute(cmd))
-  cmdc <-match.arg(cmdc,c("summarize"))
-  options=eval(substitute(alist(...)))
-  colsub = substitute(cols)
-  colvars = idvars_q(colsub,names(DT))
+  cmdc <- as.character(substitute(cmd))
+  cmdc <- match.arg(cmdc,c("summarize"))
+  colsub <- substitute(cols)
+  colvars <- idvars_q(colsub,names(DT))
   bysub <- substitute(by)
   byvars <- NULL
   if (length(bysub)) { byvars <- idvars_q(bysub,names(DT))}
-  if (cmdc=="summarize"){
+  if (cmdc == "summarize"){
       eval(substitute(invisible(DT[i,describe(.SD,...), by = byvars, .SDcols = colvars])))
   }
 }
