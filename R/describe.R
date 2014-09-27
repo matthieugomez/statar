@@ -185,7 +185,7 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
       y <- str_replace(y,"\\.$","")
       y <- str_replace(y,"-0","0")
     } else{
-      y < x
+      y <- x
     }
     y
   })
