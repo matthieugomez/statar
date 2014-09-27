@@ -15,4 +15,14 @@ tempname(prefix, where, inherits = TRUE)
 \description{
 Create unique names within environment
 }
+\examples{
+temp <- 1
+tempname <- tempname("temp", globalenv())
+DT <- data.table(
+ temp = c(1, 1, 1, 1, 1, 2, 2),
+ temp1 = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+)
+tempvar <- tempname("temp", DT)
+tempvar <- tempname("temporary", DT)
+}
 

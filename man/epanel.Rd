@@ -20,6 +20,11 @@ epanel(DT, cols, time, cmd, gen = cmdc, inplace = FALSE)
 Set of commands for panel data
 }
 \examples{
+DT <- data.table(
+ id = c(1, 1, 1, 1, 1, 2, 2),
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+)
 DT <- DT \%>\% epanel(cols = "id", t = "date", L1.value, inplace = FALSE)
 DT \%>\% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
 DT <- DT \%>\% epanel(cols = "id", t = "date", fill)
