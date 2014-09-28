@@ -1,9 +1,8 @@
-#' Stata Command summarize
+#' Gives summary statistics (Stata command summarize)
 #' 
 #' @param DT A tbl_dt or tbl_grouped_dt.
 #' @param ... Variables to include/exclude in s You can use same specifications as in select. If missing, defaults to all non-grouping variables.
 #' @param d Detail is true or not
-
 #' @examples
 #' library(data.table)
 #' library(dplyr)
@@ -17,12 +16,11 @@
 #' DT  %>% sum_up
 #' DT  %>% sum_up(v3, d=T)
 #' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-
-
+#' @export
 sum_up <- function(.data, ..., d = FALSE) {
   s_(.data, vars = lazyeval::lazy_dots(...) , d = d)
 }
-
+#' @export
 sum_up_ <- function(.data, vars , d = FALSE) {
   if (length(vars) == 0) {
      vars <- lazyeval::lazy_dots(everything())
@@ -30,7 +28,7 @@ sum_up_ <- function(.data, vars , d = FALSE) {
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   byvars <- as.character(groups(.data))
   .data2 <- select_(.data, .dots = vars)
-  .data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])
+  invisible(.data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])
 }
 
 
@@ -188,7 +186,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
   # Now starts the code 
 
   if (details==FALSE) {
-   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x,c(0,1),type=1,na.rm=na.rm))}))
+   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))
     sum <- as.matrix(sum_mean)
     rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")
 

@@ -26,7 +26,7 @@ DT %>% eset(keep, "v?")
 
 
 
-# More dplyr verbs
+# More dplyr verbs (only work on data.tables)
 
 ### sum_up (= Stata summarize)
 # DT  %>% sum_up
@@ -61,7 +61,7 @@ ejoin(DTm, DTu, m:1)
 ejoin(DTm, DTu, type = 1:1, keep = "matched", gen = "_merge")
 ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
 
-## tidyr::spread is rewritten to use dcast.data.table, when applied to data.tables making it more efficient
+## tidyr::spread is rewritten to use dcast.data.table when applied to data.tables, which makes it more memory efficient
 
 
 # tempname creates a name not assigned in the environment specified by the second variable
