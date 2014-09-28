@@ -11,7 +11,7 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 	
 	N=1e6; K=100
     set.seed(1)
-    DT <- data.table(
+    DT <- data.frame(
 		  id = 1:N,
 		  v1 =  sample(5, N, TRUE),                          # int in range [1,5]
 		  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
@@ -22,8 +22,8 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
 	### lag along_with (= Stata L. F.)
-	DT %>% group_by(id) %>% mutate(lag(v2, order_by = time)) # Balanced dataset
-	DT %>% group_by(id) %>% mutate(lag(v2, along_with = time)) # Unbalanced dataset
+	DT %>% group_by(v1) %>% mutate(lag(v2, order_by = id)) # Balanced dataset
+	DT %>% group_by(v1) %>% mutate(lag(v2, along_with = id)) # Unbalanced dataset
 	````
 
 
@@ -31,7 +31,12 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 
 	````R
 	library(data.table)
-	
+   DT <- data.table(
+	  id = 1:N,
+	  v1 =  sample(5, N, TRUE),                          # int in range [1,5]
+	  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
+	  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
+	)
 	### colorder (= Stata order)
 	DT  %>% colorder(starts_with("v"))
 	DT  %>% colorder(starts_with("v"), inplace = TRUE)
