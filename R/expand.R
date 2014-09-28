@@ -12,7 +12,13 @@
 #' DT <- DT %>% group_by(id) %>% expand(date)
 #' DT <- DT %>% expand(date)
 #' @export
-expand <- function(.data, ...) {
+expand.data.table <- function(.data, ...) {
+  expand_(.data, .dots = lazyeval::lazy_dots(...))
+}
+expand.tbl_dt <- function(.data, ...) {
+  expand_(.data, .dots = lazyeval::lazy_dots(...))
+}
+expand.grouped_dt <- function(.data, ...) {
   expand_(.data, .dots = lazyeval::lazy_dots(...))
 }
 
