@@ -6,6 +6,9 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 1. The package adds the following vector functions, than can be used inside `mutate`
 
 	````R
+	library(dplyr)
+	library(statar)
+	
 	### quantile category (=Stata xtile)
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
@@ -18,9 +21,7 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 2. The package adds the following dplyr verbs (works only on data.tables)
 
 	````R
-	library(dplyr)
 	library(data.table)
-	library(statar)
 	
 	### colorder (= Stata order)
 	DT  %>% colorder(starts_with("v"))
