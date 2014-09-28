@@ -38,8 +38,8 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 	 date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
-	DT <- DT %>% group_by(id) %>% expand(date)
-	DT <- DT %>% expand(date)
+	DT %>% group_by(id) %>% expand(date)
+	DT %>% expand(date)
 
 	### ejoin (= Stata merge)
 	ejoin(DTm, DTu, m:1)
