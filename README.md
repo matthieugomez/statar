@@ -31,7 +31,9 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 
 	````R
 	library(data.table)
-   DT <- data.table(
+	
+	N=1e6; K=100
+    DT <- data.table(
 	  id = 1:N,
 	  v1 =  sample(5, N, TRUE),                          # int in range [1,5]
 	  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
