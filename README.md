@@ -10,23 +10,11 @@ Syntax is close to Stata:
 
 Examples:
 ````R
-# eset: stata commands that modify dataset
-N <- 100; K <- 10
-DT <- data.table(
-  id = 1:N,
-  v1 =  sample(5, N, TRUE),
-  v2 =  sample(1e6, N, TRUE),
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
-)
-DT %>% eset(order, cols = "v*")
-DT %>% eset(sort, c("v1", "v2"))
-DT %>% eset(rename, "v1", "v11")
-DT %>% eset(keep, -"id*")
-DT %>% eset(keep, "v?")
+# dplyr verbs (only work on data.tables)
 
-
-
-# Dplyr verbs (only work on data.tables)
+### colorder (= Stata order)
+DT  %>% colorder(starts_with("v"))
+DT  %>% colorder(starts_with("v"), inplace = TRUE)
 
 ### sum_up (= Stata summarize)
 DT  %>% sum_up

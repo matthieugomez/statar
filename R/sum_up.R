@@ -18,7 +18,7 @@
 #' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 #' @export
 sum_up <- function(.data, ..., d = FALSE) {
-  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)
+  sum_up_(.data, vars = lazyeval::lazy_dots(...) , d = d)
 }
 #' @export
 sum_up_ <- function(.data, vars , d = FALSE) {
