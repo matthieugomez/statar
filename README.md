@@ -47,9 +47,9 @@ DT <- DT %>% expand(date)
 ### quantile category (=Stata xtile)
 DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
-### lag along (= Stata L. F.)
+### lag along_with (= Stata L. F.)
 DT %>% group_by(id) %>% mutate(lag(value, order_by = time)) # Balanced dataset
-DT %>% group_by(id) %>% mutate(lag(value, along = time)) # Unbalanced dataset
+DT %>% group_by(id) %>% mutate(lag(value, along_with = time)) # Unbalanced dataset
 
 
 ## ejoin 
