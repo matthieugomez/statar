@@ -3,7 +3,7 @@ statar
 
 A *beta* set of R commands for Stata users built on dplyr and data.table. 
 
-1. The package adds the following vector functions, than can be used inside `mutate`
+1. The package adds the following vector functions. In particular, they can be used inside `dplyr::mutate`
 
 	````R
 	library(dplyr)
@@ -18,7 +18,7 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 	````
 
 
-2. The package adds the following dplyr verbs (works only on data.tables)
+2. The package adds the following verbs that can be used in a `dplyr` pipe (although it works only on data.tables)
 
 	````R
 	library(data.table)
