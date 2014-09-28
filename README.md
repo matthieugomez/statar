@@ -1,15 +1,13 @@
 statar
 ======
 
-A tentative *beta* set of R commands for Stata users. 
-
-Syntax is close to Stata:
-- Arguments in the option `cols` can be character vectors and wildcards. They can be negated with "-". 
-- Possible commands within `edo` are predefined - which allows the use of shortcuts like `sum` instead of `summarize`.
-
-
+A tentative *beta* set of R commands for Stata users built on dplyr and data.table
 Examples:
 ````R
+library(dplyr)
+library(data.table)
+library(statar)
+
 # dplyr verbs (only work on data.tables)
 
 ### colorder (= Stata order)
