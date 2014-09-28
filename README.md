@@ -37,9 +37,9 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 	  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
 	  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
 	)
-	### colorder (= Stata order)
-	DT  %>% colorder(starts_with("v"))
-	DT  %>% colorder(starts_with("v"), inplace = TRUE)
+	### col_order (= Stata order)
+	DT  %>% col_order(starts_with("v"))
+	DT  %>% col_order(starts_with("v"), inplace = TRUE)
 	
 	### sum_up (= Stata summarize)
 	DT  %>% sum_up
