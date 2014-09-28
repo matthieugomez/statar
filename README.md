@@ -1,7 +1,7 @@
 statar
 ======
 
-A *beta* set of R commands for Stata users built on dplyr and data.table. 
+A set of R commands for Stata users built on dplyr and data.table. 
 
 1. The package adds the following vector functions. In particular, they can be used inside `dplyr::mutate`
 
