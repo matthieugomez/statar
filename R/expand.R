@@ -26,8 +26,7 @@ expand_ <- function(.data, ...,.dots) {
 expand_.grouped_dt <- function(.data,...,.dots){
   dots <- lazyeval::all_dots(.dots, ...)
   var_name <- names(dplyr::select_vars_(names(.data), dots))
-  env <- dt_env(.data, lazyeval::common_env(dots))
-  byvars <- env$vars
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars
   for (t in var_name) {
     setkeyv(.data,c(byvars,t))
     call <- substitute(.data[, list(seq.int(t[1], t[.N])), by = c(byvars)], list(t = as.name(t)))
@@ -61,19 +60,6 @@ expand_.tbl_dt <- function(.data, ..., .dots) {
 }
 
 
-## imported from dplyr
-dt_env <- function(dt, env) {
-  env <- new.env(parent = env, size = 2L)
-  env$dt <- dt
-  env$vars <- deparse_all(groups(dt))
-  env
-}
-
-
-deparse_all <- function(x) {
-  deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
-  vapply(x, deparse2, FUN.VALUE = character(1))
-}
 
 
 

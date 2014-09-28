@@ -10,7 +10,7 @@ Syntax is close to Stata:
 
 Examples:
 ````R
-# edo: stata commands that modify dataset
+# eset: stata commands that modify dataset
 N <- 100; K <- 10
 DT <- data.table(
   id = 1:N,
@@ -24,11 +24,16 @@ DT %>% eset(rename, "v1", "v11")
 DT %>% eset(keep, -"id*")
 DT %>% eset(keep, "v?")
 
-# eset: stata commands that don't modify dataset
-DT %>% edo(summarize, "v2")
-DT %>% edo(sum, "v*", d = TRUE)
 
-# expand 
+
+# More dplyr verbs
+
+### sum_up (= Stata summarize)
+# DT  %>% sum_up
+# DT  %>% sum_up(v3, d=T)
+# DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+
+### expand (= Stata tsfill)
 DT <- data.table(
  id = c(1, 1, 1, 1, 1, 2, 2),
  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -36,6 +41,20 @@ DT <- data.table(
 )
 DT <- DT %>% group_by(id) %>% expand(date)
 DT <- DT %>% expand(date)
+
+
+## More vector functions 
+### quantile category (=Stata xtile)
+
+DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
+DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
+
+
+### lag along (= Stata L. F.)
+### Balanced dataset
+DT <- DT %>% group_by(id) %>% mutate(lag(value, order_by = time))
+### Unbalanced dataset
+DT <- DT %>% group_by(id) %>% mutate(lag(value, along = time))
 
 ## ejoin 
 ejoin(DTm, DTu, m:1)

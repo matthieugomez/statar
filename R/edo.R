@@ -21,7 +21,6 @@
 #' DT %>% edo(sum, "v*", d = TRUE)
 #' DT %>% edo(sum, "v*", i = v1 == 1)
 #' DT %>% edo(sum, "v*", d = TRUE, by = "v1")
-#' @export
 edo=function(DT,cmd,cols=names(DT),...,i = TRUE,by = NULL){
   if (!is.data.table(DT)){
     stop(paste0("First argument is not a data.table. Convert it first using setDT()"))

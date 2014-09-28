@@ -1,330 +1,3 @@
-x
-eval(y)
-y<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){y<-1; eval(x)}#
-f(quote(y))
-y<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){y<-1; eval(x)}
-y<-3#
-f=function(x){g(x)}#
-g=function(x){y<-1; eval(x)}
-f(quote(y))
-y<-3#
-    z<-3#
-    f=function(x){y<-1; g(x)}#
-    g=function(x){z<-1; eval(x)}#
-    f(quote(y))#
-    f(quote(z))
-y<-3#
-z<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){z<-1; eval(x)}#
-f(quote(z))
-f(quote(y))
-g(quote(z)
-)
-g(quote(z))
-y<-3#
-z<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){z<-1; eval(x)}#
-f(quote(z))
-f(quote(y))
-y<-3#
-z<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){z<-1; print(x)}
-g(quote(z))
-y<-3#
-z<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){z<-1; eval(x)}
-y<-3#
-z<-3#
-f=function(x){y<-1; g(x)}#
-g=function(w){z<-1; eval(w)}
-f(quote(z))
-f(quote(y))
-y<-3#
-z<-3#
-f=function(x){x<-1; g(x)}#
-g=function(x){z<-1; eval(x)}
-f(quote(y))
-f(quote(z))
-y<-3#
-z<-3#
-f=function(){y<-1; g(x)}#
-g=function(){z<-1; print(x)}
-f()
-y<-3#
-z<-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){z<-1; print(x)}
-f(z)
-y<-3#
-x <-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){y<-1; eval(x)}
-f()
-f(quote(y))
-f(quote(x))
-y<-3#
-x <-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){y<-1; eval(x)}
-f()
-y<-3#
-z <-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){z<-1; eval(x)}#
-f(quote(y))#
-f(quote(z))
-y<-1
-f(quote(y))
-y<-3#
-z <-3#
-f=function(x){y<-1; g(x)}#
-g=function(x){z<-1; eval	x <-5#
-	f=function(y){#
-		print(a)#
-		a <-5#
-		print(a)#
-		g(x)#
-	}#
-	g=function(x){#
-		print(a)#
-	}(x)}#
-f(quote(y))#
-f(quote(z))
-x <-5#
-	f=function(y){#
-		print(a)#
-		a <-5#
-		print(a)#
-		g(x)#
-	}#
-	g=function(x){#
-		print(a)#
-	}
-f(5)
-a <-5#
-	f=function(y){#
-		print(a)#
-		a <-5#
-		print(a)#
-		g()#
-	}#
-	g=function(){#
-		print(a)#
-	}#
-	f(1)
-a <-3#
-	f=function(y){#
-		print(a)#
-		a <-5#
-		print(a)#
-		g()#
-	}#
-	g=function(){#
-		print(a)#
-	}#
-	f()
-a<-6#
-	f()
-library(dplyr)
-DT
-DT %>% mutate(mean(v1))
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-DT %>% mutate(mean(v1))
-debug(mutate.data.table)
-debug(dplyr::mutate.data.table)
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-debug(dplyr::mutate.data.table)
-DT %>% mutate(mean(v1))
-library(dplyr)
-DT %>% mutate(mean(v1))
-traceback()
-DT
-DT=setDT(DT)
-DT %>% mutate(mean(v1))
-debug(dplyr::mutate.data.table)
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-DT %>% mutate(mean(v1))
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT %>% mutate(mean(v1))
-ok<-4
-DT %>% mutate(mean(v1))
-?parent.frame
-f=function(){a<-1; eval(a,globalenv())}
-f(a)
-f(x)
-f()
-a
-f=function(){a<-1; eval(a,globalenv(),globalenv())}
-f()
-a
-?eval
-f=function(){a<-1; eval(a,enclos=globalenv())
-}
-f()
-f=function(){a<-1; eval(a,enclos=parent.frame())
-}
-f()
-f=function(){a<-1; eval(a,envir=parent.frame())
-}
-f()
-f=function(){a<-1; eval(a,envir=parent.frame())
-)
-f=function(){a<-1; eval(a,envir=parent.frame())}
-f()
-f=function(){a<-1; eval(a,envir=parent.frame(1))}
-f()
-f=function(){a<-1; eval(a,envir=parent.frame(2))}
-f()
-f=function(){a<-1; eval(quote(a),envir=parent.frame(2))}
-f()
-f=function(){a<-1; eval(quote(a),envir=parent.frame())}
-f()
-f=function(){a<-1; eval(quote(a))}
-f()
-f=function(){a<-1; eval(quote(a),parent.frame())}
-f()
-f=function(x){a<-1; eval(x)}#
-f()
-f=function(x){a<-1; eval(x)}#
-f(quote(a))
-f=function(x){a<-1; eval(x,parent.frame())}
-f(quote(a))
-a=3
-library(R)
-library(pryr)
-subs(a)
-?new.env
-f=function(x){a<-1; eval(x,parent.frame())}
-f=function(DT){eval(DT[,mean(a)],parent.frame())}
-f(DT)
-DT
-f(DT[,a:=4))
-f(DT[,a:=4]))
-f(DT[,a:=4])
-f(DT[,a:=1:N])
-a
-library(pryr)
-pryr::call_true
-DT
-DT[,mean(b)]
-b<-5
-DT[,mean(b)]
-DT %>%mutate(mean(b))
-library(devtools)#
-devtools::install_github("hadley/dplyr")
-DT %>% mutate(mean(b))
-library(dplyr)
-DT %>% mutate(mean(b))
-library(dplyr)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT %>% mutate(mean(b))
-devtools::install_github("hadley/lazyeval")#
-devtools::install_github("hadley/dplyr")]
-devtools::install_github("hadley/lazyeval")#
-devtools::install_github("hadley/dplyr")
-library(dplyr)
-DT %>% mutate(mean(b))
-library(dplyr)
-library(data.table)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT %>% mutate(mean(b))
-devtools::install_github("hadley/lazyeval")#
-devtools::install_github("hadley/dplyr")
-devtools::install_github("hadley/lazyeval")#
-devtools::install_github("hadley/dplyr",vignettes=FALSE)
-install_github("Rdatatable/data.table", build_vignettes=FALSE)
-debtools:install_github("hadley/dplyr", build_vignettes=FALSE)
-devtools:install_github("hadley/dplyr", build_vignettes=FALSE)
-devtools::install_github("hadley/dplyr", build_vignettes=FALSE)
-DT
-library(data.table)
-DT
-subset
-test = function(arg1,arg2, verbose=0) {   #
-  r1 = mean(arg1)#
-  r2 = mean(arg2)#
-#
-  res = (2/pi * r1 *cos(r2))#
-  if (verbose>1) browser()#
-  return(res)#
-}
-test(3,2,verbose=2)
-library(data.table)
-test(3,2,verbose=2)
-re
-test = function(arg1,arg2, verbose=0) {   #
-  r1 = mean(arg1)#
-  r2 = mean(arg2)#
-#
-  res = (2/pi * r1 *cos(r2))#
-  if (verbose>1) recover()#
-  return(res)#
-}
-test(3,2,verbose=2)
-0
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-body(mutate_each)
-library(dplyr)
-body(mutate_each)
-trace(mutate_each,quote(recover(),at=3,print=F)
 )
 trace(mutate_each,quote(recover()),at=3,print=F)
 mutate_eacch(DT,funs(mean))
@@ -833,20 +506,8 @@ DT %>% edo(sum, "v*", i = v1 == 1)#
 DT %>% edo(sum, "v*", d = TRUE, by = "v1")
 devtools::install_github("matthieugomez/statar")
 ?edo
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)#
-DT %>% edo(summarize, "v2")#
-DT %>% edo(sum, "v*", d = TRUE)#
-DT %>% edo(sum, "v*", i = v1 == 1)#
-DT %>% edo(sum, "v*", d = TRUE, by = "v1")
 library(statar)
+?edo
 library(data.table)#
 library(dplyr)#
 N <- 100; K <- 10#
@@ -860,7 +521,8 @@ DT %>% edo(summarize, "v2")#
 DT %>% edo(sum, "v*", d = TRUE)#
 DT %>% edo(sum, "v*", i = v1 == 1)#
 DT %>% edo(sum, "v*", d = TRUE, by = "v1")
-debug(edo)
+DT %>% edo(summarize, "v2")
+?eset
 library(data.table)#
 library(dplyr)#
 N <- 100; K <- 10#
@@ -870,26 +532,198 @@ DT <- data.table(#
   v2 =  sample(1e6, N, TRUE),#
   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
 )#
+DT %>% eset(order, cols = "v*")#
+DT %>% eset(sort, c("v1", "v2"))#
+DT %>% eset(rename, "v1", "v11")#
+DT %>% eset(keep, -"id*")#
+DT %>% eset(keep, "v?")
+DT
+?edo
+library(statar)
+?edo
+?epanel
+library(data.table)
+library(dplyr)
+# edo: stata commands that modify dataset#
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)#
+DT %>% eset(order, cols = "v*")#
+DT %>% eset(sort, c("v1", "v2"))#
+DT %>% eset(rename, "v1", "v11")#
+DT %>% eset(keep, -"id*")#
+DT %>% eset(keep, "v?")#
+#
+# eset: stata commands that don't modify dataset#
 DT %>% edo(summarize, "v2")#
 DT %>% edo(sum, "v*", d = TRUE)#
-DT %>% edo(sum, "v*", i = v1 == 1)#
-DT %>% edo(sum, "v*", d = TRUE, by = "v1")
+#
+# epanel #
+DT <- data.table(#
+ id = c(1, 1, 1, 1, 1, 2, 2),#
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT <- DT %>% epanel(cols = "id", t = "date", L1.value)#
+DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)#
+DT <- DT %>% epanel(cols = "id", t = "date", fill)#
+#
+## ejoin #
+ejoin(DTm, DTu, m:1)#
+ejoin(DTm, DTu, type = 1:1, keep = "matched", gen = "_merge")#
+ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)#
+#
+# tempname creates a name not assigned in the environment specified by the second variable#
+tempvar <- tempname("temp", DT)#
+tempname <- tempname("temp", globalenv())
+DT <- data.table(#
+ id = c(1, 1, 1, 1, 1, 2, 2),#
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT <- DT %>% epanel(cols = "id", t = "date", L1.value)
+DT
+DT <- data.table(#
+ id = c(1, 1, 1, 1, 1, 2, 2),#
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)
+DT %>% epanel(cols = "id", t = "date", L1.value)
+DT
+DT <- DT %>% epanel(cols = "id", t = "date", L1.value)
+DT
+DT %>% epanel(cols = "id", t = "date", L1.value)
+DT <- data.table(#
+ id = c(1, 1, 1, 1, 1, 2, 2),#
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)
+DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
+DT
+.data <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),#
+  v2 =  sample(1e6, N, TRUE),#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+)
+.data %>% mutate(mean=mean(value))
+.data %>% mutate(mean=mean(v1)))
+.data %>% mutate(mean=mean(v1))
+function(DT,inplace){if (!inplace) DT <- copy(DT) ; DT[,mean(v1)]}
+f <- function(DT,inplace){if (!inplace) DT <- copy(DT) ; DT[,mean(v1)]}
+f(DT, inplace = FALSE)
+f <- function(DT,inplace){if (!inplace) DT <- copy(DT) ; DT}
+f(DT, inplace = FALSE)
+f <- function(DT,inplace){if (!inplace) DT <- copy(DT) ; DT[,v1:=1]}
+f(DT, inplace = FALSE)
+DT
+DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = TRUE)
+DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L3.value", inplace = FALSE)
+DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L1.value", inplace = FALSE)
+devtools::document(/Users/Matthieu/Dropbox/Github/statar-package)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+library(statar)
+DT %>% epanel(cols = "id", t = "date", L3.value, gen = "L1.value", inplace = FALSE)
+DT %>% epanel(cols = "id", t = "date", mevalue, gen = "L1.value", inplace = FALSE)
+library(tidyr)
+?gather
+library(dplyr)#
+# From http://stackoverflow.com/questions/1181060#
+stocks <- data.frame(#
+  time = as.Date('2009-01-01') + 0:9,#
+  X = rnorm(10, 0, 1),#
+  Y = rnorm(10, 0, 2),#
+  Z = rnorm(10, 0, 4)#
+)#
+#
+gather(stocks, stock, price, -time)
+library(data.table)#
+# From http://stackoverflow.com/questions/1181060#
+stocks <- data.table(#
+  time = as.Date('2009-01-01') + 0:9,#
+  X = rnorm(10, 0, 1),#
+  Y = rnorm(10, 0, 2),#
+  Z = rnorm(10, 0, 4)#
+)#
+#
+gather(stocks, stock, price, -time)
+M <- gather(stocks, stock, price, -time)
+is.data.table(M)
+?spread
+M %>% spread(stock, price)
+debug(gather)
+M <- gather(stocks, stock, price, -time)
 s
+devtools::install_github("matthieugomez/statar")
+library(statar)
+M <- gather(stocks, stock, price, -time)
 n
-n
-substitute(invisible(DT[i, describe(.SD, ...), by = byvars, #
-    .SDcols = colvars]))
-q
-?browser
-f
-f
-f
-f
-debug(describe)
-DT[v1 == 1, describe(.SD), by = NULL, .SDcols = c("v1", #
-"v2", "v3")]
+s
+gather_data.frame
+gather_.data.frame
+gather_.data.tabke
+tidyr::gather_.data.frame
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("data.table"))
+library("tidyr")
+library(statar)
+?spread
+stocks <- data.table(#
+  time = as.Date('2009-01-01') + 0:9,#
+  X = rnorm(10, 0, 1),#
+  Y = rnorm(10, 0, 2),#
+  Z = rnorm(10, 0, 4)#
+)#
+stocksm <- stocks %>% gather(stock, price, -time)
+library(dplyr)
+stocks <- data.table(#
+  time = as.Date('2009-01-01') + 0:9,#
+  X = rnorm(10, 0, 1),#
+  Y = rnorm(10, 0, 2),#
+  Z = rnorm(10, 0, 4)#
+)#
+stocksm <- stocks %>% gather(stock, price, -time)
+library(statar)
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+suppressMessages(library("tidyr"))#
+suppressMessages(library("data.table"))
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+suppressMessages(library("dplyr"))
+DT <- data.table(#
+ id = c(1, 1, 1, 1, 1, 2, 2),#
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT <- DT %>% group_by(id) %>% expand(date)#
+DT <- DT %>% expand(date)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+DT <- data.table(#
+ id = c(1, 1, 1, 1, 1, 2, 2),#
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT <- DT %>% group_by(id) %>% expand(date)#
+DT <- DT %>% expand(date)
+DT
+DT <- data.table(#
+ id = c(1, 1, 1, 1, 1, 2, 2),#
+ date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT <- DT %>% group_by(id) %>% expand(date)#
+DT <- DT %>% expand(date)
+library(dplyr)
+?do
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores", 2L)){#
+sum <- function(.data, details) {#
+  invisible(do(describe_matrix(.data,details=details))#
+}#
+describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
   # import from stargazer#
   .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
       simply.output = FALSE,  .format.digit.separator = ",") {#
@@ -1041,9 +875,9 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
   # Now starts the code #
 #
   if (details==FALSE) {#
-   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a,mean(x,na.rm=na.rm),sd(x,na.rm= na.rm),quantile(x,c(0,1),type=1,na.rm=na.rm))}))#
+   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x,c(0,1),type=1,na.rm=na.rm))}))#
     sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("Rows","N","Mean","Sd","Min","Max")#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
 #
   } else {#
     N <- nrow(M)#
@@ -1078,124 +912,1211 @@ describe <- function(M,details = FALSE,na.rm = TRUE,mc.cores=getOption("mc.cores
   })#
   print(noquote(format(print,justify="right")),right=TRUE)#
 }
-DT[v1 == 1, describe(.SD), by = NULL, .SDcols = c("v1", #
-"v2", "v3")]
-invisible(DT[v1 == 1, describe(.SD), by = NULL, .SDcols = c("v1", #
-"v2", "v3")])
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N=1e6; K=100#
+set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)#
-DT %>% edo(summarize, "v2",d=TRUE)
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)#
-DT %>% edo(summarize, "v2", d = TRUE)
-substitute(invisible(DT[i, describe(.SD, ...), by = byvars, #
-        .SDcols = colvars]))
-invisible(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])
-eval(invisible(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]))
-eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]))
-eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])))
-eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])
-invisible(eval(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]))
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)#
-DT %>% edo(summarize, "v2*", d = TRUE)
-debug(describe)
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)#
-DT %>% edo(summarize, "v2*", d = TRUE)
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)#
-DT %>% edo(summarize, "v2*", d = TRUE)
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% group_by(v1) %>% sum(v2)
+DT %>% group_by(v1) %>% filter(v2) %>% sum
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+desc <- function(.data, ...details) {#
+  invisible(do(describe_matrix(.data,details=details))#
+}#
+describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
+  # import from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+      x.original <- x#
+      first.part <- ""#
+      if (is.na(x) | is.null(x)) {#
+          return("")#
+      }#
+      if (simply.output == TRUE) {#
+          if (!is.numeric(x)) {#
+              return(.remove.special.chars(x))#
+          }#
+      }#
+      if (x.original < 0) {#
+          x <- abs(x)#
+      }#
+      if (!is.na(decimal.places)) {#
+          if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+              0)) {#
+              round.result <- round(x, digits = decimal.places)#
+          }#
+          else {#
+              temp.places <- decimal.places#
+              if (!.is.all.integers(x)) {#
+                while ((round(x, digits = temp.places) == 0) & #
+                  (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                  temp.places <- temp.places + 1#
+                }#
+              }#
+              round.result <- round(x, digits = temp.places)#
+              decimal.places <- temp.places#
+          }#
+          if ((round.up.positive == TRUE) & (round.result < #
+              x)) {#
+              if (x > (10^((-1) * (decimal.places + 1)))) {#
+                round.result <- round.result + 10^((-1) * decimal.places)#
+              }#
+              else {#
+                round.result <- 0#
+              }#
+          }#
+      }#
+      else {#
+          round.result <- x#
+      }#
+      round.result.char <- as.character(format(round.result, #
+          scientific = FALSE))#
+      split.round.result <- unlist(strsplit(round.result.char, #
+          "\\."))#
+      for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+          if (.format.digit.separator.where[i] <= 0) {#
+              .format.digit.separator.where[i] <<- -1#
+          }#
+      }#
+      separator.count <- 1#
+      length.integer.part <- nchar(split.round.result[1])#
+      digits.in.separated.unit <- 0#
+      for (i in seq(from = length.integer.part, to = 1)) {#
+          if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+              (substr(split.round.result[1], i, i) != "-")) {#
+              first.part <- paste(.format.digit.separator, #
+                first.part, sep = "")#
+              if (separator.count < length(.format.digit.separator.where)) {#
+                separator.count <- separator.count + 1#
+              }#
+              digits.in.separated.unit <- 0#
+          }#
+          first.part <- paste(substr(split.round.result[1], #
+              i, i), first.part, sep = "")#
+          digits.in.separated.unit <- digits.in.separated.unit + #
+              1#
+      }#
+      if (x.original < 0) {#
+          if (.format.dec.mark.align == TRUE) {#
+              first.part <- paste("-", first.part, sep = "")#
+          }#
+          else {#
+              first.part <- paste("$-$", first.part, sep = "")#
+          }#
+      }#
+      if (!is.na(decimal.places)) {#
+          if (decimal.places <= 0) {#
+              return(first.part)#
+          }#
+      }#
+      if (.format.initial.zero == FALSE) {#
+          if ((round.result >= 0) & (round.result < 1)) {#
+              first.part <- ""#
+          }#
+      }#
+      if (length(split.round.result) == 2) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+          if (nchar(split.round.result[2]) < decimal.places) {#
+              decimal.part <- split.round.result[2]#
+              for (i in seq(from = 1, to = (decimal.places - #
+                nchar(split.round.result[2])))) {#
+                decimal.part <- paste(decimal.part, "0", sep = "")#
+              }#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          else {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+      }#
+      else if (length(split.round.result) == 1) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          decimal.part <- ""#
+          for (i in seq(from = 1, to = decimal.places)) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+          }#
+          return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+      }#
+      else {#
+          return(NULL)#
+      }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+#
+  if (details==FALSE) {#
+   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x,c(0,1),type=1,na.rm=na.rm))}))#
+    sum <- as.matrix(sum_mean)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    sum_mean <- colMeans(M ,na.rm=na.rm)#
+    f=function(x,m){#
+      sum_higher <- colMeans(DT[,list((x-m)^2,(x-m)^3,(x-m)^4)],na.rm=na.rm)#
+      sum_higher[1] <- sqrt(sum_higher[1])#
+      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+   # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- stringr::str_replace(y,"0+$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- stringr::str_replace(y,"\\.$","")#
+      y <- stringr::str_replace(y,"-0","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  print(noquote(format(print,justify="right")),right=TRUE)#
+}
+DT %>% group_by(v1) %>% filter(v2) %>% desc
+desc
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ...details) {#
+  invisible(do(describe_matrix(.data,details=details))#
+}#
+describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
+  # import from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+      x.original <- x#
+      first.part <- ""#
+      if (is.na(x) | is.null(x)) {#
+          return("")#
+      }#
+      if (simply.output == TRUE) {#
+          if (!is.numeric(x)) {#
+              return(.remove.special.chars(x))#
+          }#
+      }#
+      if (x.original < 0) {#
+          x <- abs(x)#
+      }#
+      if (!is.na(decimal.places)) {#
+          if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+              0)) {#
+              round.result <- round(x, digits = decimal.places)#
+          }#
+          else {#
+              temp.places <- decimal.places#
+              if (!.is.all.integers(x)) {#
+                while ((round(x, digits = temp.places) == 0) & #
+                  (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                  temp.places <- temp.places + 1#
+                }#
+              }#
+              round.result <- round(x, digits = temp.places)#
+              decimal.places <- temp.places#
+          }#
+          if ((round.up.positive == TRUE) & (round.result < #
+              x)) {#
+              if (x > (10^((-1) * (decimal.places + 1)))) {#
+                round.result <- round.result + 10^((-1) * decimal.places)#
+              }#
+              else {#
+                round.result <- 0#
+              }#
+          }#
+      }#
+      else {#
+          round.result <- x#
+      }#
+      round.result.char <- as.character(format(round.result, #
+          scientific = FALSE))#
+      split.round.result <- unlist(strsplit(round.result.char, #
+          "\\."))#
+      for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+          if (.format.digit.separator.where[i] <= 0) {#
+              .format.digit.separator.where[i] <<- -1#
+          }#
+      }#
+      separator.count <- 1#
+      length.integer.part <- nchar(split.round.result[1])#
+      digits.in.separated.unit <- 0#
+      for (i in seq(from = length.integer.part, to = 1)) {#
+          if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+              (substr(split.round.result[1], i, i) != "-")) {#
+              first.part <- paste(.format.digit.separator, #
+                first.part, sep = "")#
+              if (separator.count < length(.format.digit.separator.where)) {#
+                separator.count <- separator.count + 1#
+              }#
+              digits.in.separated.unit <- 0#
+          }#
+          first.part <- paste(substr(split.round.result[1], #
+              i, i), first.part, sep = "")#
+          digits.in.separated.unit <- digits.in.separated.unit + #
+              1#
+      }#
+      if (x.original < 0) {#
+          if (.format.dec.mark.align == TRUE) {#
+              first.part <- paste("-", first.part, sep = "")#
+          }#
+          else {#
+              first.part <- paste("$-$", first.part, sep = "")#
+          }#
+      }#
+      if (!is.na(decimal.places)) {#
+          if (decimal.places <= 0) {#
+              return(first.part)#
+          }#
+      }#
+      if (.format.initial.zero == FALSE) {#
+          if ((round.result >= 0) & (round.result < 1)) {#
+              first.part <- ""#
+          }#
+      }#
+      if (length(split.round.result) == 2) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+          if (nchar(split.round.result[2]) < decimal.places) {#
+              decimal.part <- split.round.result[2]#
+              for (i in seq(from = 1, to = (decimal.places - #
+                nchar(split.round.result[2])))) {#
+                decimal.part <- paste(decimal.part, "0", sep = "")#
+              }#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          else {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+      }#
+      else if (length(split.round.result) == 1) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          decimal.part <- ""#
+          for (i in seq(from = 1, to = decimal.places)) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+          }#
+          return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+      }#
+      else {#
+          return(NULL)#
+      }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+#
+  if (details==FALSE) {#
+   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x,c(0,1),type=1,na.rm=na.rm))}))#
+    sum <- as.matrix(sum_mean)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    sum_mean <- colMeans(M ,na.rm=na.rm)#
+    f=function(x,m){#
+      sum_higher <- colMeans(DT[,list((x-m)^2,(x-m)^3,(x-m)^4)],na.rm=na.rm)#
+      sum_higher[1] <- sqrt(sum_higher[1])#
+      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+   # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- stringr::str_replace(y,"0+$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- stringr::str_replace(y,"\\.$","")#
+      y <- stringr::str_replace(y,"-0","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  print(noquote(format(print,justify="right")),right=TRUE)#
+}
+DT %>% group_by(v1) %>% filter(v2) %>% s
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ...details) {#
+  invisible(do(describe_matrix(.data,details=details))#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ...details) {#
+  invisible(do(describe_matrix(.data,details=details)))#
+}
+DT %>% group_by(v1) %>% filter(v2) %>% s
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ...details=FALSE) {#
+  invisible(do(describe_matrix(.data,details = details)))#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, details=FALSE) {#
+  invisible(do(describe_matrix(.data,details = details)))#
+}
+DT %>% group_by(v1) %>% filter(v2) %>% s
+?mutate_each
+mutate_each
+mutate_each_
+colwise_
+dplyr::colwise_
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(tbl, dots(...),d = d)#
+}#
+s_ <- function(.data, vars, d=FALSE) {#
+  vars <- colwise_(tbl, funs, vars)#
+  invisible(do(describe_matrix(select_(.data,vars), details = details)))#
+}#
+colwise_ <- function(tbl, calls, vars) {#
+  stopifnot(is.fun_calls(calls))#
+#
+  if (length(vars) == 0) {#
+    vars <- lazyeval::lazy_dots(everything())#
+  }#
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))#
+#
+  out <- vector("list", length(vars) * length(calls))#
+  dim(out) <- c(length(vars), length(calls))#
+#
+  for (i in seq_along(vars)) {#
+    for (j in seq_along(calls)) {#
+      out[[i, j]] <- lazyeval::interp(calls[[j]],#
+        .values = list(. = as.name(vars[i])))#
+    }#
+  }#
+  dim(out) <- NULL#
+#
+  if (length(calls) == 1) {#
+    names(out) <- names(vars)#
+  } else if (length(vars) == 1) {#
+    names(out) <- names(calls)#
+  } else {#
+    grid <- expand.grid(var = names(vars), call = names(calls))#
+    names(out) <- paste(grid$var, grid$call, sep = "_")#
+  }#
+  out#
+}#
+#
+describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
+  # import from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+      x.original <- x#
+      first.part <- ""#
+      if (is.na(x) | is.null(x)) {#
+          return("")#
+      }#
+      if (simply.output == TRUE) {#
+          if (!is.numeric(x)) {#
+              return(.remove.special.chars(x))#
+          }#
+      }#
+      if (x.original < 0) {#
+          x <- abs(x)#
+      }#
+      if (!is.na(decimal.places)) {#
+          if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+              0)) {#
+              round.result <- round(x, digits = decimal.places)#
+          }#
+          else {#
+              temp.places <- decimal.places#
+              if (!.is.all.integers(x)) {#
+                while ((round(x, digits = temp.places) == 0) & #
+                  (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                  temp.places <- temp.places + 1#
+                }#
+              }#
+              round.result <- round(x, digits = temp.places)#
+              decimal.places <- temp.places#
+          }#
+          if ((round.up.positive == TRUE) & (round.result < #
+              x)) {#
+              if (x > (10^((-1) * (decimal.places + 1)))) {#
+                round.result <- round.result + 10^((-1) * decimal.places)#
+              }#
+              else {#
+                round.result <- 0#
+              }#
+          }#
+      }#
+      else {#
+          round.result <- x#
+      }#
+      round.result.char <- as.character(format(round.result, #
+          scientific = FALSE))#
+      split.round.result <- unlist(strsplit(round.result.char, #
+          "\\."))#
+      for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+          if (.format.digit.separator.where[i] <= 0) {#
+              .format.digit.separator.where[i] <<- -1#
+          }#
+      }#
+      separator.count <- 1#
+      length.integer.part <- nchar(split.round.result[1])#
+      digits.in.separated.unit <- 0#
+      for (i in seq(from = length.integer.part, to = 1)) {#
+          if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+              (substr(split.round.result[1], i, i) != "-")) {#
+              first.part <- paste(.format.digit.separator, #
+                first.part, sep = "")#
+              if (separator.count < length(.format.digit.separator.where)) {#
+                separator.count <- separator.count + 1#
+              }#
+              digits.in.separated.unit <- 0#
+          }#
+          first.part <- paste(substr(split.round.result[1], #
+              i, i), first.part, sep = "")#
+          digits.in.separated.unit <- digits.in.separated.unit + #
+              1#
+      }#
+      if (x.original < 0) {#
+          if (.format.dec.mark.align == TRUE) {#
+              first.part <- paste("-", first.part, sep = "")#
+          }#
+          else {#
+              first.part <- paste("$-$", first.part, sep = "")#
+          }#
+      }#
+      if (!is.na(decimal.places)) {#
+          if (decimal.places <= 0) {#
+              return(first.part)#
+          }#
+      }#
+      if (.format.initial.zero == FALSE) {#
+          if ((round.result >= 0) & (round.result < 1)) {#
+              first.part <- ""#
+          }#
+      }#
+      if (length(split.round.result) == 2) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+          if (nchar(split.round.result[2]) < decimal.places) {#
+              decimal.part <- split.round.result[2]#
+              for (i in seq(from = 1, to = (decimal.places - #
+                nchar(split.round.result[2])))) {#
+                decimal.part <- paste(decimal.part, "0", sep = "")#
+              }#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          else {#
+              return(paste(first.part, .format.decimal.character, #
+                split.round.result[2], sep = ""))#
+          }#
+      }#
+      else if (length(split.round.result) == 1) {#
+          if (is.na(decimal.places)) {#
+              return(paste(first.part, .format.decimal.character, #
+                decimal.part, sep = ""))#
+          }#
+          decimal.part <- ""#
+          for (i in seq(from = 1, to = decimal.places)) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+          }#
+          return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+      }#
+      else {#
+          return(NULL)#
+      }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+#
+  if (details==FALSE) {#
+   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x,c(0,1),type=1,na.rm=na.rm))}))#
+    sum <- as.matrix(sum_mean)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    sum_mean <- colMeans(M ,na.rm=na.rm)#
+    f=function(x,m){#
+      sum_higher <- colMeans(DT[,list((x-m)^2,(x-m)^3,(x-m)^4)],na.rm=na.rm)#
+      sum_higher[1] <- sqrt(sum_higher[1])#
+      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+   # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- stringr::str_replace(y,"0+$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- stringr::str_replace(y,"\\.$","")#
+      y <- stringr::str_replace(y,"-0","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  print(noquote(format(print,justify="right")),right=TRUE)#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(tbl, dots(...),d = d)#
+}#
+s_ <- function(.data, vars, d=FALSE) {#
+  vars <- colwise_(tbl, funs, vars)#
+  invisible(do(describe_matrix(select_(.data,vars), details = details)))#
+}#
+#
+is.fun_calls <- function(x, env) inherits(x, "fun_list")#
+#
+colwise_ <- function(tbl, calls, vars) {#
+  stopifnot(is.fun_calls(calls))#
+#
+  if (length(vars) == 0) {#
+    vars <- lazyeval::lazy_dots(everything())#
+  }#
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))#
+#
+  out <- vector("list", length(vars) * length(calls))#
+  dim(out) <- c(length(vars), length(calls))#
+#
+  for (i in seq_along(vars)) {#
+    for (j in seq_along(calls)) {#
+      out[[i, j]] <- lazyeval::interp(calls[[j]],#
+        .values = list(. = as.name(vars[i])))#
+    }#
+  }#
+  dim(out) <- NULL#
+#
+  if (length(calls) == 1) {#
+    names(out) <- names(vars)#
+  } else if (length(vars) == 1) {#
+    names(out) <- names(calls)#
+  } else {#
+    grid <- expand.grid(var = names(vars), call = names(calls))#
+    names(out) <- paste(grid$var, grid$call, sep = "_")#
+  }#
+  out#
+}
+DT %>% group_by(v1) %>% s(v2)
+select
+select_
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(tbl, dots(...),d = d)#
+}#
+s_ <- function(.data, vars, d=FALSE) {#
+  vars <-   vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))#
+  invisible(do(describe_matrix(select_(.data,vars), details = details)))#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  vars <- lazyeval::as.lazy_dots(...)#
+  s_(tbl, vars ,d = d)#
+}#
+s_ <- function(.data, vars, d=FALSE) {#
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))#
+  invisible(do(describe_matrix(select_(.data,vars), details = details)))#
+}
+DT %>% group_by(v1) %>% s(v2)
+select_
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  vars <- lazyeval::as.lazy_dots(...)#
+  s_(tbl, vars ,d = d)#
+}#
+s_ <- function(.data, vars, d=FALSE,.dots) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  invisible(do(describe_matrix(select_(.data,.dots=dots), details = details)))#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(tbl, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+s_ <- function(.data, ..., .dots, d=FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  invisible(do(describe_matrix(select_(.data,.dots=dots), details = details)))#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(tbl, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+s_ <- function(.data, ..., .dots, d=FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  invisible(do(describe_matrix(select_(.data,.dots=dots), details = d)))#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+s_ <- function(.data, ..., .dots, d=FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  invisible(do(describe_matrix(select_(.data, .dots=dots), details = d)))#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+## imported from dplyr#
+dt_env <- function(dt, env) {#
+  env <- new.env(parent = env, size = 2L)#
+  env$dt <- dt#
+  env$vars <- deparse_all(groups(dt))#
+  env#
+}#
+deparse_all <- function(x) {#
+  deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")#
+  vapply(x, deparse2, FUN.VALUE = character(1))#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+#
+s_ <- function(.data, ..., .dots, d=FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  invisible(select_(.data, .dots=dots)[, describe_matrix , by=byvars)))#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+#
+s_ <- function(.data, ..., .dots, d=FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  invisible(select_(.data, .dots=dots)[, describe_matrix , by=byvars])#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+#
+s_ <- function(.data, ..., .dots, d=FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD) , by=byvars,.SDcols=.data2])#
+}
+DT %>% group_by(v1) %>% s(v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+#
+s_ <- function(.data, ..., .dots, d=FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD) , by=byvars,.SDcols=names(.data2)])#
+}
+DT %>% group_by(v1) %>% s(v2)
+DT %>% group_by(v1) %>% s(v2,d=T)
+DT %>% group_by(v1) %>% s(v2,d=TRUE)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, .dots = lazyeval::lazy_dots(...) ,d = d)#
+}#
+#
+s_ <- function(.data, ..., .dots, d = FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+DT %>% group_by(v1) %>% s(v2,d=TRUE)
+DT %>% s(v2,d=TRUE)
+?mutate_each
+DT %>% group_by(v1) %>% s(v2)
+DT  %>% s(d=T)
+DT
+select_vars
+mutate_each_
+colwise
+DT  %>% s()
+traceback()\
+traceback()
+select_
+?select_
+DT  %>% s
+debug(s)
+DT  %>% s
 s
 n
-M
-N
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)#
-DT %>% edo(summarize, "v2*", d = TRUE)
-substitute(invisible(DT[i, describe(.SD, ...), by = byvars, #
-            .SDcols = colvars]))
-invisible(DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"])
-DT[TRUE, describe(.SD, d = TRUE), by = NULL, .SDcols = "v2"]
-DT[TRUE, describe(.SD, d = TRUE), .SDcols = "v2"]
-DT[, describe(.SD, d = TRUE), .SDcols = "v2"]
+dots
+byvars
+byvars
+dots
+ls(dots)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = dots(...) ,d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+DT  %>% s
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = dots(...) , d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+DT  %>% s
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = as.character(groups(tbl)))#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+DT  %>% s
+tbl_vars
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(tbl)))#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+tbl_vars
+DT  %>% s
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+DT  %>% s
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- dt_env(.data)$vars#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+DT  %>% s
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = dots)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+DT  %>% s
+?select_
+s <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+s_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  invisible(.data2[, describe_matrix(.SD,d=d) , by=byvars,.SDcols=names(.data2)])#
+}
+?select_
+DT  %>% s
+DT  %>% s(d=T)
+DT  %>% filter(v1==1) %>% s(starts_with(v))
+DT  %>% filter(v1==1) %>% s(starts_with("v"))
+DT  %>% s(d=T)
+DT  %>% s()
+DT  %>% s
+sum_up <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+sum_up_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  invisible(.data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])#
+}
+DT  %>% s
+sum_up_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  invisible(setDT(.data2)[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])#
+}
+DT  %>% s
+DT  %>% sum_up
+DT  %>% sum_up
+DT  %>% sum_up(d,=T_
+DT  %>% sum_up(d,=T)
+DT  %>% sum_up(d=T)
+setDF(DT)
+DT  %>% sum_up(d=T)
+sum_up <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+sum_up_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  setDT(.data2)#
+  invisible(setDT(.data2)[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])#
+}
+DT  %>% sum_up(d=T)
+sum_up <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+sum_up_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  setDT(.data2)#
+  invisible(.data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])#
+}
+DT  %>% sum_up(d=T)
+setDT(.data2)
+sum_up <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+sum_up_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  setDT(.data2)#
+  invisible(.data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])#
+}
+setDT(.data2)
+sum_up <- function(.data, ..., d = FALSE) {#
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)#
+}#
+#
+sum_up_ <- function(.data, vars , d = FALSE) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  setDT(.data2)#
+  invisible(.data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])#
+}
+setDT(.data2)
+DT  %>% sum_up(d=T)
+?cut
+?mode
+?emode
+xtile <- function(x,n = NULL,breaks = NULL){#
+  if (is.null(breaks)){#
+    cut(x, breaks = quantile(x, seq(0, 1, length = n + 1)), labels = seq_len(n), include.lowest = TRUE)#
+  }#
+  else{#
+    if (!is.null(n)) stop(" n and breaks cannot be specified together")#
+    length=seq_len(breaks)#
+    cut(x, breaks = breaks, labels = seq_len(length), include.lowest = TRUE)#
+}
+}
+cut
+?cut
+xtile <- function(x, nq = NULL, n=NULL, breaks = NULL){#
+  if (!is.null(nq)){#
+    if (!is.null(n) | !is.null(breaks)) stop("Only one option out of nq, n, breaks can be used")#
+      breaks <- quantile(x, seq(0, 1, length = nq + 1)#
+      xtile(x, breaks = breaks)#
+  } else if (!is.null(n)){#
+    if (!is.null(breaks)) stop("Only one option out of nq, n, breaks can be used")#
+      cut(x, breaks = n, labels = seq_len(n), include.lowest = TRUE)#
+  } else if (!is.null(breaks)){#
+    length=length(breaks)-1#
+    cut(x, breaks = breaks, labels = seq_len(length), include.lowest = TRUE)#
+  }#
+}
+xtile <- function(x, nq = NULL, n=NULL, breaks = NULL){#
+  if (!is.null(nq)){#
+    if (!is.null(n) | !is.null(breaks)) stop("Only one option out of nq, n, breaks can be used")#
+      breaks <- quantile(x, seq(0, 1, length = nq + 1))#
+      xtile(x, breaks = breaks)#
+  } else if (!is.null(n)){#
+    if (!is.null(breaks)) stop("Only one option out of nq, n, breaks can be used")#
+      cut(x, breaks = n, labels = seq_len(n), include.lowest = TRUE)#
+  } else if (!is.null(breaks)){#
+    length=length(breaks)-1#
+    cut(x, breaks = breaks, labels = seq_len(length), include.lowest = TRUE)#
+  }#
+}
+v1
+DT$v1
+DT[,nq:=xtile(v1,nq=3)]
+DT[,nq:=xtile(v1,nq=3)]
 DT
-DT[, describe(.SD, d = TRUE), .SDcols = "v2"]
+set(DT)
+setDT(DT)
 DT
-DT[, describe(.SD, d = TRUE), .SDcols = "v2"]
-DT[, describe(M = .SD, d = TRUE), .SDcols = "v2"]
-DT[, .SD, .SDcols = "v2"]
+DT[,nq:=xtile(v1,nq=3)]
 DT
-DT[, .SD, .SDcols = "v2"]
-DT[, .SD, .SDcols = c("v2")]
-DT[, .SD]
-DT[, as.list(.SD)]
-DT[, .SD]
+DT[,n:=xtile(v1,n=3)]
 DT
-DT[, .SD,.SDcols=names(DT)]
+DT[,length=.N,by==n]
+DT[,length=.N,by=n]
+DT[,length:=.N,by=n]
 DT
-DT[, .SD,.SDcols = names(DT)]
-DT[, colMeans(.SD),.SDcols = names(DT)]
-DT
-DT[, .SD,.SDcols = names(DT)]
-library(data.table)
-DT[, .SD,.SDcols = names(DT)]
-DT
-DT[,mean(v1)]
-DT
-DT[,mean(v2)]
-DT[,mean(v2),]
-is.data.table(DT)
-?edo
-library(data.table)#
-library(dplyr)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),#
-  v2 =  sample(1e6, N, TRUE),#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-)
-DT[,mean(v1)]
+cut
+?cut
+?head
+#' xtile - Create variable containing quantiles#
+#' @param .data A tbl_dt, grouped or not#
+#' @param nq Number of quantiles#
+#' @param cutpoints Citpoints to use if nq is not specified.  For instance 0.4 creates two groups, one for observations strictly below 0.4, one for observations superiror or equal to 0.4#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#
+#' DT <- DT %>% group_by(id) %>% mutate(new = xtile(date, nq = 3))#
+#' DT <- DT %>% group_by(id) %>% mutate(new = xtile(date, breaks = 10))#
+#' @export#
+#
+xtile <- function(x, nq = 2, cutpoints = NULL){#
+  if (!is.null(nq)){#
+  if (!is.null(cutpoins)) stop("Only one option out of nq and breaks can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1)),-1)-1)#
+      return(xtile(x, cutpoints = breaks))#
+  } #
+  length=length(cutpoins)-1#
+  cut(x, breaks = c(min(x),breaks,max(x)) , labels = seq_len(length), include.lowest = TRUE)#
+}
+xtile(DT$v2,breakpoints=0.4)
+xtile(DT$v2,cutpoints=0.4)
+#' xtile - Create variable containing quantiles#
+#' @param .data A tbl_dt, grouped or not#
+#' @param nq Number of quantiles#
+#' @param cutpoints Citpoints to use if nq is not specified.  For instance 0.4 creates two groups, one for observations strictly below 0.4, one for observations superiror or equal to 0.4#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#
+#' DT <- DT %>% group_by(id) %>% mutate(new = xtile(date, nq = 3))#
+#' DT <- DT %>% group_by(id) %>% mutate(new = xtile(date, breaks = 10))#
+#' @export#
+#
+xtile <- function(x, nq = 2, cutpoints = NULL){#
+  if (!is.null(nq)){#
+  if (!is.null(cutpoints)) stop("Only one option out of nq and breaks can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1)),-1)-1)#
+      return(xtile(x, cutpoints = breaks))#
+  } #
+  length=length(cutpoints)-1#
+  cut(x, breaks = c(min(x),breaks,max(x)) , labels = seq_len(length), include.lowest = TRUE)#
+}
+xtile(DT$v2,cutpoints=0.4)
+xtile <- function(x, nq = NULL, cutpoints = NULL){#
+  if (!is.null(nq)){#
+  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1)),-1)-1)#
+      return(xtile(x, cutpoints = breaks))#
+  } #
+  length=length(cutpoints)-1#
+  cut(x, breaks = c(min(x),breaks,max(x)) , labels = seq_len(length), include.lowest = TRUE)#
+}
+xtile(DT$v2,cutpoints=0.4)
+xtile <- function(x, nq = NULL, cutpoints = NULL){#
+  if (!is.null(nq)){#
+  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1)),-1)-1)#
+      return(xtile(x, cutpoints = breaks))#
+  } #
+  length=length(cutpoints)-1#
+  cut(x, breaks = c(min(x), cutpoints ,max(x)) , labels = seq_len(length), include.lowest = TRUE)#
+}
+xtile(DT$v2,cutpoints=0.4)
+#' xtile - Create variable containing quantiles#
+#' @param .data A tbl_dt, grouped or not#
+#' @param nq Number of quantiles#
+#' @param cutpoints Citpoints to use if nq is not specified.  For instance 0.4 creates two groups, one for observations strictly below 0.4, one for observations superiror or equal to 0.4#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#
+#' DT <- DT %>% group_by(id) %>% mutate(new = xtile(date, nq = 3))#
+#' DT <- DT %>% group_by(id) %>% mutate(new = xtile(date, breaks = 10))#
+#' @export#
+#
+xtile <- function(x, nq = NULL, cutpoints = NULL){#
+  if (!is.null(nq)){#
+  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1)),-1)-1)#
+      return(xtile(x, cutpoints = breaks))#
+  } #
+  length=length(cutpoints)+1#
+  cut(x, breaks = c(min(x), cutpoints ,max(x)) , labels = seq_len(length), include.lowest = TRUE)#
+}
+xtile(DT$v2,cutpoints=0.4)

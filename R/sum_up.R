@@ -1,4 +1,40 @@
-describe <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){
+#' Stata Command summarize
+#' 
+#' @param DT A tbl_dt or tbl_grouped_dt.
+#' @param ... Variables to include/exclude in s You can use same specifications as in select. If missing, defaults to all non-grouping variables.
+#' @param d Detail is true or not
+
+#' @examples
+#' library(data.table)
+#' library(dplyr)
+#' N <- 100; K <- 10
+#' DT <- data.table(
+#'   id = 1:N,
+#'   v1 =  sample(5, N, TRUE),                          
+#'   v2 =  sample(1e6, N, TRUE),                       
+#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
+#' )
+#' DT  %>% sum_up
+#' DT  %>% sum_up(v3, d=T)
+#' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+
+
+sum_up <- function(.data, ..., d = FALSE) {
+  s_(.data, vars = lazyeval::lazy_dots(...) , d = d)
+}
+
+sum_up_ <- function(.data, vars , d = FALSE) {
+  if (length(vars) == 0) {
+     vars <- lazyeval::lazy_dots(everything())
+   }
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
+  byvars <- as.character(groups(.data))
+  .data2 <- select_(.data, .dots = vars)
+  .data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])
+}
+
+
+describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){
   # import from stargazer
   .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, 
       simply.output = FALSE,  .format.digit.separator = ",") {
