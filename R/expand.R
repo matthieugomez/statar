@@ -15,9 +15,13 @@
 expand.data.table <- function(.data, ...) {
   expand_(.data, .dots = lazyeval::lazy_dots(...))
 }
+
+#' @export
 expand.tbl_dt <- function(.data, ...) {
   expand_(.data, .dots = lazyeval::lazy_dots(...))
 }
+
+#' @export
 expand.grouped_dt <- function(.data, ...) {
   expand_(.data, .dots = lazyeval::lazy_dots(...))
 }
