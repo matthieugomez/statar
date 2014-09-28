@@ -5,10 +5,10 @@
 \alias{lead-lag}
 \title{Lead and lag.}
 \usage{
-lead(x, n = 1L, default = NA, order_by = NULL, along = NULL, ...)
+lead(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, ...)
 
 \method{lag}{default}(x, n = 1L, default = NA, order_by = NULL,
-  along = NULL, ...)
+  along_with = NULL, ...)
 }
 \arguments{
 \item{x}{a vector of values}

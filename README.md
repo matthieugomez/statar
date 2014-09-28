@@ -9,6 +9,15 @@ A *beta* set of R commands for Stata users built on dplyr and data.table.
 	library(dplyr)
 	library(statar)
 	
+	N=1e6; K=100
+    set.seed(1)
+    DT <- data.table(
+		  id = 1:N,
+		  v1 =  sample(5, N, TRUE),                          # int in range [1,5]
+		  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
+		  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
+		)
+
 	### quantile category (=Stata xtile)
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
