@@ -38,6 +38,7 @@ expand_.grouped_dt <- function(.data,...,.dots){
   .data
 }
 
+#' @export
 expand_.data.table <- function(.data,...,.dots){
   dots <- lazyeval::all_dots(.dots, ...)
   var_name <- names(dplyr::select_vars_(names(.data), dots))

@@ -16,7 +16,7 @@
 #' DT  %>% col_order(starts_with("v"), inplace = TRUE)
 #' @export
 col_order <- function(.data, ..., inplace = FALSE) {
-  colorder_(.data, vars = lazyeval::lazy_dots(...) , inplace = inplace)
+  col_order_(.data, vars = lazyeval::lazy_dots(...) , inplace = inplace)
 }
 #' @export
 col_order_ <- function(.data, vars, inplace = FALSE ) {
