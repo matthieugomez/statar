@@ -27,13 +27,8 @@ spread_.tbl_dt <- function(data, key_col, value_col, fill = NA,
   dplyr::tbl_dt(NextMethod())
 }
 
-
-tempname=function(prefix, where, inherits=TRUE) {
-    i <- 0L
-    name <- prefix
-    while (exists(name, where = where, inherits = inherits)) {
-        i <- i + 1L
-        name <- paste0(prefix, as.character(i))
-    }
-    name
+#' @export
+expand_.grouped_dt  <- function(.data, ..., .dots) {
+  tbl_dt(NextMethod(), copy = FALSE)
 }
+

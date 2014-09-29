@@ -11,3 +11,4 @@ deparse_all <- function(x) {
   deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
   vapply(x, deparse2, FUN.VALUE = character(1))
 }
+

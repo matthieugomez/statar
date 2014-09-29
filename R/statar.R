@@ -1,10 +1,8 @@
 #' The statar package.
 #' @docType package
 #' @name statar
-#' @import data.table
-#' @importFrom Matrix expand
+#' @import data.table 
 #' @importFrom lubridate weeks
-#' @importFrom lubridate months
 #' @importFrom lubridate quarters
 #' @importFrom lubridate years
 #' @importFrom lubridate as.period
