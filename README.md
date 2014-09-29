@@ -34,7 +34,8 @@ A set of R commands for Stata users built on dplyr and data.table.
        date  = dmy(c("01031992","03041992","05051992","21081992")),
        value = c(4.1,4.5,3.3,5.3)
        )
-	DT %>% group_by(v1) %>% mutate(lag(v2, along_with = id, units = "month")) 	````
+	DT %>% group_by(v1) %>% mutate(lag(v2, along_with = id, units = "month")) 
+	````
 
 
 2. The package adds the following verbs that can be used in a `dplyr` pipe (although it works only on data.tables)
