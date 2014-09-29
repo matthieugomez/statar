@@ -5,11 +5,11 @@
 \alias{lead-lag}
 \title{Lead and lag.}
 \usage{
-lead(x, n = 1L, default = NA, order_by = NULL, along_with = NULL,
-  units = NULL, ...)
+lead(x, n = 1L, default = NA, order_by = NULL, units = NULL,
+  along_with = NULL, ...)
 
-lag.default(x, n = 1L, default = NA, order_by = NULL, along_with = NULL,
-  units = NULL, ...)
+\method{lag}{default}(x, n = 1L, default = NA, order_by = NULL,
+  units = NULL, along_with = NULL, ...)
 }
 \arguments{
 \item{x}{a vector of values}
@@ -21,9 +21,9 @@ lead or lag by}
 
 \item{order_by}{override the default ordering to use another vector}
 
-\item{along_with}{instead of using order_by, along_with computes lag/lead variable based on the variable gien in along_with - n}
-
 \item{units}{when variable in along_with is a date, computes lag based on "day", "week", "month", "quarter" or "year". Internally, dates are converted to their largest unit not greater than the corresponding date.}
+
+\item{along_with}{instead of using order_by, along_with computes lag/lead variable based on the variable gien in along_with - n}
 
 \item{...}{Needed for compatibility with lag generic.}
 }

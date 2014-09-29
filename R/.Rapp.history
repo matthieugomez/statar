@@ -1,345 +1,3 @@
-ngroup
-n_groups
-set.seed(123)
-x=matrix(rnorm(10^6),10^4,100)
-system.time({svd(x)})
-library(data.table)#
-N=2e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
-  id4 = sample(K, N, TRUE),                          # large groups (int)#
-  id5 = sample(K, N, TRUE),                          # large groups (int)#
-  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-system.time(speedlm(v3~v2,DT) )
-library(speedlm)
-library(speedglm)
-system.time(speedlm(v3~v2,DT) )
-system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
-system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
-library(biglm)
-system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
-system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
-system.time( summary(speedlm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
-library(data.table)#
-N=1e7; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
-  id4 = sample(K, N, TRUE),                          # large groups (int)#
-  id5 = sample(K, N, TRUE),                          # large groups (int)#
-  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
-system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
-> system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
-system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
-rm(ls())
-rm(list=ls())
-library(data.table)#
-N=1e7; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
-  id4 = sample(K, N, TRUE),                          # large groups (int)#
-  id5 = sample(K, N, TRUE),                          # large groups (int)#
-  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
-system.time( summary(speedlm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
-system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
-system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
-rm(list=ls())
-library(data.table)#
-N=2e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
-  id4 = sample(K, N, TRUE),                          # large groups (int)#
-  id5 = sample(K, N, TRUE),                          # large groups (int)#
-  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-system.time( summary(speedlm(v3~v2+id4+id5+id6,DT)) )
-system.time( summary(biglm(v3~v2+id4+id5+id6,DT)) )
-system.time( summary(biglm(v3~v2+id4+id5+id6+as.factor(v1),DT)) )
-library(dplyr)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-dplyr:::unique_name("dt",globalenv())
-unique_name <- function(prefix,env){#
-  i <- 0L#
-  name <- prefix#
-  while (exists(name,env)) {#
-    i <- i + 1L#
-    name <- paste0(prefix,as.character(i))#
-    }#
-  name#
-}
-unique_name("dt",globalenv())
-unique_name23("dt",globalenv())
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-?unique_name
-?dplyr:::unique_name
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-library(dplyr)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-library(dplyr)
-debug(filter_data.table)
-debug(dplyr:::filter_data.table)
-debug(dplyr::::filter_data.table)
-debug(filter)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-s
-n
-dots_env
-exists("dt",dots_env)
-exists("dt1",dots_env)
-unique_name("dt1",dots_env)
-s
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-s
-n
-s
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-debug(filter)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-s
-n
-dt_unique
-vars_unique
-call
-env
-ls(env)
-DT
-v=Year
-v="Year"
-DT$c(v)
-?assign
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-DT
-DT[,3,with=FALSE]
-DT[,3,with=FALSE,drop=TRUE]
-?data.table
-setDF(table)[,length(table)-1]
-setDF(DT)[,length(DT)]
-library(dplyr)
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow#
-[1] 173#
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==) %>% nrow
-mtcars %>% filter(cyl==dt)
-dt=3
-mtcars %>% filter(cyl==dt)
-mtcars
-dt=6
-mtcars %>% filter(cyl==dt)
-devtools::install_github("hadley/dplyr",vignettes=FALSE)
-devtools::install_github("hadley/dplyr")
-library(dplyr)
-dt=6#
-    setDT(mtcars) %>% filter(cyl==dt)
-library(data.table)
-dt=6#
-    setDT(mtcars) %>% filter(cyl==dt)
-setDT(mtcars)
-DT <- as.data.table(mtcars)
-setDT(mtcars) %>% filter(cyl==dt)
-DT <- as.data.table(mtcars) #
-    dt=6#
-   DT %>% filter(cyl==dt)
-library(dplyr)
-dt=6
-mtcars %>% filter(cyl==dt)
-mtcars %>% mutate(mean(3))
-mtcars %>% mutate(mean(c(3)))
-mtcars %>% mutate(mean(3))
-env$`_DT` <- mtcars
-`_dt`=1
-env$`_dt` <- mtcars
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)#
-   library(data.table)#
-   DT <- as.data.table(mtcars) #
-   dt <- 6#
-   DT %>% filter(cyl==dt)
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-library(dplyr)#
-   library(data.table)#
-   DT <- as.data.table(mtcars) #
-   dt <- 6#
-   DT %>% filter(cyl==dt)
-library(dplyr)#
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502) %>% nrow
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502) %>% nrow
-DT = fread("\"ok\" \"1993\"\n\"ok\" \"1993\"", colClasses = c("character", "numeric"))
-setnames(DT,"DayOfWeek","V1")#
- DT %>% group_by(V1) %>% filter(ArrTime==1502)
-DT %>% group_by(V1) %>% filter(ArrTime==1502)
-DT
-DT <- as.data.table(mtcars)
-DT
-DT %>% group_by(V1) %>% filter(ArrTime==1502)
-library(dplyr)#
-library(hflights)#
-library(data.table)#
-DT <- as.data.table(hflights)#
-DT %>% group_by(DayOfWeek) %>% filter(ArrTime==1502)
-setnames(DT,"DayOfWeek","V1")
-DT %>% group_by(V1) %>% filter(ArrTime==1502)
-library(dplyr)
-mtcars %>% mutate(mean(1))
-remove.packages("dplyr")#
-install.packages("dplyr")
-library(dplyr)
-mtcars %>% mutate(mean(1))
-mtcars %>% mutate(mean(c(1)))
-mtcars %>% mutate(mean(1))
-library(dplyr)
-mtcars %>% mutate(mean(1))
-mtcars %>% mutate(mean(2))
-mtcars %>% mutate(mean(3))
-mtcars %>% mutate(mean(c(3)))
-mtcars %>% mutate(3)
-mtcars %>% mutate(1)
-mean(3)
-mtcars %>% mutate(1)
-mtcars %>% mutate(mean(1))
-mtcars_dt=as.data.table
-mtcars_dt=as.data.table(mtcars)
-mtcars_dt %>% mutate(mean(1))
-library(data.table)
-mtcars_dt=as.data.table(mtcars)
-mtcars_dt %>% mutate(mean(1))
-mtcars %>% group_by(cyl) %>% mutate(mean(1))
 library(dplyr)#
 mtcars %>% group_by(cyl) %>% mutate(mean(1))#
 as.data.table(mtcars) %>% group_by(cyl) %>% mutate(mean(1))
@@ -1059,13 +717,8 @@ DT %>% group_by(id) %>% mutate(lag(value, order_by = time)) # Balanced dataset
 DT %>% group_by(id) %>% mutate(lag(v2, order_by = time)) # Balanced dataset
 DT %>% group_by(id) %>% mutate(lag(v2, along_with = time)) # Unbalanced dataset
 DT %>% group_by(id) %>% mutate(lag(v2, order_by = v1))
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("hadley/lazyeval")#
-devtools::install_github("hadley/dplyr",build_vignettes=FALSE)#
-devtools::install_github("matthieugomez/statar")#
 suppressMessages(library("tidyr"))#
 suppressMessages(library("dplyr"))#
-suppressMessages(library("statar"))#
 suppressMessages(library("data.table"))#
 suppressMessages(library(lazyeval))#
 suppressMessages(library("dplyr"))#
@@ -1077,8 +730,11 @@ suppressMessages(library("pryr"))#
 suppressMessages(library("lfe"))#
 suppressMessages(library("foreign"))#
 suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
 library(data.table)#
+#
+N=1e6; K=100#
 DT <- data.table(#
   id = 1:N,#
   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
@@ -1102,103 +758,692 @@ DT <- data.table(#
 )#
 DT %>% group_by(id) %>% expand(date)#
 DT %>% expand(date)
-N=1e6; K=100
-library(data.table)#
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+?spread
+?gather
+library(tidyr)
+?gather
+stocks <- data.frame(#
+  time = as.Date('2009-01-01') + 0:9,#
+  X = rnorm(10, 0, 1),#
+  Y = rnorm(10, 0, 2),#
+  Z = rnorm(10, 0, 4)#
+)
+stocks
+socks %>% gather(type, price)
+library(dplyr)
+socks %>% gather(type, price)
+stocks %>% gather(type, price)
+DT_long <- DT_wide %>% gather(variable, value, -time)
+DT_long <- stocks %>% gather(variable, value, -time)
+DT_long
+DT_long <- DT_wide %>% spread (variable, value, -time)
+DT_wide <- DT_long %>% spread (variable, value, -time)
+?spread
+DT_wide <- DT_long %>% spread(variable, value, -time)
+DT_wide <- DT_long %>% spread(variable, value)
+DT_wide
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2(4.5,3.0)))
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2(4.5,3.0))
+library(data.table)
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2(4.5,3.0))
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2=c(4.5,3.0))
+DT_wide
+DT_wide %>% gather(variable, value, -i)
+DT_long <- DT_wide %>% gather(variable, value, -i)
+DT_long %>% spread(variable, value)
+options(mc.cores=4) #
+# writing and reading#
+system.time( DT <- fread("temp_1e7.csv") )
+setwd("/Users/Matthieu/Dropbox/Github/abandonned github code")#
+options(mc.cores=4)#
+library(speedglm)#
+library(biglm)#
+#
+# writing and reading#
+system.time( DT <- fread("temp_1e7.csv") )
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+setwd("/Users/Matthieu/Dropbox/Github/abandonned github code")#
+system.time( DT <- fread("temp_1e7.csv") )
+setwd("/Users/Matthieu/Dropbox/Github/abandonned github code")#
+system.time( DT[, a:=sum(v1,na.rm=TRUE), by=id1] )
+system.time( DT[v1==1, a:=sum(v1,na.rm=TRUE), by=id1] )
+system.time( DT[v1==2, a:=sum(v1,na.rm=TRUE), by=id1] )
+system.time( DT <- fread("temp_1e8.csv") )
+system.time( DT[, a:=sum(v1,na.rm=TRUE), by=id1] )
+system.time( DT[v1>=3, a:=sum(v1,na.rm=TRUE), by=id1] )
+system.time( DT[v1>=3, a:=sum(v1,na.rm=TRUE), by=id1] )
+system.time( DT[, a:=sum(v1*(v1>=3),na.rm=TRUE), by=id1] )
+system.time( DT[, a:=sum(v1*(v1>=3),na.rm=TRUE), by=id1] )
+gc()
+system.time( DT[v1>=3, a:=sum(v1,na.rm=TRUE), by=id1] )
+gc()
+system.time( DT[v1>=3, a:=sum(v1,na.rm=TRUE), by=id1] )
+gc()
+system.time( DT[, a:=sum(v1*(v1>=3),na.rm=TRUE), by=id1] )
+DT[v1>=3, a:=sum(v2,na.rm=TRUE), by=id1]
+DT[, a:=sum(v1*(v2>=3),na.rm=TRUE), by=id1]
+DT[, a:=sum(v1*(v2>=3),na.rm=TRUE)]
+gc()
+N=1e7; K=100#
+set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-### col_order (= Stata order)#
-DT  %>% col_order(starts_with("v"))#
-DT  %>% col_order(starts_with("v"), inplace = TRUE)#
-#
-### sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#
-### expand (= Stata tsfill)#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+N=1e7; K=100#
+set.seed(1)#
 DT <- data.table(#
- id = c(1, 1, 1, 1, 1, 2, 2),#
- date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
- value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% expand(date)#
-DT %>% expand(date)
-debug(expand)
-DT %>% group_by(id) %>% expand(date)
-s
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  vid = 1:N,#
+  vv1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  vv2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  vv3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  vvid = 1:N,#
+  vvv1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  vvv2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  vvv3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+gc()
+DT[v1>=3, a:=sum(v2,na.rm=TRUE), by=id1]
+DT[v1>=3, a:=sum(v2,na.rm=TRUE), by=id]
+DT[v1>=3, a:=sum(v2,na.rm=TRUE), by=id]
+system.time(DT[v1>=3,lm(v3~v2,.SD),.SDcols=names(DT)])
+system.time(DT[v1>=3,lm(v3~v2,.SD),.SDcols=c(])
+system.time(DT[v1>=3,lm(v3~v2,.SD),.SDcols=c("v2","v3")])
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N=1e7; K=100#
+set.seed(1)#
+DT <- matrix(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  vid = 1:N,#
+  vv1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  vv2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  vv3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  vvid = 1:N,#
+  vvv1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  vvv2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  vvv3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N=1e7; K=100#
+set.seed(1)#
+DT <- as.matrix(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  vid = 1:N,#
+  vv1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  vv2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  vv3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  vvid = 1:N,#
+  vvv1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  vvv2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  vvv3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT <- as.matrix(DT)
+DT1 <- DT[,1:3]
+names(DT1)
+object_size(DT,DT1)
+object_size(DT)
+object_size(DT,DT1)
+v2 =  sample(1e6, N, TRUE)
+D=cbindlist(rep(v2,4))
+D=cbindlist(v2,v2,v2,v2,v2,v2)
+D=cbind(v2,v2,v2,v2,v2,v2)
+D
+M <- 1e8 #
+v =  sample(1e6, N, TRUE)
+M <- 8e7 #
+v =  sample(1e6, N, TRUE)#
+DT <- matrix(v,ncol=8)
+dim(DT)
+N <- 8e7 #
+v =  sample(1e6, N, TRUE)#
+DT <- matrix(v,ncol=8)
+dim(DT)
+object_size(DT,DT[,1:3])
+object_size(DT)
+object_size(DT,DT[1:5e6])
+object_size(DT,DT[1:(5e6)])
+object_size(DT,DT[1:(8e6)])
+object_size(DT,DT[1:(8e6).])
+object_size(DT,DT[1:(8e6),])
+object_size(DT,DT[1:(5e6),])
+DF <- as.data.frame(M)#
+object_size(DF)
+N <- 8e7 #
+v =  sample(1e6, N, TRUE)#
+M <- matrix(v,ncol=8)#
+object_size(M)#
+#> 320 MB#
+object_size(M,M[,1:3])#
+#> 440 MB#
+object_size(M,M[1:(5e6),])#
+#> 480 MB
+DF <- as.data.frame(M)#
+object_size(DF)
+object_size(DF,DF[,1:3])
+object_size(DF,DF[1:(5e6),])
+library(pryr)#
+v =  sample(1e6, 8e7, TRUE)#
+M <- matrix(v,ncol=8)#
+object_size(M)#
+#> 320 MB#
+object_size(M,M[,1:3])#
+#> 440 MB#
+object_size(M,M[1:(5e6),])#
+#> 480 MB#
+#
+DF <- as.data.frame(M)#
+object_size(DF)#
+#> 320 MB#
+object_size(DF,DF[,1:3])#
+#> 320 MB#
+object_size(DF,DF[1:(5e6),])#
+#> 480 MB
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+?lm
+lm(v3~v2, subset=v1>=3)
+lm(v3~v2, subset=v1>=3,data = DT)
+lm(v3~v2, data = DT[v1>=3])
+system.time(lm(v3~v2, data = DT[v1>=3]))
+system.time(lm(v3~v2, subset=v1>=3,data = DT))
+install.packages("rmarkdown")
+setwd("/Users/Matthieu/Dropbox/Github/abandonned github code")#
+system.time( DT <- fread("temp_1e7.csv") )
+# Need RCurl for install_github#
+install.packages('RCurl')#
+library(devtools)#
+install_github('armstrtw/rzmq#8')#
+install_github("takluyver/IRdisplay")#
+install_github("takluyver/IRkernel")
+IRkernel::installspec()
+IRkernel::installspec()
+setwd("/Users/Matthieu/Dropbox/Github/abandonned github code")#
+system.time( DT <- fread("temp_1e7.csv") )
+?biglm
+library(statar)
+?ejoin
+a <- factor(c("1990q1","1990q2"), levels=c(1,2))
+a
+a <- factor(c("1990q1","1990q2"), labals=c(1,2))
+a <- factor(c("1990q1","1990q2"), labels=c(1,2))
+a[1]
+a[2]
+a[1]+1
+as.numeric(a)
+unclass(a)
+as.numeric(levels(a))
+as.numeric(levels(a))[a]
+a
+a
+1
+a[1]
+a[1]
+a[2]
 setwd("/Users/Matthieu/Dropbox/Symlink")#
 devtools::install_github("matthieugomez/statar")
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Fill Absent observations#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT <- DT %>% group_by(id) %>% expand(date)#
-#' DT <- DT %>% expand(date)#
-#' @export#
-expand.data.table <- function(.data, ...) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...))#
-}#
-#
-#' @export#
-expand.tbl_dt <- function(.data, ...) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...))#
-}#
-#
-#' @export#
-expand.grouped_dt <- function(.data, ...) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...))#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(dplyr::select_vars_(names(.data), dots))#
-  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars#
-  for (t in var_name) {#
-    setkeyv(.data,c(byvars,t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N])), by = c(byvars)], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- .data[ans,allow.cartesian=TRUE]#
+lead <- function(x, n = 1L, default = NA, order_by = NULL, period = c(1,"month","quarter","year"), ...) {#
+  if (!is.null(order_by))  & !is.null(period){#
+    return(with_order(order_by, lead, x, n = n, default = default))#
   }#
-  .data#
-}#
 #
-#' @export#
-expand_.data.table <- function(.data,...,.dots){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(dplyr::select_vars_(names(.data), dots))#
-  env <- dt_env(.data, lazyeval::common_env(dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE]#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(period)) {#
+    if (period==1){#
+      index <- match(along_with + n, along_with, incomparable = NA)#
+      out <- x[index]#
+      if (!is.na(default)) out[which(is.na(index))] <- default#
+    } else if (period == "month"){#
+      date_origin = as.Date('1900-01-01')#
+      order_by_elapsed = as.period(order_by-date_origin)  %/% weeks(1)#
+      return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+    }  #
+    else if (period == "week"){#
+      date_origin = as.Date('1900-01-01')#
+      order_by_elapsed = as.period(order_by-date_origin)  %/% months(1)#
+      return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+    } else if (period == "quarter"){#
+      date_origin = as.Date('1900-01-01')#
+      order_by_elapsed = as.period(order_by-date_origin)  %/% 3*months(1)#
+      return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+    } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(x[-seq_len(n)], rep(default, n))#
   }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
+  attributes(out) <- attributes(x)#
+  out#
 }
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, period = c("month","quarter","year"), ...) {#
+  if (!is.null(order_by))  & !is.null(period){#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(along_with)) {#
+#
+    if (!is.null(period)) {#
+        index <- match(along_with + n, along_with, incomparable = NA)#
+        out <- x[index]#
+        if (!is.na(default)) out[which(is.na(index))] <- default#
+        xlen <- length(x)#
+        n <- pmin(n, xlen)#
+        out <- c(x[-seq_len(n)], rep(default, n))#
+      } else if (period == "month"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% weeks(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      }  #
+      else if (period == "week"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } else if (period == "quarter"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% 3*months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } #
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, period = c("month","quarter","year"), ...) {#
+  if (!is.null(order_by))  & !is.null(along_with){#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(along_with)) {#
+    if (!is.null(period)) {#
+        index <- match(along_with + n, along_with, incomparable = NA)#
+        out <- x[index]#
+        if (!is.na(default)) out[which(is.na(index))] <- default#
+        xlen <- length(x)#
+        n <- pmin(n, xlen)#
+        out <- c(x[-seq_len(n)], rep(default, n))#
+      } else if (period == "month"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% weeks(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      }  #
+      else if (period == "week"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } else if (period == "quarter"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% 3*months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } #
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units = c("month","quarter","year"), ...) {#
+  if (!is.null(order_by))  & !is.null(along_with){#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(along_with)) {#
+    if (!is.null(units)) {#
+        index <- match(along_with + n, along_with, incomparable = NA)#
+        out <- x[index]#
+        if (!is.na(default)) out[which(is.na(index))] <- default#
+        xlen <- length(x)#
+        n <- pmin(n, xlen)#
+        out <- c(x[-seq_len(n)], rep(default, n))#
+      } else if (units == "month"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% weeks(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      }  #
+      else if (units == "week"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } else if (units == "quarter"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% 3*months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } #
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units = c("month","quarter","year"), ...) {#
+  if (!is.null(order_by)) {#
+    if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(along_with)) {#
+    if (!is.null(units)) {#
+        index <- match(along_with + n, along_with, incomparable = NA)#
+        out <- x[index]#
+        if (!is.na(default)) out[which(is.na(index))] <- default#
+        xlen <- length(x)#
+        n <- pmin(n, xlen)#
+        out <- c(x[-seq_len(n)], rep(default, n))#
+      } else if (units == "month"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% weeks(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      }  #
+      else if (units == "week"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } else if (units == "quarter"){#
+        date_origin = as.Date('1900-01-01')#
+        order_by_elapsed = as.period(order_by-date_origin)  %/% 3*months(1)#
+        return(lead(order_by, lead, x, n = n, default = default, period = 1))#
+      } #
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units = c("month","quarter","year"), ...) {#
+  if (!is.null(order_by)) {#
+    if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(along_with)) {#
+    if (!is.null(units)) {#
+        index <- match(along_with + n, along_with, incomparable = NA)#
+        out <- x[index]#
+        if (!is.na(default)) out[which(is.na(index))] <- default#
+        xlen <- length(x)#
+        n <- pmin(n, xlen)#
+        out <- c(x[-seq_len(n)], rep(default, n))#
+      } else if (units == "month"){#
+        date_origin = as.Date('1900-01-01')#
+        along_with_elapsed = as.period(along_with-date_origin)  %/% weeks(1)#
+        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+      }  #
+      else if (units == "week"){#
+        date_origin = as.Date('1900-01-01')#
+        along_with_elapsed = as.period(along_with-date_origin)  %/% months(1)#
+        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+      } else if (units == "quarter"){#
+        date_origin = as.Date('1900-01-01')#
+        along_with_elapsed = as.period(along_with-date_origin)  %/% 3*months(1)#
+        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+      } #
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+DT = data.table(id    = c(1,1,1,1,1),#
+                 date  = c("01031992","03041992","05051992","21081992),#
+                 value = c(4.1,4.5,3.3,5.3,3.0)#
+                )
+DT = data.table(id    = c(1,1,1,1,1),#
+                 date  = c("01031992","03041992","05051992","21081992"),#
+                 value = c(4.1,4.5,3.3,5.3,3.0)#
+                )
+DT = data.table(id    = c(1,1,1,1,1),#
+                 date  = c("01031992","03041992","05051992","21081992"),#
+                 value = c(4.1,4.5,3.3,5.3)#
+                )
+DT = data.table(id    = c(1,1,1,1),#
+                 date  = c("01031992","03041992","05051992","21081992"),#
+                 value = c(4.1,4.5,3.3,5.3)#
+                )
+DT
+DT[,date_date:=dmy(date)]
+DT
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, unit , ...) {#
+  if (!is.null(order_by)) {#
+    if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+  if (!is.null(along_with)) {#
+    if (!is.null(unit)) {#
+        index <- match(along_with + n, along_with, incomparable = NA)#
+        out <- x[index]#
+        if (!is.na(default)) out[which(is.na(index))] <- default#
+        xlen <- length(x)#
+        n <- pmin(n, xlen)#
+        out <- c(x[-seq_len(n)], rep(default, n))#
+      } else{#
+        unitc <-match.arg(unit,c("month","quarter","year"))#
+         if (unitc == "month"){#
+          date_origin = as.Date('1900-01-01')#
+          along_with_elapsed = as.period(along_with-date_origin)  %/% weeks(1)#
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+        }  #
+        else if (unitc == "week"){#
+          date_origin = as.Date('1900-01-01')#
+          along_with_elapsed = as.period(along_with-date_origin)  %/% months(1)#
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+        } else if (unitc == "quarter"){#
+          date_origin = as.Date('1900-01-01')#
+          along_with_elapsed = as.period(along_with-date_origin)  %/% 3*months(1)#
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+        } #
+      }#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+library(lubridate)
+lag(DT$value,1,along_with=DT$date_date,unit="month")
+lead(DT$value,1,along_with=DT$date_date,unit="month")
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, unit , ...) {#
+  if (!is.null(order_by)) {#
+    if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+  if (!is.null(along_with)) {#
+    if (!is.null(unit)) {#
+        index <- match(along_with + n, along_with, incomparable = NA)#
+        out <- x[index]#
+        if (!is.na(default)) out[which(is.na(index))] <- default#
+        xlen <- length(x)#
+        n <- pmin(n, xlen)#
+        out <- c(x[-seq_len(n)], rep(default, n))#
+      } else{#
+        unitc <-match.arg(unit,c("month","quarter","year"))#
+         if (unitc == "week"){#
+          date_origin = as.Date('1900-01-01')#
+          along_with_elapsed = as.period(along_with-date_origin)  %/% weeks(1)#
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+        }  #
+        else if (unitc == "month"){#
+          date_origin = as.Date('1900-01-01')#
+          along_with_elapsed = as.period(along_with-date_origin)  %/% months(1)#
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+        } else if (unitc == "quarter"){#
+          date_origin = as.Date('1900-01-01')#
+          along_with_elapsed = as.period(along_with-date_origin)  %/% 3*months(1)#
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+        } #
+      }#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+lead(DT$value,1,along_with=DT$date_date,unit="month")
+DT
+years
+date_origin = as.Date('0001-01-01')
+date_origin
+min(DT$date_date)
+?floor
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+#' The statar package.#
+#' @docType package#
+#' @name statar#
+#' @import data.table#
+#' @import lubridate#
+#' @importFrom tidyr spread_#
+#' @importFrom stats lag#
+NULL
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+lead <- function(x, n = 1L, default = NA, order_by , along_with , units , ...) {#
+  if (!is.null(order_by)) {#
+    if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")#
+    if (!is.null(units)) stop("order_by and units cannot be specified together")#
+    return(with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    date_origin = as.Date('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lead(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-date_origin)  %/% weeks(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-date_origin)  %/% months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-date_origin)  %/% 3*months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-date_origin)  %/% years(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(along_with)) {#
+      index <- match(along_with + n, along_with, incomparable = NA)#
+      out <- x[index]#
+      if (!is.na(default)) out[which(is.na(index))] <- default#
+    } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(x[-seq_len(n)], rep(default, n))#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+lag_along <- function(x, n = 1L, along_with){#
+         index <- match(along_with + n, along_with, incomparable = NA)#
+         out <- x[index]#
+         attributes(out) <- attributes(x)#
+         out#
+        }
+df <- data.frame(#
+  id = c(1, 1, 1, 1, 1, 2, 2), #
+  date = c(1992, NA, 1991, 1990, 1994, 1992, 1991), #
+  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)
+df %>% group_by(id) %>% mutate(lag_var=lag_along(var, 1, along_with = date))
+library(dplyr)
+df %>% group_by(id) %>% mutate(lag_var=lag_along(var, 1, along_with = date))
+df %>% group_by(id) %>% mutate(lag_var=lag_along(value, 1, along_with = date))
+lag_along <- function(x, n = 1L, along_with){#
+         index <- match(along_with - n, along_with, incomparable = NA)#
+         out <- x[index]#
+         attributes(out) <- attributes(x)#
+         out#
+        }
+DT %>% group_by(id) %>% mutate(lag_var=lag_along(value, 1, along_with = date))
+lag_along <- function(x, n = 1L, along_with){#
+         index <- match(along_with - n, along_with, incomparable = NA)#
+         out <- x[index]#
+         attributes(out) <- attributes(x)#
+         out#
+        }
+DT %>% group_by(id) %>% mutate(lag_var=lag_along(value, 1, along_with = date))
+df %>% group_by(id) %>% mutate(lag_var=lag_along(value, 1, along_with = date))
+lag_along <- function(x, n = 1L, time){#
+         index <- match(time - n, time, incomparable = NA)#
+         out <- x[index]#
+         attributes(out) <- attributes(x)#
+         out#
+        }
+df %>% group_by(id) %>% mutate(lag_var=lag_along(value, 1, time = date))
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")

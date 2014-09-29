@@ -5,4 +5,5 @@
 #' @import lubridate
 #' @importFrom tidyr spread_
 #' @importFrom stats lag
+#' @importFrom Matrix expand
 NULL
