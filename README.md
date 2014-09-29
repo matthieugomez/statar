@@ -31,8 +31,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong
 	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right
 	## Units
-	library(lubridate)
-	DT[, date := dmy(c("01031992", "03041992", "05051992", "21081992"))]
+	DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")]
 	DT %>% group_by(id) %>% mutate(lag(value, 1, units = "month", along_with = date)) 
 	````
 
