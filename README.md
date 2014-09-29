@@ -75,5 +75,8 @@ A set of R commands for Stata users built on dplyr and data.table.
 The package can be installed via the package `devtools`
 
 ````R
+devtools::install_github("matthieugomez/tidyr")
+devtools::install_github("matthieugomez/lazyeval")
+devtools::install_github("matthieugomez/dplyr")
 devtools::install_github("matthieugomez/statar")
 ````

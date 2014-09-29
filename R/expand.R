@@ -12,8 +12,8 @@
 #' DT <- DT %>% group_by(id) %>% expand(date)
 #' DT <- DT %>% expand(date)
 #' @export
-expand <- function(.data, ...) {
-  expand_(.data, .dots = lazyeval::lazy_dots(...))
+expand <- function(.data, ...,type = c("within","across") {
+  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
 }
 
 #' @export
@@ -23,13 +23,17 @@ expand_ <- function(.data, ...,.dots) {
 }
 
 #' @export
-expand_.grouped_dt <- function(.data,...,.dots){
+expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"){
   dots <- lazyeval::all_dots(.dots, ...)
   var_name <- names(dplyr::select_vars_(names(.data), dots))
   byvars <- dt_env(.data, lazyeval::common_env(dots))$vars
   for (t in var_name) {
     setkeyv(.data,c(byvars,t))
-    call <- substitute(.data[, list(seq.int(t[1], t[.N])), by = c(byvars)], list(t = as.name(t)))
+    if (type=="within"){
+      call <- substitute(.data[, list(seq.int(t[1], t[.N])), by = c(byvars)], list(t = as.name(t)))
+    } else{
+      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = min(.data$t), b = max(.data$t)))
+    }
     ans  <- eval(call)
     setnames(ans, c(byvars, t))
     setkeyv(ans, c(byvars, t))
@@ -39,7 +43,7 @@ expand_.grouped_dt <- function(.data,...,.dots){
 }
 
 #' @export
-expand_.data.table <- function(.data,...,.dots){
+expand_.data.table <- function(.data,...,.dots, type = c("within", "across"){
   dots <- lazyeval::all_dots(.dots, ...)
   var_name <- names(dplyr::select_vars_(names(.data), dots))
   env <- dt_env(.data, lazyeval::common_env(dots))
