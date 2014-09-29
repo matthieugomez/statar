@@ -7,6 +7,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 
 	````R
 	library(dplyr)
+	library(data.table)
 	library(statar)
 	
 	# quantile category (=Stata xtile)
@@ -15,10 +16,10 @@ A set of R commands for Stata users built on dplyr and data.table.
 		  id = 1:N,
 		  v1 =  sample(5, N, TRUE),
 		  v2 =  sample(1e6, N, TRUE),                       
-		  v3 =  sample(round(runif(100,max=100),4), N, TRUE)
+		  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
 		)
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
-	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
+	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5)))
 	
 	# lag, from dplyr, gets the option along_with (= Stata L. F.)
 	## Unbalanced panel
@@ -29,17 +30,16 @@ A set of R commands for Stata users built on dplyr and data.table.
 	)
 	DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong
 	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right
-	## Specify units
+	## Units
 	library(lubridate)
-	DT[, date := dmy(c("01031992","03041992","05051992","21081992"))]
+	DT[, date := dmy(c("01031992", "03041992", "05051992", "21081992"))]
 	DT %>% group_by(id) %>% mutate(lag(value, 1, units = "month", along_with = date)) 
 	````
 
 
-2. The package adds the following verbs that can be used in a `dplyr` pipe (although it works only on data.tables)
+2. The package adds the following verbs for data.tables
 
 	````R
-	library(data.table)
 	
 	N=1e6; K=100
     DT <- data.table(
@@ -64,8 +64,10 @@ A set of R commands for Stata users built on dplyr and data.table.
 	 date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
-	DT %>% group_by(id) %>% expand(date)
 	DT %>% expand(date)
+	DT %>% group_by(id) %>% expand(date, type = "within")
+	DT %>% group_by(id) %>% expand(date, type = "accross")
+
 
 	# ejoin (= Stata merge)
 	ejoin(DTm, DTu, m:1)
@@ -73,7 +75,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
 	````
 
-3. `tidyr::spread` has a method for data.tables that uses  `dcast.data.table`, which makes it more memory efficient
+3. `tidyr::spread` has a method for data.tables that uses  `dcast.data.table`, which makes the command more memory efficient
 
 4. Tempname creates a name not assigned in the environment specified by the second variable
 
