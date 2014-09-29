@@ -28,7 +28,6 @@ expand_.tbl_dt <- function(.data, ..., .dots) {
 
 
 #' @export
-#' @rdname expand
 expand_ <- function(.data, ...,.dots) {
   UseMethod("expand_")
 }

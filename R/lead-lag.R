@@ -11,7 +11,6 @@
 #' @param along_with instead of using order_by, along_with computes lag/lead variable based on the variable gien in along_with - n
 #' @param units when variable in along_with is a date, computes lag based on "day", "week", "month", "quarter" or "year". Internally, dates are converted to their largest unit not greater than the corresponding date.
 #' @param ... Needed for compatibility with lag generic.
-#' @importFrom stats lag
 #' @examples
 #' lead(1:10, 1)
 #' lead(1:10, 2)
