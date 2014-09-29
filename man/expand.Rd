@@ -9,6 +9,8 @@ expand(.data, ..., type = c("within", "across"))
 \item{.data}{A tbl_dt, grouped or not}
 
 \item{...}{Variables to expand}
+
+\item{type}{"Within" means that dates are expanded with respect to min and max of \code{...} within groups. "Across" means that rows are expanded with respect to min and max of \code{...} across groups.}
 }
 \description{
 Fill Absent observations
@@ -21,7 +23,8 @@ DT <- data.table(
  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT <- DT \%>\% group_by(id) \%>\% expand(date)
 DT <- DT \%>\% expand(date)
+DT <- DT \%>\% group_by(id) \%>\% expand(date,"across")
+DT <- DT \%>\% group_by(id) \%>\% expand(date)
 }
 

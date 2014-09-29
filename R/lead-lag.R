@@ -7,9 +7,9 @@
 #' @param n a postive integer of length 1, giving the number of positions to
 #'   lead or lag by
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
-#' @param order_by override the default ordering to use another vector
-#' @param along_with instead of using order_by, along_with computes lag/lead variable based on the variable gien in along_with - n
-#' @param units when variable in along_with is a date, computes lag based on "day", "week", "month", "quarter" or "year". Internally, dates are converted to their largest unit not greater than the corresponding date.
+#' @param order_by overrides the default ordering to use another vector
+#' @param along_with specifes lags with respect to this variable instead of rows
+#' @param units computes lag based on "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a date. 
 #' @param ... Needed for compatibility with lag generic.
 #' @examples
 #' lead(1:10, 1)
@@ -27,7 +27,7 @@
 #' right <- mutate(scrambled, prev = lag(value, order_by = year))
 #' arrange(right, year)
 
-#' Use along_with if unbalanced panel data
+#' # Use along_with if unbalanced panel data
 #' library(lubridate)
 #' date  <-  dmy(c("01031992","03041992","05051992","21081992"))
 #' value <-  c(4.1,4.5,3.3,5.3)
@@ -37,7 +37,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, units = NULL, along_with = NULL,  ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL,  along_with = NULL, units = NULL, ...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     if (!is.null(units)) stop("order_by and units cannot be specified together")
@@ -84,7 +84,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, units = NULL, along_w
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, default = NA, order_by = NULL, units = NULL, along_with = NULL, ...) {
+lag.default <- function(x, n = 1L, default = NA, order_by = NULL,  along_with = NULL, units = NULL,...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     if (!is.null(units)) stop("order_by and units cannot be specified together")

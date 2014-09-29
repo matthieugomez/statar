@@ -1,7 +1,7 @@
-#' Create variable containing quantiles (Stata command xtile)
+#' Create variable containing quantile categories (Stata command xtile)
 #'
 #' @param x A vector
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of empirical distribution function
+#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function
 #' @param cutpoints Cutpoints to use if nq is not specified.  For instance 0.4 creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4
 #' @examples 
 #' library(dplyr)
