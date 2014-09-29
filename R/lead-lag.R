@@ -55,17 +55,17 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, un
         out <- c(x[-seq_len(n)], rep(default, n))
       } else if (units == "month"){
         date_origin = as.Date('1900-01-01')
-        order_by_elapsed = as.period(order_by-date_origin)  %/% weeks(1)
-        return(lead(order_by, lead, x, n = n, default = default, period = 1))
+        along_with_elapsed = as.period(along_with-date_origin)  %/% weeks(1)
+        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
       }  
       else if (units == "week"){
         date_origin = as.Date('1900-01-01')
-        order_by_elapsed = as.period(order_by-date_origin)  %/% months(1)
-        return(lead(order_by, lead, x, n = n, default = default, period = 1))
+        along_with_elapsed = as.period(along_with-date_origin)  %/% months(1)
+        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
       } else if (units == "quarter"){
         date_origin = as.Date('1900-01-01')
-        order_by_elapsed = as.period(order_by-date_origin)  %/% 3*months(1)
-        return(lead(order_by, lead, x, n = n, default = default, period = 1))
+        along_with_elapsed = as.period(along_with-date_origin)  %/% 3*months(1)
+        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
       } 
   }
   attributes(out) <- attributes(x)
