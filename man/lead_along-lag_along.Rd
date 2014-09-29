@@ -5,18 +5,18 @@
 \alias{lead_along-lag_along}
 \title{Lead_along and lag_along.}
 \usage{
-lead_along(x, n = 1L, units = NULL, date, default = NA)
+lead_along(x, n = 1L, units = NULL, time, default = NA)
 
-lag_along(x, n = 1L, units = NULL, date, default = NA)
+lag_along(x, n = 1L, units = NULL, time, default = NA)
 }
 \arguments{
 \item{x}{a vector of values}
 
 \item{n}{a postive integer of length 1, giving the number of positions to lead or lag by}
 
-\item{units}{computes lag based on "day", "week", "month", "quarter" or "year" periods. Should be used when \code{date} is a date.}
+\item{units}{computes lag based on "day", "week", "month", "quarter" or "year" periods. Should be used when \code{time} is a date.}
 
-\item{date}{specifes the date variable}
+\item{time}{specifes the time variable}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
 }
@@ -31,9 +31,9 @@ DT <- data.table(
  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT \%>\% group_by(id) \%>\% mutate(lag(value, 1, order_by = date)) # wrong
-DT \%>\% group_by(id) \%>\% mutate(lag_along(value, 1, date = date)) # right
+DT \%>\% group_by(id) \%>\% mutate(lag_along(value, 1, time = date)) # right
 # Units
 DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "\%m/\%d/\%y")]
-DT \%>\% group_by(id) \%>\% mutate(lag_along(value, 1, units = "month", along_with = date))
+DT \%>\% group_by(id) \%>\% mutate(lag_along(value, 1, units = "month", time = date))
 }
 
