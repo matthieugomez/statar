@@ -21,7 +21,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5)))
 	
-	# lag, from dplyr, gets the option along_with (= Stata L. F.)
+	# lag_along (= Stata L. F.)
 	## Unbalanced panel
 	DT <- data.table(
 	 id    = c(1, 1, 1, 1, 1, 2, 2),
