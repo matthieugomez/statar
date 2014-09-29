@@ -6,5 +6,4 @@
 #' @importFrom lubridate years
 #' @importFrom lubridate as.period
 #' @importFrom tidyr spread_
-#' @importFrom stats lag
 NULL
