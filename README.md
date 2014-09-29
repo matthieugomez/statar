@@ -18,24 +18,26 @@ A set of R commands for Stata users built on dplyr and data.table.
 		  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
 		)
 
-	### quantile category (=Stata xtile)
+	# quantile category (=Stata xtile)
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
-	### lag along_with (= Stata L. F.)
+	# lag along_with (= Stata L. F.)
+	## Useful with unbalanced panel
 	DT <- data.table(
 	 id = c(1, 1, 1, 1, 1, 2, 2),
 	 date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
-	DT %>% group_by(v1) %>% mutate(lag(v2, order_by = id)) # Balanced dataset
-	DT %>% group_by(v1) %>% mutate(lag(v2, along_with = id)) # Unbalanced dataset
+	DT %>% group_by(id) %>% mutate(lag(value, order_by = date)) # wrong
+	DT %>% group_by(id) %>% mutate(lag(value, along_with = date)) # right
+	## Used on daily date, units can be day, week, quarter, year
+	library(lubridate)
 	DT <- data.table(
 	   id    = c(1,1,1,1),
-       date  = c("01031992","03041992","05051992","21081992"),
+       date  = dmy(c("01031992","03041992","05051992","21081992")),
        value = c(4.1,4.5,3.3,5.3)
        )
-	DT %>% group_by(v1) %>% mutate(lag(v2, along_with = id, units = "month")) # Units can be day, week, quarter, year
-	````
+	DT %>% group_by(v1) %>% mutate(lag(v2, along_with = id, units = "month")) 	````
 
 
 2. The package adds the following verbs that can be used in a `dplyr` pipe (although it works only on data.tables)
