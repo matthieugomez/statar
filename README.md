@@ -19,6 +19,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 		)
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
+	
 	# lag, from dplyr, gets the option along_with (= Stata L. F.)
 	## Unbalanced panel
 	DT <- data.table(
@@ -47,16 +48,17 @@ A set of R commands for Stata users built on dplyr and data.table.
 	  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
 	  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
 	)
-	### col_order (= Stata order)
+	
+	# col_order (= Stata order)
 	DT  %>% col_order(starts_with("v"))
 	DT  %>% col_order(starts_with("v"), inplace = TRUE)
 	
-	### sum_up (= Stata summarize)
+	# sum_up (= Stata summarize)
 	DT  %>% sum_up
 	DT  %>% sum_up(v3, d=T)
 	DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 	
-	### expand (= Stata tsfill)
+	# expand (= Stata tsfill)
 	DT <- data.table(
 	 id = c(1, 1, 1, 1, 1, 2, 2),
 	 date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -65,7 +67,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(id) %>% expand(date)
 	DT %>% expand(date)
 
-	### ejoin (= Stata merge)
+	# ejoin (= Stata merge)
 	ejoin(DTm, DTu, m:1)
 	ejoin(DTm, DTu, type = 1:1, keep = "matched", gen = "_merge")
 	ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)

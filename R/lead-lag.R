@@ -38,7 +38,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units = NULL, ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, units = NULL, along_with = NULL,  ...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     if (!is.null(units)) stop("order_by and units cannot be specified together")
@@ -85,7 +85,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, un
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units = NULL, ...) {
+lag.default <- function(x, n = 1L, default = NA, order_by = NULL, units = NULL, along_with = NULL, ...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     if (!is.null(units)) stop("order_by and units cannot be specified together")
