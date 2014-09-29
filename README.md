@@ -26,16 +26,12 @@ A set of R commands for Stata users built on dplyr and data.table.
 	 date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
-	DT %>% group_by(id) %>% mutate(lag(value, order_by = date)) # wrong
-	DT %>% group_by(id) %>% mutate(lag(value, along_with = date)) # right
+	DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong
+	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right
 	## Specify units
 	library(lubridate)
-	DT <- data.table(
-	   id    = c(1,1,1,1),
-       date  = dmy(c("01031992","03041992","05051992","21081992")),
-       value = c(4.1,4.5,3.3,5.3)
-       )
-	DT %>% group_by(v1) %>% mutate(lag(v2, along_with = id, units = "month")) 
+	DT[, date := dmy(c("01031992","03041992","05051992","21081992"))]
+	DT %>% group_by(id) %>% mutate(lag(value, 1, units = "month", along_with = date)) 
 	````
 
 
