@@ -37,36 +37,38 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, unit = c("month","quarter","year"), ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, unit , ...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     return(with_order(order_by, lead, x, n = n, default = default))
   }
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
-
   if (!is.null(along_with)) {
-    if (!is.null(units)) {
+    if (!is.null(unit)) {
         index <- match(along_with + n, along_with, incomparable = NA)
         out <- x[index]
         if (!is.na(default)) out[which(is.na(index))] <- default
         xlen <- length(x)
         n <- pmin(n, xlen)
         out <- c(x[-seq_len(n)], rep(default, n))
-      } else if (units == "month"){
-        date_origin = as.Date('1900-01-01')
-        along_with_elapsed = as.period(along_with-date_origin)  %/% weeks(1)
-        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
-      }  
-      else if (units == "week"){
-        date_origin = as.Date('1900-01-01')
-        along_with_elapsed = as.period(along_with-date_origin)  %/% months(1)
-        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
-      } else if (units == "quarter"){
-        date_origin = as.Date('1900-01-01')
-        along_with_elapsed = as.period(along_with-date_origin)  %/% 3*months(1)
-        return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
-      } 
+      } else{
+        unitc <-match.arg(unit,c("month","quarter","year"))
+         if (unitc == "month"){
+          date_origin = as.Date('1900-01-01')
+          along_with_elapsed = as.period(along_with-date_origin)  %/% weeks(1)
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
+        }  
+        else if (unitc == "week"){
+          date_origin = as.Date('1900-01-01')
+          along_with_elapsed = as.period(along_with-date_origin)  %/% months(1)
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
+        } else if (unitc == "quarter"){
+          date_origin = as.Date('1900-01-01')
+          along_with_elapsed = as.period(along_with-date_origin)  %/% 3*months(1)
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
+        } 
+      }
   }
   attributes(out) <- attributes(x)
   out
