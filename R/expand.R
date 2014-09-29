@@ -1,4 +1,5 @@
 #' Fill Absent observations
+#'
 #' @param .data A tbl_dt, grouped or not
 #' @param ... Variables to expand
 #' @examples
@@ -12,20 +13,9 @@
 #' DT <- DT %>% group_by(id) %>% expand(date)
 #' DT <- DT %>% expand(date)
 #' @export
-expand.data.table <- function(.data, ...,type = c("within", "across")) {
+expand <- function(.data, ...,type = c("within", "across")) {
   expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
 }
-
-#' @export
-expand.grouped_dt<- function(.data, ...,type = c("within", "across")) {
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
-}
-
-#' @export
-expand_.tbl_dt <- function(.data, ..., .dots) {
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
-}
-
 
 #' @export
 expand_ <- function(.data, ...,.dots) {
