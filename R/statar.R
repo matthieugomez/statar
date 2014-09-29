@@ -3,7 +3,6 @@
 #' @name statar
 #' @import data.table 
 #' @importFrom lubridate weeks
-#' @importFrom lubridate quarters
 #' @importFrom lubridate years
 #' @importFrom lubridate as.period
 #' @importFrom tidyr spread_
