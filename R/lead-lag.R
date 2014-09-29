@@ -37,7 +37,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units = c("month","quarter","year"), ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, unit = c("month","quarter","year"), ...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
     return(with_order(order_by, lead, x, n = n, default = default))
