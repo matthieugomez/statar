@@ -1,11 +1,11 @@
-#' Create variable containing quantile categories (Stata command xtile)
+#' Create quantile categories (corresponds to Stata command xtile)
 #'
 #' @param x A vector
 #' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function
-#' @param cutpoints Cutpoints to use if nq is not specified.  For instance 0.4 creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4
 #' @examples 
 #' library(dplyr)
-#' DT <- DT %>% group_by(id) %>% mutate(new = xtile(date, nq = 3))
+#' DT %>% group_by(id) %>% mutate(new = xtile(date, nq = 3))
 #' DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 #' DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
 #' @export

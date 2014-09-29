@@ -12,9 +12,9 @@
 #'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
 #'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 #')
-#' DT <- DT %>% expand(date)
-#' DT <- DT %>% group_by(id) %>% expand(date,"across")
-#' DT <- DT %>% group_by(id) %>% expand(date)
+#' DT %>% expand(date)
+#' DT %>% group_by(id) %>% expand(date,"across")
+#' DT %>% group_by(id) %>% expand(date)
 #' @export
 expand <- function(.data, ...,type = c("within", "across")) {
   expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
