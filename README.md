@@ -9,28 +9,25 @@ A set of R commands for Stata users built on dplyr and data.table.
 	library(dplyr)
 	library(statar)
 	
+	# quantile category (=Stata xtile)
 	N=1e6; K=100
-    set.seed(1)
     DT <- data.frame(
 		  id = 1:N,
-		  v1 =  sample(5, N, TRUE),                          # int in range [1,5]
-		  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
-		  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
+		  v1 =  sample(5, N, TRUE),                          		  v2 =  sample(1e6, N, TRUE),                       
+		  v3 =  sample(round(runif(100,max=100),4), N, TRUE)
 		)
-
-	# quantile category (=Stata xtile)
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
 	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5) ))
-	# lag along_with (= Stata L. F.)
-	## Useful with unbalanced panel
+	# lag, from dplyr, gets the option along_with (= Stata L. F.)
+	## Unbalanced panel
 	DT <- data.table(
-	 id = c(1, 1, 1, 1, 1, 2, 2),
-	 date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+	 id    = c(1, 1, 1, 1, 1, 2, 2),
+	 date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
 	DT %>% group_by(id) %>% mutate(lag(value, order_by = date)) # wrong
 	DT %>% group_by(id) %>% mutate(lag(value, along_with = date)) # right
-	## Used on daily date, units can be day, week, quarter, year
+	## Specify units
 	library(lubridate)
 	DT <- data.table(
 	   id    = c(1,1,1,1),
