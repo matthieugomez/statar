@@ -8,6 +8,8 @@
 #'   lead or lag by
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @param order_by override the default ordering to use another vector
+#' @param along_with instead of using order_by, along_with computes lag/lead variable based on the variable gien in along_with - n
+#' @param units when variable in along_with is a daily date, computes lag based on "day", "week", "month", "quarter" or "year". Internally, date are matched based on their largest round unit not greater than the corresponding date.
 #' @param ... Needed for compatibility with lag generic.
 #' @importFrom stats lag
 #' @examples
@@ -23,29 +25,29 @@
 #' # Use order_by if data not already ordered
 #' df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
 #' scrambled <- df[sample(nrow(df)), ]
-#'
-#' wrong <- mutate(scrambled, prev = lag(value))
-#' arrange(wrong, year)
-#'
 #' right <- mutate(scrambled, prev = lag(value, order_by = year))
 #' arrange(right, year)
 
-#' # Use along if unbalanced panel data
-
+#' Use along_with if unbalanced panel data
+#' library(lubridate)
+#' date  <-  dmy(c("01031992","03041992","05051992","21081992"))
+#' value <-  c(4.1,4.5,3.3,5.3)
+#' value_lag <- lead(value,1,along_with = date_date, units = "month")
 #' @name lead-lag
 NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, unit , ...) {
+lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units , ...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
+    if (!is.null(units)) stop("order_by and units cannot be specified together")
     return(with_order(order_by, lead, x, n = n, default = default))
   }
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   if (!is.null(along_with)) {
-    if (!is.null(unit)) {
+    if (!is.null(units)) {
         index <- match(along_with + n, along_with, incomparable = NA)
         out <- x[index]
         if (!is.na(default)) out[which(is.na(index))] <- default
@@ -53,21 +55,25 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, un
         n <- pmin(n, xlen)
         out <- c(x[-seq_len(n)], rep(default, n))
       } else{
-        unitc <-match.arg(unit,c("month","quarter","year"))
-         if (unitc == "month"){
-          date_origin = as.Date('1900-01-01')
-          along_with_elapsed = as.period(along_with-date_origin)  %/% weeks(1)
+        unitsc <-match.arg(units,c("day","week","month","quarter","year"))
+        date_origin = as.Date('0001-01-01')
+        if (unitsc=="day"){
+          return(lead(x = x, n = n, default = default, along_with = along))
+        }
+         if (unitsc == "week"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% weeks(1)
           return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
         }  
-        else if (unitc == "week"){
-          date_origin = as.Date('1900-01-01')
-          along_with_elapsed = as.period(along_with-date_origin)  %/% months(1)
+        else if (unitsc == "month"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% months(1)
           return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
-        } else if (unitc == "quarter"){
-          date_origin = as.Date('1900-01-01')
-          along_with_elapsed = as.period(along_with-date_origin)  %/% 3*months(1)
+        } else if (unitsc == "quarter"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% 3*months(1)
           return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
-        } 
+        } else if (unitsc == "year"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% years(1)
+          return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
+        }
       }
   }
   attributes(out) <- attributes(x)
@@ -76,23 +82,43 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, un
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, ...) {
+lag <- function(x, n = 1L, default = NA, order_by = NULL, along_with = NULL, units , ...) {
   if (!is.null(order_by)) {
     if (!is.null(along_with)) stop("order_by and along_with cannot be specified together")
+    if (!is.null(units)) stop("order_by and units cannot be specified together")
     return(with_order(order_by, lag, x, n = n, default = default))
   }
-
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
-
   if (!is.null(along_with)) {
-    index <- match(along_with - n, along_with, incomparable = NA)
-    out <- x[index]
-    if (!is.na(default)) out[which(is.na(index))] <- default
-  } else{
-    xlen <- length(x)
-    n <- pmin(n, xlen)
-    out <- c(rep(default, n), x[seq_len(xlen - n)])
+    if (!is.null(units)) {
+        index <- match(along_with - n, along_with, incomparable = NA)
+        out <- x[index]
+        if (!is.na(default)) out[which(is.na(index))] <- default
+        xlen <- length(x)
+        n <- pmin(n, xlen)
+        out <- c(x[-seq_len(n)], rep(default, n))
+      } else{
+        unitsc <-match.arg(units,c("day","week","month","quarter","year"))
+        date_origin = as.Date('0001-01-01')
+        if (unitsc=="day"){
+          return(lag(x = x, n = n, default = default, along_with = along))
+        }
+         if (unitsc == "week"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% weeks(1)
+          return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))
+        }  
+        else if (unitsc == "month"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% months(1)
+          return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))
+        } else if (unitsc == "quarter"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% 3*months(1)
+          return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))
+        } else if (unitsc == "year"){
+          along_with_elapsed <- as.period(along_with-date_origin)  %/% years(1)
+          return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))
+        }
+      }
   }
   attributes(out) <- attributes(x)
   out

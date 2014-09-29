@@ -23,7 +23,7 @@ expand_ <- function(.data, ...,.dots) {
 }
 
 #' @export
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"){
+expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across")){
   dots <- lazyeval::all_dots(.dots, ...)
   var_name <- names(dplyr::select_vars_(names(.data), dots))
   byvars <- dt_env(.data, lazyeval::common_env(dots))$vars
@@ -43,7 +43,7 @@ expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"){
 }
 
 #' @export
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"){
+expand_.data.table <- function(.data,...,.dots, type = c("within", "across")){
   dots <- lazyeval::all_dots(.dots, ...)
   var_name <- names(dplyr::select_vars_(names(.data), dots))
   env <- dt_env(.data, lazyeval::common_env(dots))

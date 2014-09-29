@@ -4,7 +4,7 @@
 \alias{expand_}
 \title{Fill Absent observations}
 \usage{
-expand(.data, ...)
+expand(.data, ..., type = c("within", "across"))
 
 expand_(.data, ..., .dots)
 }
