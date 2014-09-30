@@ -32,8 +32,8 @@ DT %>% mutate(lag(value, 1, along_with = date)) # right
 library(lubridate)
 df <- data.frame(     
    id = c("id1", "id1", "id1", "id1"),
- date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
-value = c(4.1, 4.5, 3.3, 5.3)
+   date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
+   value = c(4.1, 4.5, 3.3, 5.3)
 )
 df <- df %>% mutate(date = floor_date(date, "month"))
 df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date)) 
@@ -63,8 +63,8 @@ DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 
 # expand (= Stata tsfill)
 DT <- data.table(
-    id    = c(1, 1, 1, 1, 1, 2, 2),
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+    id = c(1, 1, 1, 1, 1, 2, 2),
+    date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT %>% expand(date)
