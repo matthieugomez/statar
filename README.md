@@ -32,7 +32,7 @@ DT <- data.table(
    date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
    value = c(4.1, 4.5, 3.3, 5.3)
 )
-DT[, datem := floor_date(date, "month"))]
+DT[, datem := floor_date(date, "month")]
 DT[, datem_l := lag(value, months(1), along_with = date), by = id] 
 ````
 
