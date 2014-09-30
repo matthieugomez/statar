@@ -3,6 +3,7 @@
 #' @docType package
 #' @name statar
 #' @import data.table 
+#' @import lubridate
 #' @importFrom dplyr with_order
 #' @importFrom dplyr select_vars_
 #' @importFrom dplyr select_
