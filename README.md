@@ -28,13 +28,13 @@ lag(value, 1, along_with = year)) #  returns value in year - 1
 
 ## lubridate periods can be used instead of integers
 library(lubridate)
-df <- data.frame(     
+DT <- data.table(     
    id = c("id1", "id1", "id1", "id1"),
    date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
    value = c(4.1, 4.5, 3.3, 5.3)
 )
-df <- df %>% mutate(date = floor_date(date, "month"))
-df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date)) 
+DT[, datem := floor_date(date, "month"))]
+DT[, datem_l := lag(value, months(1), along_with = date), by = id] 
 ````
 
 # Dplyr verbs
