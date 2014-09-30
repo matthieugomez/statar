@@ -64,8 +64,10 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(id) %>% expand(date, type = "within")
 	DT %>% group_by(id) %>% expand(date, type = "across")
 	````
-	
+
 3. The package adds a wrapper for `merge` on data.tables based on Stata syntax
+	
+	````R
 	## left join
 	ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
 	## inner join
