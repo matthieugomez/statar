@@ -5,11 +5,10 @@
 \alias{lead-lag}
 \title{lead and lag.}
 \usage{
-lead(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL,
-  default = NA, ...)
+lead(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...)
 
 \method{lag}{default}(x, n = 1L, order_by = NULL, along_with = NULL,
-  units = NULL, default = NA, ...)
+  default = NA, ...)
 }
 \arguments{
 \item{x}{a vector of values}
@@ -20,9 +19,9 @@ lead(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL,
 
 \item{along_with}{compute lag with respect to this vector instead of previous row}
 
-\item{units}{computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a dat or PoSixte.  Internally, the date is transformed via floor_date and the number of calendar periods between the two is computed}
-
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
+
+\item{units}{computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a dat or PoSixte.  Internally, the date is transformed via floor_date and the number of calendar periods between the two is computed}
 }
 \description{
 lead and lag are useful for comparing values for date offset by a constant

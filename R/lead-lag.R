@@ -25,23 +25,25 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...) {
+lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...) {
   
-  if (n == 0) return(x)
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
+  if (!inherits(n,"Period")){
+    if (n == 0) return(x)
+    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
+  }
 
   if (!is.null(order_by)) {
        if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")
        return(order_with(order_by, lead, x, n = n, default = default))
   }
-  if (!is.null(units)) {
-    if (is.null(along_with)) stop("units cannot be used without along_with")
-    units <- match.arg(units,c("sec","min","hour", "day","week","month","quarter","year"))
-    along_with_floor <- floor_date(along_with,units)
-    along_with_origin <- as.Date("1900-01-01")
-    along_with_elapsed <- sapply(along_with_floor,function(x){length(seq(from = along_with_origin, to = x, by = units))-1})
-    return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
-  }
+  #if (!is.null(units)) {
+  #  if (is.null(along_with)) stop("units cannot be used without along_with")
+  #  units <- match.arg(units,c("sec","min","hour", "day","week","month","quarter","year"))
+  #  along_with_floor <- floor_date(along_with,units)
+  #  along_with_origin <- as.Date("1900-01-01")
+  #  along_with_elapsed <- sapply(along_with_floor,function(x){length(seq(from = along_with_origin, #to = x, by = units))-1})
+  #  return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))
+  #}
 
   if (!is.null(along_with)) {
     index <- match(along_with + n, along_with, incomparable = NA)
@@ -60,22 +62,24 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, de
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...) { 
- if (n == 0) return(x)
- if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
+lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...) { 
+  if (!inherits(n,"Period")){
+    if (n == 0) return(x)
+    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
+  }
 
  if (!is.null(order_by)) {
       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")
       return(order_with(order_by, lead, x, n = n, default = default))
  }
- if (!is.null(units)) {
-   if (is.null(along_with)) stop("units cannot be used without along_with")
-   units <-match.arg(units,c("day","week","month","quarter","year"))
-   along_with_floor <- floor_date(along_with,units)
-   along_with_origin <- as.Date("1900-01-01")
-   along_with_elapsed <- sapply(along_with_floor,function(x){length(seq(from = along_with_origin, to = x, by = units))-1})
-   return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))
- }
+# if (!is.null(units)) {
+#   if (is.null(along_with)) stop("units cannot be used without along_with")
+#   units <-match.arg(units,c("day","week","month","quarter","year"))
+#   along_with_floor <- floor_date(along_with,units)
+#   along_with_origin <- as.Date("1900-01-01")
+#   along_with_elapsed <- sapply(along_with_floor,function(x){length(seq(from = along_with_origin, #to = x, by = units))-1})
+#   return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))
+# }
 
   if (!is.null(along_with)) {
     index <- match(along_with - n, along_with, incomparable = NA)
