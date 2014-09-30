@@ -3,7 +3,7 @@
 #' @docType package
 #' @name statar
 #' @import data.table 
-#' @importFrom dplyr order_with
+#' @importFrom dplyr with_order
 #' @importFrom dplyr select_vars_
 #' @importFrom dplyr select_
 #' @importFrom dplyr tbl_vars
