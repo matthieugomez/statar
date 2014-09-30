@@ -5,18 +5,18 @@
 \alias{lead_along-lag_along}
 \title{Lead_along and lag_along.}
 \usage{
-lead_along(x, n = 1L, units = NULL, time, default = NA)
+lead_along(x, n = 1L, time, units = NULL, default = NA)
 
-lag_along(x, n = 1L, units = NULL, time, default = NA)
+lag_along(x, n = 1L, time, units = NULL, default = NA)
 }
 \arguments{
 \item{x}{a vector of values}
 
 \item{n}{a postive integer of length 1, giving the number of positions to lead or lag by}
 
-\item{units}{computes lag based on "day", "week", "month", "quarter" or "year" periods. Should be used when \code{time} is a date.}
-
 \item{time}{specifes the time variable}
+
+\item{units}{computes lag based on "day", "week", "month", "quarter" or "year" periods. Should be used when \code{time} is a date.}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
 }

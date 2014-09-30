@@ -3,8 +3,8 @@
 #' lead_along and lag_along are useful for comparing values for date offset by a constant
 #' @param x a vector of values
 #' @param n a postive integer of length 1, giving the number of positions to lead or lag by
-#' @param units computes lag based on "day", "week", "month", "quarter" or "year" periods. Should be used when \code{time} is a date. 
 #' @param time specifes the time variable
+#' @param units computes lag based on "day", "week", "month", "quarter" or "year" periods. Should be used when \code{time} is a date. 
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @examples
 #' # Unbalanced panel
@@ -24,7 +24,7 @@ NULL
 
 #' @export
 #' @rdname lead_along-lag_along
-lead_along <- function(x, n = 1L, units = NULL, time, default = NA) {
+lead_along <- function(x, n = 1L, time, units = NULL, default = NA) {
   if (!is.null(units)) {
     if (is.null(time)) stop("units cannot be used without order_by")
     unitsc <-match.arg(units,c("day","week","month","quarter","year"))
@@ -59,7 +59,7 @@ lead_along <- function(x, n = 1L, units = NULL, time, default = NA) {
 
 #' @export
 #' @rdname lead_along-lag_along
-lag_along <- function(x, n = 1L, units = NULL, time, default = NA) {
+lag_along <- function(x, n = 1L, time, units = NULL, default = NA) {
     if (!is.null(units)) {
       if (is.null(time)) stop("units cannot be used without order_by")
       unitsc <-match.arg(units,c("day","week","month","quarter","year"))

@@ -31,7 +31,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(id) %>% mutate(lag_along(value, 1, time = date)) # right
 	## Units can be days, weeks, months, quarters or years
 	DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")]
-	DT %>% group_by(id) %>% mutate(lag_along(value, 1, units = "month", time = date)) 
+	DT %>% group_by(id) %>% mutate(lag_along(value, 1, time = date, units = "month")) 
 	````
 
 
@@ -44,7 +44,8 @@ A set of R commands for Stata users built on dplyr and data.table.
 	  id = 1:N,
 	  v1 =  sample(5, N, TRUE),
 	  v2 =  sample(1e6, N, TRUE),
-	  v3 =  sample(round(runif(100,max=100), 4), N, TRUE) 	)
+	  v3 =  sample(round(runif(100,max=100), 4), N, TRUE)
+	  )
 	
 	# col_order (= Stata order)
 	DT  %>% col_order(starts_with("v"))
