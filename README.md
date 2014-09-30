@@ -17,7 +17,9 @@ v2 <-   sample(1e6, 1e6, TRUE)
 v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles
 v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 
-# lag (corresponds to Stata L. F.)
+
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)
+
 ## unbalanced panel
 DT <- data.frame(
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -25,6 +27,7 @@ DT <- data.frame(
 )
 DT %>% mutate(lag(value, 1, order_by = date)) # wrong
 DT %>% mutate(lag(value, 1, along_with = date)) # right
+
 ## lubridate periods can be used instead of integers
 library(lubridate)
 df <- data.frame(     
