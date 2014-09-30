@@ -26,7 +26,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	library(lubridate)
     df <- data.frame(     
       id = c("1", "1", "1", "1"),
-     date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
+     date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
     value = c(4.1, 4.5, 3.3, 5.3)
     )
     df <- df %>% mutate(date = floor_date(date, "month"))
