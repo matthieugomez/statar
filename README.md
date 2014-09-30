@@ -21,7 +21,6 @@ v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two
 ## unbalanced panel
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-
 lag(value, 1, order_by = year)) # returns value in previous year, like  dplyr::lag
 lag(value, 1, along_with = year)) #  returns value in year - 1
 
