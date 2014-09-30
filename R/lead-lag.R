@@ -32,12 +32,12 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, de
 
   if (!is.null(order_by)) {
        if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")
-       return(dplyr::with_order(order_by, lead, x, n = n, default = default))
+       return(with_order(order_by, lead, x, n = n, default = default))
   }
   if (!is.null(units)) {
     if (is.null(along_with)) stop("units cannot be used without along_with")
     unitsc <-match.arg(units,c("day","week","month","quarter","year"))
-    along_with_origin <- as.Date("0001-01-01")
+    along_with_origin <- as.Date("1900-01-01")
     if (unitsc=="day"){
       return(lead(x = x, n = n, default = default, along_with = along))
     }
@@ -58,7 +58,7 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, de
   }
 
   if (!is.null(along_with)) {
-    index <- match(along_with - n, along_with, incomparable = NA)
+    index <- match(along_with + n, along_with, incomparable = NA)
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
   } else{
@@ -81,12 +81,12 @@ lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = N
 
   if (!is.null(order_by)) {
        if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")
-       return(dplyr::with_order(order_by, lag, x, n = n, default = default))
+       return(with_order(order_by, lag, x, n = n, default = default))
   }
   if (!is.null(units)) {
     if (is.null(along_with)) stop("units cannot be used without along_with")
     unitsc <-match.arg(units,c("day","week","month","quarter","year"))
-    along_with_origin <- as.Date("0001-01-01")
+    along_with_origin <- as.Date("1900-01-01")
     if (unitsc=="day"){
       return(lag(x = x, n = n, default = default, along_with = along))
     }
@@ -107,7 +107,7 @@ lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = N
   }
 
   if (!is.null(along_with)) {
-    index <- match(along_with + n, along_with, incomparable = NA)
+    index <- match(along_with - n, along_with, incomparable = NA)
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
   } else{
