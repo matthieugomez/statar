@@ -20,14 +20,13 @@ v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two
 
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
 ## unbalanced panel
-DT <- data.frame(
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
- value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-)
-DT %>% mutate(lag(value, 1, order_by = date)) # wrong
-DT %>% mutate(lag(value, 1, along_with = date)) # right
+year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 
-## periods can be used instead of integers
+lag(value, 1, order_by = date)) # returns value at previous date
+lag(value, 1, along_with = date)) #  returns value at date - 1
+
+## lubridate periods can be used instead of integers
 library(lubridate)
 df <- data.frame(     
    id = c("id1", "id1", "id1", "id1"),
