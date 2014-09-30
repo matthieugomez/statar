@@ -7,15 +7,15 @@ ejoin(DTm, DTu, type, keep = c(c("master", "matched", "using")),
   gen = "_merge")
 }
 \arguments{
-\item{DTm}{The master data.table.}
+\item{DTm}{The master data.table}
 
-\item{DTu}{The using data.table.}
+\item{DTu}{The using data.table}
 
 \item{type}{1:1 one to one merge, m:1 many to one merge, 1:m one to many, m:m many to many (all pairwise combinations)}
 
 \item{keep}{A character vector that specifies rows to keep}
 
-\item{gen}{A character that specifies name of new variable to mark result, or the boolean FALSE if no such variable is created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
+\item{gen}{Name of new variable to mark result, or the boolean FALSE if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 }
 \value{
 A data.table that joins rows in master and using datases. Matching is done on common names. The data.table master and using are sorted in place.
@@ -24,8 +24,15 @@ A data.table that joins rows in master and using datases. Matching is done on co
 Join two data.tables together (similar to Stata command joinby)
 }
 \examples{
-ejoin(DTm, DTu, type = 1:1, keep = c("master", "matched", "using"), gen = "_merge")
-ejoin(DTm, DTu, m:1, keep = "matched")
-ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
+# the option keep specifies rows to keep
+ ## left join
+ ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
+ ## inner join
+ ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
+ ## full outer join
+ ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
+  # the option type specifies whether datasets have duplicates with respect to matching variables
+ ejoin(DTm, DTu, type = 1:1)
+ ejoin(DTm, DTu, m:1)
 }
 

@@ -3,7 +3,7 @@ statar
 
 A set of R commands for Stata users built on dplyr and data.table. 
 
-1. The package adds the following vector functions
+1. The package adds the following vector functions: partition and lead/lag
 	````R
 	library(dplyr)
 	library(data.table)
@@ -15,17 +15,17 @@ A set of R commands for Stata users built on dplyr and data.table.
 	v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 	
 	# lag (corresponds to Stata L. F.)
-	## Unbalanced panel
+	## unbalanced panel
 	DT <- data.frame(
 	 date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
 	DT %>% mutate(lag(value, 1, order_by = date)) # wrong
 	DT %>% mutate(lag(value, 1, along_with = date)) # right
-	## You can use lubridate periods when working with dates
+	## lubridate periods can be used instead of integers
 	library(lubridate)
     df <- data.frame(     
-      id = c("1", "1", "1", "1"),
+       id = c("id1", "id1", "id1", "id1"),
      date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
     value = c(4.1, 4.5, 3.3, 5.3)
     )
@@ -33,7 +33,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date)) 
 	````
 
-2. The package adds the following verbs built on dplyr syntax for data.tables
+2. The package adds the following verbs built on dplyr syntax for data.tables: `colorder`, `sum_up` and `expand`.
 
 	````R
 	
@@ -64,10 +64,18 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(id) %>% expand(date, type = "within")
 	DT %>% group_by(id) %>% expand(date, type = "across")
 
-	# ejoin (= Stata merge)
-	ejoin(DTm, DTu, m:1)
+3. The package adds a wrapper for `merge` on data.tables based on Stata syntax
+	# the option keep specifies rows to keep
+	## left join
+	ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
+	## inner join
+	ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
+	## full outer join
+	ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
+    # the option type specifies whether datasets have duplicates with respect to matching variables
 	ejoin(DTm, DTu, type = 1:1, keep = "matched", gen = "_merge")
 	ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
+	# The command creates a new variable, with name specified in "gen", that equals 1 rows in the master dataset only, 2 for rows in the using dataset only, 3 for matched rows
 	````
 
 3. `tidyr::spread` has a method for data.tables that uses  `dcast.data.table`, which makes the command more memory efficient
