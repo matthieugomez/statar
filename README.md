@@ -13,7 +13,7 @@ library(data.table)
 library(statar)
 
 # partition creates quantile categories (corresponds to Stata xtile)
-v2 <-   sample(1e6, 1e6, TRUE)                   
+v2 <- sample(1e6, 1e6, TRUE)                   
 v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles
 v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 
@@ -23,8 +23,8 @@ v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 
-lag(value, 1, order_by = date)) # returns value at previous date
-lag(value, 1, along_with = date)) #  returns value at date - 1
+lag(value, 1, order_by = year)) # returns value in previous year
+lag(value, 1, along_with = year)) #  returns value in year - 1
 
 ## lubridate periods can be used instead of integers
 library(lubridate)
