@@ -14,7 +14,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles
 	v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 	
-	# lag_along (corresponds to Stata L. F.)
+	# lag (corresponds to Stata L. F.)
 	## Unbalanced panel
 	DT <- data.frame(
 	 date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -22,7 +22,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	)
 	DT %>% mutate(lag(value, 1, order_by = date)) # wrong
 	DT %>% mutate(lag(value, 1, along_with = date)) # right
-	## You can use periods instead of an integer, as defined in lubridate
+	## You can use lubridate periods when working with dates
 	library(lubridate)
     df <- data.frame(     
       id = c("1", "1", "1", "1"),

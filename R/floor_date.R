@@ -39,11 +39,11 @@ floor_date <- function (x, unit = c("second", "minute", "hour", "day", "week",
     new <- switch(unit_temp,
         second = update(x, seconds = floor(second(x))),
         minute = update(x, seconds = 0),
-        hour =   update(x, minutes = 0, seconds = 0),
-        day =    update(x, hours = 0, minutes = 0, seconds = 0),
-        week =   update(x, wdays = 1, hours = 0, minutes = 0, seconds = 0),
-        month =  update(x, mdays = 1, hours = 0, minutes = 0, seconds = 0),
-        year =   update(x, ydays = 1, hours = 0, minutes = 0, seconds = 0)
+          hour = update(x, minutes = 0, seconds = 0),
+           day = update(x, hours = 0, minutes = 0, seconds = 0),
+          week = update(x, wdays = 1, hours = 0, minutes = 0, seconds = 0),
+         month = update(x, mdays = 1, hours = 0, minutes = 0, seconds = 0),
+          year = update(x, ydays = 1, hours = 0, minutes = 0, seconds = 0)
         )
     if (unit == "quarter"){
       modulo <- (month(new)-1) %% 3 
