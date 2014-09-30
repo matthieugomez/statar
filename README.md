@@ -10,10 +10,9 @@ A set of R commands for Stata users built on dplyr and data.table.
 	library(statar)
 	
 	# cluster creates quantile categories (corresponds to Stata xtile)
-	N=1e6; K=100  
-	v2 =  sample(1e6, N, TRUE),                       
-	partition(v2, nq = 3)) # 3 groups based on terciles
-	partition(v2, cutpoints = c(1e5, 5e5))) # 3 groups based on two cutpoints
+	v2 <-   sample(1e6, 1e6, TRUE)                   
+	v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles
+	v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 	
 	# lag_along (corresponds to Stata L. F.)
 	## Unbalanced panel

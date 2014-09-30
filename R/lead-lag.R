@@ -26,7 +26,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {
+lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...) {
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
@@ -74,7 +74,7 @@ lead <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ..
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {
+lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...) {
   
   if (n == 0) return(x)
   if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
