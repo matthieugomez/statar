@@ -37,7 +37,7 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, de
   if (!is.null(units)) {
     if (is.null(along_with)) stop("units cannot be used without along_with")
     unitsc <-match.arg(units,c("day","week","month","quarter","year"))
-    along_with_origin <- as.along_with("0001-01-01")
+    along_with_origin <- as.Date("0001-01-01")
     if (unitsc=="day"){
       return(lead(x = x, n = n, default = default, along_with = along))
     }

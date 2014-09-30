@@ -24,9 +24,9 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% mutate(lag(value, 1, along_with = date)) # right
 	## Units, used on daily dates variables, can be days, weeks, months, quarters or years
 	DT <- data.frame(
-	    id = c(1, 1, 1, 1, 1, 2, 2),
+	    id = c("1", "1", "1", "1"),
 	  date = as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
-	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+	 value = c(4.1, 4.5, 3.3, 5.3)
 	)
 	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) 
 	````
