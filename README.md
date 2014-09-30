@@ -75,7 +75,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 
 3. Other commands
 	- A `tidyr::spread`  method for data.tables that relies on `dcast.data.table`. This makes the command faster.
-	- `floor_date` is overwritten from the package `lubridate` and accepts "quarter" as an argument 
+	- `floor_date`, originally from the package `lubridate`, is rewritten to accept "quarter" as an argument 
 	- `tempname` creates a name not assigned in the environment specified by the second variable
 
 		````R
