@@ -24,12 +24,12 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% mutate(lag(value, 1, along_with = date)) # right
 	## You can use periods instead of an integer, as defined in lubridate
 	library(lubridate)
-	df <- data.frame(
-	    id = c("1", "1", "1", "1"),
-	  date = as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
-	 value = c(4.1, 4.5, 3.3, 5.3)
-	)
-	df <- df %>% mutate(date = floor_date(date, "month"))
+    df <- data.frame(     
+      id = c("1", "1", "1", "1"),
+     date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
+    value = c(4.1, 4.5, 3.3, 5.3)
+    )
+    df <- df %>% mutate(date = floor_date(date, "month"))
 	df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date)) 
 	````
 
