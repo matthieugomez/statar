@@ -3,7 +3,7 @@
 \alias{ejoin}
 \title{Join two data.tables together (similar to Stata command joinby)}
 \usage{
-ejoin(DTm, DTu, type, keep = c(c("master", "matched", "using")),
+ejoin(DTm, DTu, type = m:m, keep = c(c("master", "matched", "using")),
   gen = "_merge")
 }
 \arguments{
@@ -11,7 +11,7 @@ ejoin(DTm, DTu, type, keep = c(c("master", "matched", "using")),
 
 \item{DTu}{The using data.table}
 
-\item{type}{1:1 one to one merge, m:1 many to one merge, 1:m one to many, m:m many to many (all pairwise combinations)}
+\item{type}{m:m many to many (all pairwise combinations), 1:1 one to one merge, m:1 many to one merge, 1:m one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.}
 
 \item{keep}{A character vector that specifies rows to keep}
 
@@ -26,11 +26,11 @@ Join two data.tables together (similar to Stata command joinby)
 \examples{
 # the option keep specifies rows to keep
  ## inner join
- ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
+ ejoin(DTm, DTu, keep = "matched", gen = FALSE)
  ## left join
- ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
+ ejoin(DTm, DTu, keep = c("master","matched"), gen = FALSE)
  ## full outer join
- ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
+ ejoin(DTm, DTu, keep = c("master","matched","using"), gen = FALSE)
   # the option type specifies whether datasets have duplicates with respect to matching variables
  ejoin(DTm, DTu, type = 1:1)
  ejoin(DTm, DTu, m:1)
