@@ -2,7 +2,7 @@
 #'
 #' @param .data A tbl_dt, grouped or not
 #' @param ... Variables to expand
-#' @param type "Within" means that dates are expanded with respect to min and max of \code{...} within groups. "Across" means that rows are expanded with respect to min and max of \code{...} across groups.
+#' @param type "within" means that dates are expanded with respect to min and max of \code{...} within groups. "across" means that rows are expanded with respect to min and max of \code{...} across groups.
 
 #' @examples
 #' library(data.table)
@@ -28,8 +28,8 @@ expand_ <- function(.data, ...,.dots) {
 #' @export
 expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across")){
   dots <- lazyeval::all_dots(.dots, ...)
-  var_name <- names(dplyr::select_vars_(names(.data), dots))
-  byvars <- dt_env(.data, lazyeval::common_env(dots))$vars
+  var_name <- names(select_vars_(names(.data), dots))
+  byvars <- as.character(groups(.data))
   for (t in var_name) {
     setkeyv(.data,c(byvars,t))
     if (type=="within"){
@@ -48,8 +48,8 @@ expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across")){
 #' @export
 expand_.data.table <- function(.data,...,.dots, type = c("within", "across")){
   dots <- lazyeval::all_dots(.dots, ...)
-  var_name <- names(dplyr::select_vars_(names(.data), dots))
-  env <- dt_env(.data, lazyeval::common_env(dots))
+  var_name <- names(select_vars_(names(.data), dots))
+  env <- dt_env(.data, common_env(dots))
   for (t in var_name) {
     setkeyv(.data,c(t))
     call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))

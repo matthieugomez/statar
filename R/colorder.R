@@ -13,13 +13,13 @@
 #'   v2 =  sample(1e6, N, TRUE),                       
 #'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
 #' )
-#' DT  %>% col_order(starts_with("v"), inplace = TRUE)
+#' DT  %>% colorder(starts_with("v"), inplace = TRUE)
 #' @export
-col_order <- function(.data, ..., inplace = FALSE) {
-  col_order_(.data, vars = lazyeval::lazy_dots(...) , inplace = inplace)
+colorder <- function(.data, ..., inplace = FALSE) {
+  colorder_(.data, vars = lazyeval::lazy_dots(...) , inplace = inplace)
 }
 #' @export
-col_order_ <- function(.data, vars, inplace = FALSE ) {
+colorder_ <- function(.data, vars, inplace = FALSE ) {
   if (length(vars) == 0) {
      vars <- lazyeval::lazy_dots(everything())
    }

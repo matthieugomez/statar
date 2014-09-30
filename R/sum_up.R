@@ -18,18 +18,38 @@
 #' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 #' @export
 sum_up <- function(.data, ..., d = FALSE) {
-  sum_up_(.data, vars = lazyeval::lazy_dots(...) , d = d)
+  sum_up_(.data, vars = lazy_dots(...) , d = d)
 }
 #' @export
-sum_up_ <- function(.data, vars , d = FALSE) {
+sum_up_.data.table<- function(.data, vars , d = FALSE) {
   if (length(vars) == 0) {
-     vars <- lazyeval::lazy_dots(everything())
+     vars <- lazy_dots(everything())
+   }
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
+  .data2 <- select_(.data, .dots = vars)
+  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
+}
+
+#' @export
+sum_up_.grouped_dt<- function(.data, vars , d = FALSE) {
+  if (length(vars) == 0) {
+     vars <- lazy_dots(everything())
    }
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   byvars <- as.character(groups(.data))
   .data2 <- select_(.data, .dots = vars)
-  invisible(.data2[, describe_matrix(.SD,d = d) , by = byvars, .SDcols = names(.data2)])
+  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
 }
+
+#' @export
+sump_up_.tbl_dt <- function(.data, ..., .dots) {
+  tbl_dt(NextMethod(), copy = FALSE)
+}
+
+sump_up_.tbl_dt <- function(.data, ..., .dots) {
+  tbl_dt(NextMethod(), copy = FALSE)
+}
+
 
 
 describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){
@@ -186,7 +206,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
   # Now starts the code 
 
   if (details==FALSE) {
-   sum_mean <-as.data.frame(parallel::mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))
+   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))
     sum <- as.matrix(sum_mean)
     rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")
 
@@ -202,7 +222,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
       n_NA <- sum(is.na(x))
       sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)
     }
-    sum <- do.call(cbind,parallel::mcMap(f,M,sum_mean))
+    sum <- do.call(cbind,mcMap(f,M,sum_mean))
     rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
@@ -210,12 +230,12 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
     function(x){
     if (is.numeric(x)){
       y <- .iround(x,decimal.places=3)
-      y <- stringr::str_replace(y,"0+$","")
+      y <- str_replace(y,"0+$","")
       if (y==""){
         y <- "0"
       }
-      y <- stringr::str_replace(y,"\\.$","")
-      y <- stringr::str_replace(y,"-0","0")
+      y <- str_replace(y,"\\.$","")
+      y <- str_replace(y,"-0","0")
     } else{
       y <- x
     }

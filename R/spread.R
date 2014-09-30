@@ -29,6 +29,6 @@ spread_.tbl_dt <- function(data, key_col, value_col, fill = NA,
 
 #' @export
 expand_.grouped_dt  <- function(.data, ..., .dots) {
-  tbl_dt(NextMethod(), copy = FALSE)
+  dplyr::tbl_dt(NextMethod(), copy = FALSE)
 }
 

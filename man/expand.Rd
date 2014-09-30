@@ -10,7 +10,7 @@ expand(.data, ..., type = c("within", "across"))
 
 \item{...}{Variables to expand}
 
-\item{type}{"Within" means that dates are expanded with respect to min and max of \code{...} within groups. "Across" means that rows are expanded with respect to min and max of \code{...} across groups.}
+\item{type}{"within" means that dates are expanded with respect to min and max of \code{...} within groups. "across" means that rows are expanded with respect to min and max of \code{...} across groups.}
 }
 \description{
 Fill Absent observations

@@ -9,16 +9,11 @@ A set of R commands for Stata users built on dplyr and data.table.
 	library(data.table)
 	library(statar)
 	
-	# xtile creates quantile categories (corresponds to Stata xtile)
-	N=1e6; K=100
-    DT <- data.table(
-		  id = 1:N,
-		  v1 =  sample(5, N, TRUE),
-		  v2 =  sample(1e6, N, TRUE),                       
-		  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
-		)
-	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3)) # 3 groups based on terciles
-	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5, 5e5)))
+	# cluster creates quantile categories (corresponds to Stata xtile)
+	N=1e6; K=100  
+	v2 =  sample(1e6, N, TRUE),                       
+	partition(v2, nq = 3)) # 3 groups based on terciles
+	partition(v2, cutpoints = c(1e5, 5e5))) # 3 groups based on two cutpoints
 	
 	# lag_along (corresponds to Stata L. F.)
 	## Unbalanced panel
@@ -28,12 +23,11 @@ A set of R commands for Stata users built on dplyr and data.table.
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
 	DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong
-	DT %>% group_by(id) %>% mutate(lag_along(value, 1, time = date)) # right
+	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right
 	## Units, used on daily dates variables, can be days, weeks, months, quarters or years
-	DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "08/21/1992"), "%m/%d/%Y")]
-	DT %>% group_by(id) %>% mutate(lag_along(value, 1, time = date, units = "month")) 
+	DT[, date := as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y")]
+	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) 
 	````
-
 
 2. The package adds the following verbs for data.tables
 
@@ -47,9 +41,9 @@ A set of R commands for Stata users built on dplyr and data.table.
 	  v3 =  sample(round(runif(100,max=100), 4), N, TRUE)
 	  )
 	
-	# col_order (= Stata order)
-	DT  %>% col_order(starts_with("v"))
-	DT  %>% col_order(starts_with("v"), inplace = TRUE)
+	# colorder (= Stata order)
+	DT  %>% colorder(starts_with("v"))
+	DT  %>% colorder(starts_with("v"), inplace = TRUE)
 	
 	# sum_up (= Stata summarize)
 	DT  %>% sum_up
