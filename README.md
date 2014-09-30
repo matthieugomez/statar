@@ -25,23 +25,23 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% mutate(lag(value, 1, along_with = date)) # right
 	## Units, used on daily dates variables, can be days, weeks, months, quarters or years
 	DT <- data.frame(
-	   id  = c(1, 1, 1, 1, 1, 2, 2),
-	 date  = as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
+	    id = c(1, 1, 1, 1, 1, 2, 2),
+	  date = as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
 	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) 
 	````
 
-2. The package adds the following verbs for data.tables
+2. The package adds the following verbs built on dplyr syntax for data.tables
 
 	````R
 	
 	N=1e6; K=100
     DT <- data.table(
 	  id = 1:N,
-	  v1 =  sample(5, N, TRUE),
-	  v2 =  sample(1e6, N, TRUE),
-	  v3 =  sample(round(runif(100,max=100), 4), N, TRUE)
+	  v1 = sample(5, N, TRUE),
+	  v2 = sample(1e6, N, TRUE),
+	  v3 = sample(round(runif(100,max=100), 4), N, TRUE)
 	  )
 	
 	# colorder (= Stata order)
@@ -55,8 +55,8 @@ A set of R commands for Stata users built on dplyr and data.table.
 	
 	# expand (= Stata tsfill)
 	DT <- data.table(
-	 id = c(1, 1, 1, 1, 1, 2, 2),
-	 date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+	    id = c(1, 1, 1, 1, 1, 2, 2),
+	  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
 	DT %>% expand(date)
