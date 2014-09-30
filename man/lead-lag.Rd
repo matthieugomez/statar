@@ -13,15 +13,13 @@ lead(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...)
 \arguments{
 \item{x}{a vector of values}
 
-\item{n}{a positive integer of length 1, giving the number of positions to lead or lag by}
+\item{n}{a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)}
 
 \item{order_by}{override the default ordering to use another vector}
 
 \item{along_with}{compute lag with respect to this vector instead of previous row}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
-
-\item{units}{computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a dat or PoSixte.  Internally, the date is transformed via floor_date and the number of calendar periods between the two is computed}
 }
 \description{
 lead and lag are useful for comparing values for date offset by a constant
@@ -36,8 +34,13 @@ DT <- data.table(
 DT \%>\% group_by(id) \%>\% mutate(lag(value, 1, order_by = date)) # wrong
 DT \%>\% group_by(id) \%>\% mutate(lag(value, 1, along_with = date)) # right
 # units
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-date <- as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "\%m/\%d/\%Y")
-DT \%>\% group_by(id) \%>\% mutate(lag(value, 1, along_with = date, units = "month"))
+library(lubridate)
+df <- data.frame(
+    id = c("1", "1", "1", "1"),
+  date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "\%m/\%d/\%Y"),
+ value = c(4.1, 4.5, 3.3, 5.3)
+  )
+df <- df \%>\% mutate(date = floor_date(date, "month"))
+DT \%>\% group_by(id) \%>\% mutate(lag(value, months(1), along_with = date))
 }
 
