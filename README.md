@@ -65,29 +65,23 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(id) %>% expand(date, type = "across")
 
 3. The package adds a wrapper for `merge` on data.tables based on Stata syntax
-	# the option keep specifies rows to keep
 	## left join
 	ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
 	## inner join
 	ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
 	## full outer join
 	ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
-    # the option type specifies whether datasets have duplicates with respect to matching variables
-	ejoin(DTm, DTu, type = 1:1, keep = "matched", gen = "_merge")
-	ejoin(DTm, DTu, m:m, keep = c("master", "matched"), gen = FALSE)
-	# The command creates a new variable, with name specified in "gen", that equals 1 rows in the master dataset only, 2 for rows in the using dataset only, 3 for matched rows
 	````
 
-3. `tidyr::spread` has a method for data.tables that uses  `dcast.data.table`, which makes the command more memory efficient
+3. Other commands
+	- A `tidyr::spread`  method for data.tables that uses `dcast.data.table`. This makes the command more memory efficient
+	- `floor_date`, from lubridate, accepts "quarter" as an argument 
+	- `tempname` creates a name not assigned in the environment specified by the second variable
 
-4. floor_date, from dplyr, has an argument for quarter
-
-5. The command tempname creates a name not assigned in the environment specified by the second variable
-
-	````R
-	tempvar <- tempname("temp", DT)
-	tempname <- tempname("temp", globalenv())
-	````
+		````R
+		tempvar <- tempname("temp", DT)
+		tempname <- tempname("temp", globalenv())
+		````
 
 The package can be installed via the package `devtools`
 
