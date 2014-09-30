@@ -10,7 +10,6 @@
 #' @importFrom dplyr groups
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval common_env
-#' @importFrom lubridate update.Date
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap
 #' @importFrom stringr str_replace
