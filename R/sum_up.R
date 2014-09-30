@@ -20,6 +20,12 @@
 sum_up <- function(.data, ..., d = FALSE) {
   sum_up_(.data, vars = lazy_dots(...) , d = d)
 }
+
+#' @export
+sum_up_ <- function(.data, ...,.dots) {
+  UseMethod("sum_up_")
+}
+
 #' @export
 sum_up_.data.table<- function(.data, vars , d = FALSE) {
   if (length(vars) == 0) {
@@ -49,7 +55,6 @@ sump_up_.tbl_dt <- function(.data, ..., .dots) {
 sump_up_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
-
 
 
 describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){
