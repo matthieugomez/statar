@@ -19,7 +19,6 @@ v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two
 
 
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
-
 ## unbalanced panel
 DT <- data.frame(
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -28,7 +27,7 @@ DT <- data.frame(
 DT %>% mutate(lag(value, 1, order_by = date)) # wrong
 DT %>% mutate(lag(value, 1, along_with = date)) # right
 
-## lubridate periods can be used instead of integers
+## periods can be used instead of integers
 library(lubridate)
 df <- data.frame(     
    id = c("id1", "id1", "id1", "id1"),
@@ -72,17 +71,17 @@ DT %>% group_by(id) %>% expand(date, type = "within")
 DT %>% group_by(id) %>% expand(date, type = "across")
 ````
 
-The package also includes a `tidyr::spread` method for data.tables that relies on `dcast.data.table`. 
+The package also includes a `tidyr::spread` method for data.tables that calls `dcast.data.table`. 
 
 # Merge
 The package adds a wrapper for `data.table::merge` based on Stata syntax
 
 ````R
-## inner join
+# inner join
 ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
-## left join
+# left join
 ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
-## full outer join
+# full outer join
 ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
 ````
 
