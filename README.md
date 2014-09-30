@@ -3,25 +3,24 @@ statar
 
 A set of R commands for Stata users built on dplyr and data.table. 
 
-1. The package adds the following vector functions. In particular, they can be used inside `dplyr::mutate`
-
+1. The package adds the following vector functions.
 	````R
 	library(dplyr)
 	library(data.table)
 	library(statar)
 	
-	# quantile category (=Stata xtile)
+	# xtile separates variable in quantile categories (corresponds to Stata xtile)
 	N=1e6; K=100
-    DT <- data.frame(
+    DT <- data.table(
 		  id = 1:N,
 		  v1 =  sample(5, N, TRUE),
 		  v2 =  sample(1e6, N, TRUE),                       
 		  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
 		)
 	DT %>% group_by(v1) %>% mutate(xtile(v2, nq = 3))
-	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5,5e5)))
+	DT %>% group_by(v1) %>% mutate(xtile(v2, cutpoints = c(1e5, 5e5)))
 	
-	# lag_along (= Stata L. F.)
+	# lag_along (corresponds to Stata L. F.)
 	## Unbalanced panel
 	DT <- data.table(
 	 id    = c(1, 1, 1, 1, 1, 2, 2),
