@@ -3,7 +3,10 @@ statar
 
 A set of R commands for Stata users built on dplyr and data.table. 
 
-1. The package adds the following vector functions: partition and lead/lag
+
+# Vector functions
+The package adds the following vector functions: partition and lead/lag
+
 	````R
 	library(dplyr)
 	library(data.table)
@@ -33,7 +36,9 @@ A set of R commands for Stata users built on dplyr and data.table.
 	df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date)) 
 	````
 
-2. The package adds the following verbs built on dplyr syntax for data.tables: `colorder`, `sum_up` and `expand`.
+# Dplyr verbs
+
+The package adds the following verbs built on dplyr syntax for data.tables: `colorder`, `sum_up` and `expand`.
 
 	````R
 	
@@ -65,7 +70,10 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% group_by(id) %>% expand(date, type = "across")
 	````
 
-3. The package adds a wrapper for `merge` on data.tables based on Stata syntax
+	The package also includes a `tidyr::spread` method for data.tables that relies on `dcast.data.table`. 
+
+# Merge
+The package adds a wrapper for `data.table::merge` based on Stata syntax
 	
 	````R
 	## left join
@@ -76,8 +84,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
 	````
 
-3. Other commands
-	- A `tidyr::spread`  method for data.tables that relies on `dcast.data.table`. This makes the command faster.
+# Other
 	- `floor_date`, originally from the package `lubridate`, is rewritten to accept "quarter" as an argument 
 	- `tempname` creates a name not assigned in the environment specified by the second variable
 
