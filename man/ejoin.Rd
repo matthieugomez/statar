@@ -25,10 +25,10 @@ Join two data.tables together (similar to Stata command joinby)
 }
 \examples{
 # the option keep specifies rows to keep
- ## left join
- ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
  ## inner join
  ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
+ ## left join
+ ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
  ## full outer join
  ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
   # the option type specifies whether datasets have duplicates with respect to matching variables

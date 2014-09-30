@@ -78,10 +78,10 @@ The package also includes a `tidyr::spread` method for data.tables that relies o
 The package adds a wrapper for `data.table::merge` based on Stata syntax
 
 ````R
-## left join
-ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
 ## inner join
 ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
+## left join
+ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
 ## full outer join
 ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
 ````
