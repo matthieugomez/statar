@@ -42,7 +42,9 @@ A set of R commands for Stata users built on dplyr and data.table.
 	N=1e6; K=100
     DT <- data.table(
 	  id = 1:N,
-	  v1 =  sample(5, N, TRUE),                         	  v2 =  sample(1e6, N, TRUE),                       	  v3 =  sample(round(runif(100,max=100), 4), N, TRUE) 	)
+	  v1 =  sample(5, N, TRUE),
+	  v2 =  sample(1e6, N, TRUE),
+	  v3 =  sample(round(runif(100,max=100), 4), N, TRUE) 	)
 	
 	# col_order (= Stata order)
 	DT  %>% col_order(starts_with("v"))
