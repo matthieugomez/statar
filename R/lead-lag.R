@@ -33,7 +33,7 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ..
   }
 
   if (!is.null(order_by)) {
-       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")
+       if (!is.null(along_with))  stop("order_by cannot be used with along_with")
        return(order_with(order_by, lead, x, n = n, default = default))
   }
   #if (!is.null(units)) {
@@ -69,7 +69,7 @@ lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, default =
   }
 
  if (!is.null(order_by)) {
-      if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")
+      if (!is.null(along_with))  stop("order_by cannot be used with along_with")
       return(order_with(order_by, lead, x, n = n, default = default))
  }
 # if (!is.null(units)) {
