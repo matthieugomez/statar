@@ -9,7 +9,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 	library(data.table)
 	library(statar)
 	
-	# cluster creates quantile categories (corresponds to Stata xtile)
+	# partition creates quantile categories (corresponds to Stata xtile)
 	v2 <-   sample(1e6, 1e6, TRUE)                   
 	v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles
 	v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
@@ -23,12 +23,13 @@ A set of R commands for Stata users built on dplyr and data.table.
 	DT %>% mutate(lag(value, 1, order_by = date)) # wrong
 	DT %>% mutate(lag(value, 1, along_with = date)) # right
 	## Units, used on daily dates variables, can be days, weeks, months, quarters or years
-	DT <- data.frame(
+	df <- data.frame(
 	    id = c("1", "1", "1", "1"),
 	  date = as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
 	 value = c(4.1, 4.5, 3.3, 5.3)
 	)
-	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) 
+	df <- df %>% mutate(date = floor_date(date, "month"))
+	df %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) 
 	````
 
 2. The package adds the following verbs built on dplyr syntax for data.tables
@@ -70,7 +71,9 @@ A set of R commands for Stata users built on dplyr and data.table.
 
 3. `tidyr::spread` has a method for data.tables that uses  `dcast.data.table`, which makes the command more memory efficient
 
-4. The command tempname creates a name not assigned in the environment specified by the second variable
+4. floor_date, from dplyr, has an argument for quarter
+
+5. The command tempname creates a name not assigned in the environment specified by the second variable
 
 	````R
 	tempvar <- tempname("temp", DT)

@@ -20,7 +20,7 @@ lead(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL,
 
 \item{along_with}{compute lag with respect to this vector instead of previous row}
 
-\item{units}{computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a date.}
+\item{units}{computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a dat or PoSixte.  Internally, the date is transformed via floor_date and the number of calendar periods between the two is computed}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
 }
