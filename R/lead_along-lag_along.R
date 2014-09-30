@@ -17,7 +17,7 @@
 #' DT %>% group_by(id) %>% mutate(lag_along(value, 1, time = date)) # right
 
 #' # Units
-#' DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")]
+#' DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "08/21/1992"), "%m/%d/%Y")]
 #' DT %>% group_by(id) %>% mutate(lag_along(value, 1, units = "month", time = date)) 
 #' @name lead_along-lag_along
 NULL
