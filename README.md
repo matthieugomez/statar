@@ -17,7 +17,6 @@ v2 <- sample(1e6, 1e6, TRUE)
 v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles
 v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 
-
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
 ## unbalanced panel
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -96,8 +95,8 @@ ejoin(DTm, DTu, keep = c("master","matched","using"))
 The package can be installed via the package `devtools`
 
 ````R
-devtools::install_github("matthieugomez/tidyr")
-devtools::install_github("matthieugomez/lazyeval")
-devtools::install_github("matthieugomez/dplyr")
+devtools::install_github("hadley/tidyr")
+devtools::install_github("hadley/lazyeval")
+devtools::install_github("hadley/dplyr")
 devtools::install_github("matthieugomez/statar")
 ````
