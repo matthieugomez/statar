@@ -68,7 +68,6 @@ DT %>% group_by(id) %>% expand(date, type = "within")
 DT %>% group_by(id) %>% expand(date, type = "across")
 ````
 
-The package also includes a `tidyr::spread` method for data.tables that calls `dcast.data.table`. 
 
 # Merge
 The package adds a wrapper for `data.table::merge` based on Stata syntax
@@ -83,6 +82,7 @@ ejoin(DTm, DTu, keep = c("master","matched","using"))
 ````
 
 # Other
+- `tidyr::spread` method for data.tables that calls `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` creates a name not assigned in the environment specified by the second variable
 
