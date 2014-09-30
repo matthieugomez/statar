@@ -77,11 +77,11 @@ The package adds a wrapper for `data.table::merge` based on Stata syntax
 
 ````R
 # inner join
-ejoin(DTm, DTu, type = m:m, keep = "matched", gen = FALSE)
+ejoin(DTm, DTu, keep = "matched")
 # left join
-ejoin(DTm, DTu, type = m:m, keep = c("master","matched"), gen = FALSE)
+ejoin(DTm, DTu, keep = c("master","matched"))
 # full outer join
-ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
+ejoin(DTm, DTu, keep = c("master","matched","using"))
 ````
 
 # Other
