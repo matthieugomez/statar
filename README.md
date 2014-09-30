@@ -60,9 +60,9 @@ DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 
 # expand (= Stata tsfill)
 DT <- data.table(
-    id = c(1, 1, 1, 1, 1, 2, 2),
-  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
- value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+    id    = c(1, 1, 1, 1, 1, 2, 2),
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT %>% expand(date)
 DT %>% group_by(id) %>% expand(date, type = "within")
@@ -84,7 +84,7 @@ ejoin(DTm, DTu, type = m:m, keep = c("master","matched","using"), gen = FALSE)
 ````
 
 # Other
-- `floor_date`, originally from the package `lubridate`, is rewritten to accept "quarter" as an argument 
+- `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` creates a name not assigned in the environment specified by the second variable
 
 	````R
