@@ -3,7 +3,7 @@ statar
 
 A set of R commands for Stata users built on dplyr and data.table. 
 
-1. The package adds the following vector functions.
+1. The package adds the following vector functions
 	````R
 	library(dplyr)
 	library(data.table)
@@ -17,15 +17,18 @@ A set of R commands for Stata users built on dplyr and data.table.
 	
 	# lag_along (corresponds to Stata L. F.)
 	## Unbalanced panel
-	DT <- data.table(
-	 id    = c(1, 1, 1, 1, 1, 2, 2),
+	DT <- data.frame(
 	 date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 	)
-	DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong
-	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right
+	DT %>% mutate(lag(value, 1, order_by = date)) # wrong
+	DT %>% mutate(lag(value, 1, along_with = date)) # right
 	## Units, used on daily dates variables, can be days, weeks, months, quarters or years
-	DT[, date := as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y")]
+	DT <- data.frame(
+	   id  = c(1, 1, 1, 1, 1, 2, 2),
+	 date  = as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y"),
+	 value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+	)
 	DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) 
 	````
 
