@@ -16,20 +16,12 @@
 #' DT %>% group_by(id) %>% expand(date,"across")
 #' DT %>% group_by(id) %>% expand(date)
 #' @export
-expand.data.table <- function(.data, ...,type = c("within", "across")) {
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
-}
-#' @export
-expand.grouped_dt <- function(.data, ...,type = c("within", "across")) {
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
-}
-#' @export
-expand.tbl_dt <- function(.data, ...,type = c("within", "across")) {
+expand <- function(.data, ...,type = c("within", "across")) {
   expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
 }
 
 #' @export
-expand_ <- function(.data, ...,.dots, type = c("within", "across")) {
+expand_ <- function(.data, ...,.dots) {
   UseMethod("expand_")
 }
 
