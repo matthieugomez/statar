@@ -82,7 +82,7 @@ ejoin(DTm, DTu, keep = c("master","matched","using"))
 ````
 
 # Other
-- `tidyr::spread` method for data.tables that calls `dcast.data.table` (much faster).
+-  data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` creates a name not assigned in the environment specified by the second variable
 
@@ -99,3 +99,4 @@ devtools::install_github("hadley/lazyeval")
 devtools::install_github("hadley/dplyr")
 devtools::install_github("matthieugomez/statar")
 ````
+The package should be loaded after `dplyr` and `lubridate`.
