@@ -12,6 +12,7 @@
 #' @importFrom lazyeval common_env
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap
+#' @importFrom stats lag
 #' @importFrom stringr str_replace
 #' @importFrom tidyr spread_
 NULL
