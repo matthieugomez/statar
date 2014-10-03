@@ -38,8 +38,7 @@ DT[, datem_l := lag(value, months(1), along_with = date), by = id]
 # data.table verbs
 
 ````R
-#setna fills in missing values
-# fill missing values
+# setna fills in missing values
 DT <- data.table(
   id    = c(1, 1, 1, 1, 1, 2, 2),
   date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
