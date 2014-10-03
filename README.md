@@ -4,7 +4,7 @@ statar
 A set of R commands for Stata users built on dplyr and data.table. 
 
 
-# Vector functions
+# vector functions
 The package adds the following vector functions: partition and lead/lag
 
 ````R
@@ -53,7 +53,7 @@ DT <- data.table(
 setkey(DT, id, date) 
 setna(DT, "value", roll = 3)
 ````
-# Dplyr verbs
+# dplyr verbs
 
 The package adds the following verbs built on dplyr syntax for data.tables: `colorder`, `sum_up`, `expand`
 ````R
@@ -86,7 +86,7 @@ DT %>% group_by(id) %>% expand(date, type = "across")
 ````
 
 
-# Merge
+# merge
 The package adds a wrapper for `data.table::merge` based on Stata syntax
 
 ````R
@@ -100,7 +100,7 @@ ejoin(DTm, DTu, keep = c("master","matched","using"))
 ejoin(DTm, DTu, type = "1:1", keep = c("master","matched","using"), gen = "_merge")
 ````
 
-# Other
+# other functions
 -  data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` creates a name not assigned in the environment specified by the second variable
