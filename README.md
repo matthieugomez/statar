@@ -5,8 +5,7 @@ A set of R commands for Stata users built on dplyr and data.table.
 
 
 # vector functions
-The package adds the following vector functions: partition and lead/lag
-
+The package adds the following vector functions
 ````R
 library(dplyr)
 library(data.table)
@@ -55,7 +54,8 @@ setna(DT, "value", roll = 3)
 ````
 # dplyr verbs
 
-The package adds the following verbs built on dplyr syntax for data.tables: `colorder`, `sum_up`, `expand`
+The package adds the following verbs built on dplyr syntax for data.tables
+
 ````R
 N=1e6; K=100
 DT <- data.table(
