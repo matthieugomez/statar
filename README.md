@@ -36,8 +36,6 @@ DT <- data.table(
 )
 DT[, datem := floor_date(date, "month")]
 DT[, datem_l := lag(value, months(1), along_with = date), by = id] 
-
-
 ````
 
 # data.table verbs
