@@ -46,7 +46,7 @@ DT <- data.table(
   value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)
  )
 setkey(DT, id, date) 
-setna(DT,"value", roll = 3)
+setna(DT, "value", roll = 3)
 ````
 # Dplyr verbs
 
@@ -57,7 +57,7 @@ DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE),
-  v3 = sample(round(runif(100,max=100), 4), N, TRUE)
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)
   )
 
 # colorder (= Stata order)
