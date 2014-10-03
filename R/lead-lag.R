@@ -33,7 +33,6 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ..
   
   if (!inherits(n,"Period")){
     if (n == 0) return(x)
-    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   }
 
   if (!is.null(order_by)) {
@@ -62,7 +61,6 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ..
 lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...) { 
   if (!inherits(n,"Period")){
     if (n == 0) return(x)
-    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   }
 
  if (!is.null(order_by)) {
