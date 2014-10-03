@@ -27,8 +27,8 @@ lag(value, 1, along_with = year)) #  returns value in year - 1
 ## lubridate periods can be used instead of integers
 library(lubridate)
 DT <- data.table(     
-   id = c("id1", "id1", "id1", "id1"),
-   date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
+   id    = c("id1", "id1", "id1", "id1"),
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
    value = c(4.1, 4.5, 3.3, 5.3)
 )
 DT[, datem := floor_date(date, "month")]
@@ -109,8 +109,6 @@ The package can be installed via the package `devtools`
 
 ````R
 devtools::install_github("hadley/tidyr")
-devtools::install_github("hadley/lazyeval")
-devtools::install_github("hadley/dplyr")
 devtools::install_github("matthieugomez/statar")
 ````
-The package should be loaded after `dplyr` and `lubridate`.
+The package should be loaded after `dplyr` (>= v3.0) and `lubridate`.

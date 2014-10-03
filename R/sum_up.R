@@ -22,7 +22,7 @@ sum_up <- function(.data, ..., d = FALSE) {
 }
 
 #' @export
-sum_up_ <- function(.data, ...,.dots) {
+sum_up_ <- function(.data, ...,.dots, d = FALSE) {
   UseMethod("sum_up_")
 }
 
