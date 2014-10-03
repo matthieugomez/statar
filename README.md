@@ -71,8 +71,8 @@ DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 
 # expand (= Stata tsfill)
 DT <- data.table(
-    id = c(1, 1, 1, 1, 1, 2, 2),
-    date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+    id    = c(1, 1, 1, 1, 1, 2, 2),
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT %>% expand(date)
