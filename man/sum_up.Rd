@@ -4,6 +4,8 @@
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
 sum_up(.data, ..., d = FALSE)
+
+sum_up(.data, ..., d = FALSE)
 }
 \arguments{
 \item{...}{Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.}
@@ -11,11 +13,31 @@ sum_up(.data, ..., d = FALSE)
 \item{d}{Should detailed summary statistics be printed?}
 
 \item{DT}{A tbl_dt or tbl_grouped_dt.}
+
+\item{DT}{A tbl_dt or tbl_grouped_dt.}
+
+\item{...}{Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.}
+
+\item{d}{Should detailed summary statistics be printed?}
 }
 \description{
 Gives summary statistics (corresponds to Stata command summarize)
+
+Gives summary statistics (corresponds to Stata command summarize)
 }
 \examples{
+library(data.table)
+library(dplyr)
+N <- 100; K <- 10
+DT <- data.table(
+  id = 1:N,
+  v1 =  sample(5, N, TRUE),
+  v2 =  sample(1e6, N, TRUE),
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
+)
+DT  \%>\% sum_up
+DT  \%>\% sum_up(v3, d=T)
+DT  \%>\% filter(v1==1) \%>\% sum_up(starts_with("v"))
 library(data.table)
 library(dplyr)
 N <- 100; K <- 10
