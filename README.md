@@ -38,7 +38,7 @@ DT[, datem_l := lag(value, months(1), along_with = date), by = id]
 # data.table verbs
 
 ````R
-# fill in missing values
+# setna fills in missing values
 DT <- data.table(
   id    = c(1, 1, 1, 1, 1, 2, 2),
   date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -91,6 +91,8 @@ ejoin(DTm, DTu, keep = "matched")
 ejoin(DTm, DTu, keep = c("master","matched"))
 # full outer join
 ejoin(DTm, DTu, keep = c("master","matched","using"))
+# more complex
+ejoin(DTm, DTu, type = "1:1", keep = c("master","matched","using"), gen = "_merge")
 ````
 
 # Other
