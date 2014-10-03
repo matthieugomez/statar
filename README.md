@@ -35,18 +35,7 @@ DT[, datem := floor_date(date, "month")]
 DT[, datem_l := lag(value, months(1), along_with = date), by = id] 
 ````
 
-# data.table verbs
 
-````R
-# setna fills in missing values
-DT <- data.table(
-  id    = c(1, 1, 1, 1, 1, 2, 2),
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
-  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)
- )
-setkey(DT, id, date)
-setna(DT, "value", roll = 3)
-````
 # Dplyr verbs
 
 The package adds the following verbs built on dplyr syntax for data.tables: `colorder`, `sum_up`, `expand` and `fill_na`
