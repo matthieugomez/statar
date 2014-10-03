@@ -30,16 +30,15 @@ NULL
 #' @export
 #' @rdname lead-lag
 lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...) {
-  
   if (!inherits(n,"Period")){
     if (n == 0) return(x)
+    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   }
 
   if (!is.null(order_by)) {
-       if (!is.null(along_with))  stop("order_by cannot be used with along_with")
-       return(with_order(order_by, lead, x, n = n, default = default))
+    if (!is.null(along_with))  stop("order_by cannot be used with along_with")
+    return(with_order(order_by, lead, x, n = n, default = default))
   }
-
 
   if (!is.null(along_with)) {
     index <- match(along_with + n, along_with, incomparable = NA)
@@ -61,11 +60,12 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ..
 lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...) { 
   if (!inherits(n,"Period")){
     if (n == 0) return(x)
+    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   }
 
- if (!is.null(order_by)) {
-      if (!is.null(along_with))  stop("order_by cannot be used with along_with")
-      return(with_order(order_by, lead, x, n = n, default = default))
+  if (!is.null(order_by)) {
+    if (!is.null(along_with))  stop("order_by cannot be used with along_with")
+    return(with_order(order_by, lead, x, n = n, default = default))
  }
 
   if (!is.null(along_with)) {
@@ -80,4 +80,5 @@ lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, default =
   attributes(out) <- attributes(x)
   out
 }
+
 

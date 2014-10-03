@@ -32,7 +32,7 @@ sum_up_.data.table<- function(.data, vars , d = FALSE) {
   var_name <- names(select_vars_(names(.data), dots))
   if (length(vars) == 0) {
      vars <- lazy_dots(everything())
-   }
+  }
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   .data2 <- select_(.data, .dots = vars)
   invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
@@ -42,7 +42,7 @@ sum_up_.data.table<- function(.data, vars , d = FALSE) {
 sum_up_.grouped_dt<- function(.data, vars , d = FALSE) {
   if (length(vars) == 0) {
      vars <- lazy_dots(everything())
-   }
+  }
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   byvars <- as.character(groups(.data))
   .data2 <- select_(.data, .dots = vars)
@@ -72,127 +72,127 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
     .format.decimal.character <- "."
     .format.dec.mark.align <- FALSE
     .format.dec.mark.align <- TRUE
-      x.original <- x
-      first.part <- ""
-      if (is.na(x) | is.null(x)) {
-          return("")
+    x.original <- x
+    first.part <- ""
+    if (is.na(x) | is.null(x)) {
+      return("")
+    }
+    if (simply.output == TRUE) {
+      if (!is.numeric(x)) {
+        return(.remove.special.chars(x))
       }
-      if (simply.output == TRUE) {
-          if (!is.numeric(x)) {
-              return(.remove.special.chars(x))
-          }
-      }
-      if (x.original < 0) {
-          x <- abs(x)
-      }
-      if (!is.na(decimal.places)) {
-          if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= 
-              0)) {
-              round.result <- round(x, digits = decimal.places)
-          }
-          else {
-              temp.places <- decimal.places
-              if (!.is.all.integers(x)) {
-                while ((round(x, digits = temp.places) == 0) & 
-                  (temp.places < (decimal.places + .format.max.extra.digits))) {
-                  temp.places <- temp.places + 1
-                }
+    }
+    if (x.original < 0) {
+      x <- abs(x)
+    }
+    if (!is.na(decimal.places)) {
+        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= 
+            0)) {
+            round.result <- round(x, digits = decimal.places)
+        }
+        else {
+            temp.places <- decimal.places
+            if (!.is.all.integers(x)) {
+              while ((round(x, digits = temp.places) == 0) & 
+                (temp.places < (decimal.places + .format.max.extra.digits))) {
+                temp.places <- temp.places + 1
               }
-              round.result <- round(x, digits = temp.places)
-              decimal.places <- temp.places
-          }
-          if ((round.up.positive == TRUE) & (round.result < 
-              x)) {
-              if (x > (10^((-1) * (decimal.places + 1)))) {
-                round.result <- round.result + 10^((-1) * decimal.places)
-              }
-              else {
-                round.result <- 0
-              }
-          }
-      }
-      else {
-          round.result <- x
-      }
-      round.result.char <- as.character(format(round.result, 
-          scientific = FALSE))
-      split.round.result <- unlist(strsplit(round.result.char, 
-          "\\."))
-      for (i in seq(from = 1, to = length(.format.digit.separator.where))) {
-          if (.format.digit.separator.where[i] <= 0) {
-              .format.digit.separator.where[i] <<- -1
-          }
-      }
-      separator.count <- 1
-      length.integer.part <- nchar(split.round.result[1])
-      digits.in.separated.unit <- 0
-      for (i in seq(from = length.integer.part, to = 1)) {
-          if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & 
-              (substr(split.round.result[1], i, i) != "-")) {
-              first.part <- paste(.format.digit.separator, 
-                first.part, sep = "")
-              if (separator.count < length(.format.digit.separator.where)) {
-                separator.count <- separator.count + 1
-              }
-              digits.in.separated.unit <- 0
-          }
-          first.part <- paste(substr(split.round.result[1], 
-              i, i), first.part, sep = "")
-          digits.in.separated.unit <- digits.in.separated.unit + 
-              1
-      }
-      if (x.original < 0) {
-          if (.format.dec.mark.align == TRUE) {
-              first.part <- paste("-", first.part, sep = "")
-          }
-          else {
-              first.part <- paste("$-$", first.part, sep = "")
-          }
-      }
-      if (!is.na(decimal.places)) {
-          if (decimal.places <= 0) {
-              return(first.part)
-          }
-      }
-      if (.format.initial.zero == FALSE) {
-          if ((round.result >= 0) & (round.result < 1)) {
-              first.part <- ""
-          }
-      }
-      if (length(split.round.result) == 2) {
-          if (is.na(decimal.places)) {
-              return(paste(first.part, .format.decimal.character, 
-                split.round.result[2], sep = ""))
-          }
-          if (nchar(split.round.result[2]) < decimal.places) {
-              decimal.part <- split.round.result[2]
-              for (i in seq(from = 1, to = (decimal.places - 
-                nchar(split.round.result[2])))) {
-                decimal.part <- paste(decimal.part, "0", sep = "")
-              }
-              return(paste(first.part, .format.decimal.character, 
-                decimal.part, sep = ""))
-          }
-          else {
-              return(paste(first.part, .format.decimal.character, 
-                split.round.result[2], sep = ""))
-          }
-      }
-      else if (length(split.round.result) == 1) {
-          if (is.na(decimal.places)) {
-              return(paste(first.part, .format.decimal.character, 
-                decimal.part, sep = ""))
-          }
-          decimal.part <- ""
-          for (i in seq(from = 1, to = decimal.places)) {
+            }
+            round.result <- round(x, digits = temp.places)
+            decimal.places <- temp.places
+        }
+        if ((round.up.positive == TRUE) & (round.result < 
+            x)) {
+            if (x > (10^((-1) * (decimal.places + 1)))) {
+              round.result <- round.result + 10^((-1) * decimal.places)
+            }
+            else {
+              round.result <- 0
+            }
+        }
+    }
+    else {
+        round.result <- x
+    }
+    round.result.char <- as.character(format(round.result, 
+        scientific = FALSE))
+    split.round.result <- unlist(strsplit(round.result.char, 
+        "\\."))
+    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {
+        if (.format.digit.separator.where[i] <= 0) {
+            .format.digit.separator.where[i] <<- -1
+        }
+    }
+    separator.count <- 1
+    length.integer.part <- nchar(split.round.result[1])
+    digits.in.separated.unit <- 0
+    for (i in seq(from = length.integer.part, to = 1)) {
+        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & 
+            (substr(split.round.result[1], i, i) != "-")) {
+            first.part <- paste(.format.digit.separator, 
+              first.part, sep = "")
+            if (separator.count < length(.format.digit.separator.where)) {
+              separator.count <- separator.count + 1
+            }
+            digits.in.separated.unit <- 0
+        }
+        first.part <- paste(substr(split.round.result[1], 
+            i, i), first.part, sep = "")
+        digits.in.separated.unit <- digits.in.separated.unit + 
+            1
+    }
+    if (x.original < 0) {
+        if (.format.dec.mark.align == TRUE) {
+            first.part <- paste("-", first.part, sep = "")
+        }
+        else {
+            first.part <- paste("$-$", first.part, sep = "")
+        }
+    }
+    if (!is.na(decimal.places)) {
+        if (decimal.places <= 0) {
+            return(first.part)
+        }
+    }
+    if (.format.initial.zero == FALSE) {
+        if ((round.result >= 0) & (round.result < 1)) {
+            first.part <- ""
+        }
+    }
+    if (length(split.round.result) == 2) {
+        if (is.na(decimal.places)) {
+            return(paste(first.part, .format.decimal.character, 
+              split.round.result[2], sep = ""))
+        }
+        if (nchar(split.round.result[2]) < decimal.places) {
+            decimal.part <- split.round.result[2]
+            for (i in seq(from = 1, to = (decimal.places - 
+              nchar(split.round.result[2])))) {
               decimal.part <- paste(decimal.part, "0", sep = "")
-          }
-          return(paste(first.part, .format.decimal.character, 
+            }
+            return(paste(first.part, .format.decimal.character, 
               decimal.part, sep = ""))
-      }
-      else {
-          return(NULL)
-      }
+        }
+        else {
+            return(paste(first.part, .format.decimal.character, 
+              split.round.result[2], sep = ""))
+        }
+    }
+    else if (length(split.round.result) == 1) {
+        if (is.na(decimal.places)) {
+            return(paste(first.part, .format.decimal.character, 
+              decimal.part, sep = ""))
+        }
+        decimal.part <- ""
+        for (i in seq(from = 1, to = decimal.places)) {
+            decimal.part <- paste(decimal.part, "0", sep = "")
+        }
+        return(paste(first.part, .format.decimal.character, 
+            decimal.part, sep = ""))
+    }
+    else {
+        return(NULL)
+    }
   }
   is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - 
       round(x)) < tol
@@ -231,7 +231,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
     }
     sum <- do.call(cbind,mcMap(f,M,sum_mean))
     rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
-   # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
+    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
   print <- apply(sum,c(1,2),
     function(x){
