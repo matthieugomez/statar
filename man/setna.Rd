@@ -21,6 +21,6 @@ DT <- data.table(
  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)
 )
 setkey(DT, id, date)
-setna(DT, "value", roll = TRUE)
+setna(DT, value, roll = TRUE)
 }
 
