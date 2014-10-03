@@ -46,7 +46,7 @@ DT <- data.table(
   value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)
  )
 setkey(DT, id, date) 
-setna(value, roll = 3)
+setna(DT,"value", roll = 3)
 ````
 # Dplyr verbs
 

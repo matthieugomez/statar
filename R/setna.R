@@ -18,14 +18,14 @@ NULL
 
 
 
-setna <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+setna <- function(.data, cols, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){
   keys <- key(.data)    
   if (length(keys)<1){
     stop(".data must be keyed by at least one variable")
   }   
-  for (col in vars){
+  for (col in cols){
     eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))
   }
 }
