@@ -36,7 +36,7 @@ DT[, datem_l := lag(value, months(1), along_with = date), by = id]
 # winsorize (default based on interquartile range)
 winsorize(v)
 winsorize(v, NA)
-winsorize(v,quantile(v,c(0.01,0.99), na.rm = TRUE))
+winsorize(v, quantile(v, c(0.01, 0.99), na.rm = TRUE))
 ````
 
 # data.table verbs
