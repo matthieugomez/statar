@@ -18,7 +18,7 @@
 #'  ejoin(DTm, DTu, type = "1:1")
 #'  ejoin(DTm, DTu, "m:1")
 #' @export
-ejoin =  function(DTm, DTu, type = c("m:m","m:1","1:m","1:1"), keep = c(c("master","matched","using")), gen = FALSE){
+ejoin =  function(DTm, DTu, type = c("m:m","m:1","1:m","1:1"), keep = c(c("master","matched","using")), gen = FALSE ){
   all.x <- FALSE
   all.y <- FALSE
   if (length(setdiff(keep,c("master","matched","using")))) stop("keep must be a character vector of the form c(\"master\",\"matched\",\"using\")")
