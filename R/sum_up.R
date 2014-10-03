@@ -219,7 +219,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
     N <- nrow(M)
     sum_mean <- colMeans(M ,na.rm=na.rm)
     f=function(x,m){
-      sum_higher <- colMeans(DT[,list((x-m)^2,(x-m)^3,(x-m)^4)],na.rm=na.rm)
+      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)
       sum_higher[1] <- sqrt(sum_higher[1])
       sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
       sum_higher[3] <- sum_higher[3]/sum_higher[1]^4

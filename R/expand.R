@@ -1,4 +1,4 @@
-#' Fill Absent observations
+#'  Fill in gaps in variable
 #'
 #' @param .data A tbl_dt, grouped or not
 #' @param ... Variables to expand
