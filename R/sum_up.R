@@ -28,6 +28,8 @@ sum_up_ <- function(.data, ...,.dots) {
 
 #' @export
 sum_up_.data.table<- function(.data, vars , d = FALSE) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  var_name <- names(select_vars_(names(.data), dots))
   if (length(vars) == 0) {
      vars <- lazy_dots(everything())
    }
