@@ -114,4 +114,4 @@ The package can be installed via the package `devtools`
 devtools::install_github("hadley/tidyr")
 devtools::install_github("matthieugomez/statar")
 ````
-The package should be loaded after `dplyr` (>= v3.0) and `lubridate`.
+The package should be loaded after `dplyr` (>= v0.3) and `lubridate`.
