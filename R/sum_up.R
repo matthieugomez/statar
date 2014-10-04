@@ -18,7 +18,7 @@
 #' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 #' @export
 sum_up <- function(.data, ..., d = FALSE) {
-  sum_up_(.data, vars = lazy_dots(...) , d = d)
+  sum_up_(.data, .dots = lazy_dots(...) , d = d)
 }
 
 #' @export
@@ -27,9 +27,9 @@ sum_up_ <- function(.data, ...,.dots, d = FALSE) {
 }
 
 #' @export
-sum_up_.data.table<- function(.data, vars , d = FALSE) {
+sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
-  var_name <- names(select_vars_(names(.data), dots))
+  vars <- names(select_vars_(names(.data), dots))
   if (length(vars) == 0) {
      vars <- lazy_dots(everything())
   }
@@ -39,7 +39,9 @@ sum_up_.data.table<- function(.data, vars , d = FALSE) {
 }
 
 #' @export
-sum_up_.grouped_dt<- function(.data, vars , d = FALSE) {
+sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  vars <- names(select_vars_(names(.data), dots))
   if (length(vars) == 0) {
      vars <- lazy_dots(everything())
   }
@@ -54,9 +56,6 @@ sump_up_.tbl_dt <- function(.data, ..., .dots) {
   tbl_dt(NextMethod(), copy = FALSE)
 }
 
-sump_up_.tbl_dt <- function(.data, ..., .dots) {
-  tbl_dt(NextMethod(), copy = FALSE)
-}
 
 
 describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){
