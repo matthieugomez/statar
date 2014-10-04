@@ -12,12 +12,7 @@
 #' )
 #' setkey(DT, id, date)
 #' setna(DT, value, roll = TRUE)
-#' @name setna
-NULL
-
-
-
-
+#' @export
 setna <- function(.data, cols, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){

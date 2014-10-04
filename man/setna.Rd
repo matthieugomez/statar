@@ -2,6 +2,10 @@
 \name{setna}
 \alias{setna}
 \title{fill NA based on non missing observations}
+\usage{
+setna(.data, cols, roll = TRUE, rollends = if (roll == "nearest") c(TRUE,
+  TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
+}
 \arguments{
 \item{.data}{a data.table}
 

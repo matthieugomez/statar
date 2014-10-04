@@ -25,7 +25,7 @@ Winsorize a numeric vector
 \examples{
 v <- c(1, 4, 6, 99)
 winsorize(v)
-winsorize(v, NA)
-winsorize(v, quantile(v, c(0.01, 0.99), na.rm = TRUE))
+winsorize(v, replace = NA)
+winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 }
 

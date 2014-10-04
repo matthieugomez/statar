@@ -25,8 +25,8 @@ winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 ## lag in unbalanced panel
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
 value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-lag(value, 1, order_by = year)) # returns value in previous year, like  dplyr::lag
-lag(value, 1, along_with = year)) #  returns value in year - 1
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
+lag(value, 1, along_with = year) #  returns value in year - 1
 ## lag by time periods
 library(lubridate)
 DT <- data.table(     
@@ -94,7 +94,7 @@ ejoin(DTm, DTu, keep = "matched")
 ejoin(DTm, DTu, keep = c("master","matched"))
 # full outer join
 ejoin(DTm, DTu, keep = c("master","matched","using"))
-# more complex
+# type and gen options
 ejoin(DTm, DTu, type = "1:1", keep = c("master","matched","using"), gen = "_merge")
 ````
 
