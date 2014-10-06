@@ -16,12 +16,17 @@
 #' DT  %>% sum_up
 #' DT  %>% sum_up(v3, d=T)
 #' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+#' @name sum_up
+NULL
+
 #' @export
+#' @rdname sum_up
 sum_up <- function(.data, ..., d = FALSE) {
   sum_up_(.data, .dots = lazy_dots(...) , d = d)
 }
 
 #' @export
+#' @rdname sum_up
 sum_up_ <- function(.data, ...,.dots, d = FALSE) {
   UseMethod("sum_up_")
 }

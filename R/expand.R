@@ -15,12 +15,17 @@
 #' DT %>% expand(date)
 #' DT %>% group_by(id) %>% expand(date,"across")
 #' DT %>% group_by(id) %>% expand(date)
+#' @name expand
+NULL
+
 #' @export
+#' @rdname expand
 expand <- function(.data, ...,type = c("within", "across")) {
   expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)
 }
 
 #' @export
+#' @rdname expand
 expand_ <- function(.data, ...,.dots) {
   UseMethod("expand_")
 }
