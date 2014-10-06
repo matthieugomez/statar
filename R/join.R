@@ -57,7 +57,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
 
   if (length(common)>0){
     x <- copy(x)
-    y <- copy(x)
+    y <- copy(y)
     setnames(x, common_names, paste0(common_names, ".x"))
     setnames(x, common_names, paste0(common_names, ".y"))
   }
