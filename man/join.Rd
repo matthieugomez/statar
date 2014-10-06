@@ -3,13 +3,15 @@
 \alias{join}
 \title{Join two data.tables together}
 \usage{
-join(DTm, DTu, type = "outer", gen = FALSE, check = c("m:m", "m:1", "1:m",
-  "1:1"))
+join(x, y, on = intersect(names(x), names(y)), type = "outer",
+  gen = FALSE, check = c("m:m", "m:1", "1:m", "1:1"))
 }
 \arguments{
-\item{DTm}{The master data.table}
+\item{x}{The master data.table}
 
-\item{DTu}{The using data.table}
+\item{y}{The using data.table}
+
+\item{on}{Character vectors for variables to match on. Default to common names between x and y.}
 
 \item{type}{The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"}
 
@@ -18,12 +20,12 @@ join(DTm, DTu, type = "outer", gen = FALSE, check = c("m:m", "m:1", "1:m",
 \item{check}{A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.}
 }
 \value{
-A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.
+A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes. Keys are set on master and using data.tables, which avoids the copy of x and y, at the cost of transforming the input data.tables.
 }
 \description{
 Join two data.tables together
 }
 \examples{
-join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")
+join(x, y, on = intersect(names(x),names(y)), type = "outer", gen = FALSE, check = "m:m")
 }
 
