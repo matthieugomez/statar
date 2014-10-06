@@ -26,7 +26,7 @@ fill_na <- function(.data, ..., order_by, roll = TRUE ,  rollends = if (roll=="n
 }
 
 #' @export
-#' @rdname fill_na_
+#' @rdname fill_na
 fill_na_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE) {
