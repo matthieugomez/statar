@@ -73,7 +73,7 @@ fill_na_.data.table <- function(.data, ...,.dots, order_by, roll = TRUE ,  rolle
 
 
 #' @export
-fill_na_.tbl_dt <- function(.data, ..., .dots, along_with, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_na_.tbl_dt <- function(.data, ..., .dots, order_by , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE) {
   tbl_dt(NextMethod(), copy = FALSE)
