@@ -49,6 +49,8 @@ DT <- data.table(
  setna(DT, "value")
  setna(DT, "value", rollend = TRUE)
  setna(DT, "value", roll = "nearest")
+ 
+ setcols(DT, c("id","date"))
 ````
 
 # dplyr verbs
@@ -85,7 +87,7 @@ The package adds a wrapper for data.table merge functions based on SQL join (pos
 
 ````R
 # default options
-join(x, y, on = intersect(names(DTm),names(DTu)), type = "outer", gen = FALSE, check = "m:m")
+join(x, y, on = intersect(names(x), names(y)), type = "outer", gen = FALSE, check = "m:m")
 # outer corresponds to Stata joinby keep(master matched using)
 join(x,y, type = "outer")
 # left corresponds to Stata joinby keep(master matched)

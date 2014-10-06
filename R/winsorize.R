@@ -1,7 +1,7 @@
 #' Winsorize a numeric vector
 #' 
 #' @param x A vector of values
-#' @param cutpoints Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector. This also makes windorize idempotent in most of cases \code{winsorize(winsorize(x)) == winsorize(x)}.
+#' @param cutpoints Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.
 #' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.
 #' @examples                          
 #' v <- c(1, 4, 6, 99)                      
