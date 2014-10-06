@@ -17,13 +17,15 @@
 #' @name fill_na
 NULL
 
-
+#' @export
 fill_na <- function(.data, ..., order_by, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE){
 	fill_na_(.data, .dots = lazy_dots(...), order_by, roll = TRUE, rollends = rollends, inplace = inplace)
 }
 
+
+#' @export
 fill_na_.grouped_dt  <- function(.data, ...,.dots, order_by, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE){
@@ -42,6 +44,7 @@ fill_na_.grouped_dt  <- function(.data, ...,.dots, order_by, roll = TRUE ,  roll
   	if (inplace) setkeyv(.data, keys)
 }
 
+#' @export
 fill_na_.data.table <- function(.data, ...,.dots, order_by, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE){
@@ -59,6 +62,8 @@ fill_na_.data.table <- function(.data, ...,.dots, order_by, roll = TRUE ,  rolle
   	if (inplace) setkeyv(.data, keys)
 }
 
+
+#' @export
 fill_na_.tbl_dt <- function(.data, ..., .dots, along_with, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE) {
