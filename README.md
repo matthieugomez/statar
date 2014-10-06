@@ -89,12 +89,12 @@ The package adds a wrapper for data.table merge functions based on SQL join (pos
 
 ````R
 # default options
-join(DTm, DTu, on = intersect(names(DTm),names(DTu)), type = "outer", gen = FALSE, check = "m:m")
-# outer corresponds to Stata keep master matched using
+join(x, y, on = intersect(names(DTm),names(DTu)), type = "outer", gen = FALSE, check = "m:m")
+# outer corresponds to Stata joinby keep master matched using
 join(x,y, type = "outer")
-# left corresponds to Stata keep master
+# left corresponds to Stata joinby keep master
 join(x,y, type = "left")
-# right corresponds to Stata keep using
+# right corresponds to Stata joinby keep master using
 join(x,y, type = "right")
 ````
 
