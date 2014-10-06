@@ -14,9 +14,6 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
 
   #type
   type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
-  if (type == "cross"){
-    stop("cross join is not implemented yet")
-  }
 
   if (!is.data.table(x)){
     stop(paste0("Master is not a data.table. Convert it first using setDT()"))
@@ -25,6 +22,12 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
     stop(paste0("Using is not a data.table. Convert it first using setDT()"))
   }
   
+  if (type == "cross"){
+        k <- NULL # Setting the variables to NULL first for CRAN check NOTE
+        DT_output <- setkey(x[,c(k=1,.SD)],k)[y[,c(k=1,.SD)],allow.cartesian=TRUE][,k:=NULL]
+  }
+
+
   # check gen
   if (gen != FALSE & !(type %in% c("left", "right", "outer"))){
     stop(" The option gen is only available for left, right and outer joins")
