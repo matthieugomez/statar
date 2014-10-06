@@ -17,11 +17,20 @@
 #' @name fill_na
 NULL
 
+
+#' @rdname fill_na
 #' @export
 fill_na <- function(.data, ..., order_by, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE){
 	fill_na_(.data, .dots = lazy_dots(...), order_by, roll = TRUE, rollends = rollends, inplace = inplace)
+}
+
+#' @rdname fill_na_
+fill_na_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+  else if (roll>=0) c(FALSE,TRUE)
+  else c(TRUE,FALSE), inplace = FALSE) {
+  UseMethod("fill_na_")
 }
 
 
