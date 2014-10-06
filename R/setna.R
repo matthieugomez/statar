@@ -11,9 +11,9 @@
 #'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 #' )
 #' setkey(DT, id, date)
-#' setna(DT, value)
-#' setna(DT, value, rollend = TRUE)
-#' setna(DT, value, roll = "nearest")
+#' setna(DT, "value")
+#' setna(DT, "value", rollend = TRUE)
+#' setna(DT, "value", roll = "nearest")
 
 #' @export
 setna <- function(.data, cols, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
