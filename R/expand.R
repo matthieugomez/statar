@@ -31,15 +31,18 @@ expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across")){
   var_name <- names(select_vars_(names(.data), dots))
   byvars <- as.character(groups(.data))
   for (t in var_name) {
-    setkeyv(.data,c(byvars,t))
     if (type=="within"){
-      call <- substitute(.data[, list(seq.int(t[1], t[.N])), by = c(byvars)], list(t = as.name(t)))
+      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))
     } else{
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = min(.data$t), b = max(.data$t)))
+      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))
+      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))
+      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))
     }
     ans  <- eval(call)
     setnames(ans, c(byvars, t))
     setkeyv(ans, c(byvars, t))
+    .data <- copy(.data)
+    setkeyv(.data, c(byvars,t))
     .data <- .data[ans,allow.cartesian=TRUE]
   }
   .data
