@@ -1,3 +1,105 @@
+l=list(ok = "ok")
+l$NA
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+suppressMessages(library("data.table"))
+suppressMessages(library("dplyr"))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate_each(funs(mean))
+DT
+DT %>% mutate_each(funs(mean), inplace = TRUE)
+DT
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate_each(funs(mean), inplace = TRUE)
+DT
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate_each(funs(mean), inplace = FALSE)
+DT
+DT %>% select(v2, inplace = FALSE)
+library(dpsuppressMessages(library("tidyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))
+suppressMessages(library("tidyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% select(v1)
+DT
+DT %>% select(v1, inplace = TRUE)
+DT
+#' Gives summary statistics (Stata command summarize)#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude in s You can use same specifications as in select. If missing, defaults to all non-grouping variables.#
+#' @param inplace Change data.table in place or not#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 =  sample(5, N, TRUE),                          #
+#'   v2 =  sample(1e6, N, TRUE),                       #
+#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
+#' )#
+#' DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#' @export#
+colorder <- function(.data, ..., inplace = FALSE) {#
+  colorder_(.data, vars = lazyeval::lazy_dots(...) , inplace = inplace)#
+}#
+#' @export#
+colorder_ <- function(.data, vars, inplace = FALSE ) {#
+  if (length(vars) == 0) {#
+     vars <- lazyeval::lazy_dots(everything())#
+   }#
+  vars <- select_vars_(tbl_vars(.data), vars)#
+  if (!inplace) .data <- copy(.data)#
+  setcolorder(.data,vars,setdiff(names(.data),vars))#
+  .data#
+}
+DT  %>% colorder(starts_with("v"), inplace = TRUE)
 #' Gives summary statistics (Stata command summarize)#
 #' #
 #' @param DT A tbl_dt or tbl_grouped_dt.#
@@ -542,1698 +644,2297 @@ savehistory("~/.R.app.history")
 savehistory()
 fefe
 savehistory()
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N <- 40e6#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE)                   #
-      )
+library(pryr)
+N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )
+DT
+DF
+DT <- setDF(DF)
 library(data.table)
-DT[, value_filled_in := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-DT[, value_filled_in := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]]
+DT <- setDF(DF)
 DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_in <- function(.data, ..., roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_in_(.data, .dots = lazyeval::lazy_dots(...) , roll=roll, rollends=rollends)#
-}#
-#
-#' @export#
-fill_in_ <- function(.data, ..., .dots , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  UseMethod("fill_in_")#
-}#
-#
-#' @export#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    .data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]]#
-    }#
+DT1 <- copy(DT)
+object_size(DT,DT1)
+object_size(DT)
+object_size(DT,DT1)
+object_size(DT,DT1, merge(DT,DT1)
+)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2)]#
+	object_size(DF, DF1)#
+	17.4 kB#
+	object_size(DF, DF3)#
+	25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	17.4 kB#
+	object_size(DF, DF3)#
+	25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
 }
-DT %>% group_by(id) %>% fill_in(value)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	17.4 kB#
+	object_size(DF, DF3)#
+	25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	#> 17.4 kB#
+	object_size(DF, DF3)#
+	#> 25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+q
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	#> 17.4 kB#
+	object_size(DF, DF3)#
+	#> 25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	#> 17.4 kB#
+	object_size(DF, DF2)#
+	#> 25.9 kB#
+	object_size(DF,DF2, merge(DF,DF2)
+)
+library(tidyr)
+?gather
+DTx <- data.table (#
+  gvkey = c("2222","2222"), #
+  permno = c("20990", "20980"), #
+  year_min = c(1991,2000), #
+  year_max = c(1999, 2001)#
+)
+debugdebug(mutate)
+debug(mutate)
 library(dplyr)
-DT %>% group_by(id) %>% fill_in(value)
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-DT
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-fill_in <- function(.data, ..., roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_in_(.data, .dots = lazyeval::lazy_dots(...) , roll=roll, rollends=rollends)#
-}#
-#
-#' @export#
-fill_in_ <- function(.data, ..., .dots , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  UseMethod("fill_in_")#
-}#
-#
-#' @export#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    .data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]]#
-    }#
-    .data#
-}
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    .data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE, with = FALSE]]#
-    }#
-    .data#
-}
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    .data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], c(t), roll = roll, rollends = rollends, allow.cartesian = TRUE, with = FALSE]]#
-    }#
-    .data#
-}
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    .data[, c(t) := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], c(t), roll = roll, rollends = rollends, allow.cartesian = TRUE, with = FALSE]]#
-    }#
-    .data#
-}
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-debug(fill_in)
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-s
-s
-s
+DT <- data.table ( id = 1:10)
+mutate(DT, mean(id))
+debug(mutate)
+DT <- data.table ( id = 1:10)
+mutate(DT, mean(id))
 s
 n
-DT1
-var_name
-s
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-fill_in <- function(.data, ..., roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_in_(.data, .dots = lazyeval::lazy_dots(...) , roll=roll, rollends=rollends)#
-}#
-#
-#' @export#
-fill_in_ <- function(.data, ..., .dots , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  UseMethod("fill_in_")#
-}#
-#
-#' @export#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    eval(substitute(.data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(t=as.name(t))))#
-    }#
-    .data#
-}
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-fill_in <- function(.data, ..., roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_in_(.data, .dots = lazyeval::lazy_dots(...) , roll=roll, rollends=rollends)#
-}#
-#
-#' @export#
-fill_in_ <- function(.data, ..., .dots , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  UseMethod("fill_in_")#
-}#
-#
-#' @export#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    eval(substitute(.data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(t=as.name(t))))#
-    }#
-    .data#
-}
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-# generating data#
-N <- 2e6#
-set.seed(1)#
+?forder
+DT
+DT[1, id:= NA]
+DT
+forder(DT,id)
+DT[order(id)]
+setorder(DT,id)
+DT
+?setorder
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("biglm"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))#
+assignInNamespace("cedta.override",#
+                  c(data.table:::cedta.override,"IRkernel"),#
+                  "data.table")
+N=2e6; K=100#
 DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-# command#
-DT[, value_filled_in := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-fill_in <- function(.data, ..., roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_in_(.data, .dots = lazyeval::lazy_dots(...) , roll=roll, rollends=rollends)#
-}#
-#
-#' @export#
-fill_in_ <- function(.data, ..., .dots , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  UseMethod("fill_in_")#
-}#
-#
-#' @export#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    eval(substitute(.data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(t=as.name(t))))#
-    }#
-    .data#
-}
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-N <- 2e6#
-set.seed(1)#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+result1 <- felm( v4 ~ v2 + v1, DT )#
+result2 <- felm( v3 ~ v2 + v1, DT )#
+result3 <- felm( v4 ~ v3 + v1 |0| (v3 ~ v2) |0, DT )
+ivreg
+library(aer)
+library(AER)
+ivreg(v3~v1,DT)
+?ivreg
+ivreg(v3~v2 | v1,DT)
+ivreg(v3 ~ v2 | v1,D T)
+ivreg(v3 ~ v2 | v1, DT)
+?ivreg
+ivreg(v3 ~ v2 | v1, DT)
+ivreg(v3 ~ v2 | v1, date = DT)
+ivreg(v3 ~ v2 | v1, data = DT)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+)#
+felm(v1~v2|0|(v2~v3)|0, df)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+felm(v1~v2|0|(v2~v3)|0, df)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) # numeric e.g. 23.5749#
+)#
+felm(v1 ~ v2 | 0 | (v2 ~ v3) |0, df)
+felm(v1 ~ v2 | 0 | (v2 ~ v3) |, df)
+felm(v1 ~ v2 |  | (v2 ~ v3) |, df)
+felm(v1 ~ v2 |  | (v2 ~ v3) |0, df)
+felm(v1 ~ v2 |  | (v2 ~ v3), df)
+felm(v1 ~ v2 |0| (v2 ~ v3), df)
+?stargazer
+library(stargazer)
+?stargazer
+N <- 1e6#
 DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_in <- function(.data, ..., roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_in_(.data, .dots = lazyeval::lazy_dots(...) , roll=roll, rollends=rollends)#
-}#
-#
-#' @export#
-fill_in_ <- function(.data, ..., .dots , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  UseMethod("fill_in_")#
-}#
-#
-#' @export#
-fill_in_.grouped_dt <- function(.data, ...,.dots, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-   index <- match("order_by",names(dots))#
-    if  (!is.na(index)) {#
-      order_by <- as.character(dots$order_by$expr)#
-      dots[[index]] <- NULL#
-    }#
-    else{#
-      stop("option order_by not precised")#
-    }#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  DT1 <- DT[, c(byvars, order_by, var_name), with = FALSE]#
-  setkeyv(DT1,c(byvars, order_by))#
-  for (t in var_name) {#
-    eval(substitute(.data[, t := DT1[!is.na(t)][DT1[, c(byvars,order_by), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(t=as.name(t))))#
-    }#
-    .data#
-}
-DT %>% group_by(id) %>% fill_in(value, order_by = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with = , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x=x, along_with= along_with, by=by) #
-    setkeyv(DT1,c(by, along_with))#
-    DT[!is.na(x)][DT1[, c(by,along_with), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]]#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x=x, along_with= along_with, by=by) #
-    setkeyv(DT1,c(by, along_with))#
-    DT[!is.na(x)][DT1[, c(by,along_with), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]]#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x=x, along_with= along_with, by=by) #
-    setkeyv(DT,c(by, along_with))#
-    DT[!is.na(x)][DT1[, c(by,along_with), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]]#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x=x, along_with= along_with, by=by, key= c(by, along_with)) #
-    DT[!is.na(x)][DT[, c(by, along_with), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]]#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x=x, along_with= along_with, by=by, key= c(by, along_with)) #
-    DT[!is.na(x)][DT[, c(by, along_with), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]#
-  }
-DT
-DT[, value_filled := fill_na(value, along_with = date, by= id)]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x=x, along_with= along_with, by=by, key= c("by", "along_with")) #
-    DT[!is.na(x)][DT[, c(by, along_with), with=FALSE], t, roll = roll, rollends = rollends, allow.cartesian = TRUE]#
-  }
-DT[, value_filled := fill_na(value, along_with = date, by= id)]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-    DT[!is.na(x)][DT[, c(by, along_with), with=FALSE], x, roll = roll, rollends = rollends, allow.cartesian = TRUE]#
-  }
-DT[, value_filled := fill_na(value, along_with = date, by= id)]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-    DT[!is.na(x)][DT[, list(by, along_with), with=FALSE], x, roll = roll, rollends = rollends, allow.cartesian = TRUE]#
-  }
-DT[, value_filled := fill_na(value, along_with = date, by= id)]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-    DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE]#
-  }
-DT[, value_filled := fill_na(value, along_with = date, by= id)]
-DT
-DT[, value_filled := fill_na(value, along_with = date)]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-    DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE]#
-  }
-DT[, value_filled := fill_na(value, along_with = date)]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if by == NULL{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-#
-    }#
-    else{#
-      DT <- data.table(x = x, along_with = along_with, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if by == NULL{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }    else{#
-      DT <- data.table(x = x, along_with = along_with, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if by == NULL{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }    else{#
-      DT <- data.table(x = x, along_with = along_with, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, along_with], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if by == NULL{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if by == NULL{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, key = c("along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if (by == NULL){#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, key = c("along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-DT[, value_filled := fill_na(value, along_with = date)]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if !is.null(by){#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, key = c("along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if (is.null(by)){#
-      DT <- data.table(x = x, along_with = along_with, key = c("along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-DT[, value_filled := fill_na(value, along_with = date)]
-DT[, value_filled := fill_na(value, along_with = date, by = id)]
-DT
-DT[, value_filled1 := fill_na(value, along_with = date, by = id)]
-DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if (is.null(by)){#
-      DT <- data.table(x = x, along_with = along_with, key = c("along_with")) #
-      return(DT[!is.na(x)][DT[, along_with], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-DT[, value_filled1 := fill_na(value, along_with = date)]
-DT
-DT[,list(id)]
-DT[, value_filled3 := fill_na(value, along_with = date), by=id]
-DT
-DT[, value_filled1 := fill_na(value, along_with = date, by = id)]
-DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if (is.null(by)){#
-      DT <- data.table(x = x, along_with = along_with, key = c("along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-DT[, value_filled1 := fill_na(value, along_with = date, by = id)]
-DT
-DT[, value_filled1 := fill_na(value, along_with = date, by = id)]
-DT[, value_filled1 := fill_na(value, along_with = date), by = id]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na_matrix <-  function(M , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-      setkeyv(M,  names(M)[2])) #
-      eval(substitute(return(DT[!is.na(x)][DT[, names(M)[2], with = FALSE], x, roll = roll, rollends = rollends, allow.cartesian = TRUE]), list(x=as.name(names(M)[1]))))#
-#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na_matrix <-  function(M , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-      setkeyv(M,  names(M)[2]) #
-      eval(substitute(return(DT[!is.na(x)][DT[, names(M)[2], with = FALSE], x, roll = roll, rollends = rollends, allow.cartesian = TRUE]), list(x=as.name(names(M)[1]))))#
-#
-}
-DT[, value_filled1 := fill_na(value, along_with = date), by = id, .SDcols=c(]
-DT[, value_filled1 := fill_na_matrix(.SD), by = id, .SDcols=c("value","date")]
-fill_na_matrix <-  function(M , roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-      set2keyv(M,  names(M)[2]) #
-      eval(substitute(return(DT[!is.na(x)][DT[, names(M)[2], with = FALSE], x, roll = roll, rollends = rollends, allow.cartesian = TRUE]), list(x=as.name(names(M)[1]))))#
-#
-}
-DT[, value_filled1 := fill_na_matrix(.SD), by = id, .SDcols=c("value","date")]
-N <- 2e6#
-set.seed(1)#
+  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
+  v1  =  sample(5, N, TRUE),                          #
+  v2  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
+  v3  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
+  )
+N <- 1e6#
 DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    if (is.null(by)){#
-      DT <- data.table(x = x, along_with = along_with, key = c("along_with")) #
-      return(DT[!is.na(x)][DT[, list(along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-x=c(1,4,3)
-id <- seq_along(x)
-id
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table(x = x, along_with = along_with, id=id key = c("along_with")) #
-      DT[!is.na(x)][DT[, list(along_with, id)], list(x,id), roll = roll, rollends = rollends, allow.cartesian = TRUE],id)#
-      setkey(DT,id)#
-      DT[, x]#
-#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-?data.table
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table(x = x, along_with = along_with, id=id, key = c("along_with")) #
-      DT[!is.na(x)][DT[, list(along_with, id)], list(x,id), roll = roll, rollends = rollends, allow.cartesian = TRUE],id)#
-      setkey(DT,id)#
-      DT[, x]#
-    } else{#
-      DT <- data.table(x = x, along_with = along_with, by = by, key = c("by", "along_with")) #
-      return(DT[!is.na(x)][DT[, list(by, along_with)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table(x = x, id = id, key = c("id")) #
-      return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE],id))#
-#
-    } else{#
-      DT <- data.table(x = x, by = by, key = c("by", "id")) #
-      return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table(x = x, id = id, key = c("id")) #
-      return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-#
-    } else{#
-      DT <- data.table(x = x, by = by, key = c("by", "id")) #
-      return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-}
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table(x = x, id = id, key = c("id")) #
-      return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-#
-    } else{#
-      DT <- data.table(x = x, by = by, key = c("by", "id")) #
-      return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-  }
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table(x = x, id = id, key = c("id")) #
-      return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-#
-    } else{#
-      DT <- data.table(x = x, by = by, key = c("by", "id")) #
-      return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-  }
-fill_na <-  function(x, along_with  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table(x = x, id = id, key = c("id")) #
-      return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-#
-    } else{#
-      DT <- data.table(x = x, by = by, key = c("by", "id")) #
-      return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-  }
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-#
-system.time(DT[, filled := zoo::la.nocf(x), by = id])#
-DT[, value_filled_in := fill_na(value, by = id)]#
-DT[, value_filled_in := fill_na(value), by = id]
-system.time(DT[, filled := zoo::na.nocf(x), by = id])
-system.time(DT[, filled := zoo::na.locf(x), by = id])
+  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
+  v1  =  sample(5, N, TRUE),                          #
+  v2  =  sample(round(runif(100,max = 100), 4), N, TRUE), #
+  v3  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
+  )
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("biglm"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))#
+assignInNamespace("cedta.override",#
+                  c(data.table:::cedta.override,"IRkernel"),#
+                  "data.table")
 DT
-system.time(DT[, filled := zoo::na.locf(value), by = id])
-fill_na <-  function(x  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-                 else if (roll>=0) c(FALSE,TRUE)#
-                 else c(TRUE,FALSE)){#
-        id <- seq_along(x)#
-        if (is.null(by)){#
-          DT <- data.table("x" = x, "id" = id, key = c("id")) #
-          return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        } else{#
-          DT <- data.table(x = x, by = by, key = c("by", "id")) #
-          return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        }
-}
-N <- 2e6#
-set.seed(1)#
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N <- 1e6#
 DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-#
-system.time(DT[, filled := zoo::na.locf(value, na.rm = TRUE), by = id])#
-system.time(DT[, value_filled_in := fill_na(value, by = id)])#
-system.time(DT[, value_filled_in := fill_na(value), by = id])
-fill_na <-  function(x  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-                 else if (roll>=0) c(FALSE,TRUE)#
-                 else c(TRUE,FALSE)){#
-        id <- seq_along(x)#
-        if (is.null(by)){#
-          DT <- data.table("x" = x, "id" = id, key = "id") #
-          return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        } else{#
-          DT <- data.table(x = x, by = by, key = c("by", "id")) #
-          return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        }#
-      }
-setkey(DT,id, date)#
-    DT[, value_filled_in := fill_na(value, by = id)]
-fill_na <-  function(x  , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-                 else if (roll>=0) c(FALSE,TRUE)#
-                 else c(TRUE,FALSE)){#
-        id <- seq_along(x)#
-        if (is.null(by)){#
-          DT <- data.table("x" = x, "id" = id, key = id) #
-          return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        } else{#
-          DT <- data.table(x = x, by = by, key = c("by", "id")) #
-          return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        }#
-      }
-setkey(DT,id, date)#
-    DT[, value_filled_in := fill_na(value, by = id)]
-debug(fill_na)
-setkey(DT,id, date)#
-    DT[, value_filled_in := fill_na(value, by = id)]
-s
-n
-length(id)
-fill_na <-  function(x , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-                 else if (roll>=0) c(FALSE,TRUE)#
-                 else c(TRUE,FALSE)){#
-        id <- seq_along(x)#
-        if (is.null(by)){#
-          DT <- data.table("x" = x, "id" = id, key = id) #
-          return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        } else{#
-          DT <- data.table(x = x, by = by, id = id, key = c("by", "id")) #
-          return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        }#
-      }
-setkey(DT,id, date)#
-    DT[, value_filled_in := fill_na(value, by = id)]
-N <- 2e6#
-set.seed(1)#
+  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
+  v1  =  sample(5, N, TRUE),                          #
+  v2  =  sample(round(runif(100,max = 100), 4), N, TRUE), #
+  v3  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
+  )
+library(AER)
+ivreg(v3~v2|v1)
+ivreg(v3~v2|v1, DT)
+ivreg(v3 ~ v2 | v1, DT)
+?ivreg
+ivreg(v3 ~ v2 | v1, data = DT)
+summary(ivreg(v3 ~ v2 | v1, data = DT))
+summary(felm(v3 ~ v2 | |(v2 ~ v1), data = DT))
+summary(felm(v3 ~ v2 | |(v2 ~ v1), data = DT)
+summary(felm(v3 ~ v2 ||(v2 ~ v1), data = DT)
+)
+summary(felm(v3 ~ v2 |0|(v2 ~ v1), data = DT)
+)
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("biglm"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))#
+assignInNamespace("cedta.override",#
+                  c(data.table:::cedta.override,"IRkernel"),#
+                  "data.table")#
+# cores options#
+options(mc.cores=3)#
+# ggplot options#
+old=theme_set(theme_bw()+theme(title=element_text(size=8), axis.title=element_text(size=10),  strip.text.x=element_text(size=8),legend.key = element_blank(), legend.title = element_text(face="plain", size=10), legend.position="bottom", strip.background = element_rect(colour="white", fill="white")))
+N <- 1e6#
 DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-#
-system.time(DT[, filled1 := zoo::na.locf(value, na.rm = TRUE), by = id])#
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-system.time(DT[, filled3 := fill_na(value), by = id])
+  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
+  v1  =  sample(5, N, TRUE),                          #
+  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE), #
+  v3  =  sample(round(runif(100, max = 100), 4), N, TRUE) #
+  )
 DT
-fill_na <-  function(x , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-                 else if (roll>=0) c(FALSE,TRUE)#
-                 else c(TRUE,FALSE)){#
-        id <- seq_along(x)#
-        if (is.null(by)){#
-          DT <- data.table("x" = x, "id" = id, key = "id") #
-          return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        } else{#
-          DT <- data.table(x = x, by = by, id = id, key = c("by", "id")) #
-          return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-        }#
-      }#
-#
-And then write#
-#
-    setkey(DT,id, date)#
-    DT[, value_filled_in := fill_na(value, by = id)]#
-#
-This is not really satisfying since one would like to write#
-#
-    setkey(DT,id, date)#
-    DT[, value_filled_in := fill_na(value), by = id]#
-#
-However, this takes a huge amount of time to run. And, for the end-user, it is cumbersome to learn that  `fill_na` should be called with the `by` option, and should not be used with `data.table` `by`.   Is there an elegant solution around this? #
-#
-Some speed test#
-#
-N <- 2e6#
-set.seed(1)#
+summary(felm(v3 ~ v2 |0|(v2 ~ v1), data = DT)
+)
+N <- 1e6#
 DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
+  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
+  v1  =  sample(5, N, TRUE),                          #
+  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE), #
+  v3  =  v2+ sample(round(runif(100, max = 100), 4), N, TRUE) #
+  )
+N <- 1e6#
+DT <- data.table(#
+  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
+  v1  =  sample(5, N, TRUE),                          #
+  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE), #
+  )#
+DT[, v3:=  v2 + sample(round(runif(100, max = 100), 4), N, TRUE) ]
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N <- 1e6#
+DT <- data.table(#
+  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
+  v1  =  sample(5, N, TRUE),                          #
+  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+DT[, v3:=  v2 + sample(round(runif(100, max = 100), 4), N, TRUE) ]
+summary(felm(v3 ~ v2 |0|(v2 ~ v1), data = DT)
+)
+summary(felm(v1 ~ v2 |0|(v2 ~ v3), data = DT))
+summary(felm(v1 ~ |0|(v2 ~ v3), data = DT))
+summary(felm(v1 ~ 1 |0|(v2 ~ v3), data = DT))
+summary(felm(v1 ~ 1 |0|(v2 ~ v3), data = DT))
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("biglm"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))#
+assignInNamespace("cedta.override",#
+                  c(data.table:::cedta.override,"IRkernel"),#
+                  "data.table")
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) # numeric e.g. 23.5749#
+)
+setDT(df)#
+df %>% sum_up
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
 #
-system.time(DT[, filled1 := zoo::na.locf(value, na.rm = TRUE), by = id])#
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-system.time(DT[, filled3 := fill_na(value), by = id])
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-        value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
 #
-system.time(DT[, filled1 := zoo::na.locf(value, na.rm = TRUE), by = id])#
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-system.time(DT[, filled3 := fill_na(value), by = id])
-system.time(DT[, filled0 := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]])
-DT
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-#
-system.time(DT[, filled0 := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]])#
-#> user  system elapsed #
-#>  0.086   0.006   0.105 #
-system.time(DT[, filled1 := zoo::na.locf(value, na.rm = TRUE), by = id])#
-#>    user  system elapsed #
-#> 18.529   0.067  18.508 #
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-#>   user  system elapsed #
-#>  0.194   0.019   0.221
-DT
-fill_na <-  function(x , by = NULL, roll =TRUE , rollends= if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)){#
-    id <- seq_along(x)#
-    if (is.null(by)){#
-      DT <- data.table("x" = x, "id" = id, key = "id") #
-      return(DT[!is.na(x)][DT[, list(id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-#
-    } else{#
-      DT <- data.table("x" = x, "by" = by, "id" = id, key = c("by", "id")) #
-      return(DT[!is.na(x)][DT[, list(by, id)], x, roll = roll, rollends = rollends, allow.cartesian = TRUE])#
-    }#
-  }
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)
-system.time(DT[, filled0 := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]])#
-#> user  system elapsed #
-#>  0.086   0.006   0.105
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-#>   user  system elapsed #
-#>  0.194   0.019   0.221
-DT
-zoo::na.locf
-?zoo::na.locf
-system.time(DT[, filled1 := zoo::na.locf.default(value, na.rm = TRUE), by = id])#
-#>    user  system elapsed #
-#> 18.529   0.067  18.508
-DT
-warnings()
-system.time(DT[, filled1 := zoo::na.locf.default(value, na.rm = FALSE), by = id])#
-#>    user  system elapsed #
-#> 18.529   0.067  18.508
-DT
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-#
-system.time(DT[, filled0 := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]])#
-#> user  system elapsed #
-#>  0.086   0.006   0.105 #
-system.time(DT[, filled1 := zoo::na.locf.default(value, na.rm = FALSE), by = id])#
-#> user  system elapsed #
-#> 5.235   0.016   5.274 #
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-#>   user  system elapsed #
-#>  0.194   0.019   0.221 #
-system.time(DT[, filled3 := fill_na(value), by = id])#
-#>    user  system elapsed #
-#> 237.256   0.913 238.405
-DT
-all.equal(DT$filled0, DT$filled1)
-all.equal(DT$filled1, DT$filled2)
-all.equal(DT$filled1, DT$filled3)
-N <- 100#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-#
-system.time(DT[, filled0 := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]])#
-#> user  system elapsed #
-#>  0.086   0.006   0.105 #
-system.time(DT[, filled1 := zoo::na.locf.default(value, na.rm = FALSE), by = id])#
-#> user  system elapsed #
-#> 5.235   0.016   5.274 #
-# (lower speed and no built in option like roll=integer or roll=nearest, rollend, etc)#
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-#>   user  system elapsed #
-#>  0.194   0.019   0.221 #
-system.time(DT[, filled3 := fill_na(value), by = id])#
-#>    user  system elapsed #
-#> 237.256   0.913 238.405
-all.equal(DT$filled1, DT$filled3)
-na.locf.default
-?na.locf.default
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)#
-#
-system.time(DT[, filled0 := DT[!is.na(value), list(id, date, value)][DT[, list(id, date)], value, roll = TRUE]])#
-#> user  system elapsed #
-#>  0.086   0.006   0.105 #
-system.time(DT[, filled1 := zoo::na.locf.default(value, na.rm = FALSE), by = id])#
-#> user  system elapsed #
-#> 5.235   0.016   5.274 #
-# (lower speed and no built in option like roll=integer or roll=nearest, rollend, etc)#
-system.time(DT[, filled2 := fill_na(value, by = id)])#
-#>   user  system elapsed #
-#>  0.194   0.019   0.221 #
-system.time(DT[, filled3 := fill_na(value), by = id])#
-#>    user  system elapsed #
-#> 237.256   0.913 238.405
-system.time(DT[, filled1 := na.locf.default(value, na.rm = FALSE), by = id])
-library(zoo)
-system.time(DT[, filled1 := na.locf.default(value, na.rm = FALSE), by = id])
-system.time(DT[, filled1 := na.locf.default(value, na.rm = FALSE), by = id])
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_na <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  keys <- key(.data)       #
-  for col in cols{#
-    eval(substitute(.data[, (col) := DT[!is.na(x), c(keys, col), with = FALSE ][DT[, c(keys, col), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_na <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)       #
-  for col in cols{#
-    eval(substitute(.data[, (col) := DT[!is.na(x), c(keys, col), with = FALSE ][DT[, c(keys, col), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_na <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)       #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := DT[!is.na(x), c(keys, col), with = FALSE ][DT[, c(keys, col), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )
-setkey(DT, id, date)
-setna(DT, value)_
-setna(DT, value)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)       #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := DT[!is.na(x), c(keys, col), with = FALSE ][DT[, c(keys, col), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setna(DT, value)
-setna(DT, "value")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)       #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := DT[!is.na(x), c(keys, col), with = FALSE ][DT[, c(keys, col), with = FALSE], value, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(x = as.name(col))))#
-  }#
-}
-setna(DT, "value")
-DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)       #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := DT[!is.na(x), c(keys, col), with = FALSE ][DT[, c(keys), with = FALSE], value, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(x = as.name(col))))#
-  }#
-}
-setna(DT, "value")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)       #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := DT[!is.na(x), c(keys, col), with = FALSE ][DT[, c(keys), with = FALSE], value, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(x = as.name(col))))#
-  }#
-}
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )
-setkey(DT,id,date)
-setna(DT, "value")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)    #
-  if (length(keys))<2{#
-    stop(".data must be keyed by at least two variable, id and date")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(x = as.name(col))))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)    #
-  if (length(keys))<2){#
-    stop(".data must be keyed by at least two variable, id and date")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(x = as.name(col))))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)    #
-  if (length(keys)<2){#
-    stop(".data must be keyed by at least two variable, id and date")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends, allow.cartesian = TRUE]], list(x = as.name(col))))#
-  }#
-}
-setna(DT, "value")
-DT
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)
-setna <- function(.data, cols,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)    #
-  if (length(keys)<2){#
-    stop(".data must be keyed by at least two variable, id and date")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setna(DT,"value")
-DT[!is.na(x), c(keys, col), with = FALSE ]
-DT[!is.na(x), c("id","date", "value"), with = FALSE ]
-DT[!is.na(x), c("id","date", "value"), with = FALSE ][DT[, c("id","date"), with = FALSE]
-]
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)#
-DT<- unique(DT)
-setna(DT,"value")
-DT
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, "value", roll = TRUE)
-?data.table
-devtools::document(setna)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-?setcolorder
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(setna, .dots = lazyeval::lazy_dots(...), roll = TRUE, rollends = rollends)#
-}#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  cols <- names(select_vars_(names(.data), dots))#
-  keys <- key(.data)    #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-N <- 2e6#
-set.seed(1)#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE),#
-       value2 = sample(c(NA,1:5), N, TRUE)                   #
-      )#
-setkey(DT,id,date)
-DT<- unique(DT)
-setna(DT,value)
-debug(setna)
-setna(DT,value)
-s
-n
-debug(setna)
-setna(DT,value)
-s
-n
-dots
-cols
-setna(DT,value)
-s
-n
-dots
-dots$value
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
+#' Gives summary statistics (corresponds to Stata command summarize)#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.#
+#' @param d Should detailed summary statistics be printed?#
 #' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#' N <- 100; K <- 10#
 #' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)#
+#'   id = 1:N,#
+#'   v1 =  sample(5, N, TRUE),                          #
+#'   v2 =  sample(1e6, N, TRUE),                       #
+#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
 #' )#
-#' setkey(DT, id, date)#
-#' setna(DT, "value", roll = TRUE)#
-#' @name setna#
-NULL#
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(setna, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
+#' DT  %>% sum_up#
+#' DT  %>% sum_up(v3, d=T)#
+#' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
+#' @export#
+sum_up <- function(.data, ..., d = FALSE) {#
+  sum_up_(.data, .dots = lazy_dots(...) , d = d)#
 }#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
+#
+#' @export#
+sum_up_ <- function(.data, ...,.dots, d = FALSE) {#
+  UseMethod("sum_up_")#
+}#
+#
+#' @export#
+sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  var_name <- names(select_vars_(names(.data), dots))#
   if (length(vars) == 0) {#
      vars <- lazy_dots(everything())#
   }#
-  keys <- key(.data)    #
-  vars <- select_vars_(tbl_vars(.data), vars, exclude = keys)#
-  dots <- lazyeval::all_dots(.dots, ...)#
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
-  keys <- key(.data)    #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setna(DT,value)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(setna, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
+  .data2 <- select_(.data, .dots = vars)#
+  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
 }#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	keys <- key(.data)    #
-	dots <- lazyeval::all_dots(.dots, ...)#
-	vars <- names(select_vars_(names(.data), dots, exclude = keys)#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(setna, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
-}#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	keys <- key(.data)    #
-	dots <- lazyeval::all_dots(.dots, ...)#
-	vars <- names(select_vars_(names(.data), dots, exclude = keys))#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setna(DT,value)
-library(lazyeval)
-setna(DT,value)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(setna, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
-}#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	keys <- key(.data)    #
-	dots <- all_dots(.dots, ...)#
-	vars <- select_vars_(names(.data), dots, exclude = keys))#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(setna, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
-}#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	keys <- key(.data)    #
-	dots <- all_dots(.dots, ...)#
-	vars <- select_vars_(names(.data), dots, exclude = keys)#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
+#' @export#
+sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  var_name <- names(select_vars_(names(.data), dots))#
+  if (length(vars) == 0) {#
+     vars <- lazy_dots(everything())#
   }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, "value", roll = TRUE)#
-#' @name setna#
-NULL#
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(setna, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
 }#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	keys <- key(.data)    #
-	dots <- all_dots(.dots, ...)#
-	vars <- names(select_vars_(names(.data), dots, exclude = keys))#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-debug(setna)
-setna(DT,value)
-s
-n
-dots
-select_vars_(names(.data), dots)
-DT
-setna(DT,value)
-s
-n
-names(dots)
-dots
-DT %>% select(value)
-debug(select)
-DT %>% select(value)
-s
-n
-dots
-select_vars_(names(.data), dots)
-dots$value
-select_vars_(names(.data), dots, exclude = key(.data))
-names(select_vars_(names(.data), dots, exclude = key(.data)))
-setna(DT,value)
-s
-n
-dplyr::select_vars_(names(.data), dots, exclude = keys)
-dots
-names(.data)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, "value", roll = TRUE)#
-#' @name setna#
-NULL#
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(.data, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
-}#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	keys <- key(.data)    #
-	dots <- all_dots(.dots, ...)#
-	vars <- names(select_vars_(names(.data), dots, exclude = keys))#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setna(DT,value)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #
-setna <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-	setna_(.data, .dots = lazy_dots(...), roll = TRUE, rollends = rollends)#
+#' @export#
+sump_up_.tbl_dt <- function(.data, ..., .dots) {#
+  tbl_dt(NextMethod(), copy = FALSE)#
 }#
-setna_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	keys <- key(.data)    #
-	dots <- all_dots(.dots, ...)#
-	vars <- names(select_vars_(names(.data), dots, exclude = keys))#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
+describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
+  # import from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+    x.original <- x#
+    first.part <- ""#
+    if (is.na(x) | is.null(x)) {#
+      return("")#
+    }#
+    if (simply.output == TRUE) {#
+      if (!is.numeric(x)) {#
+        return(.remove.special.chars(x))#
+      }#
+    }#
+    if (x.original < 0) {#
+      x <- abs(x)#
+    }#
+    if (!is.na(decimal.places)) {#
+        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+            0)) {#
+            round.result <- round(x, digits = decimal.places)#
+        }#
+        else {#
+            temp.places <- decimal.places#
+            if (!.is.all.integers(x)) {#
+              while ((round(x, digits = temp.places) == 0) & #
+                (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                temp.places <- temp.places + 1#
+              }#
+            }#
+            round.result <- round(x, digits = temp.places)#
+            decimal.places <- temp.places#
+        }#
+        if ((round.up.positive == TRUE) & (round.result < #
+            x)) {#
+            if (x > (10^((-1) * (decimal.places + 1)))) {#
+              round.result <- round.result + 10^((-1) * decimal.places)#
+            }#
+            else {#
+              round.result <- 0#
+            }#
+        }#
+    }#
+    else {#
+        round.result <- x#
+    }#
+    round.result.char <- as.character(format(round.result, #
+        scientific = FALSE))#
+    split.round.result <- unlist(strsplit(round.result.char, #
+        "\\."))#
+    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+        if (.format.digit.separator.where[i] <= 0) {#
+            .format.digit.separator.where[i] <<- -1#
+        }#
+    }#
+    separator.count <- 1#
+    length.integer.part <- nchar(split.round.result[1])#
+    digits.in.separated.unit <- 0#
+    for (i in seq(from = length.integer.part, to = 1)) {#
+        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+            (substr(split.round.result[1], i, i) != "-")) {#
+            first.part <- paste(.format.digit.separator, #
+              first.part, sep = "")#
+            if (separator.count < length(.format.digit.separator.where)) {#
+              separator.count <- separator.count + 1#
+            }#
+            digits.in.separated.unit <- 0#
+        }#
+        first.part <- paste(substr(split.round.result[1], #
+            i, i), first.part, sep = "")#
+        digits.in.separated.unit <- digits.in.separated.unit + #
+            1#
+    }#
+    if (x.original < 0) {#
+        if (.format.dec.mark.align == TRUE) {#
+            first.part <- paste("-", first.part, sep = "")#
+        }#
+        else {#
+            first.part <- paste("$-$", first.part, sep = "")#
+        }#
+    }#
+    if (!is.na(decimal.places)) {#
+        if (decimal.places <= 0) {#
+            return(first.part)#
+        }#
+    }#
+    if (.format.initial.zero == FALSE) {#
+        if ((round.result >= 0) & (round.result < 1)) {#
+            first.part <- ""#
+        }#
+    }#
+    if (length(split.round.result) == 2) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+        if (nchar(split.round.result[2]) < decimal.places) {#
+            decimal.part <- split.round.result[2]#
+            for (i in seq(from = 1, to = (decimal.places - #
+              nchar(split.round.result[2])))) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+            }#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        else {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+    }#
+    else if (length(split.round.result) == 1) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        decimal.part <- ""#
+        for (i in seq(from = 1, to = decimal.places)) {#
+            decimal.part <- paste(decimal.part, "0", sep = "")#
+        }#
+        return(paste(first.part, .format.decimal.character, #
+            decimal.part, sep = ""))#
+    }#
+    else {#
+        return(NULL)#
+    }#
   }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+#
+  if (details==FALSE) {#
+   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
+    sum <- as.matrix(sum_mean)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    sum_mean <- colMeans(M ,na.rm=na.rm)#
+    f=function(x,m){#
+      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
+      sum_higher[1] <- sqrt(sum_higher[1])#
+      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- str_replace(y,"0+$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- str_replace(y,"\\.$","")#
+      y <- str_replace(y,"-0","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  print(noquote(format(print,justify="right")),right=TRUE)#
 }
-setna(DT,value)
+N=1e6; K=100#
 DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-DT %>% fill_na(value, roll = 3)#
-DT %>% fill_na(value, roll = -Inf, inplace = TRUE)
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-DT %>% fill_na(value, roll = 3)#
-DT %>% fill_na(value, roll = -Inf, inplace = TRUE)
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-DT %>% fill_na(value, roll = 3)#
-DT %>% fill_na(value, roll = -Inf, inplace = TRUE)
-DT
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-DT %>% fill_na(value, roll = 3)#
-DT %>% fill_na(value, roll = -Inf, inplace = TRUE)
-debug(fill_na)
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-DT %>% fill_na(value, roll = 3)#
-DT %>% fill_na(value, roll = -Inf, inplace = TRUE)
-f
-DT %>% fill_na(value, roll = 3)
-f
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-fill_na <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE), inplace = FALSE){#
-	fill_na_(.data, .dots = lazy_dots(...), roll = TRUE, rollends = rollends, inplace = inplace)#
+#' Gives summary statistics (corresponds to Stata command summarize)#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.#
+#' @param d Should detailed summary statistics be printed?#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 =  sample(5, N, TRUE),                          #
+#'   v2 =  sample(1e6, N, TRUE),                       #
+#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
+#' )#
+#' DT  %>% sum_up#
+#' DT  %>% sum_up(v3, d=T)#
+#' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
+#' @export#
+sum_up <- function(.data, ..., d = FALSE) {#
+  sum_up_(.data, .dots = lazy_dots(...) , d = d)#
 }#
-fill_na_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE), inplace = FALSE){#
-  keys <- key(.data)    #
-	dots <- all_dots(.dots, ...)#
-	vars <- names(select_vars_(names(.data), dots, exclude = keys))#
-	if (length(vars) == 0) {#
-	vars <- lazy_dots(everything())#
-	}#
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }  #
-  if (!inplace) .data <- copy(.data) #
-  for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
+#
+#' @export#
+sum_up_ <- function(.data, ...,.dots, d = FALSE) {#
+  UseMethod("sum_up_")#
+}#
+#
+#' @export#
+sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(.data), dots))#
+  if (length(vars) == 0) {#
+     vars <- lazy_dots(everything())#
   }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  .data2 <- select_(.data, .dots = vars)#
+  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
+}#
+#
+#' @export#
+sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(.data), dots))#
+  if (length(vars) == 0) {#
+     vars <- lazy_dots(everything())#
+  }#
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
+  byvars <- as.character(groups(.data))#
+  .data2 <- select_(.data, .dots = vars)#
+  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
+}#
+#
+#' @export#
+sump_up_.tbl_dt <- function(.data, ..., .dots) {#
+  tbl_dt(NextMethod(), copy = FALSE)#
+}#
+describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
+  # import from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+    x.original <- x#
+    first.part <- ""#
+    if (is.na(x) | is.null(x)) {#
+      return("")#
+    }#
+    if (simply.output == TRUE) {#
+      if (!is.numeric(x)) {#
+        return(.remove.special.chars(x))#
+      }#
+    }#
+    if (x.original < 0) {#
+      x <- abs(x)#
+    }#
+    if (!is.na(decimal.places)) {#
+        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+            0)) {#
+            round.result <- round(x, digits = decimal.places)#
+        }#
+        else {#
+            temp.places <- decimal.places#
+            if (!.is.all.integers(x)) {#
+              while ((round(x, digits = temp.places) == 0) & #
+                (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                temp.places <- temp.places + 1#
+              }#
+            }#
+            round.result <- round(x, digits = temp.places)#
+            decimal.places <- temp.places#
+        }#
+        if ((round.up.positive == TRUE) & (round.result < #
+            x)) {#
+            if (x > (10^((-1) * (decimal.places + 1)))) {#
+              round.result <- round.result + 10^((-1) * decimal.places)#
+            }#
+            else {#
+              round.result <- 0#
+            }#
+        }#
+    }#
+    else {#
+        round.result <- x#
+    }#
+    round.result.char <- as.character(format(round.result, #
+        scientific = FALSE))#
+    split.round.result <- unlist(strsplit(round.result.char, #
+        "\\."))#
+    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+        if (.format.digit.separator.where[i] <= 0) {#
+            .format.digit.separator.where[i] <<- -1#
+        }#
+    }#
+    separator.count <- 1#
+    length.integer.part <- nchar(split.round.result[1])#
+    digits.in.separated.unit <- 0#
+    for (i in seq(from = length.integer.part, to = 1)) {#
+        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+            (substr(split.round.result[1], i, i) != "-")) {#
+            first.part <- paste(.format.digit.separator, #
+              first.part, sep = "")#
+            if (separator.count < length(.format.digit.separator.where)) {#
+              separator.count <- separator.count + 1#
+            }#
+            digits.in.separated.unit <- 0#
+        }#
+        first.part <- paste(substr(split.round.result[1], #
+            i, i), first.part, sep = "")#
+        digits.in.separated.unit <- digits.in.separated.unit + #
+            1#
+    }#
+    if (x.original < 0) {#
+        if (.format.dec.mark.align == TRUE) {#
+            first.part <- paste("-", first.part, sep = "")#
+        }#
+        else {#
+            first.part <- paste("$-$", first.part, sep = "")#
+        }#
+    }#
+    if (!is.na(decimal.places)) {#
+        if (decimal.places <= 0) {#
+            return(first.part)#
+        }#
+    }#
+    if (.format.initial.zero == FALSE) {#
+        if ((round.result >= 0) & (round.result < 1)) {#
+            first.part <- ""#
+        }#
+    }#
+    if (length(split.round.result) == 2) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+        if (nchar(split.round.result[2]) < decimal.places) {#
+            decimal.part <- split.round.result[2]#
+            for (i in seq(from = 1, to = (decimal.places - #
+              nchar(split.round.result[2])))) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+            }#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        else {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+    }#
+    else if (length(split.round.result) == 1) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        decimal.part <- ""#
+        for (i in seq(from = 1, to = decimal.places)) {#
+            decimal.part <- paste(decimal.part, "0", sep = "")#
+        }#
+        return(paste(first.part, .format.decimal.character, #
+            decimal.part, sep = ""))#
+    }#
+    else {#
+        return(NULL)#
+    }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+#
+  if (details==FALSE) {#
+   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
+    sum <- as.matrix(sum_mean)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    sum_mean <- colMeans(M ,na.rm=na.rm)#
+    f=function(x,m){#
+      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
+      sum_higher[1] <- sqrt(sum_higher[1])#
+      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- str_replace(y,"0+$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- str_replace(y,"\\.$","")#
+      y <- str_replace(y,"-0","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  print(noquote(format(print,justify="right")),right=TRUE)#
 }
-DT %>% fill_na(value, roll = 3)
-DT
-DT %>% fill_na(value, roll = 3, inplace = TRUE)
-DT
+N=1e6; K=100#
 DT <- data.table(#
-    id = c(1, 1, 1, 1, 1, 2, 2),#
-    date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% expand(date)
-unique
-data.table::unique
-unique.data.table
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")
+library(dplyr)
+?join
+left_join
+left_join.data.table
+?set2key
+?auto_copy
+?merge
+(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
+    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))
+dt1
+dt2
+merge(dt1, dt2)
+common_by <- function(by = NULL, x, y) {#
+  if (!is.null(by)) {#
+    return(list(#
+      x = names(by) %||% by,#
+      y = unname(by)#
+    ))#
+  }#
+#
+  by <- intersect(tbl_vars(x), tbl_vars(y))#
+  if (length(by) == 0) {#
+    stop("No common variables. Please specify `by` param.", call. = FALSE)#
+  }#
+  message("Joining by: ", capture.output(dput(by)))#
+#
+  list(#
+    x = by,#
+    y = by#
+  )
+}
+common_by(by=("A"="X"),x,y)
+common_by(by=("A"="X"),x,y))
+"%||%" <- function(x, y) if(is.null(x)) y else x
+common_by(by=("A"="X"),x,y))
+common_by(by=("A"="X"),x,y)
+key(x)
+keys(x)
+common_by(by=("A"="X"),dt1,dt2)
+keys(dt1)
+common_by(by = ("X"="A"), dt1, dt2)
+names(by)
+common_by(by = c("X"="A"), dt1, dt2)
+?auto_copy
+keys(dt1)
+key(dt1)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    y <- auto_copy(x, y, copy = copy)#
+#
+    if !(key(x)==by$x | setkey){#
+      x <- copy(x)#
+    }#
+    if !(key(y)==by$y | setkey){#
+      y <- copy(y)#
+    }#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+semi_join.data.table  <- join_dt({#
+  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
+  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+  w <- w[!is.na(w)]#
+  x[w]#
+})#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    y <- auto_copy(x, y, copy = copy)#
+#
+    if (!key(x)==by$x & !setkey){#
+      x <- copy(x)#
+    }#
+    if (!key(y)==by$y & !setkey){#
+      y <- copy(y)#
+    }#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+#' @export#
+#' @rdname join.tbl_dt#
+inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+semi_join.data.table  <- join_dt({#
+  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
+  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+  w <- w[!is.na(w)]#
+  x[w]#
+})#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
+library(Lahman)
+batting_dt <- tbl_dt(Batting)#
+person_dt <- tbl_dt(Master)
+join_dt(batting_dt, person_dt)
+left_join(batting_dt, person_dt)
+auto_copy <- function(x, y, copy = FALSE, ...) {#
+…	#
+82	      "x's source (this may be time consuming).", call. = FALSE)#
+83	  }#
+84	#
+85	  UseMethod("auto_copy")#
+86	}
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!key(x)==by$x & !setkey){#
+      x <- copy(x)#
+    }#
+    if (!key(y)==by$y & !setkey){#
+      y <- copy(y)#
+    }#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+left_join(batting_dt, person_dt)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!key(x)==by$x & !setkey){#
+      x <- copy(x)#
+    }#
+    if (!key(y)==by$y & !setkey){#
+      y <- copy(y)#
+    }#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+left_join.data.table(batting_dt, person_dt)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!key(x)==by$x & !setkey){#
+      x <- copy(x)#
+    }#
+    if (!key(y)==by$y & !setkey){#
+      y <- copy(y)#
+    }#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))
+left_join.data.table(batting_dt, person_dt)
+1!=2
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (key(x)!=by$x & !setkey){#
+      x <- copy(x)#
+    }#
+    if (!key(y)!=by$y & !setkey){#
+      y <- copy(y)#
+    }#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+left_join.data.table(batting_dt, person_dt)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (key(x) !=by$x & !setkey) x <- copy(x)#
+    if (!key(y) != by$y & !setkey) y <- copy(y)#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+left_join.data.table(batting_dt, person_dt)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (key(x) !=by$x & !setkey) x <- copy(x)#
+    if (!key(y) != by$y & !setkey) y <- copy(y)#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+#' Join data table tbls.#
+#'#
+#' See \code{\link{join}} for a description of the general purpose of the#
+#' functions.#
+#'#
+#' @inheritParams join#
+#' @param x,y tbls to join#
+#' @param ... Included for compatibility with generic; otherwise ignored.#
+#' @examples#
+##' if (require("data.table") && require("Lahman")) {#
+#' batting_dt <- tbl_dt(Batting)#
+#' person_dt <- tbl_dt(Master)#
+#'#
+#' # Inner join: match batting and person data#
+#' inner_join(batting_dt, person_dt)#
+#'#
+#' # Left join: keep batting data even if person missing#
+#' left_join(batting_dt, person_dt)#
+#'#
+#' # Semi-join: find batting data for top 4 teams, 2010:2012#
+#' grid <- expand.grid(#
+#'   teamID = c("WAS", "ATL", "PHI", "NYA"),#
+#'   yearID = 2010:2012)#
+#' top4 <- semi_join(batting_dt, grid, copy = TRUE)#
+#'#
+#' # Anti-join: find batting data with out player data#
+#' anti_join(batting_dt, person_dt)#
+#' }#
+#' @name join.tbl_dt#
+NULL#
+#
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (key(x) !=by$x & !setkey) x <- copy(x)#
+    if (!key(y) != by$y & !setkey) y <- copy(y)#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+semi_join.data.table  <- join_dt({#
+  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
+  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+  w <- w[!is.na(w)]#
+  x[w]#
+})#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
+left_join.data.table(batting_dt, person_dt)
+debug(join_dt)
+left_join.data.table(batting_dt, person_dt)
+key(x)
+is.identical(NULL,"x")
+all.equal(NULL,"x")
+identical(NULL,"x")
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!setkey && !identical(key(x),by$x)  <- copy(x)#
+    if (!setkey && !identical(key(y),by$y)) y <- copy(y)#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!setkey && !identical(key(x),by$x))  x<- copy(x)#
+    if (!setkey && !identical(key(y),by$y)) y <- copy(y)#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+identical(NULL,"x")
+left_join.data.table(batting_dt, person_dt)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!setkey && !identical(key(x),by$x))  x<- copy(x)#
+    if (!setkey && !identical(key(y),by$y)) y <- copy(y)#
+    setkeyv(x, by$x)#
+    setkeyv(y, by$x)#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+semi_join.data.table  <- join_dt({#
+  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
+  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+  w <- w[!is.na(w)]#
+  x[w]#
+})#
+#
+#' @export#
+#' @rdname join.tbl_dt#
+anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
+left_join.data.table(batting_dt, person_dt)
+left_join.data.table(batting_dt, person_dt, setkey = TRUE)
+?merge
+?join
+?join
+batting_df <- tbl_df(Batting)#
+ person_df <- tbl_df(Master)
+batting_df
+person_df
+left_join(batting_df,person_df, by = c("yearID","birthYear")
+)
+left_join(batting_df,person_df, by = c("yearID"="birthYear")
+)
+person_df <- person_df %>% mutate(yearID=1990)
+left_join(batting_df,person_df, by = c("yearID"="birthYear"))
+merge <- left_join(batting_df,person_df, by = c("yearID"="birthYear"))
+names(merge)
+paste0(c("a","b"),".x")
+setkey(batting_dt)
+setDT(batting_df)
+setDT(person_df)
+setkey(batting_df, "yearID")
+setkey(person_df, "birthYear")
+merge(batting_df,person_df)
+merge(batting_df,person_df)
+?merge
+key(person_df)
 library(data.table)
-unique.data.table
-unique
-DT
-DT $>$ select(list(id,date))
-DT %>% select(list(id,date))
-DT %>% select(list(id))
-DT %>% select(.(id,date))
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-setna("value", roll = 3)
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-setna(DT,"value", roll = 3)
+merge(batting_df,person_df)
+merge(batting_df,person_df, by = NULL)
+debug(merge)
+debug(merge)
+(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
+    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))#
+    merge(dt1, dt2)#
+    merge(dt1, dt2, all = TRUE)
+merge(batting_df,person_df)
+person_df
+key(person_df)
+key(batting_df)
+merge(batting_df,person_df)
+is.data.table(person_df)
+is.data.table(batting_df)
+debug(merge)
+rm(merge)
+debug(merge)
+undebug(merge)
+merge(batting_df,person_df)
+traceback()
+debug(merge)
+merge(batting_df,person_df)
+s
+n
+by
+merge(batting_df,person_df)
+s
+n
+by
+key(batting_df)
+n
+n
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!identical(by$x, by$y)) {#
+      stop("Data table joins must be on same key", call. = FALSE)#
+    }#
+    y <- auto_copy(x, y, copy = copy)#
+    if (!identical(data.table::key(x),by$x)){#
+      if (!setkey) x <- copy(x)#
+      data.table::setkeyv(x, by$x)#
+    }#
+    if (!identical(data:table::key(y),by$y)){#
+      if (!setkey) y <- copy(y)#
+      data.table::setkeyv(y, by$y)#
+    }#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f
+)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    if (!identical(by$x, by$y)) {#
+      stop("Data table joins must be on same key", call. = FALSE)#
+    }#
+    y <- auto_copy(x, y, copy = copy)#
+    if (!identical(data.table::key(x),by$x)){#
+      if (!setkey) x <- copy(x)#
+      data.table::setkeyv(x, by$x)#
+    }#
+    if (!identical(data:table::key(y),by$y)){#
+      if (!setkey) y <- copy(y)#
+      data.table::setkeyv(y, by$y)#
+    }#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f}
+inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))
+merge(batting_df,person_df)
+n
+by
+key(batting_df)
+merge(batting_df,person_df)
+key(x)
+inherits(y,"data.table")
+key(x)
+key(x)
+by
+intersect("ok","salut")
+length(intersect("ok","salut"))
+if !length(by) by <- NULL
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)    #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-setna(DT,"value", roll = 3)
+  if (!gen == FALSE & !(type %in% c("left", "right", "outer")){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-setna <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)    #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-setna(DT,"value", roll = 3)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
+#' Join two data.tables together (similar to Stata command joinby)#
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
 #' @examples#
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'  value = c(4.1, NA, MA, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, value, roll = TRUE)#
-#' @name setna#
-NULL#
-setna <- function(.data, cols, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)    #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  for (col in cols){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
+#'  ## inner join#
+#'  join(DTm, DTu, type = "inner", gen = FALSE)#
+#'  join(DTm, DTu, type = "left", gen = FALSE)#
+#'  ## full outer join#
+#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
+#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
+#'  join(DTm, DTu, check = "1:1")#
+#'  join(DTm, DTu, check = "m:1")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
   }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (!gen == FALSE & !(type %in% c("left", "right", "outer")){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+  if type== "left" | type == "right" | type== "outer" | type == "inner"{#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if type == "semi"{#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w])#
+  } else if type == "anti"{#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
 }
-DT <- data.table(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)#
- )#
-setkey(DT, id, date) #
-setna(DT,"value", roll = 3)
-DT
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together (similar to Stata command joinby)#
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  ## inner join#
+#'  join(DTm, DTu, type = "inner", gen = FALSE)#
+#'  join(DTm, DTu, type = "left", gen = FALSE)#
+#'  ## full outer join#
+#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
+#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
+#'  join(DTm, DTu, check = "1:1")#
+#'  join(DTm, DTu, check = "m:1")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+  if type== "left" | type == "right" | type== "outer" | type == "inner"{#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if type == "semi"{#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w])#
+  } else if type == "anti"{#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together (similar to Stata command joinby)#
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  ## inner join#
+#'  join(DTm, DTu, type = "inner", gen = FALSE)#
+#'  join(DTm, DTu, type = "left", gen = FALSE)#
+#'  ## full outer join#
+#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
+#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
+#'  join(DTm, DTu, check = "1:1")#
+#'  join(DTm, DTu, check = "m:1")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+  if (type %in% c("left", "right", "outer", "inner"){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if type == "semi"{#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w])#
+  } else if type == "anti"{#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together (similar to Stata command joinby)#
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  ## inner join#
+#'  join(DTm, DTu, type = "inner", gen = FALSE)#
+#'  join(DTm, DTu, type = "left", gen = FALSE)#
+#'  ## full outer join#
+#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
+#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
+#'  join(DTm, DTu, check = "1:1")#
+#'  join(DTm, DTu, check = "m:1")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if type == "semi"{#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w])#
+  } else if type == "anti"{#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together (similar to Stata command joinby)#
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  ## inner join#
+#'  join(DTm, DTu, type = "inner", gen = FALSE)#
+#'  join(DTm, DTu, type = "left", gen = FALSE)#
+#'  ## full outer join#
+#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
+#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
+#'  join(DTm, DTu, check = "1:1")#
+#'  join(DTm, DTu, check = "m:1")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w])#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together (similar to Stata command joinby)#
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  ## inner join#
+#'  join(DTm, DTu, type = "inner", gen = FALSE)#
+#'  join(DTm, DTu, type = "left", gen = FALSE)#
+#'  ## full outer join#
+#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
+#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
+#'  join(DTm, DTu, check = "1:1")#
+#'  join(DTm, DTu, check = "m:1")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together (similar to Stata command joinby)#
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  ## inner join#
+#'  join(DTm, DTu, type = "inner", gen = FALSE)#
+#'  join(DTm, DTu, type = "left", gen = FALSE)#
+#'  ## full outer join#
+#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
+#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
+#'  join(DTm, DTu, check = "1:1")#
+#'  join(DTm, DTu, check = "m:1")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(var, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
+    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))
+join(dt1,dt2, type = "outer")
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+join(dt1,dt2, type = "outer")
+n
+n
+n
+f
+debug(merge)
+join(dt1,dt2, type = "outer")
+debug(merge.data.table)
+debug(merge)

@@ -85,17 +85,11 @@ DT %>% group_by(id) %>% expand(date, type = "across")
 
 
 # merge
-The package adds a wrapper for `data.table::merge` based on Stata syntax
+The package adds a wrapper for `data.table::merge` based on SQL join (possible types are : left, right, inner, outer,  semi and anti). The match is made on common names. As in Stata, the option gen specifies the name of a new variable that identifies non matched and matched rows while the option check enables to to check there are no duplicates in the master or using data.tables.
 
 ````R
 # inner join
-ejoin(DTm, DTu, keep = "matched")
-# left join
-ejoin(DTm, DTu, keep = c("master","matched"))
-# full outer join
-ejoin(DTm, DTu, keep = c("master","matched","using"))
-# type and gen options
-ejoin(DTm, DTu, type = "1:1", keep = c("master","matched","using"), gen = "_merge")
+join(DTm, DTu, type = "left", gen = FALSE, check = "m:m")
 ````
 
 # other functions
