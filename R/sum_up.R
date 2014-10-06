@@ -28,10 +28,10 @@ sum_up_ <- function(.data, ...,.dots, d = FALSE) {
 
 #' @export
 sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {
-  dots <- lazyeval::all_dots(.dots, ...)
+  dots <- all_dots(.dots, ...)
   vars <- names(select_vars_(names(.data), dots))
   if (length(vars) == 0) {
-     vars <- lazy_dots(everything())
+     vars <- names(.data)
   }
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   .data2 <- select_(.data, .dots = vars)
@@ -43,7 +43,7 @@ sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- names(select_vars_(names(.data), dots))
   if (length(vars) == 0) {
-     vars <- lazy_dots(everything())
+     vars <- names(.data)
   }
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   byvars <- as.character(groups(.data))
@@ -53,7 +53,7 @@ sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {
 
 #' @export
 sump_up_.tbl_dt <- function(.data, ..., .dots) {
-  tbl_dt(NextMethod(), copy = FALSE)
+  tbl_dt(NextMethod())
 }
 
 

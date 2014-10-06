@@ -9,6 +9,7 @@
 #' @importFrom dplyr tbl_vars
 #' @importFrom dplyr groups
 #' @importFrom lazyeval lazy_dots
+#' @importFrom lazyeval all_dots
 #' @importFrom lazyeval common_env
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap
