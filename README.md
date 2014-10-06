@@ -88,7 +88,8 @@ DT <- data.table(
   date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
   value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)
  )
-DT %>% group_by(id) %>% fill_na(value, along_with = date), roll = TRUE, rollends = c(FALSE, TRUE), inplace = FALSE)
+DT %>% group_by(id) %>% fill_na(value, order_by = date)
+DT %>% group_by(id) %>% fill_na(value, order_by = date, inplace = TRUE)
 ````
 
 
