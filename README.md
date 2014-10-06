@@ -81,6 +81,14 @@ DT <- data.table(
 DT %>% expand(date)
 DT %>% group_by(id) %>% expand(date, type = "within")
 DT %>% group_by(id) %>% expand(date, type = "across")
+
+# fill_na (= fill missing values)
+DT <- data.table(
+  id    = c(1, 1, 1, 1, 1, 2, 2),
+  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)
+ )
+DT %>% group_by(id) %>% fill_na(value, along_with = date), roll = TRUE, rollends = c(FALSE, TRUE), inplace = FALSE)
 ````
 
 
@@ -90,7 +98,7 @@ The package adds a wrapper for data.table merge functions based on SQL join (pos
 ````R
 # default options
 join(x, y, on = intersect(names(DTm),names(DTu)), type = "outer", gen = FALSE, check = "m:m")
-# outer corresponds to Stata joinby keep( master matched using)
+# outer corresponds to Stata joinby keep(master matched using)
 join(x,y, type = "outer")
 # left corresponds to Stata joinby keep(master matched)
 join(x,y, type = "left")

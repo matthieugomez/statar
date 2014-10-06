@@ -20,7 +20,6 @@ DT <- data.table(
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)
 )
-setkey(DT, id, date)
-fill_na(DT, value, roll = TRUE, inplace = FALSE)
+DT \%>\% group_by(id) \%>\% fill_na(value, along_with = date), roll = TRUE, rollends = c(FALSE, TRUE), inplace = FALSE)
 }
 

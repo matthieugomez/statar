@@ -20,7 +20,7 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 \item{check}{A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.}
 }
 \value{
-A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes. Keys are set on master and using data.tables, which avoids the copy of x and y, at the cost of transforming the input data.tables.
+A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes.
 }
 \description{
 Join two data.tables together

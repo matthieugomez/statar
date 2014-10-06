@@ -6,7 +6,7 @@
 #' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.
-#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes. Keys are set on master and using data.tables, which avoids the copy of x and y, at the cost of transforming the input data.tables.
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes. 
 #' @examples
 #'  join(x, y, on = intersect(names(x),names(y)), type = "outer", gen = FALSE, check = "m:m")
 #' @export
@@ -35,6 +35,8 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
   message(paste0("Join based on : ", paste(vars, collapse = " ")))
 
   # set keys
+  key_x <- key(x)
+  key_y <- key(y)
   setkeyv(x, vars)
   setkeyv(y, vars)
 
@@ -104,5 +106,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
   } else if (type == "anti"){
     DT_output <- x[!y, allow.cartesian = TRUE]
   } 
+  setkeyv(x, key_x)
+  setkeyv(y, key_y)
   DT_output
 }

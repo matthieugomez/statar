@@ -10,37 +10,58 @@
 #'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 #'  value = c(4.1, NA, NA, 5.3, 3.0, 3.2, 5.2)
 #' )
-#' setkey(DT, id, date)
-#' fill_na(DT, value, roll = TRUE, inplace = FALSE)
+#' DT %>% group_by(id) %>% fill_na(value, along_with = date), roll = TRUE, rollends = c(FALSE, TRUE), inplace = FALSE)
 #' @name fill_na
 NULL
 
 
-
-fill_na <- function(.data, ...,roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_na <- function(.data, ..., along_with, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE){
-	fill_na_(.data, .dots = lazy_dots(...), roll = TRUE, rollends = rollends, inplace = inplace)
+	fill_na_(.data, .dots = lazy_dots(...), along_with, roll = TRUE, rollends = rollends, inplace = inplace)
 }
 
-
-fill_na_ <- function(.data, ...,.dots, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_na_.grouped_dt  <- function(.data, ...,.dots, along_with, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), inplace = FALSE){
-  keys <- key(.data)    
-	dots <- all_dots(.dots, ...)
-	vars <- names(select_vars_(names(.data), dots, exclude = keys))
+	dots <- lazyeval::all_dots(.dots, ...)
+	vars <- names(select_vars_(names(.data), dots))
+	byvars <- as.character(groups(.data))
 	if (length(vars) == 0) {
-	vars <- lazy_dots(everything())
+		vars <- setdiff(names(.data), c(byvars, along_with))
 	}
-  if (length(keys)<1){
-    stop(".data must be keyed by at least one variable")
-  }  
-  if (!inplace) .data <- copy(.data) 
-  for (col in vars){
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))
-  }
+	if (!inplace) .data <- copy(.data)
+	keys <- key(.data)
+	setkeyv(.data, c(byvars, along_with))
+	for (col in vars){	
+    eval(substitute(.data2[, (col) := .data2[!is.na(x), c(byvars, along_with, col), with = FALSE ][.data2, value, roll = roll, rollends = rollends]], list(x = as.name(col))))
+  	}
+  	if (inplace) setkeyv(.data, keys)
 }
+
+fill_na_.data.table <- function(.data, ...,.dots, along_with, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+  else if (roll>=0) c(FALSE,TRUE)
+  else c(TRUE,FALSE), inplace = FALSE){
+	dots <- lazyeval::all_dots(.dots, ...)
+	vars <- names(select_vars_(names(.data), dots))
+	if (length(vars) == 0) {
+		vars <- setdiff(names(.data), along_with)
+	}
+	if (!inplace) .data <- copy(.data)
+	keys <- key(.data)
+	setkeyv(.data, c(along_with))
+	for (col in vars){	
+    eval(substitute(.data2[, (col) := .data2[!is.na(x), c(along_with, col), with = FALSE ][.data2, value, roll = roll, rollends = rollends]], list(x = as.name(col))))
+  	}
+  	if (inplace) setkeyv(.data, keys)
+}
+
+fill_na_.tbl_dt <- function(.data, ..., .dots, along_with, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+  else if (roll>=0) c(FALSE,TRUE)
+  else c(TRUE,FALSE), inplace = FALSE) {
+  tbl_dt(NextMethod(), copy = FALSE)
+}
+
 
 
 
