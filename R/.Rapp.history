@@ -1,3 +1,191 @@
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+DT
+DT %>% select(v1)
+library(dplyr)
+DT %>% select(v1)
+DT
+DT %>% select(v1,inplace = TRUE)
+mutate
+select
+debug(select)
+DT %>% select(v1,inplace = TRUE)
+s
+n
+inplace
+DT %>% mutate(mean(v1),inplace = TRUE)
+debug(mutate)
+DT %>% mutate(mean(v1),inplace = TRUE)
+s
+inplace
+q
+f
+?lazy_eval::all_dots
+?lazyeval::all_dots
+DT %>% mutate(mean(v1),inplace = TRUE)
+s
+n
+dots
+inplace
+DT %>% mutate(mean(v1),inplace = TRUE)
+DT
+f
+setdiff
+DT %>% mutate_each(mean,inplace = TRUE)
+DT %>% mutate_each(funs(mean),inplace = TRUE)
+?select
+DT %>% select(v1,inplace = TRUE)
+s
+n
+vars
+setdiff(vars,names(.data))
+names(.data)
+setdiff(names(.data),vars)
+DT %>% select(v1,inplace = TRUE)
+s
+n
+dots
+dots$inplace
+dots$inplace==TRUE
+dots$inplace$code==TRUE
+dots$inplace$code
+dots$inplace
+ls(dots$inplace)
+names(dots$inplace)
+is.env(dots$inplace)
+dots$inplace
+attr(dots$inplace)
+attributes(dots$inplace)
+dots$inplace$expr
+names(dots)
+dots$inplace <- NULL
+dots$inplace
+dots[[2]] <- NULL
+dots
+DT %>% select(v1,inplace = TRUE)
+s
+dots
+n
+dots
+match("inplace",dots)
+match("inplace",names(dots))
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+DT %>% select(v1,inplace = TRUE)
+library(dplyr)
+DT %>% select(v1,inplace = TRUE)
+s
+]]]]]
+f
+ff
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT %>% select(v1,inplace = TRUE)
+DT
+DT %>% select(v1,inplace = TRUE)
+s
+f
+library(plyr)
+suppressMessages(library("data.table"))
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% select(v1,inplace = TRUE)
+DT
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% select(v1)
+DT
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT %>% mutate_each(mean, inplace = TRUE)
+DT %>% mutate_each(funs(mean), inplace = TRUE)
+DT %>% mutate_each(funs(mean))
+DT
+DT %>% mutate(mean(v1),inplace=TRUE)
+DT
+debug(mutate_each)
+DT %>% mutate_each(funs(mean))
+s
+f
+n
+s
+n
+dots
+f
+DT %>% mutate_each(funs(mean),inplace=TRUE)
+s
+n
+DT %>% mutate_each(funs(mean),inplace=TRUE)
+s
+n
+DT %>% mutate_each(funs(mean),inplace=TRUE)
+s
+n
+s
+n
+vars
+vars$inplace
+install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
+library(dplyr)
+DT %>% mutate_each(funs(mean),inplace=TRUE)
+n
+library(dplyr)
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+suppressMessages(library("dplyr"))
+suppressMessages(library("data.table"))
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+#sink.reset
+DT %>% mutate_each(funs(mean), inplace = TRUE)
+DT
+vars
+DT %>% mutate_each(funs(mean), inplace = TRUE)
+debug(mutate_each)
+DT %>% mutate_each(funs(mean), inplace = TRUE)
+s
+f
+n
+vars
+length(TRUE)
+is.atomic(TRUE)
+is.atomic(c(TRUE.TRUE))
+is.atomic(c(TRUE,TRUE))
+dots
+l=llist(1="ok")
+l=list(1="ok")
 l=list(ok = "ok")
 l$NA
 install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
@@ -849,25 +1037,7 @@ felm(v1 ~ v2 |  | (v2 ~ v3) |, df)
 felm(v1 ~ v2 |  | (v2 ~ v3) |0, df)
 felm(v1 ~ v2 |  | (v2 ~ v3), df)
 felm(v1 ~ v2 |0| (v2 ~ v3), df)
-?stargazer
-library(stargazer)
-?stargazer
-N <- 1e6#
-DT <- data.table(#
-  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
-  v1  =  sample(5, N, TRUE),                          #
-  v2  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
-  v3  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
-  )
-N <- 1e6#
-DT <- data.table(#
-  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
-  v1  =  sample(5, N, TRUE),                          #
-  v2  =  sample(round(runif(100,max = 100), 4), N, TRUE), #
-  v3  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
-  )
 setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/statar")#
 suppressMessages(library("tidyr"))#
 suppressMessages(library("dplyr"))#
 suppressMessages(library("data.table"))#
@@ -887,1959 +1057,6 @@ suppressMessages(library("statar"))#
 assignInNamespace("cedta.override",#
                   c(data.table:::cedta.override,"IRkernel"),#
                   "data.table")
-DT
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N <- 1e6#
-DT <- data.table(#
-  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
-  v1  =  sample(5, N, TRUE),                          #
-  v2  =  sample(round(runif(100,max = 100), 4), N, TRUE), #
-  v3  =  sample(round(runif(100,max = 100), 4), N, TRUE) #
-  )
-library(AER)
-ivreg(v3~v2|v1)
-ivreg(v3~v2|v1, DT)
-ivreg(v3 ~ v2 | v1, DT)
-?ivreg
-ivreg(v3 ~ v2 | v1, data = DT)
-summary(ivreg(v3 ~ v2 | v1, data = DT))
-summary(felm(v3 ~ v2 | |(v2 ~ v1), data = DT))
-summary(felm(v3 ~ v2 | |(v2 ~ v1), data = DT)
-summary(felm(v3 ~ v2 ||(v2 ~ v1), data = DT)
-)
-summary(felm(v3 ~ v2 |0|(v2 ~ v1), data = DT)
-)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/statar")#
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-suppressMessages(library("biglm"))#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))#
-assignInNamespace("cedta.override",#
-                  c(data.table:::cedta.override,"IRkernel"),#
-                  "data.table")#
-# cores options#
-options(mc.cores=3)#
-# ggplot options#
-old=theme_set(theme_bw()+theme(title=element_text(size=8), axis.title=element_text(size=10),  strip.text.x=element_text(size=8),legend.key = element_blank(), legend.title = element_text(face="plain", size=10), legend.position="bottom", strip.background = element_rect(colour="white", fill="white")))
-N <- 1e6#
-DT <- data.table(#
-  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
-  v1  =  sample(5, N, TRUE),                          #
-  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE), #
-  v3  =  sample(round(runif(100, max = 100), 4), N, TRUE) #
-  )
-DT
-summary(felm(v3 ~ v2 |0|(v2 ~ v1), data = DT)
-)
-N <- 1e6#
-DT <- data.table(#
-  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
-  v1  =  sample(5, N, TRUE),                          #
-  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE), #
-  v3  =  v2+ sample(round(runif(100, max = 100), 4), N, TRUE) #
-  )
-N <- 1e6#
-DT <- data.table(#
-  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
-  v1  =  sample(5, N, TRUE),                          #
-  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE), #
-  )#
-DT[, v3:=  v2 + sample(round(runif(100, max = 100), 4), N, TRUE) ]
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N <- 1e6#
-DT <- data.table(#
-  id  =  sample(c("id01", "id02", "id03"), N, TRUE),     #
-  v1  =  sample(5, N, TRUE),                          #
-  v2  =  sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-DT[, v3:=  v2 + sample(round(runif(100, max = 100), 4), N, TRUE) ]
-summary(felm(v3 ~ v2 |0|(v2 ~ v1), data = DT)
-)
-summary(felm(v1 ~ v2 |0|(v2 ~ v3), data = DT))
-summary(felm(v1 ~ |0|(v2 ~ v3), data = DT))
-summary(felm(v1 ~ 1 |0|(v2 ~ v3), data = DT))
-summary(felm(v1 ~ 1 |0|(v2 ~ v3), data = DT))
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-suppressMessages(library("biglm"))#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))#
-assignInNamespace("cedta.override",#
-                  c(data.table:::cedta.override,"IRkernel"),#
-                  "data.table")
-library("lfe")#
-N <- 1e6#
-df <- data.frame(#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) # numeric e.g. 23.5749#
-)
-setDT(df)#
-df %>% sum_up
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Gives summary statistics (corresponds to Stata command summarize)#
-#' #
-#' @param DT A tbl_dt or tbl_grouped_dt.#
-#' @param ... Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.#
-#' @param d Should detailed summary statistics be printed?#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' N <- 100; K <- 10#
-#' DT <- data.table(#
-#'   id = 1:N,#
-#'   v1 =  sample(5, N, TRUE),                          #
-#'   v2 =  sample(1e6, N, TRUE),                       #
-#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
-#' )#
-#' DT  %>% sum_up#
-#' DT  %>% sum_up(v3, d=T)#
-#' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#' @export#
-sum_up <- function(.data, ..., d = FALSE) {#
-  sum_up_(.data, .dots = lazy_dots(...) , d = d)#
-}#
-#
-#' @export#
-sum_up_ <- function(.data, ...,.dots, d = FALSE) {#
-  UseMethod("sum_up_")#
-}#
-#
-#' @export#
-sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- lazy_dots(everything())#
-  }#
-  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
-  .data2 <- select_(.data, .dots = vars)#
-  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
-}#
-#
-#' @export#
-sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- lazy_dots(everything())#
-  }#
-  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
-  byvars <- as.character(groups(.data))#
-  .data2 <- select_(.data, .dots = vars)#
-  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
-}#
-#
-#' @export#
-sump_up_.tbl_dt <- function(.data, ..., .dots) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}#
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
-  # import from stargazer#
-  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
-      simply.output = FALSE,  .format.digit.separator = ",") {#
-    .format.initial.zero <- TRUE#
-    .format.until.nonzero.digit <- TRUE#
-    .format.max.extra.digits <- 2#
-    .format.digit.separator.where <- c(3)#
-    .format.ci.separator <- ", "#
-    .format.round.digits <- 3#
-    .format.decimal.character <- "."#
-    .format.dec.mark.align <- FALSE#
-    .format.dec.mark.align <- TRUE#
-    x.original <- x#
-    first.part <- ""#
-    if (is.na(x) | is.null(x)) {#
-      return("")#
-    }#
-    if (simply.output == TRUE) {#
-      if (!is.numeric(x)) {#
-        return(.remove.special.chars(x))#
-      }#
-    }#
-    if (x.original < 0) {#
-      x <- abs(x)#
-    }#
-    if (!is.na(decimal.places)) {#
-        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
-            0)) {#
-            round.result <- round(x, digits = decimal.places)#
-        }#
-        else {#
-            temp.places <- decimal.places#
-            if (!.is.all.integers(x)) {#
-              while ((round(x, digits = temp.places) == 0) & #
-                (temp.places < (decimal.places + .format.max.extra.digits))) {#
-                temp.places <- temp.places + 1#
-              }#
-            }#
-            round.result <- round(x, digits = temp.places)#
-            decimal.places <- temp.places#
-        }#
-        if ((round.up.positive == TRUE) & (round.result < #
-            x)) {#
-            if (x > (10^((-1) * (decimal.places + 1)))) {#
-              round.result <- round.result + 10^((-1) * decimal.places)#
-            }#
-            else {#
-              round.result <- 0#
-            }#
-        }#
-    }#
-    else {#
-        round.result <- x#
-    }#
-    round.result.char <- as.character(format(round.result, #
-        scientific = FALSE))#
-    split.round.result <- unlist(strsplit(round.result.char, #
-        "\\."))#
-    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
-        if (.format.digit.separator.where[i] <= 0) {#
-            .format.digit.separator.where[i] <<- -1#
-        }#
-    }#
-    separator.count <- 1#
-    length.integer.part <- nchar(split.round.result[1])#
-    digits.in.separated.unit <- 0#
-    for (i in seq(from = length.integer.part, to = 1)) {#
-        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
-            (substr(split.round.result[1], i, i) != "-")) {#
-            first.part <- paste(.format.digit.separator, #
-              first.part, sep = "")#
-            if (separator.count < length(.format.digit.separator.where)) {#
-              separator.count <- separator.count + 1#
-            }#
-            digits.in.separated.unit <- 0#
-        }#
-        first.part <- paste(substr(split.round.result[1], #
-            i, i), first.part, sep = "")#
-        digits.in.separated.unit <- digits.in.separated.unit + #
-            1#
-    }#
-    if (x.original < 0) {#
-        if (.format.dec.mark.align == TRUE) {#
-            first.part <- paste("-", first.part, sep = "")#
-        }#
-        else {#
-            first.part <- paste("$-$", first.part, sep = "")#
-        }#
-    }#
-    if (!is.na(decimal.places)) {#
-        if (decimal.places <= 0) {#
-            return(first.part)#
-        }#
-    }#
-    if (.format.initial.zero == FALSE) {#
-        if ((round.result >= 0) & (round.result < 1)) {#
-            first.part <- ""#
-        }#
-    }#
-    if (length(split.round.result) == 2) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-        if (nchar(split.round.result[2]) < decimal.places) {#
-            decimal.part <- split.round.result[2]#
-            for (i in seq(from = 1, to = (decimal.places - #
-              nchar(split.round.result[2])))) {#
-              decimal.part <- paste(decimal.part, "0", sep = "")#
-            }#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        else {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-    }#
-    else if (length(split.round.result) == 1) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        decimal.part <- ""#
-        for (i in seq(from = 1, to = decimal.places)) {#
-            decimal.part <- paste(decimal.part, "0", sep = "")#
-        }#
-        return(paste(first.part, .format.decimal.character, #
-            decimal.part, sep = ""))#
-    }#
-    else {#
-        return(NULL)#
-    }#
-  }#
-  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
-      round(x)) < tol#
-  .is.all.integers <- function(x) {#
-      if (!is.numeric(x)) {#
-          return(FALSE)#
-      }#
-      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
-          (is.wholenumber(x) == TRUE)])) {#
-          return(TRUE)#
-      }#
-      else {#
-          return(FALSE)#
-      }#
-  }#
-  # Now starts the code #
-#
-  if (details==FALSE) {#
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
-    sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
-#
-  } else {#
-    N <- nrow(M)#
-    sum_mean <- colMeans(M ,na.rm=na.rm)#
-    f=function(x,m){#
-      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
-      sum_higher[1] <- sqrt(sum_higher[1])#
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
-      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
-      n_NA <- sum(is.na(x))#
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
-    }#
-    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-  }#
-  print <- apply(sum,c(1,2),#
-    function(x){#
-    if (is.numeric(x)){#
-      y <- .iround(x,decimal.places=3)#
-      y <- str_replace(y,"0+$","")#
-      if (y==""){#
-        y <- "0"#
-      }#
-      y <- str_replace(y,"\\.$","")#
-      y <- str_replace(y,"-0","0")#
-    } else{#
-      y <- x#
-    }#
-    y#
-  })#
-  print(noquote(format(print,justify="right")),right=TRUE)#
-}
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Gives summary statistics (corresponds to Stata command summarize)#
-#' #
-#' @param DT A tbl_dt or tbl_grouped_dt.#
-#' @param ... Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.#
-#' @param d Should detailed summary statistics be printed?#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' N <- 100; K <- 10#
-#' DT <- data.table(#
-#'   id = 1:N,#
-#'   v1 =  sample(5, N, TRUE),                          #
-#'   v2 =  sample(1e6, N, TRUE),                       #
-#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
-#' )#
-#' DT  %>% sum_up#
-#' DT  %>% sum_up(v3, d=T)#
-#' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#' @export#
-sum_up <- function(.data, ..., d = FALSE) {#
-  sum_up_(.data, .dots = lazy_dots(...) , d = d)#
-}#
-#
-#' @export#
-sum_up_ <- function(.data, ...,.dots, d = FALSE) {#
-  UseMethod("sum_up_")#
-}#
-#
-#' @export#
-sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- lazy_dots(everything())#
-  }#
-  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
-  .data2 <- select_(.data, .dots = vars)#
-  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
-}#
-#
-#' @export#
-sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- lazy_dots(everything())#
-  }#
-  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
-  byvars <- as.character(groups(.data))#
-  .data2 <- select_(.data, .dots = vars)#
-  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
-}#
-#
-#' @export#
-sump_up_.tbl_dt <- function(.data, ..., .dots) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}#
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
-  # import from stargazer#
-  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
-      simply.output = FALSE,  .format.digit.separator = ",") {#
-    .format.initial.zero <- TRUE#
-    .format.until.nonzero.digit <- TRUE#
-    .format.max.extra.digits <- 2#
-    .format.digit.separator.where <- c(3)#
-    .format.ci.separator <- ", "#
-    .format.round.digits <- 3#
-    .format.decimal.character <- "."#
-    .format.dec.mark.align <- FALSE#
-    .format.dec.mark.align <- TRUE#
-    x.original <- x#
-    first.part <- ""#
-    if (is.na(x) | is.null(x)) {#
-      return("")#
-    }#
-    if (simply.output == TRUE) {#
-      if (!is.numeric(x)) {#
-        return(.remove.special.chars(x))#
-      }#
-    }#
-    if (x.original < 0) {#
-      x <- abs(x)#
-    }#
-    if (!is.na(decimal.places)) {#
-        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
-            0)) {#
-            round.result <- round(x, digits = decimal.places)#
-        }#
-        else {#
-            temp.places <- decimal.places#
-            if (!.is.all.integers(x)) {#
-              while ((round(x, digits = temp.places) == 0) & #
-                (temp.places < (decimal.places + .format.max.extra.digits))) {#
-                temp.places <- temp.places + 1#
-              }#
-            }#
-            round.result <- round(x, digits = temp.places)#
-            decimal.places <- temp.places#
-        }#
-        if ((round.up.positive == TRUE) & (round.result < #
-            x)) {#
-            if (x > (10^((-1) * (decimal.places + 1)))) {#
-              round.result <- round.result + 10^((-1) * decimal.places)#
-            }#
-            else {#
-              round.result <- 0#
-            }#
-        }#
-    }#
-    else {#
-        round.result <- x#
-    }#
-    round.result.char <- as.character(format(round.result, #
-        scientific = FALSE))#
-    split.round.result <- unlist(strsplit(round.result.char, #
-        "\\."))#
-    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
-        if (.format.digit.separator.where[i] <= 0) {#
-            .format.digit.separator.where[i] <<- -1#
-        }#
-    }#
-    separator.count <- 1#
-    length.integer.part <- nchar(split.round.result[1])#
-    digits.in.separated.unit <- 0#
-    for (i in seq(from = length.integer.part, to = 1)) {#
-        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
-            (substr(split.round.result[1], i, i) != "-")) {#
-            first.part <- paste(.format.digit.separator, #
-              first.part, sep = "")#
-            if (separator.count < length(.format.digit.separator.where)) {#
-              separator.count <- separator.count + 1#
-            }#
-            digits.in.separated.unit <- 0#
-        }#
-        first.part <- paste(substr(split.round.result[1], #
-            i, i), first.part, sep = "")#
-        digits.in.separated.unit <- digits.in.separated.unit + #
-            1#
-    }#
-    if (x.original < 0) {#
-        if (.format.dec.mark.align == TRUE) {#
-            first.part <- paste("-", first.part, sep = "")#
-        }#
-        else {#
-            first.part <- paste("$-$", first.part, sep = "")#
-        }#
-    }#
-    if (!is.na(decimal.places)) {#
-        if (decimal.places <= 0) {#
-            return(first.part)#
-        }#
-    }#
-    if (.format.initial.zero == FALSE) {#
-        if ((round.result >= 0) & (round.result < 1)) {#
-            first.part <- ""#
-        }#
-    }#
-    if (length(split.round.result) == 2) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-        if (nchar(split.round.result[2]) < decimal.places) {#
-            decimal.part <- split.round.result[2]#
-            for (i in seq(from = 1, to = (decimal.places - #
-              nchar(split.round.result[2])))) {#
-              decimal.part <- paste(decimal.part, "0", sep = "")#
-            }#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        else {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-    }#
-    else if (length(split.round.result) == 1) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        decimal.part <- ""#
-        for (i in seq(from = 1, to = decimal.places)) {#
-            decimal.part <- paste(decimal.part, "0", sep = "")#
-        }#
-        return(paste(first.part, .format.decimal.character, #
-            decimal.part, sep = ""))#
-    }#
-    else {#
-        return(NULL)#
-    }#
-  }#
-  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
-      round(x)) < tol#
-  .is.all.integers <- function(x) {#
-      if (!is.numeric(x)) {#
-          return(FALSE)#
-      }#
-      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
-          (is.wholenumber(x) == TRUE)])) {#
-          return(TRUE)#
-      }#
-      else {#
-          return(FALSE)#
-      }#
-  }#
-  # Now starts the code #
-#
-  if (details==FALSE) {#
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
-    sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
-#
-  } else {#
-    N <- nrow(M)#
-    sum_mean <- colMeans(M ,na.rm=na.rm)#
-    f=function(x,m){#
-      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
-      sum_higher[1] <- sqrt(sum_higher[1])#
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
-      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
-      n_NA <- sum(is.na(x))#
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
-    }#
-    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-  }#
-  print <- apply(sum,c(1,2),#
-    function(x){#
-    if (is.numeric(x)){#
-      y <- .iround(x,decimal.places=3)#
-      y <- str_replace(y,"0+$","")#
-      if (y==""){#
-        y <- "0"#
-      }#
-      y <- str_replace(y,"\\.$","")#
-      y <- str_replace(y,"-0","0")#
-    } else{#
-      y <- x#
-    }#
-    y#
-  })#
-  print(noquote(format(print,justify="right")),right=TRUE)#
-}
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/statar")
-library(dplyr)
-?join
-left_join
-left_join.data.table
-?set2key
-?auto_copy
-?merge
-(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
-    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))
-dt1
-dt2
-merge(dt1, dt2)
-common_by <- function(by = NULL, x, y) {#
-  if (!is.null(by)) {#
-    return(list(#
-      x = names(by) %||% by,#
-      y = unname(by)#
-    ))#
-  }#
-#
-  by <- intersect(tbl_vars(x), tbl_vars(y))#
-  if (length(by) == 0) {#
-    stop("No common variables. Please specify `by` param.", call. = FALSE)#
-  }#
-  message("Joining by: ", capture.output(dput(by)))#
-#
-  list(#
-    x = by,#
-    y = by#
-  )
-}
-common_by(by=("A"="X"),x,y)
-common_by(by=("A"="X"),x,y))
-"%||%" <- function(x, y) if(is.null(x)) y else x
-common_by(by=("A"="X"),x,y))
-common_by(by=("A"="X"),x,y)
-key(x)
-keys(x)
-common_by(by=("A"="X"),dt1,dt2)
-keys(dt1)
-common_by(by = ("X"="A"), dt1, dt2)
-names(by)
-common_by(by = c("X"="A"), dt1, dt2)
-?auto_copy
-keys(dt1)
-key(dt1)
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    y <- auto_copy(x, y, copy = copy)#
-#
-    if !(key(x)==by$x | setkey){#
-      x <- copy(x)#
-    }#
-    if !(key(y)==by$y | setkey){#
-      y <- copy(y)#
-    }#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-semi_join.data.table  <- join_dt({#
-  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
-  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
-  w <- w[!is.na(w)]#
-  x[w]#
-})#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    y <- auto_copy(x, y, copy = copy)#
-#
-    if (!key(x)==by$x & !setkey){#
-      x <- copy(x)#
-    }#
-    if (!key(y)==by$y & !setkey){#
-      y <- copy(y)#
-    }#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-#' @export#
-#' @rdname join.tbl_dt#
-inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-semi_join.data.table  <- join_dt({#
-  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
-  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
-  w <- w[!is.na(w)]#
-  x[w]#
-})#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
-library(Lahman)
-batting_dt <- tbl_dt(Batting)#
-person_dt <- tbl_dt(Master)
-join_dt(batting_dt, person_dt)
-left_join(batting_dt, person_dt)
-auto_copy <- function(x, y, copy = FALSE, ...) {#
-…	#
-82	      "x's source (this may be time consuming).", call. = FALSE)#
-83	  }#
-84	#
-85	  UseMethod("auto_copy")#
-86	}
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!key(x)==by$x & !setkey){#
-      x <- copy(x)#
-    }#
-    if (!key(y)==by$y & !setkey){#
-      y <- copy(y)#
-    }#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-left_join(batting_dt, person_dt)
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!key(x)==by$x & !setkey){#
-      x <- copy(x)#
-    }#
-    if (!key(y)==by$y & !setkey){#
-      y <- copy(y)#
-    }#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-left_join.data.table(batting_dt, person_dt)
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!key(x)==by$x & !setkey){#
-      x <- copy(x)#
-    }#
-    if (!key(y)==by$y & !setkey){#
-      y <- copy(y)#
-    }#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))
-left_join.data.table(batting_dt, person_dt)
-1!=2
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (key(x)!=by$x & !setkey){#
-      x <- copy(x)#
-    }#
-    if (!key(y)!=by$y & !setkey){#
-      y <- copy(y)#
-    }#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-left_join.data.table(batting_dt, person_dt)
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (key(x) !=by$x & !setkey) x <- copy(x)#
-    if (!key(y) != by$y & !setkey) y <- copy(y)#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-left_join.data.table(batting_dt, person_dt)
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (key(x) !=by$x & !setkey) x <- copy(x)#
-    if (!key(y) != by$y & !setkey) y <- copy(y)#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-#' Join data table tbls.#
-#'#
-#' See \code{\link{join}} for a description of the general purpose of the#
-#' functions.#
-#'#
-#' @inheritParams join#
-#' @param x,y tbls to join#
-#' @param ... Included for compatibility with generic; otherwise ignored.#
-#' @examples#
-##' if (require("data.table") && require("Lahman")) {#
-#' batting_dt <- tbl_dt(Batting)#
-#' person_dt <- tbl_dt(Master)#
-#'#
-#' # Inner join: match batting and person data#
-#' inner_join(batting_dt, person_dt)#
-#'#
-#' # Left join: keep batting data even if person missing#
-#' left_join(batting_dt, person_dt)#
-#'#
-#' # Semi-join: find batting data for top 4 teams, 2010:2012#
-#' grid <- expand.grid(#
-#'   teamID = c("WAS", "ATL", "PHI", "NYA"),#
-#'   yearID = 2010:2012)#
-#' top4 <- semi_join(batting_dt, grid, copy = TRUE)#
-#'#
-#' # Anti-join: find batting data with out player data#
-#' anti_join(batting_dt, person_dt)#
-#' }#
-#' @name join.tbl_dt#
-NULL#
-#
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (key(x) !=by$x & !setkey) x <- copy(x)#
-    if (!key(y) != by$y & !setkey) y <- copy(y)#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-semi_join.data.table  <- join_dt({#
-  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
-  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
-  w <- w[!is.na(w)]#
-  x[w]#
-})#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
-left_join.data.table(batting_dt, person_dt)
-debug(join_dt)
-left_join.data.table(batting_dt, person_dt)
-key(x)
-is.identical(NULL,"x")
-all.equal(NULL,"x")
-identical(NULL,"x")
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!setkey && !identical(key(x),by$x)  <- copy(x)#
-    if (!setkey && !identical(key(y),by$y)) y <- copy(y)#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!setkey && !identical(key(x),by$x))  x<- copy(x)#
-    if (!setkey && !identical(key(y),by$y)) y <- copy(y)#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}
-identical(NULL,"x")
-left_join.data.table(batting_dt, person_dt)
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!setkey && !identical(key(x),by$x))  x<- copy(x)#
-    if (!setkey && !identical(key(y),by$y)) y <- copy(y)#
-    setkeyv(x, by$x)#
-    setkeyv(y, by$x)#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f#
-}#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-left_join.data.table  <- join_dt(merge(x, y, by = by$x, all.x = TRUE, allow.cartesian = TRUE))#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-semi_join.data.table  <- join_dt({#
-  # http://stackoverflow.com/questions/18969420/perform-a-semi-join-with-data-table#
-  w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
-  w <- w[!is.na(w)]#
-  x[w]#
-})#
-#
-#' @export#
-#' @rdname join.tbl_dt#
-anti_join.data.table <- join_dt(x[!y, allow.cartesian = TRUE])
-left_join.data.table(batting_dt, person_dt)
-left_join.data.table(batting_dt, person_dt, setkey = TRUE)
-?merge
-?join
-?join
-batting_df <- tbl_df(Batting)#
- person_df <- tbl_df(Master)
-batting_df
-person_df
-left_join(batting_df,person_df, by = c("yearID","birthYear")
-)
-left_join(batting_df,person_df, by = c("yearID"="birthYear")
-)
-person_df <- person_df %>% mutate(yearID=1990)
-left_join(batting_df,person_df, by = c("yearID"="birthYear"))
-merge <- left_join(batting_df,person_df, by = c("yearID"="birthYear"))
-names(merge)
-paste0(c("a","b"),".x")
-setkey(batting_dt)
-setDT(batting_df)
-setDT(person_df)
-setkey(batting_df, "yearID")
-setkey(person_df, "birthYear")
-merge(batting_df,person_df)
-merge(batting_df,person_df)
-?merge
-key(person_df)
-library(data.table)
-merge(batting_df,person_df)
-merge(batting_df,person_df, by = NULL)
-debug(merge)
-debug(merge)
-(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
-    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))#
-    merge(dt1, dt2)#
-    merge(dt1, dt2, all = TRUE)
-merge(batting_df,person_df)
-person_df
-key(person_df)
-key(batting_df)
-merge(batting_df,person_df)
-is.data.table(person_df)
-is.data.table(batting_df)
-debug(merge)
-rm(merge)
-debug(merge)
-undebug(merge)
-merge(batting_df,person_df)
-traceback()
-debug(merge)
-merge(batting_df,person_df)
-s
-n
-by
-merge(batting_df,person_df)
-s
-n
-by
-key(batting_df)
-n
-n
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!identical(by$x, by$y)) {#
-      stop("Data table joins must be on same key", call. = FALSE)#
-    }#
-    y <- auto_copy(x, y, copy = copy)#
-    if (!identical(data.table::key(x),by$x)){#
-      if (!setkey) x <- copy(x)#
-      data.table::setkeyv(x, by$x)#
-    }#
-    if (!identical(data:table::key(y),by$y)){#
-      if (!setkey) y <- copy(y)#
-      data.table::setkeyv(y, by$y)#
-    }#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f
-)
-join_dt <- function(op) {#
-  template <- substitute(function(x, y, by = NULL, copy = FALSE, ...) {#
-    by <- common_by(by, x, y)#
-    if (!identical(by$x, by$y)) {#
-      stop("Data table joins must be on same key", call. = FALSE)#
-    }#
-    y <- auto_copy(x, y, copy = copy)#
-    if (!identical(data.table::key(x),by$x)){#
-      if (!setkey) x <- copy(x)#
-      data.table::setkeyv(x, by$x)#
-    }#
-    if (!identical(data:table::key(y),by$y)){#
-      if (!setkey) y <- copy(y)#
-      data.table::setkeyv(y, by$y)#
-    }#
-    out <- op#
-    grouped_dt(out, groups(x))#
-  })#
-#
-  f <- eval(template, parent.frame())#
-  attr(f, "srcref") <- NULL # fix so prints correctly#
-  f}
-inner_join.data.table <- join_dt(merge(x, y, by = by$x, allow.cartesian = TRUE))
-merge(batting_df,person_df)
-n
-by
-key(batting_df)
-merge(batting_df,person_df)
-key(x)
-inherits(y,"data.table")
-key(x)
-key(x)
-by
-intersect("ok","salut")
-length(intersect("ok","salut"))
-if !length(by) by <- NULL
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-  if (!gen == FALSE & !(type %in% c("left", "right", "outer")){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together (similar to Stata command joinby)#
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  ## inner join#
-#'  join(DTm, DTu, type = "inner", gen = FALSE)#
-#'  join(DTm, DTu, type = "left", gen = FALSE)#
-#'  ## full outer join#
-#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
-#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
-#'  join(DTm, DTu, check = "1:1")#
-#'  join(DTm, DTu, check = "m:1")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (!gen == FALSE & !(type %in% c("left", "right", "outer")){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-  if type== "left" | type == "right" | type== "outer" | type == "inner"{#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if type == "semi"{#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w])#
-  } else if type == "anti"{#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together (similar to Stata command joinby)#
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  ## inner join#
-#'  join(DTm, DTu, type = "inner", gen = FALSE)#
-#'  join(DTm, DTu, type = "left", gen = FALSE)#
-#'  ## full outer join#
-#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
-#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
-#'  join(DTm, DTu, check = "1:1")#
-#'  join(DTm, DTu, check = "m:1")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-  if type== "left" | type == "right" | type== "outer" | type == "inner"{#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if type == "semi"{#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w])#
-  } else if type == "anti"{#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together (similar to Stata command joinby)#
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  ## inner join#
-#'  join(DTm, DTu, type = "inner", gen = FALSE)#
-#'  join(DTm, DTu, type = "left", gen = FALSE)#
-#'  ## full outer join#
-#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
-#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
-#'  join(DTm, DTu, check = "1:1")#
-#'  join(DTm, DTu, check = "m:1")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-  if (type %in% c("left", "right", "outer", "inner"){#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if type == "semi"{#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w])#
-  } else if type == "anti"{#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together (similar to Stata command joinby)#
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  ## inner join#
-#'  join(DTm, DTu, type = "inner", gen = FALSE)#
-#'  join(DTm, DTu, type = "left", gen = FALSE)#
-#'  ## full outer join#
-#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
-#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
-#'  join(DTm, DTu, check = "1:1")#
-#'  join(DTm, DTu, check = "m:1")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-  if (type %in% c("left", "right", "outer", "inner")){#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if type == "semi"{#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w])#
-  } else if type == "anti"{#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together (similar to Stata command joinby)#
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  ## inner join#
-#'  join(DTm, DTu, type = "inner", gen = FALSE)#
-#'  join(DTm, DTu, type = "left", gen = FALSE)#
-#'  ## full outer join#
-#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
-#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
-#'  join(DTm, DTu, check = "1:1")#
-#'  join(DTm, DTu, check = "m:1")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-#
-  if (type %in% c("left", "right", "outer", "inner")){#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if (type == "semi"){#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w])#
-  } else if (type == "anti"){#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together (similar to Stata command joinby)#
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  ## inner join#
-#'  join(DTm, DTu, type = "inner", gen = FALSE)#
-#'  join(DTm, DTu, type = "left", gen = FALSE)#
-#'  ## full outer join#
-#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
-#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
-#'  join(DTm, DTu, check = "1:1")#
-#'  join(DTm, DTu, check = "m:1")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-#
-  if (type %in% c("left", "right", "outer", "inner")){#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if (type == "semi"){#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w]#
-  } else if (type == "anti"){#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together (similar to Stata command joinby)#
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  ## inner join#
-#'  join(DTm, DTu, type = "inner", gen = FALSE)#
-#'  join(DTm, DTu, type = "left", gen = FALSE)#
-#'  ## full outer join#
-#'  join(DTm, DTu, typer = "outer", gen = FALSE)#
-#'   # the option check specifies whether datasets have duplicates with respect to matching variables#
-#'  join(DTm, DTu, check = "1:1")#
-#'  join(DTm, DTu, check = "m:1")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-#
-  if (type %in% c("left", "right", "outer", "inner")){#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if (type == "semi"){#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w]#
-  } else if (type == "anti"){#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Join two data.tables together #
-#' #
-#' @param DTm The master data.table#
-#' @param DTu The using data.table#
-#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
-#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
-#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
-#' @examples#
-#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
-#' @export#
-join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
-#
-  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
-  if (type == "cross"){#
-    stop("cross join is not implemented yet")#
-  }#
-#
-  if (!is.data.table(DTm)){#
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
-  }#
-  if (!is.data.table(DTu)){#
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
-  }#
-#
-  vars <- intersect(names(DTm), names(DTu))#
-  message(paste0("Join based on : ", paste(var, collapse = " ")))#
-  setkeyv(DTm, vars)#
-  setkeyv(DTu, vars)#
-  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
-#
-  if (check[1] == "1"){#
-     if (anyDuplicated(DTm)){ #
-       stop("Variables don't uniquely identify observations in the master dataset")#
-     }#
-   }#
-#
-  if (check[3] == "1"){#
-   if (anyDuplicated(DTu)){ #
-     stop("Variables don't uniquely identify observations in the using dataset")#
-   }#
-  }#
-#
-  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
-    stop(" The option gen is only available for left, right and outer joins")#
-  }#
-#
-  if (type %in% c("left", "right", "outer", "inner")){#
-    all.x <- FALSE#
-    all.y <- FALSE#
-    if (type == "left"| type == "outer"){#
-      all.x = TRUE#
-    }#
-    if (type == "right" | type == "outer"){#
-      all.y = TRUE#
-    }#
-    if (!gen == FALSE){#
-      if (gen %chin% names(DTm)){#
-        stop(paste0(gen," alreay exists in master"))#
-      }#
-      if (gen %chin% names(DTu)){#
-        stop(paste0(gen," alreay exists in using"))#
-      }#
-      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
-      DTm[, c(idm) := 1L]#
-      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
-      DTu[, c(idu) := 1L]#
-    }#
-#
-    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
-    if (!gen == FALSE){#
-      DT_output[, c(gen) := 3L]#
-      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
-      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
-      DT_output[, c(idm) := NULL]#
-      DT_output[, c(idu) := NULL]#
-      DTm[, c(idm) := NULL]#
-      DTu[, c(idu) := NULL]#
-    }#
-  } else if (type == "semi"){#
-    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
-    w <- w[!is.na(w)]#
-    DT_output <- DTm[w]#
-  } else if (type == "anti"){#
-    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
-  } #
-  DT_output#
-}
-(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
-    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))
-join(dt1,dt2, type = "outer")
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' Join two data.tables together #
 #' #
@@ -2929,12 +1146,1548 @@ join =  function(DTm, DTu, type , gen = FALSE, check =  c("m:m", "m:1", "1:m", "
   } #
   DT_output#
 }
+?merge
+(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
+    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))
+join(dt1,dt2)
 join(dt1,dt2, type = "outer")
-n
-n
-n
-f
-debug(merge)
+#' Join two data.tables together #
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of join among "outer", "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifies 1 at the rhs or lhs checks that indeed variables uniquely identify observations.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(DTm, DTu, type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  vars <- intersect(names(DTm), names(DTu))#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master and using datasets are now keyed by : ", paste(vars, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(DTm)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(DTu)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x= all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
 join(dt1,dt2, type = "outer")
-debug(merge.data.table)
-debug(merge)
+join(dt1,dt2)
+join(dt1,dt2, type = "innter")
+join(dt1,dt2, type = "inner")
+join(dt1,dt2, type = "left")
+join(dt1,dt2, type = "anti")
+join(dt1,dt2, type = "semi")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+names(c(1))
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(DTm, DTu, on = intersect(names(DTm),names(DTu)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  if is.null(names(on)){#
+    names(on) <- on#
+  }#
+  vars <- names(on)#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+  names_DTm <- names(DTm)#
+  names_DTu <- names(DTu)#
+  x <- intersect(vars, setdiff(names_DTu, on)){#
+  setnames(DTu, x, paste0(x,".y"))#
+  setnames(DTu, on , names(on))#
+#
+  x <- setdiff(intersect(names_DTm, names_DTu), vars)#
+  setnames(DTm, x, paste0(x, ".x"))#
+  setnames(DTm, x, paste0(x, ".y")) #
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master is now keyed by : ", paste(vars, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(on, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names_DTm){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names_DTu){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  setnames(DTu, names_DTu)#
+  setnames(DTm, names_DTm)#
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(DTm, DTu, on = intersect(names(DTm),names(DTu)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  if (is.null(names(on)){#
+    names(on) <- on#
+  }#
+  vars <- names(on)#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+  names_DTm <- names(DTm)#
+  names_DTu <- names(DTu)#
+  x <- intersect(vars, setdiff(names_DTu, on)){#
+  setnames(DTu, x, paste0(x,".y"))#
+  setnames(DTu, on , names(on))#
+#
+  x <- setdiff(intersect(names_DTm, names_DTu), vars)#
+  setnames(DTm, x, paste0(x, ".x"))#
+  setnames(DTm, x, paste0(x, ".y")) #
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master is now keyed by : ", paste(vars, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(on, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names_DTm){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names_DTu){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  setnames(DTu, names_DTu)#
+  setnames(DTm, names_DTm)#
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(DTm, DTu, on = intersect(names(DTm),names(DTu)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  vars <- names(on)#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+  names_DTm <- names(DTm)#
+  names_DTu <- names(DTu)#
+  x <- intersect(vars, setdiff(names_DTu, on)){#
+  setnames(DTu, x, paste0(x,".y"))#
+  setnames(DTu, on , names(on))#
+#
+  x <- setdiff(intersect(names_DTm, names_DTu), vars)#
+  setnames(DTm, x, paste0(x, ".x"))#
+  setnames(DTm, x, paste0(x, ".y")) #
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master is now keyed by : ", paste(vars, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(on, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names_DTm){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names_DTu){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  setnames(DTu, names_DTu)#
+  setnames(DTm, names_DTm)#
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param DTm The master data.table#
+#' @param DTu The using data.table#
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. Matching is done on common names. Keys are set onmaster and using  data.tables.#
+#' @examples#
+#'  join(DTm, DTu, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(DTm, DTu, on = intersect(names(DTm),names(DTu)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(DTm)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(DTu)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  vars <- names(on)#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+  names_DTm <- names(DTm)#
+  names_DTu <- names(DTu)#
+  x <- intersect(vars, setdiff(names_DTu, on))#
+  setnames(DTu, x, paste0(x,".y"))#
+  setnames(DTu, on , names(on))#
+#
+  x <- setdiff(intersect(names_DTm, names_DTu), vars)#
+  setnames(DTm, x, paste0(x, ".x"))#
+  setnames(DTm, x, paste0(x, ".y")) #
+  setkeyv(DTm, vars)#
+  setkeyv(DTu, vars)#
+  message(paste0("Master is now keyed by : ", paste(vars, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(on, collapse = " ")))#
+#
+  if (check[1] == "1"){#
+     if (anyDuplicated(DTm)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(DTu)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names_DTm){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names_DTu){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(DTm),names(DTu),gen))#
+      DTm[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(DTm),names(DTu),gen,idm))#
+      DTu[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(DTm, DTu, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      DTm[, c(idm) := NULL]#
+      DTu[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(DTm[DTu, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- DTm[w]#
+  } else if (type == "anti"){#
+    DT_output <- DTm[!DTu, allow.cartesian = TRUE]#
+  } #
+  setnames(DTu, names_DTu)#
+  setnames(DTm, names_DTm)#
+  DT_output#
+}
+?inner_join
+DT
+battling_dt
+N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+setkey(DT,id)
+setnames(DT,"id","id1")
+key(DT)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    y <- auto_copy(x, y, copy = copy)#
+    if (!identical(data.table::key(x),by$x)){#
+      if (!setkey) x <- copy(x)#
+      data.table::setkeyv(x, by$x)#
+    }#
+    if (!identical(data:table::key(y),by$y)){#
+      if (!setkey) y <- copy(y)#
+      data.table::setkeyv(y, by$y)#
+    }#
+    # Accept different names#
+    # In future versions, the command copy below may be replaced by shallow copies.#
+    # first rename variables in y-by$y with the same name than variables in by$x #
+    # This behavior is different from dplyr behavior for data.frame. #
+    # Needed because merge.data.table does not accept names duplicates in master/using data.tables#
+    names_byx_y <- intersect(by$x, setdiff(names(y), by$y))#
+    if (length(names_byx_y)>0){#
+      y <- copy(y)#
+      data.table::setnames(y, names_byx_y, paste0(names_byx_y,".y"))#
+      data.table::setnames(y, by$y , by$x)#
+    }#
+    # then rename duplicates in non joined variables#
+    common_names <- setdiff(intersect(names(x), names(y)), by$x)#
+    if (length(common_names)>0){#
+      x <- copy(x)#
+      y <- copy(y)#
+      data.table::setnames(x, common_names, paste0(common_names, ".x"))#
+      data.table::setnames(y, common_names, paste0(common_names, ".y")) #
+    }#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+names_x <- names(x)
+DT
+names_DT <- names(DT)
+setnames(DT, "v1","v11")
+names_DT
+?copy
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names. To join by different variables on x and y use a named vector. For example, by = c("a" = "b") will match x.a to y.b. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names in x or in y are nenamed with suffix .x and .y. Keys are set on master and using  data.tables.#
+#' @examples#
+#'  join(x, y, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # join names#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  by$x <- names(on)#
+  by$y <- on#
+  message(paste0("Join based on : ", paste(by$x, collapse = " ")))#
+#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # set keys#
+  setkeyv(x, by$x)#
+  setkeyv(y, by$y)#
+  message(paste0("Master is now keyed by : ", paste(by$x, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(by$y, collapse = " ")))#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  # avoid duplicate names#
+  names_x <- copy(names(x))#
+  names_y <- copy(names(y))#
+  common <- intersect(by$x, setdiff(names_y, on))#
+  setnames(y, common, paste0(common,".y"))#
+  setnames(y, by$y , by$x)#
+#
+  common <- setdiff(intersect(names_x, names(y)), by$x)#
+  setnames(x, common, paste0(common, ".x"))#
+  setnames(y, common, paste0(common, ".y")) #
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (!gen == FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  setnames(y, names_y)#
+  setnames(x, names_x)#
+  DT_output#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names. To join by different variables on x and y use a named vector. For example, by = c("a" = "b") will match x.a to y.b. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names in x or in y are nenamed with suffix .x and .y. Keys are set on master and using  data.tables.#
+#' @examples#
+#'  join(x, y, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # join names#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  by$x <- names(on)#
+  by$y <- on#
+  message(paste0("Join based on : ", paste(by$x, collapse = " ")))#
+#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # set keys#
+  setkeyv(x, by$x)#
+  setkeyv(y, by$y)#
+  message(paste0("Master is now keyed by : ", paste(by$x, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(by$y, collapse = " ")))#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  # avoid duplicate names#
+  names_x <- copy(names(x))#
+  names_y <- copy(names(y))#
+  common <- intersect(by$x, setdiff(names_y, on))#
+  setnames(y, common, paste0(common,".y"))#
+  setnames(y, by$y , by$x)#
+#
+  common <- setdiff(intersect(names_x, names(y)), by$x)#
+  setnames(x, common, paste0(common, ".x"))#
+  setnames(y, common, paste0(common, ".y")) #
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (gen != FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  setnames(y, names_y)#
+  setnames(x, names_x)#
+  DT_output#
+}
+?dt1
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names. To join by different variables on x and y use a named vector. For example, by = c("a" = "b") will match x.a to y.b. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names in x or in y are nenamed with suffix .x and .y. Keys are set on master and using  data.tables.#
+#' @examples#
+#'  join(x, y, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # join names#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  by$x <- names(on)#
+  by$y <- on#
+  message(paste0("Join based on : ", paste(by$x, collapse = " ")))#
+#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # set keys#
+  setkeyv(x, by$x)#
+  setkeyv(y, by$y)#
+  message(paste0("Master is now keyed by : ", paste(by$x, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(by$y, collapse = " ")))#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  # avoid duplicate names#
+  names_x <- copy(names(x))#
+  names_y <- copy(names(y))#
+  common <- intersect(by$x, setdiff(names_y, on))#
+  setnames(y, common, paste0(common,".y"))#
+  setnames(y, by$y , by$x)#
+#
+  common <- setdiff(intersect(names_x, names(y)), by$x)#
+  setnames(x, common, paste0(common, ".x"))#
+  setnames(y, common, paste0(common, ".y")) #
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (gen != FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  setnames(y, names_y)#
+  setnames(x, names_x)#
+  DT_output#
+}
+?merge
+(dt1 <- data.table(A = letters[1:10], X = 1:10, key = "A"))#
+    (dt2 <- data.table(A = letters[5:14], Y = 1:10, key = "A"))#
+    merge(dt1, dt2)#
+    merge(dt1, dt2, all = TRUE)
+join(dt1,dt2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names. To join by different variables on x and y use a named vector. For example, by = c("a" = "b") will match x.a to y.b. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names in x or in y are nenamed with suffix .x and .y. Keys are set on master and using  data.tables.#
+#' @examples#
+#'  join(x, y, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # join names#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  by <- list(x = names(on), y = on)#
+  message(paste0("Join based on : ", paste(by$x, collapse = " ")))#
+#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # set keys#
+  setkeyv(x, by$x)#
+  setkeyv(y, by$y)#
+  message(paste0("Master is now keyed by : ", paste(by$x, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(by$y, collapse = " ")))#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  # avoid duplicate names#
+  names_x <- copy(names(x))#
+  names_y <- copy(names(y))#
+  common <- intersect(by$x, setdiff(names_y, on))#
+  setnames(y, common, paste0(common,".y"))#
+  setnames(y, by$y , by$x)#
+#
+  common <- setdiff(intersect(names_x, names(y)), by$x)#
+  setnames(x, common, paste0(common, ".x"))#
+  setnames(y, common, paste0(common, ".y")) #
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (gen != FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  setnames(y, names_y)#
+  setnames(x, names_x)#
+  DT_output#
+}
+join(dt1,dt2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names. To join by different variables on x and y use a named vector. For example, by = c("a" = "b") will match x.a to y.b. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names in x or in y are nenamed with suffix .x and .y. Keys are set on master and using  data.tables.#
+#' @examples#
+#'  join(x, y, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # join names#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  by <- list(x = names(on), y = on)#
+  message(paste0("Join based on : ", paste(by$x, collapse = " ")))#
+#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # set keys#
+  setkeyv(x, by$x)#
+  setkeyv(y, by$y)#
+  message(paste0("Master is now keyed by : ", paste(by$x, collapse = " ")))#
+  message(paste0("Using is now keyed by : ", paste(by$y, collapse = " ")))#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  # avoid duplicate names#
+  names_x <- copy(names(x))#
+  names_y <- copy(names(y))#
+  common <- intersect(by$x, setdiff(names_y, on))#
+  if (length(common)>0){#
+    setnames(y, common, paste0(common,".y"))#
+    setnames(y, by$y , by$x)#
+  }#
+#
+  common <- setdiff(intersect(names_x, names(y)), by$x)#
+  if (length(common)>0){#
+    setnames(x, common, paste0(common, ".x"))#
+    setnames(y, common, paste0(common, ".y")) #
+  }#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (gen != FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  setnames(y, names_y)#
+  setnames(x, names_x)#
+  DT_output#
+}
+join(dt1,dt2)
+join(dt1,dt2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names. To join by different variables on x and y use a named vector. For example, by = c("a" = "b") will match x.a to y.b. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names in x or in y are nenamed with suffix .x and .y. Keys are set on master and using  data.tables in-place, which avoids the copy of x and y.#
+#' @examples#
+#'  join(x, y, type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # join names#
+  if (is.null(names(on))){#
+    names(on) <- on#
+  }#
+  by <- list(x = names(on), y = on)#
+  message(paste0("Join based on : ", paste(by$x, collapse = " ")))#
+#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # set keys#
+  setkeyv(x, by$x)#
+  setkeyv(y, by$y)#
+#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  # avoid duplicate names#
+  names_x <- copy(names(x))#
+  names_y <- copy(names(y))#
+  common <- intersect(by$x, setdiff(names_y, on))#
+  if (length(common)>0){#
+    setnames(y, common, paste0(common,".y"))#
+    setnames(y, by$y , by$x)#
+  }#
+#
+  common <- setdiff(intersect(names_x, names(y)), by$x)#
+  if (length(common)>0){#
+    setnames(x, common, paste0(common, ".x"))#
+    setnames(y, common, paste0(common, ".y")) #
+  }#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (gen != FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  setnames(y, names_y)#
+  setnames(x, names_x)#
+  DT_output#
+}
+join(dt1,dt2)
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    y <- auto_copy(x, y, copy = copy)#
+    if (!identical(data.table::key(x),by$x)){#
+      if (!setkey) x <- copy(x)#
+      data.table::setkeyv(x, by$x)#
+    }#
+    if (!identical(data:table::key(y),by$y)){#
+      if (!setkey) y <- copy(y)#
+      data.table::setkeyv(y, by$y)#
+    }#
+    # Accept different names#
+    # In future versions, the command copy below may be replaced by shallow copies.#
+    # first output error if there are variables in y-by$y with the same name than variables in by$x #
+    # This behavior is different from dplyr behavior for data.frame that does not output error#
+    # Needed because merge.data.table does not accept names duplicates in master/using data.tables#
+    names_byx_y <- intersect(by$x, setdiff(names(y), by$y))#
+    if (length(names_byx_y) >0) stop(paste0(names_byx_y,"is a variable to be matched in x and not in y. Please rename",names_byx_y, "in x or y")#
+    if !identical(by.x,by.y){#
+      y <- copy(y)#
+      data.table::setnames(y, by$y, by$x)#
+    }#
+    # Rename duplicates in non joined variables#
+    common_names <- setdiff(intersect(names(x), names(y)), by$x)#
+    if (length(common_names)>0){#
+      x <- copy(x)#
+      y <- copy(y)#
+      data.table::setnames(x, common_names, paste0(common_names, ".x"))#
+      data.table::setnames(y, common_names, paste0(common_names, ".y")) #
+    }#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+join_dt <- function(op) {#
+  template <- substitute(function(x, y, by = NULL, copy = FALSE, setkey = FALSE, ...) {#
+    by <- common_by(by, x, y)#
+    y <- auto_copy(x, y, copy = copy)#
+    if (!identical(data.table::key(x),by$x)){#
+      if (!setkey) x <- copy(x)#
+      data.table::setkeyv(x, by$x)#
+    }#
+    if (!identical(data:table::key(y),by$y)){#
+      if (!setkey) y <- copy(y)#
+      data.table::setkeyv(y, by$y)#
+    }#
+    # Accept different names#
+    # In future versions, the command copy below may be replaced by shallow copies.#
+    # first output error if there are variables in y-by$y with the same name than variables in by$x #
+    # This behavior is different from dplyr behavior for data.frame that does not output error#
+    # Needed because merge.data.table does not accept names duplicates in master/using data.tables#
+    names_byx_y <- intersect(by$x, setdiff(names(y), by$y))#
+    if (length(names_byx_y) >0) stop(paste(names_byx_y,"is a variable to be matched in x and not in y. Please rename",names_byx_y, "in x or y"))#
+    if (!identical(by$x,by$y)){#
+      y <- copy(y)#
+      data.table::setnames(y, by$y, by$x)#
+    }#
+    # Rename duplicates in non joined variables#
+    common_names <- setdiff(intersect(names(x), names(y)), by$x)#
+    if (length(common_names)>0){#
+      x <- copy(x)#
+      y <- copy(y)#
+      data.table::setnames(x, common_names, paste0(common_names, ".x"))#
+      data.table::setnames(y, common_names, paste0(common_names, ".y")) #
+    }#
+    out <- op#
+    grouped_dt(out, groups(x))#
+  })#
+#
+  f <- eval(template, parent.frame())#
+  attr(f, "srcref") <- NULL # fix so prints correctly#
+  f#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes. Keys are set on master and using  data.tables in-place, which avoids the copy of x and y.#
+#' @examples#
+#'  join(x, y, on = intersect(names(x),names(y)), type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # join names#
+  vars <- on#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+#
+  # set keys#
+  setkeyv(x, vars)#
+  setkeyv(y, vars)#
+#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  common_names <- setdiff(intersect(names(x),names(y)), vars)#
+  if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"))#
+    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"))#
+#
+  if (length(common)>0){#
+    x <- copy(x)#
+    y <- copy(x)#
+    setnames(x, common_names, paste0(common_names, ".x"))#
+    setnames(x, common_names, paste0(common_names, ".y"))#
+  }#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (gen != FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Join two data.tables together #
+#' #
+#' @param x The master data.table#
+#' @param y The using data.table#
+#' @param on Character vectors for variables to match on. Default to common names between x and y. #
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"#
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.#
+#' @param check A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.#
+#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes. Keys are set on master and using data.tables, which avoids the copy of x and y, at the cost of transforming the input data.tables.#
+#' @examples#
+#'  join(x, y, on = intersect(names(x),names(y)), type = "outer", gen = FALSE, check = "m:m")#
+#' @export#
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){#
+#
+  #type#
+  type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))#
+  if (type == "cross"){#
+    stop("cross join is not implemented yet")#
+  }#
+#
+  if (!is.data.table(x)){#
+    stop(paste0("Master is not a data.table. Convert it first using setDT()"))#
+  }#
+  if (!is.data.table(y)){#
+    stop(paste0("Using is not a data.table. Convert it first using setDT()"))#
+  }#
+  # check gen#
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){#
+    stop(" The option gen is only available for left, right and outer joins")#
+  }#
+#
+  # join names#
+  vars <- on#
+  message(paste0("Join based on : ", paste(vars, collapse = " ")))#
+#
+  # set keys#
+  setkeyv(x, vars)#
+  setkeyv(y, vars)#
+#
+  # check duplicates#
+  if (check[1] == "1"){#
+     if (anyDuplicated(x)){ #
+       stop("Variables don't uniquely identify observations in the master dataset")#
+     }#
+   }#
+#
+  if (check[3] == "1"){#
+   if (anyDuplicated(y)){ #
+     stop("Variables don't uniquely identify observations in the using dataset")#
+   }#
+  }#
+#
+  common_names <- setdiff(intersect(names(x),names(y)), vars)#
+  if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"))#
+  if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"))#
+#
+  if (length(common)>0){#
+    x <- copy(x)#
+    y <- copy(y)#
+    setnames(x, common_names, paste0(common_names, ".x"))#
+    setnames(x, common_names, paste0(common_names, ".y"))#
+  }#
+  if (type %in% c("left", "right", "outer", "inner")){#
+    all.x <- FALSE#
+    all.y <- FALSE#
+    if (type == "left"| type == "outer"){#
+      all.x = TRUE#
+    }#
+    if (type == "right" | type == "outer"){#
+      all.y = TRUE#
+    }#
+    if (!gen == FALSE){#
+      if (gen %chin% names(x)){#
+        stop(paste0(gen," alreay exists in master"))#
+      }#
+      if (gen %chin% names(y)){#
+        stop(paste0(gen," alreay exists in using"))#
+      }#
+      idm <- tempname_list("temp", c(names(x),names(y),gen))#
+      x[, c(idm) := 1L]#
+      idu <- tempname_list("temp", c(names(x),names(y),gen,idm))#
+      y[, c(idu) := 1L]#
+    }#
+#
+    DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)#
+    if (gen != FALSE){#
+      DT_output[, c(gen) := 3L]#
+      eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))#
+      eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))#
+      DT_output[, c(idm) := NULL]#
+      DT_output[, c(idu) := NULL]#
+      x[, c(idm) := NULL]#
+      y[, c(idu) := NULL]#
+    }#
+  } else if (type == "semi"){#
+    w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])#
+    w <- w[!is.na(w)]#
+    DT_output <- x[w]#
+  } else if (type == "anti"){#
+    DT_output <- x[!y, allow.cartesian = TRUE]#
+  } #
+  DT_output#
+}

@@ -12,9 +12,9 @@ library(data.table)
 library(statar)
 
 # partition creates quantile categories (corresponds to Stata xtile)
-v2 <- sample(1e6, 1e6, TRUE)                   
-v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles
-v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
+v <- sample(1e6, 1e6, TRUE)                   
+v_categorized <- partition(v, nq = 3) # 3 groups based on terciles
+v_categorized <- partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 
 # winsorize (default based on 5 x interquartile range)
 winsorize(v)
