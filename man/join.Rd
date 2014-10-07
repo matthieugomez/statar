@@ -11,16 +11,16 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 
 \item{y}{The using data.table}
 
-\item{on}{Character vectors for variables to match on. Default to common names between x and y.}
+\item{on}{Character vectors specifying variables to match on. Default to common names between x and y.}
 
-\item{type}{The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi" and "anti"}
+\item{type}{The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".}
 
-\item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The generated variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
+\item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 
-\item{check}{A character that checks for the presence of duplicates. "m:m" many to many (all pairwise combinations), "1:1" one to one merge, "m:1" many to one merge, "1:m" one to many. Specifying 1 at the rhs or lhs checks that joined variables uniquely identify observations in the master or using dataset.}
+\item{check}{A character checking for the presence of duplicates. Specifying "1:m" (resp "m:1") checks that joined variables uniquely identify observations in x (resp y).}
 }
 \value{
-A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with a .x and .y suffixes.
+A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. The order of data.tables x and y is not conserved, unless they are keyed.
 }
 \description{
 Join two data.tables together

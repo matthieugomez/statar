@@ -32,6 +32,19 @@ sum_up_ <- function(.data, ...,.dots, d = FALSE) {
 }
 
 #' @export
+#' @rdname sum_up
+sum_up_.data.frame<- function(.data, ..., .dots  , d = FALSE) {
+  dots <- all_dots(.dots, ...)
+  vars <- names(select_vars_(names(.data), dots))
+  if (length(vars) == 0) {
+     vars <- names(.data)
+  }
+  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
+  .data2 <- select_(.data, .dots = vars)
+  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
+}
+
+#' @export
 sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {
   dots <- all_dots(.dots, ...)
   vars <- names(select_vars_(names(.data), dots))

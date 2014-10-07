@@ -15,7 +15,7 @@ winsorise(x, cutpoints = {     l <- quantile(v, c(0.25, 0.5, 0.75), type = 1,
 \arguments{
 \item{x}{A vector of values}
 
-\item{cutpoints}{Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector. This also makes windorize idempotent in most of cases \code{winsorize(winsorize(x)) == winsorize(x)}.}
+\item{cutpoints}{Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.}
 
 \item{replace}{Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.}
 }

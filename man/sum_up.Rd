@@ -2,11 +2,14 @@
 \name{sum_up}
 \alias{sum_up}
 \alias{sum_up_}
+\alias{sum_up_.data.frame}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
 sum_up(.data, ..., d = FALSE)
 
 sum_up_(.data, ..., .dots, d = FALSE)
+
+\method{sum_up_}{data.frame}(.data, ..., .dots, d = FALSE)
 }
 \arguments{
 \item{...}{Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.}
