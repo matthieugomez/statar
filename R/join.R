@@ -42,6 +42,8 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
     key_y <- key(y)
     setkeyv(x, vars)
     setkeyv(y, vars)
+    on.exit(setkeyv(x, key_x))
+    on.exit(setkeyv(y, key_y), add = TRUE)
 
     # check duplicates
     if (check[1] == "1"){
@@ -90,6 +92,8 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
         x[, c(idm) := 1L]
         idu <- tempname_list("temp", c(names(x),names(y),gen,idm))
         y[, c(idu) := 1L]
+        on.exit(x[, c(idm) := NULL], add = TRUE)
+        on.exit(y[, c(idu) := NULL], add = TRUE) 
       }
 
       DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)
@@ -99,8 +103,6 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
         eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))
         DT_output[, c(idm) := NULL]
         DT_output[, c(idu) := NULL]
-        x[, c(idm) := NULL]
-        y[, c(idu) := NULL]
       }
     } else if (type == "semi"){
       w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
@@ -109,8 +111,6 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
     } else if (type == "anti"){
       DT_output <- x[!y, allow.cartesian = TRUE]
     } 
-    setkeyv(x, key_x)
-    setkeyv(y, key_y)
   }
   DT_output
 }

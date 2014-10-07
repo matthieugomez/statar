@@ -31,8 +31,7 @@ DT <- data.table(
    value = c(4.1, 4.5, 3.3, 5.3)
 )
 DT[, datem := floor_date(date, "month")]
-DT[, datem_l := lag(value, months(1), along_with = date), by = id] 
-
+DT[, datem_l := lag(value, months(1), along_with = datem), by = id] 
 # winsorize (default based on 5 x interquartile range)
 winsorize(v)
 winsorize(v, replace = NA)
