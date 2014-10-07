@@ -41,7 +41,7 @@ sum_up_.data.frame<- function(.data, ..., .dots  , d = FALSE) {
   }
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   .data2 <- select_(.data, .dots = vars)
-  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
+  invisible(describe_matrix(.data2,d = d))
 }
 
 #' @export
@@ -53,7 +53,7 @@ sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {
   }
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   .data2 <- select_(.data, .dots = vars)
-  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
+  invisible(describe_matrix(.data2))
 }
 
 #' @export
