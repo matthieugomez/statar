@@ -42,7 +42,7 @@ sum_up_.data.frame<- function(.data, ..., .dots  , d = FALSE) {
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   nums <- sapply(.data, is.numeric)
   nums_name <- names(nums[nums==TRUE])
-  vars=intersect(vars,num_name)
+  vars=intersect(vars,nums_name)
   .data2 <- select_(.data, .dots = vars)
   invisible(describe_matrix(.data2,d = d))
 }
@@ -57,7 +57,7 @@ sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   nums <- sapply(.data, is.numeric)
   nums_name <- names(nums[nums==TRUE])
-  vars=intersect(vars,num_name)
+  vars=intersect(vars,nums_name)
   .data2 <- select_(.data, .dots = vars)
   invisible(describe_matrix(.data2))
 }
@@ -72,7 +72,7 @@ sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {
   byvars <- as.character(groups(.data))
   nums <- sapply(.data, is.numeric)
   nums_name <- names(nums[nums==TRUE])
-  vars=intersect(vars,num_name)
+  vars=intersect(vars,nums_name)
   .data2 <- select_(.data, .dots = vars)
   invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
 }
