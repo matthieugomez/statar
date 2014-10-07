@@ -43,6 +43,7 @@ sum_up_.data.frame<- function(.data, ..., .dots  , d = FALSE) {
   nums <- sapply(.data, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
+  if (!length(vars)) stop("Please select at least one non-numeric variable")
   .data2 <- select_(.data, .dots = vars)
   invisible(describe_matrix(.data2,d = d))
 }
@@ -58,6 +59,7 @@ sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {
   nums <- sapply(.data, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
+  if (!length(vars)) stop("Please select at least one non-numeric variable")
   .data2 <- select_(.data, .dots = vars)
   invisible(describe_matrix(.data2))
 }
@@ -73,6 +75,7 @@ sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {
   nums <- sapply(.data, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
+  if (!length(vars)) stop("Please select at least one non-numeric variable")
   .data2 <- select_(.data, .dots = vars)
   invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
 }
