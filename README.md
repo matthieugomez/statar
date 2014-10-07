@@ -16,10 +16,6 @@ v <- sample(1e6, 1e6, TRUE)
 v_categorized <- partition(v, nq = 3) # 3 groups based on terciles
 v_categorized <- partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 
-# winsorize (default based on 5 x interquartile range)
-winsorize(v)
-winsorize(v, replace = NA)
-winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
 ## lag in unbalanced panel
@@ -36,10 +32,20 @@ DT <- data.table(
 )
 DT[, datem := floor_date(date, "month")]
 DT[, datem_l := lag(value, months(1), along_with = date), by = id] 
+
+# winsorize (default based on 5 x interquartile range)
+winsorize(v)
+winsorize(v, replace = NA)
+winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 ````
+
 # data.table verbs
 
 ````R
+# keep columns
+ setcols(DT, c("id","date"))
+
+# fill in NA
 DT <- data.table(
   id    = c(1, 1, 1, 1, 1, 2, 2),
   date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
@@ -49,9 +55,7 @@ DT <- data.table(
  setna(DT, "value")
  setna(DT, "value", rollend = TRUE)
  setna(DT, "value", roll = "nearest")
- 
- setcols(DT, c("id","date"))
-````
+ ````
 
 # dplyr verbs
 The package adds the following verbs built on dplyr syntax for data.tables
