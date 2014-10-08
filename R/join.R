@@ -45,7 +45,23 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
     vars <- on
     message(paste0("Join based on : ", paste(vars, collapse = " ")))
 
-    # set keys
+    common_names <- setdiff(intersect(names(x),names(y)), vars)
+    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"), call. = FALSE)
+    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"), call. = FALSE)
+
+      if (check[[2]] == 1){
+         if (anyDuplicated(x)){ 
+           stop("Variables don't uniquely identify observations in the master dataset", call. = FALSE)
+         }
+       }
+
+      if (check[[3]] == 1){
+       if (anyDuplicated(y)){ 
+         stop("Variables don't uniquely identify observations in the using dataset", call. = FALSE)
+       }
+      }
+
+    # set keys and check duplicates
     key_x <- key(x)
     key_y <- key(y)
     setkeyv(x, vars)
@@ -53,7 +69,6 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
     on.exit(setkeyv(x, key_x))
     on.exit(setkeyv(y, key_y), add = TRUE)
 
-    # check duplicates
     if (check[[2]] == 1){
        if (anyDuplicated(x)){ 
          stop("Variables don't uniquely identify observations in the master dataset", call. = FALSE)
@@ -66,18 +81,13 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
      }
     }
 
-    common_names <- setdiff(intersect(names(x),names(y)), vars)
-    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"), call. = FALSE)
-    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"), call. = FALSE)
 
     if (length(common_names)>0){
-      x <- copy(x)
-      y <- copy(y)
       setnames(x, common_names, paste0(common_names, ".x"))
-      setnames(x, common_names, paste0(common_names, ".y"))
+      setnames(y, common_names, paste0(common_names, ".y"))
+      on.exit(setnames(x, paste0(common_names, ".x"), common_names), add = TRUE)
+      on.exit(setnames(y, paste0(common_names, ".y"), common_names), add = TRUE)
     }
-
-
 
 
     if (type %in% c("left", "right", "outer", "inner")){
