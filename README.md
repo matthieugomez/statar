@@ -4,7 +4,7 @@ statar
 A set of R commands for Stata users built on dplyr and data.table. 
 
 
-# Vector functions
+# vector functions
 The package adds the following vector functions
 ````R
 library(statar)
@@ -42,7 +42,7 @@ winsorize(c(1, 2, 99), replace = NA)
 winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
 ````
 
-# Data.table functions
+# data.table functions
 The package adds the following verbs for data.tables
 
 ````R
@@ -113,7 +113,7 @@ join(x, y, type = "outer", check = 1~1)
 join(x, y, type = "outer", gen = "_merge")
 ````
 
-# other functions
+# others
 -  data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` creates a name not assigned in the environment specified by the second variable
