@@ -7,8 +7,6 @@ A set of R commands for Stata users built on dplyr and data.table.
 # vector functions
 The package adds the following vector functions
 ````R
-library(statar)
-
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
 value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
@@ -46,6 +44,7 @@ winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), ty
 The package adds the following verbs for data.tables
 
 ````R
+library(data.table)
 library(dplyr)
 N=1e6; K=100
 DT <- data.table(
