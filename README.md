@@ -3,6 +3,12 @@ statar
 
 A set of R commands for Stata users built on on data.table and dplyr.
 
+The package can be installed via the package `devtools`
+
+````R
+devtools::install_github("hadley/tidyr")
+devtools::install_github("matthieugomez/statar")
+````
 
 # vector functions
 The package adds the following vector functions
@@ -123,10 +129,5 @@ join(x, y, type = "outer", gen = "_merge")
 	tempname <- tempname("temp", globalenv())
 	````
 
-The package can be installed via the package `devtools`
 
-````R
-devtools::install_github("hadley/tidyr")
-devtools::install_github("matthieugomez/statar")
-````
 The package should be loaded after `dplyr` (>= v0.3) and `lubridate`.
