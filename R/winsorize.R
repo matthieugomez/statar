@@ -4,20 +4,17 @@
 #' @param cutpoints Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.
 #' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.
 #' @examples                          
-#' winsorize(c(1, 2, 99))
-#' winsorize(c(1, 2, 99), replace = NA)
-#' winsorize(c(1, 2, 99), cutpoints = quantile(v, c(0.01, 0.99)))#' @name winsorize
-NULL
-
-
+#' winsorize(c(1, 2, 3, 99))
+#' winsorize(c(1, 2, 3, 99), replace = NA)
+#' winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99), type = 1))
 #' @export
-#' @rdname winsorize
 winsorize <- function(x, 
                       cutpoints = {
                         l <- quantile(v, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) 
                         c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))
                       }, 
                       replace = c(cutpoints[1], cutpoints[2])){
+  if (is.integer(x)) replace <- round(replace)
   if (!length(cutpoints)==2) stop("cutpoints must be a vector of length 2")
   x[x < cutpoints[1]] <- replace[1]
   x[x > cutpoints[2]] <- replace[2]
@@ -32,5 +29,7 @@ winsorise <- function(x,
                         c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))
                       }, 
                       replace = c(cutpoints[1],cutpoints[2])){
+    if (is.integer(x)) replace <- round(replace)
+    if (!length(cutpoints)==2) stop("cutpoints must be a vector of length 2")
     winsorize(x, cutpoints, replace)
 }
