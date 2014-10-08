@@ -15,7 +15,6 @@
 #' DT %>% group_by(id) %>% fill_na(value, along_with  = date)
 #' DT %>% group_by(id) %>% fill_na(value, along_with  = date)
 #' @export
-#' @rdname fill_na
 fill_na <- function(.data, ..., along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE), copy = TRUE){

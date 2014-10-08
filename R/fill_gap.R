@@ -16,9 +16,7 @@
 #')
 #' DT %>% group_by(id) %>% fill_gap(value, along_with = date)
 #' DT %>% group_by(id) %>% fill_gap(value, along_with = date, type == "across")
-#' @name fill_gap
 #' @export
-#' @rdname fill_gap
 fill_gap <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
