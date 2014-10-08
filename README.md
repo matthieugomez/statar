@@ -80,8 +80,8 @@ DT <- data.table(
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% group_by(id) %>% fill_na(value, along_with  = date) 
-DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
+DT %>% group_by(id) %>% fill_na(value, along_with = date) 
+DT %>% group_by(id) %>% fill_na(value, along_with = date, roll = "nearest")
 
 # fill na (in the original dataset)
 DT <- data.table(
@@ -89,21 +89,21 @@ DT <- data.table(
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 )
-setkeyv(DT,c("id","date"))
+setkeyv(DT,c("id", "date"))
 setna(DT, "value")
 setna(DT, "value", roll = "nearest")
 ````
 
 
 # join
-The package adds a wrapper for data.table merge functions based on SQL join. Possible types are : left, right, inner, outer,  semi and anti. 
+The package adds a wrapper for data.table merge functions based on SQL join. Possible types are : left, right, inner, outer, semi and anti. 
 
 As in Stata, 
-- the option "check"  checks there are no duplicates in the master or using data.tables
+- the option "check" checks there are no duplicates in the master or using data.tables
 - the option "gen" specifies the name of a new variable that identifies non matched and matched rows 
 
 ````R
-x <- data.table(a = rep(1:2, each = 3), b=1:6)
+x <- data.table(a = rep(1:2, each = 3), b = 1:6)
 y <- data.table(a = 0:1, bb = 10:11)
 # outer corresponds to Stata joinby keep(master matched using)
 join(x, y, type = "outer")
@@ -121,7 +121,7 @@ join(x, y, type = "outer", gen = "_merge")
 ````
 
 # others
--  data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
+- data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` creates a name not assigned in the environment specified by the second variable
 
