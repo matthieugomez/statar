@@ -4,7 +4,7 @@
 \title{Join two data.tables together}
 \usage{
 join(x, y, on = intersect(names(x), names(y)), type = "outer",
-  gen = FALSE, check = c("m:m", "m:1", "1:m", "1:1"))
+  gen = FALSE, check = m ~ m)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -17,7 +17,7 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 
 \item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 
-\item{check}{A character checking for the presence of duplicates. Specifying "1:m" (resp "m:1") checks that joined variables uniquely identify observations in x (resp y).}
+\item{check}{A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).}
 }
 \value{
 A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. The order of data.tables x and y is not conserved, unless they are keyed.
@@ -26,6 +26,13 @@ A data.table that joins rows in master and using datases. In order to avoid dupl
 Join two data.tables together
 }
 \examples{
-join(x, y, on = intersect(names(x),names(y)), type = "outer", gen = FALSE, check = "m:m")
+x <- data.table(a = rep(1:2, each = 3), b=1:6)
+y <- data.table(a = 0:1, bb = 10:11)
+join(x, y, type = "outer")
+join(x, y, type = "left", gen = "_merge")
+join(x, y, type = "right", gen = "_merge")
+join(x, y, type = "inner", check = 1~1)
+join(x, y, type = "semi")
+join(x, y, type = "anti")
 }
 

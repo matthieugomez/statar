@@ -5,7 +5,7 @@
 #' @param on Character vectors specifying variables to match on. Default to common names between x and y. 
 #' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
-#' @param check A character checking for the presence of duplicates. Specifying "1:m" (resp "m:1") checks that joined variables uniquely identify observations in x (resp y).
+#' @param check A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).
 #' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. The order of data.tables x and y is not conserved, unless they are keyed.
 #' @examples
 #' x <- data.table(a = rep(1:2, each = 3), b=1:6)
@@ -13,16 +13,15 @@
 #' join(x, y, type = "outer")
 #' join(x, y, type = "left", gen = "_merge")
 #' join(x, y, type = "right", gen = "_merge")
-#' join(x, y, type = "inner", check = "1:1")
+#' join(x, y, type = "inner", check = 1~1)
 #' join(x, y, type = "semi")
 #' join(x, y, type = "anti")
 
 #' @export
-join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check = m~m){
 
   #type
   type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
-  check <- match.arg(check, c("m:m", "m:1", "1:m", "1:1"))
 
   if (!is.data.table(x)){
     stop(paste0("Master is not a data.table. Convert it first using setDT()"))
@@ -39,7 +38,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
 
     # check gen
     if (gen != FALSE & !(type %in% c("left", "right", "outer"))){
-      stop(" The option gen is only available for left, right and outer joins")
+      stop(" The option gen is only available for left, right and outer joins", call. = FALSE)
     }
 
     # join names
@@ -55,13 +54,13 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
     on.exit(setkeyv(y, key_y), add = TRUE)
 
     # check duplicates
-    if (substr(check,1,1) == "1"){
+    if (check[[2]] == 1){
        if (anyDuplicated(x)){ 
          stop("Variables don't uniquely identify observations in the master dataset", call. = FALSE)
        }
      }
 
-    if (substr(check,3,3) == "1"){
+    if (check[[3]] == 1){
      if (anyDuplicated(y)){ 
        stop("Variables don't uniquely identify observations in the using dataset", call. = FALSE)
      }
