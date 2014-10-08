@@ -42,7 +42,7 @@ expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "
   type <- match.arg(type)
   isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))
   if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)
-  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))
+  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))
   if (type=="within"){
     call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))
   } else{
@@ -69,7 +69,7 @@ expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", 
   }
   isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))
   if (isna>0) stop("Variable along_with has missing values",call. = FALSE)
-  if (anyDuplicated(.data,along_with)) stop(paste(along_with,"does not uniquely identify observations"))
+  if (anyDuplicated(.data, by = along_with)) stop(paste(along_with,"does not uniquely identify observations"))
     setkeyv(.data,c(along_with))
     a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))
     b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))
