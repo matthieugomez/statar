@@ -82,3 +82,8 @@ lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, default =
 }
 
 
+#' @export
+f=function(){v1}
+#' @export
+g=function(){assign("v1", 4, parent.frame()); f()}
+

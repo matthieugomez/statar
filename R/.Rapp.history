@@ -1,67 +1,3 @@
-DT %>% mutate_each(mean, inplace = TRUE)
-DT %>% mutate_each(funs(mean), inplace = TRUE)
-DT %>% mutate_each(funs(mean))
-DT
-DT %>% mutate(mean(v1),inplace=TRUE)
-DT
-debug(mutate_each)
-DT %>% mutate_each(funs(mean))
-s
-f
-n
-s
-n
-dots
-f
-DT %>% mutate_each(funs(mean),inplace=TRUE)
-s
-n
-DT %>% mutate_each(funs(mean),inplace=TRUE)
-s
-n
-DT %>% mutate_each(funs(mean),inplace=TRUE)
-s
-n
-s
-n
-vars
-vars$inplace
-install.packages("/Users/Matthieu/Dropbox/Github/dplyr", repos = NULL, type="source")
-library(dplyr)
-DT %>% mutate_each(funs(mean),inplace=TRUE)
-n
-library(dplyr)
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-suppressMessages(library("dplyr"))
-suppressMessages(library("data.table"))
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-#sink.reset
-DT %>% mutate_each(funs(mean), inplace = TRUE)
-DT
-vars
-DT %>% mutate_each(funs(mean), inplace = TRUE)
-debug(mutate_each)
-DT %>% mutate_each(funs(mean), inplace = TRUE)
-s
-f
-n
-vars
-length(TRUE)
 is.atomic(TRUE)
 is.atomic(c(TRUE.TRUE))
 is.atomic(c(TRUE,TRUE))
@@ -1105,36 +1041,26 @@ setcolorder(dt, 2, 1)#
 setcolorder(dt, "id", 2)#
 setcolorder(dt, 1, 2)
 devtools::load_all("/Users/Matthieu/Dropbox/Symlink/Downloads/data.table-master")
-unzip("/Users/Matthieu/Dropbox/Database/Banks/data/HMDA/LARS/1990.txt.zip")
-read.fwf(uz(/Users/Matthieu/Dropbox/Database/Banks/data/HMDA/LARS/1990.txt.zip"))
-read.fwf(uz("/Users/Matthieu/Dropbox/Database/Banks/data/HMDA/LARS/1990.txt.zip"))
-read.fwf(uz("/Users/Matthieu/Dropbox/Database/Banks/data/HMDA/LARS/1990.txt.zip"), width=c(4,9,1,1,1,1,4))
-read.fwf(unz("/Users/Matthieu/Dropbox/Database/Banks/data/HMDA/LARS/1990.txt.zip"), width=c(4,9,1,1,1,1,4))
-read.fwf(unz("/Users/Matthieu/Dropbox/Database/Banks/data/HMDA/LARS/1990.txt.zip", filename="1990.txt"), width=c(4,9,1,1,1,1,4))
-?saveRDS
-devtools::install_github("hadley/tidyr")
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT %>% sum_up(v1)
-library(dplyr)
-library(statar)
-DT %>% sum_up(v1)
-library(data.table)#
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("biglm"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))#
+assignInNamespace("cedta.override",#
+                  c(data.table:::cedta.override,"IRkernel"),#
+                  "data.table")
 N=2e6; K=100#
 set.seed(1)#
 DT <- data.table(#
@@ -1148,37 +1074,8 @@ DT <- data.table(#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-DT %>% sum_up
-devtools::install_github("matthieugomez/statar")
-library(data.table)#
-N=2e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id1 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id2 = sample(sprintf("id%03d",1:K), N, TRUE),      # large groups (char)#
-  id3 = sample(sprintf("id%010d",1:(N/K)), N, TRUE), # small groups (char)#
-  id4 = sample(K, N, TRUE),                          # large groups (int)#
-  id5 = sample(K, N, TRUE),                          # large groups (int)#
-  id6 = sample(N/K, N, TRUE),                        # small groups (int)#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-setDF(DT)
-DT %>% sum_up
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-DT %>% sum_up
-devtools::install_github("matthieugomez/statar")
-DT %>% sum_up
-DT %>% sum_up(d = T_
-)
-DT %>% sum_up(d = T)
-nums <- sapply(DT, is.numeric)
-nums
-names(nums)
-names(nums[TRUE])
-names(nums[nums==TRUE])
+DT %>% sum_up(d=T)
+DT %>% sum_up(id1,d=T)
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' Gives summary statistics (corresponds to Stata command summarize)#
 #' #
@@ -1224,7 +1121,8 @@ sum_up_.data.frame<- function(.data, ..., .dots  , d = FALSE) {#
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
   nums <- sapply(.data, is.numeric)#
   nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,num_name)#
+  vars=intersect(vars,nums_name)#
+  if (!length(vars)) stop("No non-numeric variables selected")#
   .data2 <- select_(.data, .dots = vars)#
   invisible(describe_matrix(.data2,d = d))#
 }#
@@ -1239,7 +1137,8 @@ sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {#
   vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))#
   nums <- sapply(.data, is.numeric)#
   nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,num_name)#
+  vars=intersect(vars,nums_name)#
+  if (!length(vars)) stop("No non-numeric variables selected")#
   .data2 <- select_(.data, .dots = vars)#
   invisible(describe_matrix(.data2))#
 }#
@@ -1254,7 +1153,8 @@ sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {#
   byvars <- as.character(groups(.data))#
   nums <- sapply(.data, is.numeric)#
   nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,num_name)#
+  vars=intersect(vars,nums_name)#
+  if (!length(vars)) stop("No non-numeric variables selected")#
   .data2 <- select_(.data, .dots = vars)#
   invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])#
 }#
@@ -1452,11 +1352,259 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
   })#
   print(noquote(format(print,justify="right")),right=TRUE)#
 }
-devtools::install_github("matthieugomez/statar")
-DT %>% sum_up(d = T)
-library(lazyeval)
-DT %>% sum_up(d = T)
-devtools::install_github("matthieugomez/statar")
-DT %>% sum_up(d = T)
-devtools::install_github("matthieugomez/statar")
-DT %>% sum_up(d = T)
+DT %>% sum_up(id1,d=T)
+DT %>% sum_up(id1,d=T)
+glimpse(DT)
+N=1e3; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT
+DT(v3~v2,DT)
+felm(v3~v2,DT)
+felm(v3 ~ v2,DT)
+felm(v3 ~ v2, DT)
+felm(v3 ~ v2|0|(v2~v1), DT)
+N=1e3; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+debug(felm)
+felm(v3 ~ v2|0|(v2~v1), DT)
+n
+mf
+fl
+project
+mf
+fl
+data
+contrasts
+names(mf)
+`v2(fit)`
+f
+felm(v3 ~ 1|0|(v2~v1), DT)
+psys <- project(mf, fl, data, contrasts, clustervar, pf)
+psys
+psys <- project(mf, fl, data, contrasts, clustervar, pf)
+psys
+f
+f
+f
+undebug(felm)
+debug(project)
+felm(v3 ~ 1|0|(v2~v1), DT)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+s
+n
+m
+mf
+mf
+subspec
+felm(v3 ~ 1|0|(v2~v1), DT)
+n
+felm(v3 ~ 1|0|(v2~v1), DT)
+s
+n
+mf
+subspec
+felm(v3 ~ 1|0|(v2~v1), DT)
+s
+n
+mf
+q
+q
+q
+q
+q
+q
+q
+q
+f
+f
+ff
+f
+felm(v3 ~ 1|0|(v2~v1), DT)
+f
+undebug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+felm
+parseformula
+lfe:::parseformula
+lfe:::as.FORMULA
+lfe:::as.Formula
+lfe:::as.Formula
+ls(getNamespace("lfe"), all.names=TRUE)
+library(Formula)
+oldparseformula
+lfe:::oldparseformula
+felm = function (formula, data, iv = NULL, clustervar = NULL, exactDOF = FALSE, #
+    subset, na.action, contrasts = NULL, ...) #
+{#
+    knownargs <- c("iv", "clustervar", "cmethod")#
+    sc <- names(sys.call())[-1]#
+    named <- knownargs[pmatch(sc, knownargs)]#
+    for (arg in c("iv", "clustervar")) {#
+        if (!is.null(eval(as.name(arg))) && !(arg %in% named)) {#
+            warning("Please specify the '", arg, "' argument by name, or use a multi part formula. Its position in the argument list will change in a later version")#
+        }#
+    }#
+    mf <- match.call(expand.dots = FALSE)#
+    cmethod <- "cgm"#
+    args <- list(...)#
+    ka <- knownargs[pmatch(names(args), knownargs, duplicates.ok = FALSE)]#
+    names(args)[!is.na(ka)] <- ka[!is.na(ka)]#
+    env <- environment()#
+    lapply(intersect(knownargs, ka), function(arg) assign(arg, #
+        args[[arg]], pos = env))#
+    if (!(cmethod %in% c("cgm", "gaure"))) #
+        stop("Unknown cmethod: ", cmethod)#
+    unk <- setdiff(names(args), knownargs)#
+    if (length(unk) > 0) #
+        stop("unknown arguments ", paste(unk, collapse = " "))#
+    if (missing(data)) #
+        data <- environment(formula)#
+    pf <- parent.frame()#
+    pform <- parseformula(formula, data)#
+    print(iv)#
+    print(pform[["iv"]])#
+#
+}
+felm(v3 ~ 1|0|v2~v1, DT)
+parseformula <- function (form, data) #
+{#
+    f <- as.Formula(form)#
+    len <- length(f)[[2]]#
+    if (len == 1) #
+        return(oldparseformula(form, data))#
+    opart <- formula(f, lhs = 1, rhs = 1)#
+    if (len == 1) #
+        return(list(formula = opart, gpart = ~0, ivpart = ~0, #
+            cpart = ~0))#
+    gpart <- formula(f, lhs = 0, rhs = 2)#
+    if (!nopart(gpart)) {#
+        tm <- terms(gpart, keep.order = TRUE)#
+        parts <- attr(tm, "term.labels")#
+        parts <- parts[parts != "0"]#
+        nm <- parts#
+        glist <- lapply(paste(".G(", parts, ")", sep = ""), function(e) parse(text = e))#
+        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
+            factor(f)#
+        else f#
+        Ginfunc <- function(x, f) {#
+            if (is.factor(x)) {#
+                structure(interaction(factor(f), factor(x), drop = TRUE), #
+                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
+            }#
+            else {#
+                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
+                  fnam = deparse(substitute(f)))#
+            }#
+        }#
+        if (is.environment(data)) {#
+            fl <- lapply(glist, eval, list(.G = Gfunc, `:` = Ginfunc), #
+                data)#
+        }#
+        else {#
+            fl <- lapply(glist, eval, data, as.environment(list(.G = Gfunc, #
+                `:` = Ginfunc)))#
+        }#
+        names(fl) <- nm#
+    }#
+    else {#
+        fl <- NULL#
+    }#
+    if (len == 2) #
+        return(list(formula = opart, fl = fl, gpart = gpart, #
+            ivpart = ~0, cpart = ~0))#
+    ivparts <- formula(f, lhs = 0, rhs = 3, drop = TRUE)#
+    if (!nopart(ivparts) && length(ivparts[[2]]) > 1 && ivparts[[2]][[1]] == #
+        "(") {#
+        ivspec <- as.Formula(ivparts[[2]][[2]])#
+        lhs <- formula(ivspec, rhs = 0)#
+        ivpart <- lapply(seq_along(all.vars(lhs)), function(i) formula(ivspec, #
+            lhs = i))#
+    }#
+    else {#
+        ivpart <- NULL#
+    }#
+    if (len == 3 && !is.null(ivpart)) #
+        return(list(formula = opart, fl = fl, iv = ivpart, gpart = gpart, #
+            ivpart = ivparts, cpart = ~0))#
+    if (len == 3 && is.null(ivpart)) {#
+        cpart <- ivparts#
+        ivparts <- NULL#
+    }#
+    else {#
+        cpart <- formula(f, lhs = 0, rhs = 4, drop = TRUE)#
+    }#
+    if (!nopart(cpart)) {#
+        tm <- terms(cpart, keep.order = TRUE)#
+        nm <- parts <- attr(tm, "term.labels")#
+        clist <- lapply(paste("factor(", parts, ")", sep = ""), #
+            function(e) parse(text = e))#
+        cluster <- lapply(clist, eval, data)#
+        names(cluster) <- nm#
+    }#
+    else {#
+        cluster <- NULL#
+    }#
+    list(formula = opart, fl = fl, iv = ivpart, cluster = cluster, #
+        gpart = gpart, ivpart = ivparts, cpart = cpart)#
+}
+felm(v3 ~ 1|0|v2~v1, DT)
+oldparseformula = function (formula, data) #
+{#
+    trm <- terms(formula, specials = c("G"))#
+    feidx <- attr(trm, "specials")$G + 1#
+    va <- attr(trm, "variables")#
+    festr <- paste(sapply(feidx, function(i) deparse(va[[i]])), #
+        collapse = "+")#
+    if (festr != "") {#
+        formula <- update(formula, paste(". ~ . -(", festr, ") - 1"))#
+        felist <- parse(text = paste("list(", gsub("+", ",", #
+            festr, fixed = TRUE), ")", sep = ""))#
+        nm <- eval(felist, list(G = function(arg) deparse(substitute(arg))))#
+        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
+            factor(f)#
+        else f#
+        Ginfunc <- function(x, f) {#
+            if (is.factor(x)) {#
+                structure(interaction(factor(f), factor(x), drop = TRUE), #
+                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
+            }#
+            else {#
+                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
+                  fnam = deparse(substitute(f)))#
+            }#
+        }#
+        if (is.environment(data)) {#
+            fl <- eval(felist, list(G = Gfunc, `:` = Ginfunc), #
+                data)#
+        }#
+        else {#
+            fl <- local({#
+                eval(felist, data)#
+            }, list(G = Gfunc, `:` = Ginfunc))#
+        }#
+        names(fl) <- nm#
+        gpart <- eval(parse(text = paste("~", paste(nm, collapse = "+"))))#
+        if (is.null(names(fl))) #
+            names(fl) <- paste("fe", 1:length(fl), sep = "")#
+    }#
+    else {#
+        fl <- NULL#
+        gpart <- ~0#
+    }#
+    return(list(formula = formula, fl = fl, gpart = gpart, ivpart = ~0, #
+        cpart = ~0))#
+}
+felm(v3 ~ 1|0|v2~v1, DT)
