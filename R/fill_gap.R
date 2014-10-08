@@ -42,10 +42,10 @@ fill_gap_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within",
   if (length(vars) == 0) {
      vars <- setdiff(names(.data),c(byvars, along_with))
   }
-  type <- match.arg(type)
+  type <- match.arg(type, c("within", "across"))
   isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))
   if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))
+  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)
   if (type=="within"){
     call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))
   } else{
@@ -73,18 +73,18 @@ fill_gap_.data.table <- function(.data,..., along_with, .dots, type = c("within"
      vars <- setdiff(names(.data), along_with)
   }
   isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))
-  if (isna>0) stop("Variable along_with has missing values",call. = FALSE)
-  if (anyDuplicated(.data, by = along_with)) stop(paste(along_with,"does not uniquely identify observations"))
-    setkeyv(.data,c(along_with))
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))
-    ans  <- eval(call)
-    setnames(ans, c(along_with))
-    setkeyv(ans, c(along_with))
-    .data <- .data[, c(vars, along_with), with = FALSE]
-    setkeyv(.data, c(along_with))
-    .data <- .data[ans,allow.cartesian=TRUE]
+  if (isna>0) stop("Variable along_with has missing values", call. = FALSE)
+  if (anyDuplicated(.data, by = along_with)) stop(paste(along_with,"does not uniquely identify observations"), call. = FALSE)
+  setkeyv(.data,c(along_with))
+  a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))
+  b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))
+  call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))
+  ans  <- eval(call)
+  setnames(ans, c(along_with))
+  setkeyv(ans, c(along_with))
+  .data <- .data[, c(vars, along_with), with = FALSE]
+  setkeyv(.data, c(along_with))
+  .data <- .data[ans,allow.cartesian=TRUE]
   .data
 }
 

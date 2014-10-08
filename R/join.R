@@ -8,12 +8,18 @@
 #' @param check A character checking for the presence of duplicates. Specifying "1:m" (resp "m:1") checks that joined variables uniquely identify observations in x (resp y).
 #' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. The order of data.tables x and y is not conserved, unless they are keyed.
 #' @examples
-#'  join(x, y, on = intersect(names(x),names(y)), type = "outer", gen = FALSE, check = "m:m")
+#' x <- data.table(a = rep(1:2, each = 3), b=1:6)
+#' y <- data.table(a = 0:1, bb = 10:11)
+#' join(x, y, type = "outer")
+#' join(x, y, type = "left", gen = "_merge")
+#' join(x, y, type = "right", gen = "_merge")
+#' join(x, y, type = "inner", check = "1:1")
 #' @export
 join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){
 
   #type
   type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
+  check <- match.arg(check, c("m:m", "m:1", "1:m", "1:1"))
 
   if (!is.data.table(x)){
     stop(paste0("Master is not a data.table. Convert it first using setDT()"))
@@ -46,13 +52,13 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
     on.exit(setkeyv(y, key_y), add = TRUE)
 
     # check duplicates
-    if (check[1] == "1"){
+    if (substr(check,1,1) == "1"){
        if (anyDuplicated(x)){ 
          stop("Variables don't uniquely identify observations in the master dataset")
        }
      }
 
-    if (check[3] == "1"){
+    if (substr(check,3,3) == "1"){
      if (anyDuplicated(y)){ 
        stop("Variables don't uniquely identify observations in the using dataset")
      }
@@ -62,7 +68,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
     if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"))
     if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"))
 
-    if (length(common)>0){
+    if (length(common_names)>0){
       x <- copy(x)
       y <- copy(y)
       setnames(x, common_names, paste0(common_names, ".x"))

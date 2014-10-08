@@ -1,3 +1,697 @@
+DT_long
+DT_long <- DT_wide %>% spread (variable, value, -time)
+DT_wide <- DT_long %>% spread (variable, value, -time)
+?spread
+DT_wide <- DT_long %>% spread(variable, value, -time)
+DT_wide <- DT_long %>% spread(variable, value)
+DT_wide
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2(4.5,3.0)))
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2(4.5,3.0))
+library(data.table)
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2(4.5,3.0))
+DT_wide <- data.table (i=c(1,2), stub1=c(4.1,4.5), stub2=c(4.5,3.0))
+DT_wide
+DT_wide %>% gather(variable, value, -i)
+DT_long <- DT_wide %>% gather(variable, value, -i)
+DT_long %>% spread(variable, value)
+assignInNamespace("cedta.override", c(data.table:::cedta.override,"IRkernel#
+                                      "), "data.table")
+showMethods(expand)
+library(matrix)
+showMethods(expand)
+library(Matrix)
+showMethods(expand)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+library(statar)
+library(data.table)
+?hour
+library(matrix)
+library(Matrix)
+?expand
+showMethods(Matrix)
+is.object(expand) & !isS4(expand)
+is.object(expand
+)
+!isS4(expand)
+isS4(expand)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+library(lubridate)
+weeks
+months
+months(1)
+years(1)
+years
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+library(biglm)#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+?expand
+?expand_
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+lag
+?lag
+?lead
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+library(biglm)#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+?lag
+?lead
+?expand
+?xtile
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+library(statar)
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
+  if (!is.null(units)) {#
+    if (is.null(date)) stop("units cannot be used without order_by")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    date_origin <- as.Date('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lead_along(x = x, n = n, default = default, date = along))#
+    }#
+    if (unitsc == "week"){#
+      date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      date_elapsed <- as.period(date-date_origin)  %/% months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "quarter"){#
+      date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "year"){#
+      date_elapsed <- as.period(date-date_origin)  %/% years(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }#
+  }#
+#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+  index <- match(date + n, date, incomparable = NA)#
+  out <- x[index]#
+  if (!is.na(default)) out[which(is.na(index))] <- default#
+  attributes(out) <- attributes(x)#
+  out#
+}
+lag_along <- function(x, n = 1L,  units = NULL, date = NULL, default = NA) {#
+    if (!is.null(units)) {#
+      if (is.null(date)) stop("units cannot be used without order_by")#
+      unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+      date_origin <- as.Date('0001-01-01')#
+      if (unitsc=="day"){#
+        return(lag_along(x = x, n = n, default = default, date = along))#
+      }#
+      if (unitsc == "week"){#
+        date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      }  #
+      else if (unitsc == "month"){#
+        date_elapsed <- as.period(date-date_origin)  %/% months(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      } else if (unitsc == "quarter"){#
+        date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      } else if (unitsc == "year"){#
+        date_elapsed <- as.period(date-date_origin)  %/% years(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      }#
+    }#
+#
+    if (n == 0) return(x)#
+    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+    index <- match(date - n, date, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+    attributes(out) <- attributes(x)#
+    out#
+  }
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
+date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
+date+1
+date
+date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
+date
+?as.Date
+date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%Y")
+date
+devtools::install_github("matthieugomez/tidyr")#
+devtools::install_github("matthieugomez/lazyeval")#
+devtools::install_github("matthieugomez/dplyr")#
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+library(dplyr)#
+library(data.table)#
+library(statar)#
+#
+# partition creates quantile categories (corresponds to Stata xtile)#
+v2 <-   sample(1e6, 1e6, TRUE)                   #
+v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles#
+v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
+## unbalanced panel#
+DT <- data.frame(#
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% mutate(lag(value, 1, order_by = date)) # wrong#
+DT %>% mutate(lag(value, 1, along_with = date)) # right#
+#
+## periods can be used instead of integers#
+library(lubridate)#
+df <- data.frame(     #
+   id = c("id1", "id1", "id1", "id1"),#
+   date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)#
+df <- df %>% mutate(date = floor_date(date, "month"))#
+df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date))
+?data.table::lag
+?lag
+library(data.table)
+library(dplyr)
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
+#
+DT <- data.table(#
+   id = c(1, 1, 1, 1, 1, 2, 2),#
+   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+#
+R> DT#
+   id date value#
+1:  1 1992   4.1#
+2:  1 1989   4.5#
+3:  1 1991   3.3#
+4:  1 1990   5.3#
+5:  1 1994   3.0#
+6:  2 1992   3.2#
+7:  2 1991   5.2#
+R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
+Source: local data table [7 x 4]#
+Groups: id#
+#
+  id date value lead_lag(value, 1)#
+1  1 1992   4.1                4.5#
+2  1 1989   4.5                4.5#
+3  1 1991   3.3                4.5#
+4  1 1990   5.3                4.5#
+5  1 1994   3.0                4.5#
+6  2 1992   3.2                5.2#
+7  2 1991   5.2                5.2#
+R>
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
+#
+DT <- data.table(#
+   id = c(1, 1, 1, 1, 1, 2, 2),#
+   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+#
+DT#
+   id date value#
+1:  1 1992   4.1#
+2:  1 1989   4.5#
+3:  1 1991   3.3#
+4:  1 1990   5.3#
+5:  1 1994   3.0#
+6:  2 1992   3.2#
+7:  2 1991   5.2#
+DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
+Source: local data table [7 x 4]#
+Groups: id#
+#
+  id date value lead_lag(value, 1)#
+1  1 1992   4.1                4.5#
+2  1 1989   4.5                4.5#
+3  1 1991   3.3                4.5#
+4  1 1990   5.3                4.5#
+5  1 1994   3.0                4.5#
+6  2 1992   3.2                5.2#
+7  2 1991   5.2                5.2#
+R>
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
+#
+DT <- data.table(#
+   id = c(1, 1, 1, 1, 1, 2, 2),#
+   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)
+R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
+debug(lead_lag)
+DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1)) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1))
+s
+n
+s
+debug(lead_lag)
+lead_lag(DT$value,1)
+s
+f
+lead_lag(value,1)
+s
+f
+undebug(lead_lag)
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }
+lead_lag(c(1,2),k=1)
+lag(c(1,2),n=1)
+sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}
+sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
+lead_lag(k) <- function{if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
+lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
+lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}
+}
+lead_lag <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}}
+lea_lag(3)(c(1,2)
+_
+lea_lag(3)(c(1,2))
+lead_lag(3)(c(1,2))
+lead_lag(1)(c(1,2))
+?ifelse
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
+  )#
+#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+library(statar)
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
+  )#
+#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("data.table"))#
+suppressMessages(library("biglm"))#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT[, condition := id>100]#
+system.time(DT[ id >100, coefficients(biglm(v3 ~ v2 + v1, .SD)), .SDcols = c("v1","v2","v3")])#
+system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = "condition", .SDcols = c("v1","v2","v3")])#
+system.time(coefficients(biglm(v3 ~ v2 + v1, DT[id>100, c("v1","v2","v3"), with = FALSE])
+)
+suppressMessages(library("data.table"))#
+suppressMessages(library("biglm"))#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT[, condition := id>100]
+system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = condition, .SDcols = c("v1", "v2", "v3")])
+library(Matrix)
+?expand
+isS4(expand)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+?expand
+DT <- data.table(#
+    id = c(1, 1, 1, 1, 1, 2, 2),#
+    date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(date)
+library(dpryr)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+?lag
+lag
+devtools::install_github("smbache/magrittr")
+library(magrittr)
+rnorm(100) %T>%#
+  plot(type = "l", col = "firebrick") %>%#
+  abs %>%#
+  sum
+tmp :=#
+  subset(Species == "setosa") %>%#
+  set_names(LETTERS[1:5])
+install.packages("colorout")
+download.file("http://www.lepem.ufc.br/jaa/colorout_1.0-3.tar.gz", destfile = "colorout_1.0-3.tar.gz")#
+install.packages("colorout_1.0-3.tar.gz", type = "source", repos = NULL)
+savehistory
+savehistory(ok)
+savehistory("ok")
+savehistory("~/.R.app.history")
+savehistory()
+fefe
+savehistory()
+library(pryr)
+N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )
+DT
+DF
+DT <- setDF(DF)
+library(data.table)
+DT <- setDF(DF)
+DT
+DT1 <- copy(DT)
+object_size(DT,DT1)
+object_size(DT)
+object_size(DT,DT1)
+object_size(DT,DT1, merge(DT,DT1)
+)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2)]#
+	object_size(DF, DF1)#
+	17.4 kB#
+	object_size(DF, DF3)#
+	25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	17.4 kB#
+	object_size(DF, DF3)#
+	25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+}
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	17.4 kB#
+	object_size(DF, DF3)#
+	25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	#> 17.4 kB#
+	object_size(DF, DF3)#
+	#> 25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+q
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	#> 17.4 kB#
+	object_size(DF, DF3)#
+	#> 25.9 kB#
+	object_size(DF,DF3, merge(DF,DF3)
+)
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	#> 17.4 kB#
+	object_size(DF, DF2)#
+	#> 25.9 kB#
+	object_size(DF,DF2, merge(DF,DF2)
+)
+library(tidyr)
+?gather
+DTx <- data.table (#
+  gvkey = c("2222","2222"), #
+  permno = c("20990", "20980"), #
+  year_min = c(1991,2000), #
+  year_max = c(1999, 2001)#
+)
+debugdebug(mutate)
+debug(mutate)
+library(dplyr)
+DT <- data.table ( id = 1:10)
+mutate(DT, mean(id))
+debug(mutate)
+DT <- data.table ( id = 1:10)
+mutate(DT, mean(id))
+s
+n
+?forder
+DT
+DT[1, id:= NA]
+DT
+forder(DT,id)
+DT[order(id)]
+setorder(DT,id)
+DT
+?setorder
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("biglm"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))#
+assignInNamespace("cedta.override",#
+                  c(data.table:::cedta.override,"IRkernel"),#
+                  "data.table")
+N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+result1 <- felm( v4 ~ v2 + v1, DT )#
+result2 <- felm( v3 ~ v2 + v1, DT )#
+result3 <- felm( v4 ~ v3 + v1 |0| (v3 ~ v2) |0, DT )
+ivreg
+library(aer)
+library(AER)
+ivreg(v3~v1,DT)
+?ivreg
+ivreg(v3~v2 | v1,DT)
+ivreg(v3 ~ v2 | v1,D T)
+ivreg(v3 ~ v2 | v1, DT)
+?ivreg
+ivreg(v3 ~ v2 | v1, DT)
+ivreg(v3 ~ v2 | v1, date = DT)
+ivreg(v3 ~ v2 | v1, data = DT)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+)#
+felm(v1~v2|0|(v2~v3)|0, df)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+felm(v1~v2|0|(v2~v3)|0, df)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) # numeric e.g. 23.5749#
+)#
+felm(v1 ~ v2 | 0 | (v2 ~ v3) |0, df)
+felm(v1 ~ v2 | 0 | (v2 ~ v3) |, df)
+felm(v1 ~ v2 |  | (v2 ~ v3) |, df)
+felm(v1 ~ v2 |  | (v2 ~ v3) |0, df)
+felm(v1 ~ v2 |  | (v2 ~ v3), df)
+felm(v1 ~ v2 |0| (v2 ~ v3), df)
+l= c("col1","some","col3")
+l[c(1,NA)]
+l[c(1,NA)] <- c("col11","col12")
+l[c(TRUE,NA)] <- c("col11","col12")
+l[l=="col1"] <- c("col11","col12")
+l=="col1"
+l <- c("col1", NA, "col3")#
+l[l==col1] <- c("col1")
+l <- c("col1", NA, "col3")#
+l[l == "col1"] <- c("col1")
+l
+condition = l== "col1"
+condition
+l[condition] <- c("col1")
+l[c(TRUE,NA,FALSE) <- c("col1")
+)
+l[c(TRUE,NA,FALSE)] <- c("col1")
+l <- c("col1", NA, "col3")#
+condition = l== "col1"#
+l[condition] <- c("col1")#
+l[l == "col1"] <- c("col1")#
+l[which(l == "col1")
+]
+l <- c("col1", NA, "col3")#
+condition = l== "col1"#
+l[condition] <- c("col1")#
+l[l == "col1"] <- c("col1")#
+l[which(condition)] <- c("col1")
+l
+l[NA,1]
+l[c(NA,1)]
+l <- c("col1", "col2", "col3")#
+    l[c(NA,1)]
+l[c(TRUE, NA, TRUE)]
+l[c(NA, TRUE)]
+l <- c("col1", NA, "col3")#
+	l[which(l == "col1" | l == "col3")]
+l <- c("col1", NA, "col3")#
+	l[l == "col1"]
+l[which(l == "col1")]
+DT
+N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+lm(v2~v1,DT)
+N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+lm(v2~v1,DT)
+result <- lm(v2~v1,DT)
+names(result)
+result$coefficients
+result$model
+result
+names(result)
+summary(result)
+list(summary(result))
 names(summary(result))
 result <- felm(v2~v1,DT)
 library(lfe)
@@ -352,12 +1046,34 @@ as.list(body(felm))
 trace(felm, print(mf), at = 40)
 trace(felm, quote(print(mf)), at = 40)
 felm(v3 ~ 1|0|(v2~v1), DT)
-library(lfe)#
-#
+g=function(formula,env){eval(formula,env)}
+f=function(x){assign("t1",1:10,envir = parent.frame()); g(y~t1, parent.frame())}
+f=function(x){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+f(1:10)
+g=function(formula,env){stats::model.frame(formula,env)}
+f(1:10)
+f=function(){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+x <- 1:10
+f(1:10)
+f()
+ls()
+ls(parent.env())
+?ls
+g=function(formula,env){eval(formula,env)}
+g=function(formula,env){stats::model.frame(formula,env)}
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+f()
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+f()
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
+f()
+lfe::project
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
 suppressMessages(library("tidyr"))#
 suppressMessages(library("dplyr"))#
 suppressMessages(library("data.table"))#
-suppressMessages(library("Formula"))#
 suppressMessages(library(lazyeval))#
 suppressMessages(library("dplyr"))#
 suppressMessages(library("reshape2"))#
@@ -373,573 +1089,7 @@ suppressMessages(library("parallel"))#
 suppressMessages(library("statar"))#
 assignInNamespace("cedta.override",#
                   c(data.table:::cedta.override,"IRkernel"),#
-                  "data.table")#
-library(Formula)
-N <- 1e3#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-trace(felm, quote(print(mf)), at = 40)
-felm(v3 ~ 1|0|(v2~v1), DT)
-untrace(felm)
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-mf
-print(mf)
-f
-trace(felm, quote(print(mf)), at = 41)
-felm(v3 ~ 1|0|(v2~v1), DT)
-as.list(body(felm))
-trace(felm, quote(print(formula)), at = 39)
-undebug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(felm, quote(print(formula,mf)), at = 39)
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(felm, quote(print(formula); print(mf)), at = 39)
-trace(felm, quote(print(formula) print(mf)), at = 39)
-trace(felm, quote(print(formula),print(mf)), at = 39)
-trace(felm, quote(print(formula) \n print(mf)), at = 39)
-trace(felm, quote(print(mf)), at = 40)
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(felm, quote(print(mf)), at = 39)
-felm(v3 ~ 1|0|(v2~v1), DT)
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-mf
-ivform[["formula"]]
-mf
-ivform
-f
-trace(felm, quote(print(ivform), at = 39)
-)
-trace(felm, quote(print(ivform)), at = 39)
-felm(v3 ~ 1|0|(v2~v1), DT)
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-mf
-ivform
-mf
-f
-as.list(body(felm))
-as.list(body(felm))[[34]]
-as.list(as.list(body(felm))[[34]])
-as.list(body(felm))[[34]]
-?trace
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-mf
-fl
-data
-contrasts
-clustervar
-pf
-mf
-s
-n
-mf
-`v2(fit)`
-f
-lfe::project
-lfe:::project
-g=function(formula,env){eval(formula,env)}
-f=function(x){assign("t1",1:10,envir = parent.frame()); g(y~t1, parent.frame())}
-f(1:10)
-assign("v2(fit)",ok)
-assign("v2(fit)","ok")
-v2fit
-`v2(fit)`
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-s
-n
-mf
-`v2(fit)`
-mf
-eval(mf,pf)
-mf
-f
-g=function(formula,DT,pf){eval(quote(stats::model.frame(formula,DT)),pf)}#
-f=function(){pf <-parent.frame(); assign("v2(fit)",1:1e3,envir = pf); g(v1~`v2(fit)`,DT, pf)}#
-f()
-g=function(formula,DT,pf){eval(quote(stats::model.frame(formula,DT)))}#
-f=function(){pf <-parent.frame(); assign("v2(fit)",1:1e3,envir = pf); g(v1~`v2(fit)`,DT, pf)}#
-f()
-project
-lfe::project
-lfe:::project
-as.list(body(lfe::project))
-as.list(body(lfe:::project))
-pf
-felm(v3 ~ 1|0|(v2~v1), DT)
-f
-debug(lfe:::project)
-undebug(lfe)
-undebug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-s
-n
-m
-mf
-formula
-mfnull
-mf
-print(mf)
-f
-trace(lfe:::project, quote(print(mf)), at=5)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-untrace(felm)
-trace(lfe:::project, quote(print(mf)), at=5)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-f
-undebug(lfe:::project)
-trace(lfe:::project, quote(print(mf)), at=5)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-f
-undebug(lfe:::project)
-undebug(felm)
-trace(lfe:::project, quote(print(mf)), at=5)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(lfe:::project, quote(print(mf)), at=6)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(lfe:::project, quote(print(mf)), at=6)#
-trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-`v2(fit)`
-trace(lfe:::project, quote(print(mf)), at=6)#
-trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-untrace(lfe)
-trace(lfe:::project, quote(print(mf)), at=6)#
-trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-untrace(lfe)
-felm(v3 ~ 1|0|(v2~v1), DT)
-untrace(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-untrace(project)
-untrace(lfe::project)
-untrace(lfe:::project)
-felm(v3 ~ 1|0|(v2~v1), DT)
-f
-undebug(lfe::project)
-undebug(lfe:::project)
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-`v2(fit)`
-felm
-trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-v2(fit)
-`v2(fit)`
-untrace(lfe::project)
-untrace(lfe:::project)
-felm(v3 ~ 1|0|(v2~v1), DT)
-`v2(fit)`
-trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(f, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)
-function(x){quote(eval(lm(v1~`v2(fit)`,data=DT)}
-function(x){eval(quote(eval(lm(v1~`v2(fit)`,data=DT)}
-function(x){eval(quote(eval(lm(v1~`v2(fit)`,data=DT)))}
-function(x){eval(quote(eval(lm(v1~`v2(fit)`,data=DT))}
-function(x){eval(quote(lm(v1~`v2(fit)`,data=DT))}
-function(x){eval(quote(lm(v1~`v2(fit)`,data=DT)))}
-f <- function(x){eval(quote(lm(v1~`v2(fit)`,data=DT)))}
-assign("v2(fit)", DT[,v1])
-f()
-trace(f,quote(eval(quote(lm(v1~`v2(fit)`,data=DT)))))
-f()
-f
-trace(f,quote(eval(quote(lm(v3~`v2(fit)`,data=DT)))))
-trace(f,quote(eval(quote(lm(v1~`v2(fit)`,data=DT)))))
-trace(f,quote(eval(quote(lm(v3~`v2(fit)`,data=DT)))))
-f()
-trace(f,quote(eval(quote(lm(v3~`v2(fit)`,data=DT)))))
-mf=as.expression(felm(v1~`v2(fit)`))
-mf=as.expression(quote(felm(v1~`v2(fit)`)))
-mf
-mf=as.formula(felm(v1~`v2(fit)`))
-f =function(x){mf <- match.call; mf[[1]] <- stats::model.frame; eval(mf)}
-f(1)
-f =function(x){mf <- match.call; mf[[1]] <- quote(stats::model.frame); eval(mf)}
-f(1)
-f =function(x){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
-f(1)
-f =function(v2~v1,data = DT){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
-f=function(x, data = y){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
-f(v2~v1, data = DT)
-debug(f)
-f(v2~v1, data = DT)
-n
-mf
-f=function(formula = x, data = y){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
-f(v2~v1, data = DT)
-debug(f)
-f(v2~v1, data = DT)
-mf
-stats::model.frame(formula = v2 ~ v1, data = DT)
-model.frame
-?model.frame
-debug(lfe:::project)
-felm(v3 ~ 1|0|(v2~v1), DT)
-n
-mf
-`v2(fit)`
-stats::model.frame(formula = v3 ~ `v2(fit)`)
-stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT)
-f
-trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT), pf)))
-felm(v3~1|0|(v2~v1), data = DT)
-f
-undebug(felm)
-trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT), pf)))
-felm(v3~1|0|(v2~v1), data = DT)
-f
-undebug(felm)
-undebug(lfe:::project)
-felm(v3~1|0|(v2~v1), data = DT)
-untrace(lfe:::project)
-felm(v3~1|0|(v2~v1), data = DT)
-untrace(felm)
-felm(v3~1|0|(v2~v1), data = DT)
-trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ v1, data = DT), pf)))
-felm(v3~1|0|(v2~v1), data = DT)
-trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT), pf)))
-felm(v3~1|0|(v2~v1), data = DT)
-exists(a)
-exists("a")
-trace(lfe:::project,quote(print(exists("`v2(fit)`"))))
-felm(v3 ~ 1|0|(v2~v1), DT)
-trace(lfe:::project,quote(print(exists("v2(fit)"))))
-untrace(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-rm("v2(fit)")#
-trace(lfe:::project,quote(print(exists("v2(fit)"))))#
-felm(v3 ~ 1|0|(v2~v1), DT)
-f=function(){v1}#
-g=function(){eval(v1 <-4, parent.frame()); f()}#
-g()
-f=function(){v1}#
-g=function(){assign("v1", 4, parent.frame()); f()}#
-g()
-eval
-?eval
-devtools::install_github("matthieugomez/statar")
-g()
-f
-devtools::install_github("hadley/tidyr")
-?expand
-devtools::install_github("matthieugomez/statar")
-?expand
-??expand
-?fill_na
-library(statar)
-?fill_na
-?expand
-?mutate
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-library(statar)
-?expand
-library(statar)
-?expand
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-library(statar)
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#
-# fill_gap (= Stata tsfill)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% fill_gap(along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")#
-#
-# fill_na  (in a new dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
-DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
-library(data.table)
-library(dplyr)
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#
-# fill_gap (= Stata tsfill)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% fill_gap(along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")#
-#
-# fill_na  (in a new dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
-DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
-?fill_gap
-library(statar)
-?fill_gap
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-library(statar)
-?fill_na
-?slice
-?filter
-?mutate
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#
-# fill_gap (= Stata tsfill)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% fill_gap(along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")#
-#
-# fill_na  (in a new dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
-DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
-library(dplyr)#
-library(data.table)#
-library(statar)
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
-  )#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#
-# fill_gap (= Stata tsfill)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% fill_gap(along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")#
-#
-# fill_na  (in a new dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
-DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
-?unique
-tag <- function(x, fromLast = FALSE){#
-  out <- rep(0, length(x))#
-  if (!fromLast){#
-    out <- c(1, rep(0, length(x)-1))#
-  } else{#
-    out <- c(rep(0, length(x)-1),1)#
-}
-}
-v <- c(1, 4, 6, 99)
-tag(v)
-tag(v)
-tag(x)
-tag(v)
-#' Tag a numeric vector (=Stata tag)#
-#' #
-#' @param x A vector of values#
-#' @return A vector with only 1#
-#' @examples                        #
-#' v <- c(1, 4, 6, 99)                      #
-#' tag(v)#
-#' tag(v, fromLast = TRUE)#
-tag <- function(x, fromLast = FALSE){#
-  out <- rep(0, length(x))#
-  if (!fromLast){#
-    return(c(1, rep(0, length(x)-1)))#
-  } else{#
-    return(c(rep(0, length(x)-1),1))#
-  }#
-}
-tag(v)
-tag(v, fromLast = TRUE)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-?smode
-smode <- function(x) {#
-  ux <- unique(x)#
-  ux[which.max(tabulate(match(x, ux)))]#
-}
-mode_stat v <- c(1, 1, 2, 2,2)
-v <- c(1, 1, 2, 2,2)
-mode_stat(v)
-mode_stat <- function(x) {#
-  ux <- unique(x)#
-  ux[which.max(tabulate(match(x, ux)))]#
-}
-mode_stat(v)
-v <- c(1, 1, 2, 2)
-mode_stat(v)
-which.max
-?which.max
-mode_stat(c(NA,NA,1))
-mode_stat <- function(x, na.rm = FALSE) {#
-  if na.rm{#
-  	x <- x[!is.na(x)]#
-  }#
-  ux <- unique(x)#
-  ux[which.max(tabulate(match(x, ux)))]#
-}
-#' statistical mode#
-#' #
-#' @param x A vector of values#
-#' @return The mode of a vector#
-#' @examples                        #
-#' v <- c(1, 1, 2, 2,2)                      #
-#' mode_stat(v)#
-#' v <- c(1, 1, 2, 2)                      #
-#' mode_stat(v)#
-#' tag(v, fromLast = TRUE)#
-#
-mode_stat <- function(x, na.rm = FALSE) {#
-  if (na.rm) x <- x[!is.na(x)]#
-  ux <- unique(x)#
-  ux[which.max(tabulate(match(x, ux)))]#
-}
-mode_stat(c(NA,NA,1))
-mode_stat(c(NA,NA,1), na.rm = TRUE)
-#' statistical mode#
-#' #
-#' @param x A vector of values#
-#' @return The mode of a vector#
-#' @examples                        #
-#' sample_mode(c(1, 2, 2))#
-#' sample_mode(c(1, 2,))#
-#' sample_mode(c(NA,NA,1))#
-#' sample_mode(c(NA,NA,1), na.rm = TRUE)#
-sample_mode <- function(x, na.rm = FALSE) {#
-  if (na.rm) x <- x[!is.na(x)]#
-  ux <- unique(x)#
-  ux[which.max(tabulate(match(x, ux)))]#
-}
-?n_distinct
-n_distinct
-library(dplyr)#
-library(data.table)#
-library(statar)#
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
-## lag in unbalanced panel#
-year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
-lag(value, 1, along_with = year) #  returns value in year - 1#
-## lag by time periods#
-library(lubridate)#
-DT <- data.table(     #
-   id    = c("id1", "id1", "id1", "id1"),#
-   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
-   value = c(4.1, 4.5, 3.3, 5.3)#
-)#
-DT[, datem := floor_date(date, "month")]#
-DT[, datem_l := lag(value, months(1), along_with = datem), by = id] #
-#
-# tag (corresponds to Stata tag)#
-tag(c(1,2))#
-tag(c(1,2), fromLast = TRUE)#
-#
-# sample_mode (corresponds to Stata mode)#
-sample_mode(c(1, 2, 2))#
-sample_mode(c(1, 2,))#
-sample_mode(c(NA,NA,1))#
-sample_mode(c(NA,NA,1), na.rm = TRUE)#
-#
-# partition creates quantile categories (corresponds to Stata xtile)#
-v <- sample(1e6, 1e6, TRUE)                   #
-v_categorized <- partition(v, nq = 3) # 3 groups based on terciles#
-v_categorized <- partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-#
-# winsorize (default based on 5 x interquartile range)#
-v <- sample(1e6, 1e6, TRUE)                   #
-winsorize(v)#
-winsorize(v, replace = NA)#
-winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
-v <- sample(100, c(1:10,99), TRUE)
-v
-v
-v
-?sample
-v <- sample(c(1:10,99), 100, TRUE)
-v
-winsorize(v)
-winsorize(v, replace = NA)
-winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
-v <- sample(10, 10, TRUE)                   #
-v_categorized <- partition(v, nq = 3) # 3 groups based on terciles#
-v_categorized <- partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
-v
-tag(c(1,2))#
-tag(c(1,2), fromLast = TRUE)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
+                  "data.table")
 library(dplyr)#
 library(data.table)#
 library(statar)#
@@ -961,232 +1111,342 @@ DT[, datem := floor_date(date, "month")]#
 DT[, datem_l := lag(value, months(1), along_with = datem), by = id] #
 #
 # tag (corresponds to Stata tag)#
-tag(c(1,2))#
-tag(c(1,2), fromLast = TRUE)#
+tag(c(1, 2))#
+tag(c(1, 2), fromLast = TRUE)#
 #
 # sample_mode (corresponds to Stata mode)#
 sample_mode(c(1, 2, 2))#
-sample_mode(c(1, 2,))#
-sample_mode(c(NA,NA,1))#
-sample_mode(c(NA,NA,1), na.rm = TRUE)#
+sample_mode(c(1, 2))#
+sample_mode(c(NA, NA, 1))#
+sample_mode(c(NA, NA, 1), na.rm = TRUE)#
 #
-# partition creates quantile categories (corresponds to Stata xtile)#
-v <- sample(10, 10, TRUE)                   #
+# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
+v <- sample(c(NA, 1:10), 10, TRUE)                   #
 partition(v, nq = 3) # 3 groups based on terciles#
-partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
+partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
 #
 # winsorize (default based on 5 x interquartile range)#
-v <- sample(c(1:10,99), 100, TRUE)                   #
-winsorize(v)#
-winsorize(v, replace = NA)#
-winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
-partition(c(NA,1:3),3)
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-#' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  cut(x, breaks = c(min(x), cutpoints ,max(x)) , labels = seq_len(length), include.lowest=TRUE)#
-}
-partition(c(NA,1:3),3)
-?quantile
-cut(c(NA,1:3))
-cut(c(NA,1:3), breaks = 3)
-cut(c(NA,1:3), breaks = 2)
-length(cut(c(NA,1:3), breaks = 2))
-cut(c(NA,1:3), breaks = 2)
-names(cut(c(NA,1:3), breaks = 2))
-cut(c(NA,1:3), breaks = 2)
-v <- cut(c(NA,1:3), breaks = 2)
-str(v)
-partition(1:3, nq = 3)
-debug(partition)
-partition(1:3, nq = 3)
-s
+winsorize(c(1, 2, 99))#
+winsorize(c(1, 2, 99), replace = NA)#
+winsorize(c(1, 2, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+partition(v, cutpoints = c(11, 23))
+debug(winsorize)
+library(dplyr)#
+library(data.table)#
+library(statar)#
+#
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
+## lag in unbalanced panel#
+year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
+lag(value, 1, along_with = year) #  returns value in year - 1#
+## lag by time periods#
+library(lubridate)#
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)#
+DT[, datem := floor_date(date, "month")]#
+DT[, datem_l := lag(value, months(1), along_with = datem), by = id] #
+#
+# tag (corresponds to Stata tag)#
+tag(c(1, 2))#
+tag(c(1, 2), fromLast = TRUE)#
+#
+# sample_mode (corresponds to Stata mode)#
+sample_mode(c(1, 2, 2))#
+sample_mode(c(1, 2))#
+sample_mode(c(NA, NA, 1))#
+sample_mode(c(NA, NA, 1), na.rm = TRUE)#
+#
+# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
+v <- sample(c(NA, 1:10), 10, TRUE)                   #
+partition(v, nq = 3) # 3 groups based on terciles#
+partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
+#
+# winsorize (default based on 5 x interquartile range)#
+winsorize(c(1, 2, 99))#
+winsorize(c(1, 2, 99), replace = NA)#
+winsorize(c(1, 2, 99), cutpoints = quantile(v, c(0.01, 0.99)))
 n
-c(min(x), cutpoints, max(x))
-cutpoints
 f
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @returns A numerical vector#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
+f
+f
+winsorize(c(1, 2, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+round(1.3)
+round(1.3,NA)
+round(1.3,NA, na.rm = TRUE)
+round(c(1.3,NA))
+#' Winsorize a numeric vector#
+#' #
+#' @param x A vector of values#
+#' @param cutpoints Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.#
+#' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.#
+#' @examples                          #
+#' winsorize(c(1, 2, 99))#
+#' winsorize(c(1, 2, 99), replace = NA)#
+#' winsorize(c(1, 2, 99), cutpoints = quantile(v, c(0.01, 0.99)))#' @name winsorize#
+NULL#
 #' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  cut(x, breaks = c(min(x)-1, cutpoints ,max(x)+1) , labels = seq_len(length), include.lowest=TRUE)#
-}
-partition(1:3, nq = 3)
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @returns A numerical vector#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
+#' @rdname winsorize#
+winsorize <- function(x, #
+                      cutpoints = {#
+                        l <- quantile(v, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) #
+                        c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))#
+                      }, #
+                      replace = c(cutpoints[1], cutpoints[2])){#
+  if (is.integer(x)) replace <- round(replace)#
+  if (!length(cutpoints)==2) stop("cutpoints must be a vector of length 2")#
+  x[x < cutpoints[1]] <- replace[1]#
+  x[x > cutpoints[2]] <- replace[2]#
+  x#
+}#
+#
 #' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  as.numeric(as.character(cut(x, breaks = c(min(x)-1, cutpoints ,max(x)+1) , labels = seq_len(length), include.lowest=TRUE)))#
+#' @rdname winsorize#
+winsorise <- function(x, #
+                      cutpoints = {#
+                        l <- quantile(v, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) #
+                        c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))#
+                      }, #
+                      replace = c(cutpoints[1],cutpoints[2])){#
+    if (is.integer(x)) replace <- round(replace)#
+    winsorize(x, cutpoints, replace)#
 }
-partition(1:3, nq = 3)
-?cut
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @returns A numerical vector#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-#' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  cut(x, breaks = c(min(x)-1, cutpoints ,max(x)+1) , labels = FALSE, include.lowest=TRUE))#
-}
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @returns A numerical vector#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-#' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  cut(x, breaks = c(min(x)-1, cutpoints ,max(x)+1) , labels = FALSE, include.lowest=TRUE)#
-}
-partition(1:3, nq = 3)
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @returns An integer ector#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-#' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  cut(x, breaks = c(min(x)-1, cutpoints , max(x)+1) , labels = FALSE, include.lowest=TRUE)#
-}
-cut(c(NA,1), breaks = 3)
-cut(c(NA,1), breaks = 1)
-cut(c(NA,1,3), breaks = 1)
-cut(c(NA,1,3), breaks = 2)
-?cut
-partition(c(NA,1,3), cutpoints = 1)
-cut(c(NA,1,3), breaks = 2, labels = FALSE)
-debug(partition)
-cut(c(NA,1,3), breaks = 2, labels = FALSE)
-partition(c(NA,1,3), cutpoints = 1)
-n
-partition(c(NA,1,3), cutpoints = 1)
-min(x)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @returns An integer ector#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-#' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  cut(x, breaks = c(min(x, na.rm = TRUE)-1, cutpoints , max(x, na.rm = TRUE)+1) , labels = FALSE, include.lowest=TRUE)#
-}
+winsorize(c(1, 2, 99))
+winsorize(c(1, 2, 99), replace = NA)
+winsorize(c(1, 2, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+debug(winsorize)
+winsorize(c(1, 2, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+replae
+replace
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+f
+f
+f
 f
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Create quantile categories (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4#
-#' @returns An integer ector#
-#' @examples #
-#' v <- sample(10, 10, TRUE)                   #
-#' partition(v, nq = 3) # 3 groups based on terciles#
-#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
+#' Winsorize a numeric vector#
+#' #
+#' @param x A vector of values#
+#' @param cutpoints Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.#
+#' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.#
+#' @examples                          #
+#' winsorize(c(1, 2, 3, 99))#
+#' winsorize(c(1, 2, 3, 99), replace = NA)#
+#' winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99)))#
 #' @export#
-partition <- function(x, nq = NULL, cutpoints = NULL){#
-  if (!is.null(nq)){#
-  if (!is.null(cutpoints)) stop("Only one option out of nq and cutpoints can be used")#
-      breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)#
-      return(partition(x, cutpoints = breaks))#
-  } #
-  length=length(cutpoints)+1#
-  cut(x, breaks = c(min(x, na.rm = TRUE)-1, cutpoints , max(x, na.rm = TRUE)+1) , labels = FALSE, include.lowest=TRUE)#
+winsorize <- function(x, #
+                      cutpoints = {#
+                        l <- quantile(v, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) #
+                        c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))#
+                      }, #
+                      replace = c(cutpoints[1], cutpoints[2])){#
+  if (is.integer(x)) replace <- round(replace)#
+  if (!length(cutpoints)==2) stop("cutpoints must be a vector of length 2")#
+  x[x < cutpoints[1]] <- replace[1]#
+  x[x > cutpoints[2]] <- replace[2]#
+  x#
+}#
+#
+#' @export#
+#' @rdname winsorize#
+winsorise <- function(x, #
+                      cutpoints = {#
+                        l <- quantile(v, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) #
+                        c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))#
+                      }, #
+                      replace = c(cutpoints[1],cutpoints[2])){#
+    if (is.integer(x)) replace <- round(replace)#
+    winsorize(x, cutpoints, replace)#
 }
-partition(c(NA,1,3), cutpoints = 1)
-v <- sample(10, 10, TRUE)
-v
-partition(v, nq = 3)
-v <- sample(c(NA,1:10, 10, TRUE)
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+winsorize(c(1:5, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+winsorize(c(1:10, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+debug(replace)
+quantile(c(1:10, 99), c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE)
+l <- quantile(c(1:10, 99), c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE)
+c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))
+debug(winsorise)
+debug(winsorize)
+winsorize(c(1:5, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+f
+quantile(1:10, c(0.01,0.99))
+quantile(1:10, c(0.01,0.99), type =1)
+winsorize(c(1:5, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+winsorize(c(1:5, 99), cutpoints = quantile(v, c(0.01, 0.99)))
+library(dplyr)#
+library(data.table)#
+library(statar)#
+#
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
+## lag in unbalanced panel#
+year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
+lag(value, 1, along_with = year) #  returns value in year - 1#
+## lag by time periods#
+library(lubridate)#
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)#
+DT[, datem := floor_date(date, "month")]#
+DT[, datem_l := lag(value, months(1), along_with = datem), by = id] #
+#
+# tag (corresponds to Stata tag)#
+tag(c(1, 2))#
+tag(c(1, 2), fromLast = TRUE)#
+#
+# sample_mode (corresponds to Stata mode)#
+sample_mode(c(1, 2, 2))#
+sample_mode(c(1, 2))#
+sample_mode(c(NA, NA, 1))#
+sample_mode(c(NA, NA, 1), na.rm = TRUE)#
+#
+# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
+v <- sample(c(NA, 1:10), 10, TRUE)                   #
+partition(v, nq = 3) # 3 groups based on terciles#
+partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
+#
+# winsorize (default based on 5 x interquartile range)#
+winsorize(c(1, 2, 99))#
+winsorize(c(1, 2, 99), replace = NA)#
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99), type = 1))
+f
+f
+f
+f
+f
+f
+f
+library(dplyr)#
+library(data.table)#
+library(statar)#
+#
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
+## lag in unbalanced panel#
+year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
+lag(value, 1, along_with = year) #  returns value in year - 1#
+## lag by time periods#
+library(lubridate)#
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)#
+DT[, datem := floor_date(date, "month")]#
+DT[, datem_l := lag(value, months(1), along_with = datem), by = id] #
+#
+# tag (corresponds to Stata tag)#
+tag(c(1, 2))#
+tag(c(1, 2), fromLast = TRUE)#
+#
+# sample_mode (corresponds to Stata mode)#
+sample_mode(c(1, 2, 2))#
+sample_mode(c(1, 2))#
+sample_mode(c(NA, NA, 1))#
+sample_mode(c(NA, NA, 1), na.rm = TRUE)#
+#
+# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
+v <- sample(c(NA, 1:10), 10, TRUE)                   #
+partition(v, nq = 3) # 3 groups based on terciles#
+partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
+#
+# winsorize (default based on 5 x interquartile range)#
+winsorize(c(1, 2, 99))#
+winsorize(c(1, 2, 99), replace = NA)#
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99), type = 1))
+f
+f
+f
+f
+f
+undebug(windorize)
+undebug(winsorize)
+library(dplyr)#
+library(data.table)#
+library(statar)#
+#
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
+## lag in unbalanced panel#
+year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
+lag(value, 1, along_with = year) #  returns value in year - 1#
+## lag by time periods#
+library(lubridate)#
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)#
+DT[, datem := floor_date(date, "month")]#
+DT[, datem_l := lag(value, months(1), along_with = datem), by = id] #
+#
+# tag (corresponds to Stata tag)#
+tag(c(1, 2))#
+tag(c(1, 2), fromLast = TRUE)#
+#
+# sample_mode (corresponds to Stata mode)#
+sample_mode(c(1, 2, 2))#
+sample_mode(c(1, 2))#
+sample_mode(c(NA, NA, 1))#
+sample_mode(c(NA, NA, 1), na.rm = TRUE)#
+#
+# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
+v <- sample(c(NA, 1:10), 10, TRUE)                   #
+partition(v, nq = 3) # 3 groups based on terciles#
+partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
+#
+# winsorize (default based on 5 x interquartile range)#
+winsorize(c(1, 2, 99))#
+winsorize(c(1, 2, 99), replace = NA)#
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99), type = 1))
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99), type = 1)
 )
-v
-partition(v, nq = 3
-)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+library(dplyr)#
+library(data.table)#
+library(statar)#
+#
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
+## lag in unbalanced panel#
+year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
+lag(value, 1, along_with = year) #  returns value in year - 1#
+## lag by time periods#
+library(lubridate)#
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)#
+DT[, datem := floor_date(date, "month")]#
+DT[, datem_l := lag(value, months(1), along_with = datem), by = id] #
+#
+# tag (corresponds to Stata tag)#
+tag(c(1, 2))#
+tag(c(1, 2), fromLast = TRUE)#
+#
+# sample_mode (corresponds to Stata mode)#
+sample_mode(c(1, 2, 2))#
+sample_mode(c(1, 2))#
+sample_mode(c(NA, NA, 1))#
+sample_mode(c(NA, NA, 1), na.rm = TRUE)#
+#
+# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
+v <- sample(c(NA, 1:10), 10, TRUE)                   #
+partition(v, nq = 3) # 3 groups based on terciles#
+partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
+#
+# winsorize (default based on 5 x interquartile range)#
+winsorize(c(1, 2, 99))#
+winsorize(c(1, 2, 99), replace = NA)#
+winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))

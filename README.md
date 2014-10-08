@@ -88,9 +88,8 @@ DT <- data.table(
     date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% fill_gap(along_with = date)
 DT %>% group_by(id) %>% fill_gap(value, along_with = date)
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")
+DT %>% group_by(id) %>% fill_gap(value, along_with = date, type == "across")
 
 # fill_na  (in a new dataset)
 DT <- data.table(
@@ -109,8 +108,8 @@ The package adds a wrapper for data.table merge functions based on SQL join. Pos
 - the option "check"  checks there are no duplicates in the master or using data.tables. 
 
 ````R
-# default options
-join(x, y, on = intersect(names(x), names(y)), type = "outer", gen = FALSE, check = "m:m")
+x <- data.table(a = rep(1:2, each = 3), b=1:6)
+y <- data.table(a = 0:1, bb = 10:11)
 # outer corresponds to Stata joinby keep(master matched using)
 join(x, y, type = "outer")
 # left corresponds to Stata joinby keep(master matched)
@@ -119,6 +118,11 @@ join(x, y, type = "left")
 join(x, y, type = "right")
 # inner corresponds to Stata joinby keep(matched)
 join(x, y, type = "inner")
+
+join(x, y, type = "semi")
+join(x, y, type = "anti")
+join(x, y, type = "outer", gen = "_merge")
+join(x, y, type = "outer", check = "1:1")
 ````
 
 # other functions
