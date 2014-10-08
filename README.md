@@ -1,7 +1,7 @@
 statar
 ======
 
-A set of R commands for Stata users built on on data.table and dplyr.
+A set of R commands for Stata users built on data.table and dplyr.
 
 The package can be installed via `devtools`
 
@@ -61,9 +61,9 @@ DT <- data.table(
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE),
   )
-DT  %>% sum_up
-DT  %>% sum_up(v2, d=T)
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+DT %>% sum_up
+DT %>% sum_up(v2, d=T)
+DT %>% filter(v1==1) %>% sum_up(starts_with("v"))
 
 # fill_gap (= Stata tsfill)
 DT <- data.table(

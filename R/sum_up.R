@@ -13,9 +13,9 @@
 #'   v2 =  sample(1e6, N, TRUE),                       
 #'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
 #' )
-#' DT  %>% sum_up
-#' DT  %>% sum_up(v3, d=T)
-#' DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+#' DT %>% sum_up
+#' DT %>% sum_up(v3, d=T)
+#' DT %>% filter(v1==1) %>% sum_up(starts_with("v"))
 #' @export
 sum_up <- function(.data, ..., d = FALSE) {
   sum_up_(.data, .dots = lazy_dots(...) , d = d)
