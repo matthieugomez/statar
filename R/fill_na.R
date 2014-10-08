@@ -16,6 +16,7 @@
 #' @name fill_na
 NULL
 
+#' @export
 #' @rdname fill_na
 fill_na <- function(.data, ..., along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
@@ -23,6 +24,8 @@ fill_na <- function(.data, ..., along_with , roll = TRUE ,  rollends = if (roll=
 	fill_na_(.data, .dots = lazy_dots(...), along_with  = substitute(along_with ), roll = TRUE, rollends = rollends, inplace = inplace)
 }
 
+
+#' @export
 #' @rdname fill_na
 fill_na_ <- function(.data, ...,.dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
@@ -30,7 +33,7 @@ fill_na_ <- function(.data, ...,.dots, along_with , roll = TRUE ,  rollends = if
   UseMethod("fill_na_")
 }
 
-
+#' @export
 fill_na_.grouped_dt  <- function(.data, ...,.dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){
@@ -51,6 +54,8 @@ fill_na_.grouped_dt  <- function(.data, ...,.dots, along_with , roll = TRUE ,  r
   	.data
 }
 
+
+#' @export
 fill_na_.data.table <- function(.data, ...,.dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){
@@ -70,6 +75,7 @@ fill_na_.data.table <- function(.data, ...,.dots, along_with , roll = TRUE ,  ro
 }
 
 
+#' @export
 fill_na_.tbl_dt <- function(.data, ..., .dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)) {
