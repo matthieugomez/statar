@@ -2,11 +2,15 @@
 \name{expand}
 \alias{expand}
 \alias{expand_}
-\title{Fill in gaps in variable}
+\title{Add rows for gaps in variable "along_with"}
 \usage{
-expand(.data, ..., along_with, type = c("within", "across"))
+expand(.data, ..., along_with, type = c("within", "across"), roll = FALSE,
+  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
+  TRUE) else c(TRUE, FALSE))
 
-expand_(.data, ..., along_with, .dots, type = c("within", "across"))
+expand_(.data, ..., along_with, .dots, type = c("within", "across"),
+  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
+  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 }
 \arguments{
 \item{.data}{A tbl_dt, grouped or not}
@@ -15,14 +19,14 @@ expand_(.data, ..., along_with, .dots, type = c("within", "across"))
 
 \item{along_with}{integer variable to expand}
 
-\item{type}{"within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups.}
+\item{type}{"within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "across" means that dates are expanded with respect to min and max of \code{...} across groups.}
 
 \item{roll}{When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.}
 
 \item{rollend}{A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end}
 }
 \description{
-Fill in gaps in variable
+Add rows for gaps in variable "along_with"
 }
 \examples{
 library(data.table)
