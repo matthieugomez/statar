@@ -10,13 +10,6 @@ The package adds the following vector functions
 library(dplyr)
 library(data.table)
 library(statar)
-
-# partition creates quantile categories (corresponds to Stata xtile)
-v <- sample(1e6, 1e6, TRUE)                   
-v_categorized <- partition(v, nq = 3) # 3 groups based on terciles
-v_categorized <- partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
-
-
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
 ## lag in unbalanced panel
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
@@ -33,19 +26,26 @@ DT <- data.table(
 DT[, datem := floor_date(date, "month")]
 DT[, datem_l := lag(value, months(1), along_with = datem), by = id] 
 
-# winsorize (default based on 5 x interquartile range)
-winsorize(v)
-winsorize(v, replace = NA)
-winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
-
 # tag (corresponds to Stata tag)
-DT[, tag := tag(datem), by = id]
+tag(c(1,2))
+tag(c(1,2), fromLast = TRUE)
 
 # sample_mode (corresponds to Stata mode)
 sample_mode(c(1, 2, 2))
 sample_mode(c(1, 2,))
 sample_mode(c(NA,NA,1))
 sample_mode(c(NA,NA,1), na.rm = TRUE)
+
+# partition creates quantile categories (corresponds to Stata xtile)
+v <- sample(1e6, 1e6, TRUE)                   
+v_categorized <- partition(v, nq = 3) # 3 groups based on terciles
+v_categorized <- partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
+
+# winsorize (default based on 5 x interquartile range)
+v <- sample(1e6, 1e6, TRUE)                   
+winsorize(v)
+winsorize(v, replace = NA)
+winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 ````
 
 # data.table verbs
