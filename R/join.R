@@ -14,6 +14,9 @@
 #' join(x, y, type = "left", gen = "_merge")
 #' join(x, y, type = "right", gen = "_merge")
 #' join(x, y, type = "inner", check = "1:1")
+#' join(x, y, type = "semi")
+#' join(x, y, type = "anti")
+
 #' @export
 join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen = FALSE, check =  c("m:m", "m:1", "1:m", "1:1")){
 
@@ -54,19 +57,19 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , gen =
     # check duplicates
     if (substr(check,1,1) == "1"){
        if (anyDuplicated(x)){ 
-         stop("Variables don't uniquely identify observations in the master dataset")
+         stop("Variables don't uniquely identify observations in the master dataset", call. = FALSE)
        }
      }
 
     if (substr(check,3,3) == "1"){
      if (anyDuplicated(y)){ 
-       stop("Variables don't uniquely identify observations in the using dataset")
+       stop("Variables don't uniquely identify observations in the using dataset", call. = FALSE)
      }
     }
 
     common_names <- setdiff(intersect(names(x),names(y)), vars)
-    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"))
-    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"))
+    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"), call. = FALSE)
+    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"), call. = FALSE)
 
     if (length(common_names)>0){
       x <- copy(x)

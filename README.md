@@ -7,8 +7,6 @@ A set of R commands for Stata users built on dplyr and data.table.
 # vector functions
 The package adds the following vector functions
 ````R
-library(dplyr)
-library(data.table)
 library(statar)
 
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
@@ -19,13 +17,10 @@ lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::la
 lag(value, 1, along_with = year) #  returns value in year - 1
 ## lag by time periods
 library(lubridate)
-DT <- data.table(     
-   id    = c("id1", "id1", "id1", "id1"),
-   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
-   value = c(4.1, 4.5, 3.3, 5.3)
-)
-DT[, datem := floor_date(date, "month")]
-DT[, datem_l := lag(value, months(1), along_with = datem), by = id] 
+date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
+value <- c(4.1, 4.5, 3.3, 5.3)
+datem <- floor_date(date, "month")
+value_l <- lag(value, months(1), along_with = datem) 
 
 # tag (corresponds to Stata tag)
 tag(c(1, 2))
@@ -51,6 +46,7 @@ winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), ty
 # data.table verbs
 
 ````R
+library(data.table)
 # keep columns
 setcols(DT, c("id","date"))
  
@@ -69,6 +65,7 @@ setna(DT, "value", roll = "nearest")
 The package adds the following verbs built on dplyr syntax for data.tables
 
 ````R
+library(dplyr)
 N=1e6; K=100
 DT <- data.table(
   id = 1:N,
