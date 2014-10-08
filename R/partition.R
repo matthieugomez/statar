@@ -4,10 +4,9 @@
 #' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function
 #' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4
 #' @examples 
-#' library(dplyr)
-#' DT %>% group_by(id) %>% mutate(new = partition(date, nq = 3))
-#' DT %>% group_by(v1) %>% mutate(partition(v2, nq = 3))
-#' DT %>% group_by(v1) %>% mutate(partition(v2, cutpoints = c(1e5,5e5) ))
+#' v <- sample(10, 10, TRUE)                   
+#' partition(v, nq = 3) # 3 groups based on terciles
+#' partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 #' @export
 partition <- function(x, nq = NULL, cutpoints = NULL){
   if (!is.null(nq)){

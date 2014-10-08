@@ -16,9 +16,8 @@ partition(x, nq = NULL, cutpoints = NULL)
 Create quantile categories (corresponds to Stata command xtile)
 }
 \examples{
-library(dplyr)
-DT \%>\% group_by(id) \%>\% mutate(new = partition(date, nq = 3))
-DT \%>\% group_by(v1) \%>\% mutate(partition(v2, nq = 3))
-DT \%>\% group_by(v1) \%>\% mutate(partition(v2, cutpoints = c(1e5,5e5) ))
+v <- sample(10, 10, TRUE)
+partition(v, nq = 3) # 3 groups based on terciles
+partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 }
 

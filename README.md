@@ -11,6 +11,7 @@ library(dplyr)
 library(data.table)
 library(statar)
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
+
 ## lag in unbalanced panel
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
 value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
@@ -37,12 +38,12 @@ sample_mode(c(NA,NA,1))
 sample_mode(c(NA,NA,1), na.rm = TRUE)
 
 # partition creates quantile categories (corresponds to Stata xtile)
-v <- sample(1e6, 1e6, TRUE)                   
-v_categorized <- partition(v, nq = 3) # 3 groups based on terciles
-v_categorized <- partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
+v <- sample(10, 10, TRUE)                   
+partition(v, nq = 3) # 3 groups based on terciles
+partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
 
 # winsorize (default based on 5 x interquartile range)
-v <- sample(1e6, 1e6, TRUE)                   
+v <- sample(c(1:10,99), 100, TRUE)                   
 winsorize(v)
 winsorize(v, replace = NA)
 winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))

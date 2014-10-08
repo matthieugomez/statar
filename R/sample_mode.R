@@ -1,7 +1,7 @@
 #' statistical mode
 #' 
 #' @param x A vector of values
-#' @return The mode of a vector
+#' @return One mode of the vector
 #' @examples                        
 #' sample_mode(c(1, 2, 2))
 #' sample_mode(c(1, 2,))

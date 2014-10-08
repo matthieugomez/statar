@@ -15,8 +15,7 @@ A vector with only 1
 Tag a numeric vector (=Stata tag)
 }
 \examples{
-v <- c(1, 4, 6, 99)
-tag(v)
-tag(v, fromLast = TRUE)
+tag(c(1,2))
+tag(c(1,2), fromLast = TRUE)
 }
 
