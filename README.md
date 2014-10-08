@@ -10,8 +10,8 @@ The package adds the following vector functions
 library(dplyr)
 library(data.table)
 library(statar)
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)
 
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)
 ## lag in unbalanced panel
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
 value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
