@@ -4,8 +4,8 @@
 #' @param y The using data.table
 #' @param on Character vectors specifying variables to match on. Default to common names between x and y. 
 #' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".
-#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @param check A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).
+#' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
 #' x <- data.table(a = rep(1:2, each = 3), b=1:6)
@@ -41,53 +41,43 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
       stop(" The option gen only makes sense for left, right and outer joins", call. = FALSE)
     }
 
-    # join names
+    # find names and  check no common names
     vars <- on
     message(paste0("Join based on : ", paste(vars, collapse = " ")))
+
 
     common_names <- setdiff(intersect(names(x),names(y)), vars)
     if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"), call. = FALSE)
     if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"), call. = FALSE)
+    if (length(common_names)>0){
+      setnames(x, common_names, paste0(common_names, ".x"))
+      setnames(y, common_names, paste0(common_names, ".y"))
+      on.exit(setnames(x, paste0(common_names, ".x"), common_names))
+      on.exit(setnames(y, paste0(common_names, ".y"), common_names), add = TRUE)
+    }
 
-      if (check[[2]] == 1){
-         if (anyDuplicated(x)){ 
-           stop("Variables don't uniquely identify observations in the master dataset", call. = FALSE)
-         }
-       }
-
-      if (check[[3]] == 1){
-       if (anyDuplicated(y)){ 
-         stop("Variables don't uniquely identify observations in the using dataset", call. = FALSE)
-       }
-      }
 
     # set keys and check duplicates
     key_x <- key(x)
     key_y <- key(y)
     setkeyv(x, vars)
     setkeyv(y, vars)
-    on.exit(setkeyv(x, key_x))
+    on.exit(setkeyv(x, key_x), add = TRUE)
     on.exit(setkeyv(y, key_y), add = TRUE)
 
     if (check[[2]] == 1){
        if (anyDuplicated(x)){ 
-         stop("Variables don't uniquely identify observations in the master dataset", call. = FALSE)
+         stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in the master dataset"), call. = FALSE)
        }
      }
 
     if (check[[3]] == 1){
      if (anyDuplicated(y)){ 
-       stop("Variables don't uniquely identify observations in the using dataset", call. = FALSE)
+       stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in the using dataset"), call. = FALSE)
      }
     }
 
 
-    if (length(common_names)>0){
-      setnames(x, common_names, paste0(common_names, ".x"))
-      setnames(y, common_names, paste0(common_names, ".y"))
-      on.exit(setnames(x, paste0(common_names, ".x"), common_names), add = TRUE)
-      on.exit(setnames(y, paste0(common_names, ".y"), common_names), add = TRUE)
-    }
 
 
     if (type %in% c("left", "right", "outer", "inner")){

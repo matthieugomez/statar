@@ -12,3 +12,13 @@ deparse_all <- function(x) {
   vapply(x, deparse2, FUN.VALUE = character(1))
 }
 
+tempname_list=function(prefix, l) {
+    i <- 0L
+    name <- prefix
+    while (name %in% l) {
+        i <- i + 1L
+        name <- paste0(prefix, as.character(i))
+    }
+    name
+}
+
