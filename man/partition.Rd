@@ -8,9 +8,9 @@ partition(x, nq = NULL, cutpoints = NULL)
 \arguments{
 \item{x}{A vector}
 
-\item{nq}{Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function}
+\item{nq}{Quantiles can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function.}
 
-\item{cutpoints}{Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4}
+\item{cutpoints}{Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.}
 }
 \value{
 An integer vector spanning integers from 1 to length nq (or cutpoints+1). Eventually includes missing values when present in the original vector
