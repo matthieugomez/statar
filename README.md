@@ -10,6 +10,8 @@ devtools::install_github("hadley/tidyr")
 devtools::install_github("matthieugomez/statar")
 ````
 
+Since the package overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`, it should be loaded after `dplyr`  and `lubridate`.
+
 # vector functions
 The package adds the following vector functions
 ````R
@@ -130,4 +132,3 @@ join(x, y, type = "outer", gen = "_merge")
 	````
 
 
-Since the package overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`, it should be loaded after `dplyr`  and `lubridate`.
