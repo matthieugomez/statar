@@ -3,7 +3,7 @@ statar
 
 A set of R commands for Stata users built on on data.table and dplyr.
 
-The package can be installed via the package `devtools`
+The package can be installed via `devtools`
 
 ````R
 devtools::install_github("hadley/tidyr")
@@ -130,4 +130,4 @@ join(x, y, type = "outer", gen = "_merge")
 	````
 
 
-The package should be loaded after `dplyr` (>= v0.3) and `lubridate`.
+Since the package overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`, it should be loaded after `dplyr`  and `lubridate`.
