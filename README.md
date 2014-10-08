@@ -4,7 +4,7 @@ statar
 A set of R commands for Stata users built on dplyr and data.table. 
 
 
-# vector functions
+# Vector functions
 The package adds the following vector functions
 ````R
 library(statar)
@@ -42,26 +42,8 @@ winsorize(c(1, 2, 99), replace = NA)
 winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
 ````
 
-# data.table verbs
-
-````R
-library(data.table)
-# keep columns
-setcols(DT, c("id","date"))
- 
-# fill na (in the original dataset)
-DT <- data.table(
- id    = c(1, 1, 1, 1, 1, 2, 2),
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
-)
-setkeyv(DT,c("id","date"))
-setna(DT, "value")
-setna(DT, "value", roll = "nearest")
-````
-
-# dplyr verbs
-The package adds the following verbs built on dplyr syntax for data.tables
+# Data.table functions
+The package adds the following verbs for data.tables
 
 ````R
 library(dplyr)
@@ -95,6 +77,16 @@ DT <- data.table(
 )
 DT %>% group_by(id) %>% fill_na(value, along_with  = date) 
 DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
+
+# fill na (in the original dataset)
+DT <- data.table(
+ id    = c(1, 1, 1, 1, 1, 2, 2),
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
+ value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
+)
+setkeyv(DT,c("id","date"))
+setna(DT, "value")
+setna(DT, "value", roll = "nearest")
 ````
 
 

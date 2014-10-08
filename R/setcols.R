@@ -1,4 +1,4 @@
-#' keep columns
+#' Modify data.table in place to keep only certain columns
 #'
 #' @param .data a data.table 
 #' @param cols a character vector of variable names to keep
