@@ -73,15 +73,15 @@ DT  %>% sum_up
 DT  %>% sum_up(v3, d=T)
 DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 
-# expand (= Stata tsfill)
+# fill_gap (= Stata tsfill)
 DT <- data.table(
     id    = c(1, 1, 1, 1, 1, 2, 2),
     date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% expand(along_with = date)
-DT %>% group_by(id) %>% expand(value, along_with = date)
-DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")
+DT %>% fill_gap(along_with = date)
+DT %>% group_by(id) %>% fill_gap(value, along_with = date)
+DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")
 
 # fill_na  (in a new dataset)
 DT <- data.table(
