@@ -20,7 +20,7 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 \item{check}{A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).}
 }
 \value{
-A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. The order of data.tables x and y is not conserved, unless they are keyed.
+A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. If x or y are not keyed, the join may change their row orders.
 }
 \description{
 Join two data.tables together
