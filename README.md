@@ -6,7 +6,6 @@ A set of R commands for Stata users built on data.table and dplyr.
 The package can be installed via `devtools`
 
 ````R
-devtools::install_github("hadley/tidyr")
 devtools::install_github("matthieugomez/statar")
 ````
 
