@@ -33,14 +33,14 @@ tag(c(1,2), fromLast = TRUE)
 
 # sample_mode (corresponds to Stata mode)
 sample_mode(c(1, 2, 2))
-sample_mode(c(1, 2,))
+sample_mode(c(1, 2))
 sample_mode(c(NA,NA,1))
 sample_mode(c(NA,NA,1), na.rm = TRUE)
 
 # partition creates quantile categories (corresponds to Stata xtile)
-v <- sample(10, 10, TRUE)                   
+v <- sample(c(NA,1:10, 10, TRUE)                   
 partition(v, nq = 3) # 3 groups based on terciles
-partition(v, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints
+partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints
 
 # winsorize (default based on 5 x interquartile range)
 v <- sample(c(1:10,99), 100, TRUE)                   
