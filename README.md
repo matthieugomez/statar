@@ -45,7 +45,7 @@ winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 # keep columns
 setcols(DT, c("id","date"))
  
-# fill na (inplace)
+# fill na (in the original dataset)
 DT <- data.table(
  id    = c(1, 1, 1, 1, 1, 2, 2),
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
