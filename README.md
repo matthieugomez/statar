@@ -95,7 +95,9 @@ setna(DT, "value", roll = "nearest")
 
 
 # join
-The package adds a wrapper for data.table merge functions based on SQL join. Possible types are : left, right, inner, outer, semi and anti. 
+The package adds a wrapper for the data.table merge command.
+
+Syntax for the join type is based on SQL. Possible types are : left, right, inner, outer, semi and anti. 
 
 As in Stata, 
 - the option "check" checks there are no duplicates in the master or using data.tables
@@ -115,7 +117,7 @@ join(x, y, type = "inner")
 
 join(x, y, type = "semi")
 join(x, y, type = "anti")
-join(x, y, type = "outer", check = 1~1)
+join(x, y, type = "outer", check = 1~m)
 join(x, y, type = "outer", gen = "_merge")
 ````
 
