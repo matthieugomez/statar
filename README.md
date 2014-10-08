@@ -40,6 +40,12 @@ winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 
 # tag (corresponds to Stata tag)
 DT[, tag := tag(datem), by = id]
+
+# sample_mode (corresponds to Stata mode)
+sample_mode(c(1, 2, 2))
+sample_mode(c(1, 2,))
+sample_mode(c(NA,NA,1))
+sample_mode(c(NA,NA,1), na.rm = TRUE)
 ````
 
 # data.table verbs
