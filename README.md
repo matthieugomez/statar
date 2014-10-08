@@ -117,8 +117,8 @@ join(x, y, type = "inner")
 
 join(x, y, type = "semi")
 join(x, y, type = "anti")
-join(x, y, type = "outer", gen = "_merge")
 join(x, y, type = "outer", check = 1~1)
+join(x, y, type = "outer", gen = "_merge")
 ````
 
 # other functions
