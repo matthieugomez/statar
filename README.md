@@ -97,11 +97,9 @@ setna(DT, "value", roll = "nearest")
 # join
 The package adds a wrapper for the data.table merge command.
 
-Syntax for the join type is based on SQL. Possible types are : left, right, inner, outer, semi and anti. 
-
-As in Stata, 
-- the option "check" checks there are no duplicates in the master or using data.tables
-- the option "gen" specifies the name of a new variable that identifies non matched and matched rows 
+- The option "type" is based on SQL syntax. Possible types are : left, right, inner, outer, semi and anti. 
+- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata)
+- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata)
 
 ````R
 x <- data.table(a = rep(1:2, each = 3), b = 1:6)
@@ -122,7 +120,7 @@ join(x, y, type = "outer", gen = "_merge")
 ````
 
 # others
-- data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
+- A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` creates a name not assigned in the environment specified by the second variable
 
