@@ -11,7 +11,7 @@
 #' setcols(DT, c("id", "date"))
 #' @export
 setcols <- function(.data, cols){
-	drop <- set_diff(names(.date),cols)
+	drop <- setdiff(names(.date),cols)
 	.data[, (drop) := NULL]
 }
 
