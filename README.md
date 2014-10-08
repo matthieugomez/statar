@@ -86,7 +86,7 @@ DT <- data.table(
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT %>% group_by(id) %>% fill_gap(value, along_with = date)
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, type == "across")
+DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")
 
 # fill_na  (in a new dataset)
 DT <- data.table(

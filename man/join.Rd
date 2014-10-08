@@ -3,8 +3,8 @@
 \alias{join}
 \title{Join two data.tables together}
 \usage{
-join(x, y, on = intersect(names(x), names(y)), type = "outer",
-  gen = FALSE, check = m ~ m)
+join(x, y, on = intersect(names(x), names(y)), type = "outer", check = m ~
+  m, gen = FALSE)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -15,12 +15,12 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 
 \item{type}{The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".}
 
-\item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
-
 \item{check}{A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).}
+
+\item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 }
 \value{
-A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. If x or y are not keyed, the join may change their row orders.
+A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. Importantly, if x or y are not keyed, the join may change their row orders.
 }
 \description{
 Join two data.tables together
