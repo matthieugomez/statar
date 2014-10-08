@@ -1,8 +1,8 @@
 #' Create quantile categories (corresponds to Stata command xtile)
 #'
 #' @param x A vector
-#' @param nq Number of quantiles. Quantiles are computed as the inverse of the empirical distribution function
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.
+#' @param nq Quantiles can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function.
 #' @return An integer vector spanning integers from 1 to length nq (or cutpoints+1). Eventually includes missing values when present in the original vector
 #' @examples 
 #' v <- sample(c(NA, 1:10, 10, TRUE)                   
