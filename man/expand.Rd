@@ -4,16 +4,18 @@
 \alias{expand_}
 \title{Fill in gaps in variable}
 \usage{
-expand(.data, ..., type = c("within", "across"))
+expand(.data, ..., along_with, type = c("within", "across"))
 
-expand_(.data, ..., .dots)
+expand_(.data, ..., along_with, .dots, type = c("within", "across"))
 }
 \arguments{
 \item{.data}{A tbl_dt, grouped or not}
 
-\item{...}{Variables to expand}
+\item{...}{Variables to keep}
 
-\item{type}{"within" means that dates are expanded with respect to min and max of \code{...} within groups. "across" means that rows are expanded with respect to min and max of \code{...} across groups.}
+\item{along_with}{integer variable to expand}
+
+\item{type}{"within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups.}
 }
 \description{
 Fill in gaps in variable
@@ -26,8 +28,7 @@ DT <- data.table(
  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT \%>\% expand(date)
-DT \%>\% group_by(id) \%>\% expand(date,"across")
-DT \%>\% group_by(id) \%>\% expand(date)
+DT \%>\% group_by(id) \%>\% expand(value, along_with = date)
+DT \%>\% group_by(id) \%>\% expand(value, along_with = date, type == "across")
 }
 
