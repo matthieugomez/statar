@@ -15,7 +15,8 @@ partition <- function(x, nq = NULL, cutpoints = NULL){
       breaks <- tail(head(quantile(x, seq(0, 1, length = nq + 1), type = 1, na.rm = TRUE), -1),-1)
       return(partition(x, cutpoints = breaks))
   } 
-  length=length(cutpoints)+1
-  cut(x, breaks = c(min(x, na.rm = TRUE)-1, cutpoints , max(x, na.rm = TRUE)+1) , labels = FALSE, include.lowest=TRUE)
+  breaks = c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)
+  if (anyDuplicated(breaks)) stop("Cutpoints are not unique")
+  cut(x, breaks = breaks , labels = FALSE, include.lowest=TRUE)
 }
 

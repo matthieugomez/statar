@@ -23,9 +23,9 @@ winsorise(x, cutpoints = {     l <- quantile(v, c(0.25, 0.5, 0.75), type = 1,
 Winsorize a numeric vector
 }
 \examples{
-v <- sample(c(1:10,99), 100, TRUE)
+v <- sample(c(1:10, 99), 100, TRUE)
 winsorize(v)
 winsorize(v, replace = NA)
-winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
+winsorize(v, cutpoints = quantile(v, c(0.01, 0.99)))
 }
 

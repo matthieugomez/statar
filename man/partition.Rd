@@ -19,7 +19,7 @@ An integer vector spanning integers from 1 to length nq (or cutpoints+1). Eventu
 Create quantile categories (corresponds to Stata command xtile)
 }
 \examples{
-v <- sample(c(NA,1:10, 10, TRUE)
+v <- sample(c(NA, 1:10, 10, TRUE)
 partition(v, nq = 3) # 3 groups based on terciles
 partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints
 }
