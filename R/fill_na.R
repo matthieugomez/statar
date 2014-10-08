@@ -21,7 +21,7 @@ NULL
 fill_na <- function(.data, ..., along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){
-	fill_na_(.data, .dots = lazy_dots(...), along_with  = substitute(along_with ), roll = TRUE, rollends = rollends, inplace = inplace)
+	fill_na_(.data, .dots = lazy_dots(...), along_with  = substitute(along_with ), roll = TRUE, rollends = rollends)
 }
 
 
