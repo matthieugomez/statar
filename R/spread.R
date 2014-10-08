@@ -7,7 +7,7 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
   	data[, (id) := 1:.N] 
   }
   else{
-  	if (anyDuplicated(data, by = c(id))) stop("Duplicate identifiers for rows")
+  	if (anyDuplicated(data, by = c(id))) stop("Duplicate identifiers", call. = FALSE)
   	}
   formula <- reformulate(termlabels = key_col , response = id)
   data2 <- dcast.data.table(data, formula, value.var = value_col, fill = fill)

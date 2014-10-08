@@ -44,18 +44,7 @@ winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 ````R
 # keep columns
  setcols(DT, c("id","date"))
-
-# fill in NA
-DT <- data.table(
-  id    = c(1, 1, 1, 1, 1, 2, 2),
-  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
-  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
- )
- setkey(DT, id, date)
- setna(DT, "value")
- setna(DT, "value", rollend = TRUE)
- setna(DT, "value", roll = "nearest")
- ````
+````
 
 # dplyr verbs
 The package adds the following verbs built on dplyr syntax for data.tables
@@ -80,9 +69,18 @@ DT <- data.table(
     date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% expand(date)
-DT %>% group_by(id) %>% expand(date, type = "within")
-DT %>% group_by(id) %>% expand(date, type = "across")
+DT %>% expand(along_with = date)
+DT %>% group_by(id) %>% expand(value, along_with = date)
+DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")
+
+# fill_na 
+DT <- data.table(
+ id    = c(1, 1, 1, 1, 1, 2, 2),
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
+ value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
+)
+DT %>% group_by(id) %>% fill_na(value, along_with  = date) 
+DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
 ````
 
 
