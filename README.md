@@ -1,7 +1,7 @@
 statar
 ======
 
-A set of R commands for Stata users built on dplyr and data.table. 
+A set of R commands for Stata users built on on data.table and dplyr.
 
 
 # vector functions
@@ -90,7 +90,9 @@ setna(DT, "value", roll = "nearest")
 
 
 # join
-The package adds a wrapper for data.table merge functions based on SQL join. Possible types are : left, right, inner, outer,  semi and anti. As in Stata, 
+The package adds a wrapper for data.table merge functions based on SQL join. Possible types are : left, right, inner, outer,  semi and anti. 
+
+As in Stata, 
 - the option "check"  checks there are no duplicates in the master or using data.tables
 - the option "gen" specifies the name of a new variable that identifies non matched and matched rows 
 
