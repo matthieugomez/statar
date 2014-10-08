@@ -14,7 +14,7 @@ lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::la
 lag(value, 1, along_with = year) #  returns value in year - 1
 
 library(lubridate)
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),
+date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))
 value <- c(4.1, 4.5, 3.3, 5.3)
 datem <- floor_date(date, "month")
 value_l <- lag(value, months(1), along_with = datem) 
