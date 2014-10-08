@@ -37,6 +37,9 @@ DT[, datem_l := lag(value, months(1), along_with = datem), by = id]
 winsorize(v)
 winsorize(v, replace = NA)
 winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
+
+# tag (corresponds to Stata tag)
+DT[, tag := tag(datem), by = id]
 ````
 
 # data.table verbs
