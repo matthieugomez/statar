@@ -2,15 +2,15 @@
 \name{fill_na}
 \alias{fill_na}
 \alias{fill_na_}
-\title{fill NA based on non missing observations}
+\title{fill NA based on non missing observations (for an inplace version, use setNA)}
 \usage{
 fill_na(.data, ..., along_with, roll = TRUE, rollends = if (roll ==
   "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE,
-  FALSE))
+  FALSE), copy = TRUE)
 
 fill_na_(.data, ..., .dots, along_with, roll = TRUE, rollends = if (roll ==
   "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE,
-  FALSE))
+  FALSE), copy = TRUE)
 }
 \arguments{
 \item{.data}{a data.table}
@@ -24,7 +24,7 @@ fill_na_(.data, ..., .dots, along_with, roll = TRUE, rollends = if (roll ==
 \item{rollend}{A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end}
 }
 \description{
-fill NA based on non missing observations
+fill NA based on non missing observations (for an inplace version, use setNA)
 }
 \examples{
 DT <- data.table(
@@ -33,6 +33,6 @@ DT <- data.table(
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 )
 DT \%>\% group_by(id) \%>\% fill_na(value, along_with  = date)
-DT \%>\% group_by(id) \%>\% fill_na(value, along_with  = date, inplace = TRUE)
+DT \%>\% group_by(id) \%>\% fill_na(value, along_with  = date)
 }
 

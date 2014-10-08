@@ -43,7 +43,17 @@ winsorize(v, cutpoints = quantile(v, c(0.01, 0.99), na.rm = TRUE))
 
 ````R
 # keep columns
- setcols(DT, c("id","date"))
+setcols(DT, c("id","date"))
+ 
+# fill na (inplace)
+DT <- data.table(
+ id    = c(1, 1, 1, 1, 1, 2, 2),
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
+ value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
+)
+setkeyv(DT,c("id","date"))
+setna(DT, "value")
+setna(DT, "value", roll = "nearest")
 ````
 
 # dplyr verbs
@@ -73,7 +83,7 @@ DT %>% expand(along_with = date)
 DT %>% group_by(id) %>% expand(value, along_with = date)
 DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")
 
-# fill_na 
+# fill_na  (in a new dataset)
 DT <- data.table(
  id    = c(1, 1, 1, 1, 1, 2, 2),
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 

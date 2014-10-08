@@ -1,3243 +1,875 @@
-?biglm
-FALSE && NA
-true || NA
-TRUE || NA
-library(tidyr)
-library(statar)
-df <- data.frame (id=c(1,1), variable = c("v1","v1"), value = c(1,3))
-df
-spread(df, variable, value)
-dt <- as.data.table(df)
-dt <- data.table(df)
-library(data.table)
-dt <- as.data.table(df)
-spread(df, variable, value)
-spread(dt, variable, value)
-library(tidyr)
-?expand
-devtools::install_github("hadley/tidyr")
-f <-function(){#
-on.exit(print("salut"))#
-}
-f(1)
-f()
-library(tidyr)
-devtools::install_github("hadley/tidyr")
-library(tidyr)
-library(tidyr)
-?expand
-df <- data.frame(a = c(1, 2, 5), b = c(3, 5, 3), c = c(1, 2, 3))#
-expand(df)#
-expand(df, a, b)
-df
-df <- data.frame(a = c(1, 2, 5), b = c(3, 5, 3), c = c(1, 2, 3))#
-expand(df)#
-expand(df, a, b)
-expand(df,a)
-expand(df,a,b)
-anyDuploicated(data, by = a)
-anyDuplicated(setDT(data), by = a)
-library(data.table)
-anyDuplicated(setDT(data), by = a)
-setDT(data)
-setDT(df)
-anyDuplicated(df, by = a)
-anyDuplicated(df, by = c(a))
-df
-anyDuplicated(df, by = a)
-anyDuplicated(df, by = "a")
-dt <- expand(df,a,b)
-dt
-setDT(dt)
-dt <- expand(df,a,b)
-setDT(dt)
-anyDuplicated(df, by = "a")
-anyDuplicated(dt, by = "a")
-?anyDuplicated
-setDF(dt)
-dt
-dt[, c:=1]
-dt[, "c" := 1]
-dt[, c := 1]
-setDT(dt)
-dt[, c := 1]
-dt
-setDF(dt)
-spread(dt,b,c)
-setDF(dt)
-spread(dt,c,b)
-expand(dt,a)
-expand(dt,a,b)
-expand(dt,a)
-rollends
-?data.table
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type "within" means that dates are expanded with respect to min and max of \code{...} within groups. "across" means that rows are expanded with respect to min and max of \code{...} across groups.#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date,"across")#
-#' DT %>% group_by(id) %>% expand(date)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  env <- dt_env(.data, common_env(dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT <- data.table(#
-  id = c(1, 1, 1, 1, 1, 2, 2), #
-  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+ivreg(v3 ~ v2 | v1,D T)
+ivreg(v3 ~ v2 | v1, DT)
+?ivreg
+ivreg(v3 ~ v2 | v1, DT)
+ivreg(v3 ~ v2 | v1, date = DT)
+ivreg(v3 ~ v2 | v1, data = DT)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+)#
+felm(v1~v2|0|(v2~v3)|0, df)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+felm(v1~v2|0|(v2~v3)|0, df)
+library("lfe")#
+N <- 1e6#
+df <- data.frame(#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) # numeric e.g. 23.5749#
+)#
+felm(v1 ~ v2 | 0 | (v2 ~ v3) |0, df)
+felm(v1 ~ v2 | 0 | (v2 ~ v3) |, df)
+felm(v1 ~ v2 |  | (v2 ~ v3) |, df)
+felm(v1 ~ v2 |  | (v2 ~ v3) |0, df)
+felm(v1 ~ v2 |  | (v2 ~ v3), df)
+felm(v1 ~ v2 |0| (v2 ~ v3), df)
+l= c("col1","some","col3")
+l[c(1,NA)]
+l[c(1,NA)] <- c("col11","col12")
+l[c(TRUE,NA)] <- c("col11","col12")
+l[l=="col1"] <- c("col11","col12")
+l=="col1"
+l <- c("col1", NA, "col3")#
+l[l==col1] <- c("col1")
+l <- c("col1", NA, "col3")#
+l[l == "col1"] <- c("col1")
+l
+condition = l== "col1"
+condition
+l[condition] <- c("col1")
+l[c(TRUE,NA,FALSE) <- c("col1")
 )
-DT %>% expand(date)
-library(dplyr)
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type "within" means that dates are expanded with respect to min and max of \code{...} within groups. "across" means that rows are expanded with respect to min and max of \code{...} across groups.#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date,"across")#
-#' DT %>% group_by(id) %>% expand(date)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  env <- dt_env(.data, common_env(dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type "within" means that dates are expanded with respect to min and max of \code{...} within groups. "across" means that rows are expanded with respect to min and max of \code{...} across groups.#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date,"across")#
-#' DT %>% group_by(id) %>% expand(date)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(date)
-DT %>% group_by(id) %>% expand(date,"across")
-DT %>% group_by(id) %>% expand(date, type ="across")
-DT %>% group_by(id) %>% expand(date, type ="across", roll = TRUE)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type "within" means that dates are expanded with respect to min and max of \code{...} within groups. "across" means that rows are expanded with respect to min and max of \code{...} across groups.#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date,"across")#
-#' DT %>% group_by(id) %>% expand(date)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% group_by(id) %>% expand(date, type ="across", roll = TRUE)
+l[c(TRUE,NA,FALSE)] <- c("col1")
+l <- c("col1", NA, "col3")#
+condition = l== "col1"#
+l[condition] <- c("col1")#
+l[l == "col1"] <- c("col1")#
+l[which(l == "col1")
+]
+l <- c("col1", NA, "col3")#
+condition = l== "col1"#
+l[condition] <- c("col1")#
+l[l == "col1"] <- c("col1")#
+l[which(condition)] <- c("col1")
+l
+l[NA,1]
+l[c(NA,1)]
+l <- c("col1", "col2", "col3")#
+    l[c(NA,1)]
+l[c(TRUE, NA, TRUE)]
+l[c(NA, TRUE)]
+l <- c("col1", NA, "col3")#
+	l[which(l == "col1" | l == "col3")]
+l <- c("col1", NA, "col3")#
+	l[l == "col1"]
+l[which(l == "col1")]
 DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type  "within" means that rows are expanded with respect to min and max of \code{...} across groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} within groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% group_by(id) %>% expand(date, type ="across", roll = TRUE)
-DT %>% group_by(id) %>% expand(date, type ="across")
-DT %>% group_by(id) %>% expand(date,)
-DT %>% group_by(id) %>% expand(date)
-DT %>% group_by(id) %>% expand(date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type  "within" means that rows are expanded with respect to min and max of \code{...} across groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} within groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    call <- substitute(.data[, list(seq.int(t[1], t[.N]))], list(t = as.name(t)))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% group_by(id) %>% expand(date)
-DT %>% group_by(id) %>% expand(date, roll = TRUE)
-DT %>% group_by(id) %>% expand(date, roll = TRUE)
-DT %>% expand(id)
-DT %>% group_by(id) %>% expand(date, roll = TRUE)
-DT %>% expand(date, date)
-DT %>% expand(date, id)
-DT %>% expand(date, id)
-DT %>% expand(date, id)
-DT %>% expand(date, value)
-DT %>% expand(date)
-DT
-DT %>% expand(value)
-DT %>% expand(value,id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t), max(t))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(value,id)
-DT %>% expand(id)
-DT %>% expand(date,id)
-max(c(NA,1))
-max(c(NA,1), na.rm = TRUE)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-max(c(NA,1), na.rm = TRUE)
-DT %>% expand(date,id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(date,id)
-DT
-DT[1,id:=NA]
-DT %>% expand(id)
-DT
-DT %>% expand(id)
-DT
-DT %>% expand(id)
-DT %>% expand(id)
-DT
-?data.table
-is.na(DT)
-colSum(is.na(DT))
-colsum(is.na(DT))
-colSum(is.na(DT))
-colsSum(is.na(DT))
-colSums(is.na(DT))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[is.na>0]#
-  if (length(isna)) stop(paste(isna,"have missing values"))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  if (length(isna)) stop(paste(isna,"have missing values"))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-colSums(is.na(DT))
-DT %>% expand(id)
-?data.table
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[is.na>0]#
-  if (length(isna)) stop(paste(isna,"have missing values"))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[is.na>0] #
-  if (length(isna)) stop(paste(isna,"have missing values"))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-?data.table
-DT %>% expand(id)
-isna <- colSums(is.na(DT[,var_name, with = FALSE]))
-isna <- colSums(is.na(DT))
-isna
-is.vector(isna)
-is.atomic(isna)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[isna>0]#
-  if (length(isna)) stop(paste(isna,"have missing values"))#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[isna>0] #
-  if (length(isna)) stop(paste(isna,"have missing values"))#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-is.atomic(isna)
-DT %>% expand(id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-names(isna[isna>0])#
-  if (length(isna)) stop(paste(isna,"have missing values"),.call= FALSE)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[isna>0] #
-  if (length(isna)) stop(paste(isna,"have missing values"),.call= FALSE)#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste(isna,"have missing values"),.call= FALSE)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[isna>0] #
-  if (length(isna)) stop(paste(isna,"have missing values"),.call= FALSE)#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste(isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[isna>0] #
-  if (length(isna)) stop(paste(isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(id)
-isna
-names(isna)
-names(isna[isna>0])
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste(isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[isna>0] #
-  if (length(isna)) stop(paste(isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-names(isna[isna>0])
-DT %>% expand(id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste("Variables",isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <-isna[isna>0] #
-  if (length(isna)) stop(paste("Variables",isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ...,type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste("Variables",isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    if (type=="within"){#
-      call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(t)))#
-    } else{#
-      a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-      b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-      call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-    }#
-    ans  <- eval(call)#
-    setnames(ans, c(byvars, t))#
-    setkeyv(ans, c(byvars, t))#
-    .data <- copy(.data)#
-    setkeyv(.data, c(byvars,t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,...,.dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  isna <- colSums(is.na(DT[,var_name, with = FALSE]))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste("Variables",isna,"have missing values"),call. = FALSE)#
-  for (t in var_name) {#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(t))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(t))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  }#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with = date, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(DT[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (length(isna)) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  var_name <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(DT[,sum(is.na(t))], list(t = as.name(along_with))))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(id)
-DT %>% expand(along_with =id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with = date, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(DT[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (length(isna)) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(DT[,sum(is.na(t))], list(t = as.name(along_with))))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(along_with =id)
-traceback()
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with = date, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (length(isna)) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  isna <- names(isna[isna>0])#
-  if (length(isna)) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-traceback()
-DT %>% expand(along_with =id)
-DT[, sum(is.na(id))]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with = date, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with = date, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT[, sum(is.na(id))]
-DT %>% expand(along_with =id)
-traceback()
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(along_with =id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = along_with, type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% expand(along_with =id)
-traceback()
-debug(expand)
-DT %>% expand(along_with =id)
-s
-n
-along_with
-along_with
-dplyr::along_with
-dplyr:::along_with
-DT %>% expand(along_with =id)
-along_with
-id
-DT
-lazy(along_with)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = lazy(along_with), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <- lazy_eval(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-lazy(along_with)
-DT %>% expand(along_with =id)
+N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+library(data.table)
+lm(v2~v1,DT)
+N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+lm(v2~v1,DT)
+result <- lm(v2~v1,DT)
+names(result)
+result$coefficients
+result$model
+result
+names(result)
+summary(result)
+list(summary(result))
+names(summary(result))
+result <- felm(v2~v1,DT)
+library(lfe)
+result <- felm(v2~v1,DT)
+names(result)
+names(result)$se
+result$se
+result$coefficients
+result$robustvcv
+summary(result)
+names(summary(result))
+?summary
+object_size(summary(result))
+library(pryr)
+object_size(summary(result))
+object_size(result)
+result <- lm(y ~ x)
+result <- lm(y ~ x)N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+result <- lm(v3 ~ v2, DT)
+pryr::object_size(results)
+pryr::object_size(result)
+pryr::object_size(summary(results))
+pryr::object_size(summary(result))
+names(result)
+result$coefficients
+result <- lm(y ~ x)N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+result <- felm(v3 ~ v2, DT)
+vcov(result)
+result
+result <- lm(y ~ x)N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+result <- felm(v3 ~ v2|||v1, DT)
+result <- lm(y ~ x)N=2e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+result <- felm(v3 ~ v2|0|0|v1, DT)
+names(result)
+vcov(result)
+result$vcv
+result$robustvcv
+object_size(results)
+object_size(result)
+result <- felm(v3~v2|0|0|v1, DT)
+stargazer(result, type = "text")
+library(stargazer)
+stargazer(result, type = "text")
+devtools::install_github("matthieugomez/statar")
+lazy(date)
 library(lazyeval)
-DT %>% expand(along_with =id)
-lazy(id)
-id
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
+lazy(date0
+)
+lazy(date)
+lazy_eval(lazy(date))
+lazy_eval(lazy(date1))
+select_vars(names(df),lazy(ok))
+library(dplyr)
+select_vars(names(df),lazy(ok))
+select_vars(names(df), args = lazy(ok))
+lazydots
+lazy_dots
+lazykeep = function(df,x){#
+  keep_(df, lazy(x))#
 }#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
+keep_ = function(df,x){#
+  df[, lazy_eval(x,df)]#
+}(date)
+df
+df <- data.frame(#
+  id    = c(1, 1, 1, 1, 1, 2, 2),#
+  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
+ )
+keep(df,id)
+keep = function(df,x){#
+  keep_(df, lazy(x))#
 }#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <- lazy_eval(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, t))#
-  setkeyv(ans, c(byvars, t))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,t))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
+keep_ = function(df,x){#
+  df[, lazy_eval(x,df)]#
 }
-DT %>% expand(along_with =id)
-DT %>% expand(along_with = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <- lazy_eval(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(t))#
-    setkeyv(ans, c(t))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
+keep(df,id)
+lazy(date)
+lazy(date1)
+devtools::load_all("/Users/Matthieu/Dropbox/Symlink/Downloads/data.table-master")
+dt <- data.table(id = c(1,2), date = c(1999, 2000))#
+setcolorder(dt, "date", 1)#
+setcolorder(dt, 2, 1)#
+setcolorder(dt, "id", 2)#
+setcolorder(dt, 1, 2)
+devtools::load_all("/Users/Matthieu/Dropbox/Symlink/Downloads/data.table-master")
+library(lfe)
+suppressMessages(library("data.table"))
+N <- 1e3#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+felm(v3 ~ v2, DT)
+felm(v3 ~ 1|0|(v2~v1), DT)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+n
+f
+felm(v3 ~ 1|0|(v2~v1), DT)
+pform
+parseformula(formula,data)
+knownargs
+sc
+sc <- names(sys.call())[-1]
+sc
+named <- knownargs[pmatch(sc, knownargs)]
+formula
+f
+felm::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
+lfe:::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
+felm = function (formula, data, iv = NULL, clustervar = NULL, exactDOF = FALSE, #
+    subset, na.action, contrasts = NULL, ...) #
+{#
+    knownargs <- c("iv", "clustervar", "cmethod")#
+    sc <- names(sys.call())[-1]#
+    named <- knownargs[pmatch(sc, knownargs)]#
+    for (arg in c("iv", "clustervar")) {#
+        if (!is.null(eval(as.name(arg))) && !(arg %in% named)) {#
+            warning("Please specify the '", arg, "' argument by name, or use a multi part formula. Its position in the argument list will change in a later version")#
+        }#
+    }#
+    mf <- match.call(expand.dots = FALSE)#
+    cmethod <- "cgm"#
+    args <- list(...)#
+    ka <- knownargs[pmatch(names(args), knownargs, duplicates.ok = FALSE)]#
+    names(args)[!is.na(ka)] <- ka[!is.na(ka)]#
+    env <- environment()#
+    lapply(intersect(knownargs, ka), function(arg) assign(arg, #
+        args[[arg]], pos = env))#
+    if (!(cmethod %in% c("cgm", "gaure"))) #
+        stop("Unknown cmethod: ", cmethod)#
+    unk <- setdiff(names(args), knownargs)#
+    if (length(unk) > 0) #
+        stop("unknown arguments ", paste(unk, collapse = " "))#
+    if (missing(data)) #
+        data <- environment(formula)#
+    pf <- parent.frame()#
+    pform <- parseformula(formula, data)#
+    print(formula)#
+    print(pform)#
 }
-DT %>% expand(along_with = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <- lazy_eval(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(t))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(along_with))#
-    setkeyv(ans, c(along_with))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
+felm(v3 ~ 1|0|v2~v1, DT)
+parseformula <- function (form, data) #
+{#
+    f <- as.Formula(form)#
+    len <- length(f)[[2]]#
+    if (len == 1) #
+        return(oldparseformula(form, data))#
+    opart <- formula(f, lhs = 1, rhs = 1)#
+    if (len == 1) #
+        return(list(formula = opart, gpart = ~0, ivpart = ~0, #
+            cpart = ~0))#
+    gpart <- formula(f, lhs = 0, rhs = 2)#
+    if (!nopart(gpart)) {#
+        tm <- terms(gpart, keep.order = TRUE)#
+        parts <- attr(tm, "term.labels")#
+        parts <- parts[parts != "0"]#
+        nm <- parts#
+        glist <- lapply(paste(".G(", parts, ")", sep = ""), function(e) parse(text = e))#
+        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
+            factor(f)#
+        else f#
+        Ginfunc <- function(x, f) {#
+            if (is.factor(x)) {#
+                structure(interaction(factor(f), factor(x), drop = TRUE), #
+                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
+            }#
+            else {#
+                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
+                  fnam = deparse(substitute(f)))#
+            }#
+        }#
+        if (is.environment(data)) {#
+            fl <- lapply(glist, eval, list(.G = Gfunc, `:` = Ginfunc), #
+                data)#
+        }#
+        else {#
+            fl <- lapply(glist, eval, data, as.environment(list(.G = Gfunc, #
+                `:` = Ginfunc)))#
+        }#
+        names(fl) <- nm#
+    }#
+    else {#
+        fl <- NULL#
+    }#
+    if (len == 2) #
+        return(list(formula = opart, fl = fl, gpart = gpart, #
+            ivpart = ~0, cpart = ~0))#
+    ivparts <- formula(f, lhs = 0, rhs = 3, drop = TRUE)#
+    if (!nopart(ivparts) && length(ivparts[[2]]) > 1 && ivparts[[2]][[1]] == #
+        "(") {#
+        ivspec <- as.Formula(ivparts[[2]][[2]])#
+        lhs <- formula(ivspec, rhs = 0)#
+        ivpart <- lapply(seq_along(all.vars(lhs)), function(i) formula(ivspec, #
+            lhs = i))#
+    }#
+    else {#
+        ivpart <- NULL#
+    }#
+    if (len == 3 && !is.null(ivpart)) #
+        return(list(formula = opart, fl = fl, iv = ivpart, gpart = gpart, #
+            ivpart = ivparts, cpart = ~0))#
+    if (len == 3 && is.null(ivpart)) {#
+        cpart <- ivparts#
+        ivparts <- NULL#
+    }#
+    else {#
+        cpart <- formula(f, lhs = 0, rhs = 4, drop = TRUE)#
+    }#
+    if (!nopart(cpart)) {#
+        tm <- terms(cpart, keep.order = TRUE)#
+        nm <- parts <- attr(tm, "term.labels")#
+        clist <- lapply(paste("factor(", parts, ")", sep = ""), #
+            function(e) parse(text = e))#
+        cluster <- lapply(clist, eval, data)#
+        names(cluster) <- nm#
+    }#
+    else {#
+        cluster <- NULL#
+    }#
+    list(formula = opart, fl = fl, iv = ivpart, cluster = cluster, #
+        gpart = gpart, ivpart = ivparts, cpart = cpart)#
 }
-DT %>% expand(along_with = date)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <- lazy_eval(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(along_with))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(along_with))#
-    setkeyv(ans, c(along_with))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
+felm(v3 ~ 1|0|v2~v1, DT)
+library(Formula)
+felm(v3 ~ 1|0|v2~v1, DT)
+oldparseformula = function (formula, data) #
+{#
+    trm <- terms(formula, specials = c("G"))#
+    feidx <- attr(trm, "specials")$G + 1#
+    va <- attr(trm, "variables")#
+    festr <- paste(sapply(feidx, function(i) deparse(va[[i]])), #
+        collapse = "+")#
+    if (festr != "") {#
+        formula <- update(formula, paste(". ~ . -(", festr, ") - 1"))#
+        felist <- parse(text = paste("list(", gsub("+", ",", #
+            festr, fixed = TRUE), ")", sep = ""))#
+        nm <- eval(felist, list(G = function(arg) deparse(substitute(arg))))#
+        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
+            factor(f)#
+        else f#
+        Ginfunc <- function(x, f) {#
+            if (is.factor(x)) {#
+                structure(interaction(factor(f), factor(x), drop = TRUE), #
+                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
+            }#
+            else {#
+                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
+                  fnam = deparse(substitute(f)))#
+            }#
+        }#
+        if (is.environment(data)) {#
+            fl <- eval(felist, list(G = Gfunc, `:` = Ginfunc), #
+                data)#
+        }#
+        else {#
+            fl <- local({#
+                eval(felist, data)#
+            }, list(G = Gfunc, `:` = Ginfunc))#
+        }#
+        names(fl) <- nm#
+        gpart <- eval(parse(text = paste("~", paste(nm, collapse = "+"))))#
+        if (is.null(names(fl))) #
+            names(fl) <- paste("fe", 1:length(fl), sep = "")#
+    }#
+    else {#
+        fl <- NULL#
+        gpart <- ~0#
+    }#
+    return(list(formula = formula, fl = fl, gpart = gpart, ivpart = ~0, #
+        cpart = ~0))#
 }
-DT %>% expand(along_with = date)
-lazy_eval(along_with)
-lazy_eval(quote(along_with))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-names(select_vars_(names(.data), lazy_eval(along_with)))#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-names(select_vars_(names(.data), lazy_eval(along_with)))#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(along_with))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(along_with))#
-    setkeyv(ans, c(along_with))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-lazy_eval(quote(along_with))
-DT %>% expand(along_with = date)
-traceback()
-lazy_eval(along_with)
-lazy_eval(quote(id))
-lazy_eval(quote(id))
-as.character(quote(id)))
-as.character(quote(id))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Integer variables to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% expand(date)#
-#' DT %>% group_by(id) %>% expand(..., along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-as.character(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  byvars <- as.character(groups(.data))#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- copy(.data)#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-as.character(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(along_with))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(along_with))#
-    setkeyv(ans, c(along_with))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-as.character(quote(id))
-DT %>% expand(along_with = date)
+felm(v3 ~ 1|0|v2~v1, DT)
+library(lfe)
+suppressMessages(library("data.table"))
+N <- 1e3#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+felm(v3 ~ 1|0|v2~v1, DT)
 DT
-DT %>% group_by(id) %>% expand(along_with = date)
-DT %>% group_by(id) %>% expand(along_with = date, roll = TRUE)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Fill in gaps in variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to keep#
-#' @param along_with integer variable to expand#
-#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
-#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' DT <- data.table(#
-#'  id = c(1, 1, 1, 1, 1, 2, 2), #
-#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
-#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#')#
-#' DT %>% group_by(id) %>% expand(along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
-#' @name expand#
-NULL#
-#
-#' @export#
-#' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  UseMethod("expand_")#
-}#
-#
-#' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-as.character(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  byvars <- as.character(groups(.data))#
-  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  type <- match.arg(type)#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-  if (type=="within"){#
-    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- data[, c(byvars,vars) with = FALSE]#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-    .data#
-}#
-#
-#' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-as.character(along_with)#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots))#
-  if (length(vars) == 0) {#
-     vars <- names(.data)#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
-    setkeyv(.data,c(along_with))#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
-    ans  <- eval(call)#
-    setnames(ans, c(along_with))#
-    setkeyv(ans, c(along_with))#
-    .data <- data[, vars, with = FALSE]#
-    setkeyv(.data, c(along_with))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
-  .data#
-}#
-#' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  tbl_dt(NextMethod(), copy = FALSE)#
-}
-DT %>% group_by(id) %>% expand(along_with = date, roll = TRUE)
+felm(v3 ~ 1|0|v2~v1, DT)
 DT
-DT %>% group_by(id) %>% expand(along_with = date, type = "accross", roll = TRUE)
-DT %>% group_by(id) %>% expand(along_with = date, type = "across", roll = TRUE)
-DT %>% group_by(id) %>% expand(along_with = date, type = "across")
-DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")
-DT %>% group_by(id) %>% expand(date, along_with = date, type = "across")
-DT %>% group_by(id) %>% expand(id, along_with = date, type = "across")
-DT %>% group_by(id) %>% expand(date, along_with = date, type = "across")
-DT
-debug(expand)
-DT %>% group_by(id) %>% expand(date, along_with = date, type = "across")
+felm(v3 ~ 1|0|(v2~v1), DT)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+formula
+pform
+f <- as.Formula(formula)
+f
+felm(v3 ~ 1|0|(v2~v1), DT)
 s
 n
-vars
-ans
-ans
-ans
-q
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+formula
+data
+p <- as.Formula(formula)
+p
+length(f)[[2]]
+length(p)[[2]]
+length(p)[[1]]
+names(length(p))
+length(p)
+p
+length(formula)
+length(formula)[[2]]
+gpart <-  formula(p, lhs = 0, rhs = 2)
+nopart(gpart)
+ivparts <- formula(p, lhs = 0, rhs = 3, drop = TRUE)
+ivparts
+f
+as.list(body(felm))
+trace(felm, print(mf), at = 40)
+trace(felm, quote(print(mf)), at = 40)
+felm(v3 ~ 1|0|(v2~v1), DT)
+library(lfe)#
+#
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library("Formula"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+suppressMessages(library("biglm"))#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))#
+assignInNamespace("cedta.override",#
+                  c(data.table:::cedta.override,"IRkernel"),#
+                  "data.table")#
+library(Formula)
+N <- 1e3#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+trace(felm, quote(print(mf)), at = 40)
+felm(v3 ~ 1|0|(v2~v1), DT)
+untrace(felm)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+mf
+print(mf)
+f
+trace(felm, quote(print(mf)), at = 41)
+felm(v3 ~ 1|0|(v2~v1), DT)
+as.list(body(felm))
+trace(felm, quote(print(formula)), at = 39)
+undebug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(felm, quote(print(formula,mf)), at = 39)
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(felm, quote(print(formula); print(mf)), at = 39)
+trace(felm, quote(print(formula) print(mf)), at = 39)
+trace(felm, quote(print(formula),print(mf)), at = 39)
+trace(felm, quote(print(formula) \n print(mf)), at = 39)
+trace(felm, quote(print(mf)), at = 40)
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(felm, quote(print(mf)), at = 39)
+felm(v3 ~ 1|0|(v2~v1), DT)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+mf
+ivform[["formula"]]
+mf
+ivform
+f
+trace(felm, quote(print(ivform), at = 39)
+)
+trace(felm, quote(print(ivform)), at = 39)
+felm(v3 ~ 1|0|(v2~v1), DT)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+mf
+ivform
+mf
+f
+as.list(body(felm))
+as.list(body(felm))[[34]]
+as.list(as.list(body(felm))[[34]])
+as.list(body(felm))[[34]]
+?trace
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+mf
+fl
+data
+contrasts
+clustervar
+pf
+mf
+s
+n
+mf
+`v2(fit)`
+f
+lfe::project
+lfe:::project
+g=function(formula,env){eval(formula,env)}
+f=function(x){assign("t1",1:10,envir = parent.frame()); g(y~t1, parent.frame())}
+f(1:10)
+assign("v2(fit)",ok)
+assign("v2(fit)","ok")
+v2fit
+`v2(fit)`
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+s
+n
+mf
+`v2(fit)`
+mf
+eval(mf,pf)
+mf
+f
+g=function(formula,DT,pf){eval(quote(stats::model.frame(formula,DT)),pf)}#
+f=function(){pf <-parent.frame(); assign("v2(fit)",1:1e3,envir = pf); g(v1~`v2(fit)`,DT, pf)}#
+f()
+g=function(formula,DT,pf){eval(quote(stats::model.frame(formula,DT)))}#
+f=function(){pf <-parent.frame(); assign("v2(fit)",1:1e3,envir = pf); g(v1~`v2(fit)`,DT, pf)}#
+f()
+project
+lfe::project
+lfe:::project
+as.list(body(lfe::project))
+as.list(body(lfe:::project))
+pf
+felm(v3 ~ 1|0|(v2~v1), DT)
+f
+debug(lfe:::project)
+undebug(lfe)
+undebug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+s
+n
+m
+mf
+formula
+mfnull
+mf
+print(mf)
+f
+trace(lfe:::project, quote(print(mf)), at=5)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+untrace(felm)
+trace(lfe:::project, quote(print(mf)), at=5)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+f
+undebug(lfe:::project)
+trace(lfe:::project, quote(print(mf)), at=5)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+f
+undebug(lfe:::project)
+undebug(felm)
+trace(lfe:::project, quote(print(mf)), at=5)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(lfe:::project, quote(print(mf)), at=6)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(lfe:::project, quote(print(mf)), at=6)#
+trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+`v2(fit)`
+trace(lfe:::project, quote(print(mf)), at=6)#
+trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+untrace(lfe)
+trace(lfe:::project, quote(print(mf)), at=6)#
+trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+untrace(lfe)
+felm(v3 ~ 1|0|(v2~v1), DT)
+untrace(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+untrace(project)
+untrace(lfe::project)
+untrace(lfe:::project)
+felm(v3 ~ 1|0|(v2~v1), DT)
+f
+undebug(lfe::project)
+undebug(lfe:::project)
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+`v2(fit)`
+felm
+trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+v2(fit)
+`v2(fit)`
+untrace(lfe::project)
+untrace(lfe:::project)
+felm(v3 ~ 1|0|(v2~v1), DT)
+`v2(fit)`
+trace(lfe:::project, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)#
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(f, quote(eval(lm(v1~`v2(fit)`,data=DT),pf)), at=6)
+function(x){quote(eval(lm(v1~`v2(fit)`,data=DT)}
+function(x){eval(quote(eval(lm(v1~`v2(fit)`,data=DT)}
+function(x){eval(quote(eval(lm(v1~`v2(fit)`,data=DT)))}
+function(x){eval(quote(eval(lm(v1~`v2(fit)`,data=DT))}
+function(x){eval(quote(lm(v1~`v2(fit)`,data=DT))}
+function(x){eval(quote(lm(v1~`v2(fit)`,data=DT)))}
+f <- function(x){eval(quote(lm(v1~`v2(fit)`,data=DT)))}
+assign("v2(fit)", DT[,v1])
+f()
+trace(f,quote(eval(quote(lm(v1~`v2(fit)`,data=DT)))))
+f()
+f
+trace(f,quote(eval(quote(lm(v3~`v2(fit)`,data=DT)))))
+trace(f,quote(eval(quote(lm(v1~`v2(fit)`,data=DT)))))
+trace(f,quote(eval(quote(lm(v3~`v2(fit)`,data=DT)))))
+f()
+trace(f,quote(eval(quote(lm(v3~`v2(fit)`,data=DT)))))
+mf=as.expression(felm(v1~`v2(fit)`))
+mf=as.expression(quote(felm(v1~`v2(fit)`)))
+mf
+mf=as.formula(felm(v1~`v2(fit)`))
+f =function(x){mf <- match.call; mf[[1]] <- stats::model.frame; eval(mf)}
+f(1)
+f =function(x){mf <- match.call; mf[[1]] <- quote(stats::model.frame); eval(mf)}
+f(1)
+f =function(x){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
+f(1)
+f =function(v2~v1,data = DT){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
+f=function(x, data = y){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
+f(v2~v1, data = DT)
+debug(f)
+f(v2~v1, data = DT)
+n
+mf
+f=function(formula = x, data = y){mf <- match.call(); mf[[1]] <- quote(stats::model.frame); eval(mf)}
+f(v2~v1, data = DT)
+debug(f)
+f(v2~v1, data = DT)
+mf
+stats::model.frame(formula = v2 ~ v1, data = DT)
+model.frame
+?model.frame
+debug(lfe:::project)
+felm(v3 ~ 1|0|(v2~v1), DT)
+n
+mf
+`v2(fit)`
+stats::model.frame(formula = v3 ~ `v2(fit)`)
+stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT)
+f
+trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT), pf)))
+felm(v3~1|0|(v2~v1), data = DT)
+f
+undebug(felm)
+trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT), pf)))
+felm(v3~1|0|(v2~v1), data = DT)
+f
+undebug(felm)
+undebug(lfe:::project)
+felm(v3~1|0|(v2~v1), data = DT)
+untrace(lfe:::project)
+felm(v3~1|0|(v2~v1), data = DT)
+untrace(felm)
+felm(v3~1|0|(v2~v1), data = DT)
+trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ v1, data = DT), pf)))
+felm(v3~1|0|(v2~v1), data = DT)
+trace(felm,exit = quote(eval(stats::model.frame(formula = v3 ~ `v2(fit)`, data = DT), pf)))
+felm(v3~1|0|(v2~v1), data = DT)
+exists(a)
+exists("a")
+trace(lfe:::project,quote(print(exists("`v2(fit)`"))))
+felm(v3 ~ 1|0|(v2~v1), DT)
+trace(lfe:::project,quote(print(exists("v2(fit)"))))
+untrace(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+rm("v2(fit)")#
+trace(lfe:::project,quote(print(exists("v2(fit)"))))#
+felm(v3 ~ 1|0|(v2~v1), DT)
+f=function(){v1}#
+g=function(){eval(v1 <-4, parent.frame()); f()}#
+g()
+f=function(){v1}#
+g=function(){assign("v1", 4, parent.frame()); f()}#
+g()
+eval
+?eval
+devtools::install_github("matthieugomez/statar")
+g()
+f
+library(statar)
+statar:::f
+statar:::g()
+v2
+v1
+f <- function(){v1}#
+g <- function(){assign("v1", 4, parent.frame()); f()}
+h <- function(){pk:::g()}
+h()
+h <- function(){statar:::g()}
+h()
+rm(v1)
+h <- function(){statar:::g()}
+rm(v1)
+h()
+h <- function(formula){felm(formula)}
+h <- function(formula, DT){felm(formula,DT)}
+N <- 2e6#
+df <- data.frame(#
+         date = sample(10, N, TRUE),#
+           id = sample(1e5, N, TRUE),   #
+        value = sample(c(NA,1:5), N, TRUE)                   #
+      )
+h <- function(formula, df){felm(formula,df)}
+h(value~1|0|date~id,DT)
+library(lfe)
+h(value~1|0|date~id,DT)
+h(value~1|0|date~id,df)
+h(value~1|0|(date~id),df)
+f <- function(formula, df){felm(formula,df)}#
+df <- data.frame(#
+          v1   = sample(10, N, TRUE),#
+          v2   = sample(1e5, N, TRUE),   #
+          v3   = sample(c(NA,1:5), N, TRUE)                   #
+       )#
+f(v1~v2, df)#
+f(v1~1|0|(v2~v3),df)
+f <- function(formula, df){felm(formula,df)}#
+N ,- 1e3#
+df <- data.frame(#
+          v1   = sample(10, N, TRUE),#
+          v2   = sample(1e5, N, TRUE),   #
+          v3   = sample(c(NA,1:5), N, TRUE)                   #
+       )#
+f(v1~v2, df)#
+f(v1~1|0|(v2~v3),df)
+<- function(formula, df){felm(formula,df)}#
+N <- 1e3#
+df <- data.frame(#
+          v1   = sample(10, N, TRUE),#
+          v2   = sample(1e5, N, TRUE),   #
+          v3   = sample(c(NA,1:5), N, TRUE)                   #
+       )#
+f(v1~v2, df)#
+f(v1~1|0|(v2~v3),df)
+traceback()
+f <- function(formula, df){felm(formula,df)}#
+N <- 1e3#
+df <- data.frame(#
+          v1   = sample(10, N, TRUE),#
+          v2   = sample(1e5, N, TRUE),   #
+          v3   = sample(c(1:5), N, TRUE)                   #
+       )#
+f(v1~v2, df)#
+f(v1~1|0|(v2~v3),df)
+global.environment()
+global.environment
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)
+library(data.table)
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)
+library(lubridate)
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)
+setcols(DT, c("id","date"))
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")
+setcols(DT, c("id","date"))
+DT <- data.table(     #
+   id    = c("id1", "id1", "id1", "id1"),#
+   date  = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)
+setcols(DT, c("id","date"))
+DT
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")
+setcols(DT, c("id","date"))
+Rprof()#
+t1 <- DT1[DT2, value1-value]#
+Rprof(NULL)#
+summaryRprof()
+N = 1000000#
+DT1 = data.table(name = 1:N, value = rnorm(N))#
+DT2 = data.table(name = 1:N, value1 = rnorm(N))#
+setkey(DT1, name)#
+#
+system.time({x = DT1[DT2, value1 - value]})     # One Step#
+#
+system.time({x = DT1[DT2][, value1 - value]})
+N = 1000000#
+DT1 = data.table(name = 1:N, value = rnorm(N))#
+DT2 = data.table(name = 1:N, value1 = rnorm(N))#
+setkey(DT1, name)#
+#
+system.time({x = DT1[DT2, value1 - value]})     # One Step#
+#
+system.time({x = DT1[DT2][, value1 - value]})
+N = 1000000#
+DT1 = data.table(name = 1:N, value = rnorm(N))#
+DT2 = data.table(name = 1:N, value1 = rnorm(N))#
+setkey(DT1, name)#
+#
+system.time({x = DT1[DT2, value1 - value]})     # One Step#
+#
+system.time({x = DT1[DT2][, value1 - value]})
+DT1[DT2]
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 #'  Fill in gaps in variable#
 #'#
 #' @param .data A tbl_dt, grouped or not#
 #' @param ... Variables to keep#
 #' @param along_with integer variable to expand#
 #' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
-#' @param roll see ?data.table#
-#' @param rollends see ?data.table#
 #
 #' @examples#
 #' library(data.table)#
@@ -3247,42 +879,36 @@ setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
 #'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
 #')#
-#' DT %>% group_by(id) %>% expand(along_with = date)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, roll = TRUE)#
-#' DT %>% group_by(id) %>% expand(..., along_with =date, type == "across", roll = TRUE)#
+#' DT %>% group_by(id) %>% expand(value, along_with = date)#
+#' DT %>% group_by(id) %>% expand(value, along_with = date, type == "across")#
 #' @name expand#
 NULL#
 #
 #' @export#
 #' @rdname expand#
-expand <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
-  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)#
+expand <- function(.data, ..., along_with, type = c("within", "across")) {#
+  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type)#
 }#
 #
 #' @export#
 #' @rdname expand#
-expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ) {#
+expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
   UseMethod("expand_")#
 }#
 #
 #' @export#
-expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-as.character(along_with)#
+expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
   dots <- lazyeval::all_dots(.dots, ...)#
   byvars <- as.character(groups(.data))#
   vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
   if (length(vars) == 0) {#
-     vars <- names(.data)#
+     vars <- setdiff(names(.data),c(byvars, along_with))#
   }#
   type <- match.arg(type)#
   isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
+  if (isna>0) stop("Variable along_with has missing values",call. = FALSE)#
+  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(paste(byvars,collapse = ","),",",along_with,"do not uniquely identify observations"))_#
   if (type=="within"){#
     call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
   } else{#
@@ -3293,24 +919,23 @@ expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "
   ans  <- eval(call)#
   setnames(ans, c(byvars, along_with))#
   setkeyv(ans, c(byvars, along_with))#
-  .data <- data[, c(byvars,vars) with = FALSE]#
+  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
   setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
+  .data <- .data[ans,allow.cartesian=TRUE]#
     .data#
 }#
 #
 #' @export#
-expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE) ){#
-  along_with <-as.character(along_with)#
+expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
   dots <- lazyeval::all_dots(.dots, ...)#
   vars <- names(select_vars_(names(.data), dots))#
   if (length(vars) == 0) {#
-     vars <- names(.data)#
+     vars <- setdiff(names(.data), along_with)#
   }#
   isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop(paste("Variable",along_with,"have missing values"),call. = FALSE)#
+  if (isna>0) stop("Variable along_with has missing values",call. = FALSE)#
+  if (anyDuplicated(.data,along_with)) stop(paste(along_with,"does not uniquely identify observations"))_#
     setkeyv(.data,c(along_with))#
     a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
     b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
@@ -3318,18 +943,599 @@ expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", 
     ans  <- eval(call)#
     setnames(ans, c(along_with))#
     setkeyv(ans, c(along_with))#
-    .data <- data[, vars, with = FALSE]#
+    .data <- .data[, c(vars, along_with), with = FALSE]#
     setkeyv(.data, c(along_with))#
-    .data <- .data[ans,allow.cartesian=TRUE, roll = roll, rollends = rollends]#
+    .data <- .data[ans,allow.cartesian=TRUE]#
   .data#
 }#
 #' @export#
-expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
+expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
   tbl_dt(NextMethod())#
 }
-DT %>% group_by(id) %>% expand(date, along_with = date, type = "across")
-debug(expand)
-DT %>% group_by(id) %>% expand(date, along_with = date, type = "across")
-s
+?paste
+if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(paste(byvars, collapse = ","),",",along_with,"do not uniquely identify observations"))_
+if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(paste(byvars, collapse = ",")))_
+function(){  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(paste(byvars, collapse = ","),",",along_with,"do not uniquely identify observations"))_#
+}
+function(){  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(paste(byvars, collapse = ","))_#
+}
+function(){  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(paste(byvars, collapse = ","))}
+function(){  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(byvars, collapse = ","))}
+function(){  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste(paste(byvars, collapse = ","),",",along_with,"do not uniquely identify observations"))_#
+}
+paste0(paste(byvars, collapse = ","),", ")
+function(){paste0(paste(byvars, collapse = ","),", ")}
+function(){paste0(paste(byvars, collapse = ","),", ","ok","ok1")}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- as.character(groups(.data))#
+  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data),c(byvars, along_with))#
+  }#
+  type <- match.arg(type)#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values",call. = FALSE)#
+  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))_#
+  if (type=="within"){#
+    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
+  } else{#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
+  }#
+  ans  <- eval(call)#
+  setnames(ans, c(byvars, along_with))#
+  setkeyv(ans, c(byvars, along_with))#
+  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
+  setkeyv(.data, c(byvars,along_with))#
+  .data <- .data[ans,allow.cartesian=TRUE]#
+    .data#
+}
+if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)
+if (anyDuplicated(.data,c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))_
+if (anyDuplicated(.data,c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#'  Fill in gaps in variable#
+#'#
+#' @param .data A tbl_dt, grouped or not#
+#' @param ... Variables to keep#
+#' @param along_with integer variable to expand#
+#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
+#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#' DT <- data.table(#
+#'  id = c(1, 1, 1, 1, 1, 2, 2), #
+#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
+#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#')#
+#' DT %>% group_by(id) %>% expand(value, along_with = date)#
+#' DT %>% group_by(id) %>% expand(value, along_with = date, type == "across")#
+#' @name expand#
+NULL#
+#
+#' @export#
+#' @rdname expand#
+expand <- function(.data, ..., along_with, type = c("within", "across")) {#
+  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type)#
+}#
+#
+#' @export#
+#' @rdname expand#
+expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
+  UseMethod("expand_")#
+}#
+#
+#' @export#
+expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- as.character(groups(.data))#
+  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data),c(byvars, along_with))#
+  }#
+  type <- match.arg(type)#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
+  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))#
+  if (type=="within"){#
+    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
+  } else{#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
+  }#
+  ans  <- eval(call)#
+  setnames(ans, c(byvars, along_with))#
+  setkeyv(ans, c(byvars, along_with))#
+  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
+  setkeyv(.data, c(byvars,along_with))#
+  .data <- .data[ans,allow.cartesian=TRUE]#
+    .data#
+}#
+#
+#' @export#
+expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(.data), dots))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data), along_with)#
+  }#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values",call. = FALSE)#
+  if (anyDuplicated(.data,along_with)) stop(paste(along_with,"does not uniquely identify observations"))_#
+    setkeyv(.data,c(along_with))#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
+    ans  <- eval(call)#
+    setnames(ans, c(along_with))#
+    setkeyv(ans, c(along_with))#
+    .data <- .data[, c(vars, along_with), with = FALSE]#
+    setkeyv(.data, c(along_with))#
+    .data <- .data[ans,allow.cartesian=TRUE]#
+  .data#
+}#
+#' @export#
+expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
+  tbl_dt(NextMethod())#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' @export#
+expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- as.character(groups(.data))#
+  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data),c(byvars, along_with))#
+  }#
+  type <- match.arg(type)#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
+  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))#
+  if (type=="within"){#
+    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
+  } else{#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
+  }#
+  ans  <- eval(call)#
+  setnames(ans, c(byvars, along_with))#
+  setkeyv(ans, c(byvars, along_with))#
+  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
+  setkeyv(.data, c(byvars,along_with))#
+  .data <- .data[ans,allow.cartesian=TRUE]#
+    .data#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#'  Fill in gaps in variable#
+#'#
+#' @param .data A tbl_dt, grouped or not#
+#' @param ... Variables to keep#
+#' @param along_with integer variable to expand#
+#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
+#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#' DT <- data.table(#
+#'  id = c(1, 1, 1, 1, 1, 2, 2), #
+#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
+#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#')#
+#' DT %>% group_by(id) %>% expand(value, along_with = date)#
+#' DT %>% group_by(id) %>% expand(value, along_with = date, type == "across")#
+#' @name expand#
+NULL#
+#
+#' @export#
+#' @rdname expand#
+expand <- function(.data, ..., along_with, type = c("within", "across")) {#
+  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type)#
+}#
+#
+#' @export#
+#' @rdname expand#
+expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
+  UseMethod("expand_")#
+}#
+#
+#' @export#
+expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- as.character(groups(.data))#
+  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data),c(byvars, along_with))#
+  }#
+  type <- match.arg(type)#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
+  if (anyDuplicated(.data,c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))#
+  if (type=="within"){#
+    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
+  } else{#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
+  }#
+  ans  <- eval(call)#
+  setnames(ans, c(byvars, along_with))#
+  setkeyv(ans, c(byvars, along_with))#
+  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
+  setkeyv(.data, c(byvars,along_with))#
+  .data <- .data[ans,allow.cartesian=TRUE]#
+    .data#
+}#
+#
+#' @export#
+expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(.data), dots))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data), along_with)#
+  }#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values",call. = FALSE)#
+  if (anyDuplicated(.data,along_with)) stop(paste(along_with,"does not uniquely identify observations"))#
+    setkeyv(.data,c(along_with))#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
+    ans  <- eval(call)#
+    setnames(ans, c(along_with))#
+    setkeyv(ans, c(along_with))#
+    .data <- .data[, c(vars, along_with), with = FALSE]#
+    setkeyv(.data, c(along_with))#
+    .data <- .data[ans,allow.cartesian=TRUE]#
+  .data#
+}#
+#' @export#
+expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
+  tbl_dt(NextMethod())#
+}
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
+#
+# expand (= Stata tsfill)#
+DT <- data.table(#
+    id    = c(1, 1, 1, 1, 1, 2, 2),#
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")
+library(dplyr)
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
+#
+# expand (= Stata tsfill)#
+DT <- data.table(#
+    id    = c(1, 1, 1, 1, 1, 2, 2),#
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")
+traceback()
+?anyDuplicated
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#'  Fill in gaps in variable#
+#'#
+#' @param .data A tbl_dt, grouped or not#
+#' @param ... Variables to keep#
+#' @param along_with integer variable to expand#
+#' @param type  "within"  means that rows are expanded with respect to min and max of \code{...} within groups (default) while "default" means that dates are expanded with respect to min and max of \code{...} across groups. #
+#
+#' @examples#
+#' library(data.table)#
+#' library(dplyr)#
+#' DT <- data.table(#
+#'  id = c(1, 1, 1, 1, 1, 2, 2), #
+#'  date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
+#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#')#
+#' DT %>% group_by(id) %>% expand(value, along_with = date)#
+#' DT %>% group_by(id) %>% expand(value, along_with = date, type == "across")#
+#' @name expand#
+NULL#
+#
+#' @export#
+#' @rdname expand#
+expand <- function(.data, ..., along_with, type = c("within", "across")) {#
+  expand_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type)#
+}#
+#
+#' @export#
+#' @rdname expand#
+expand_ <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
+  UseMethod("expand_")#
+}#
+#
+#' @export#
+expand_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- as.character(groups(.data))#
+  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data),c(byvars, along_with))#
+  }#
+  type <- match.arg(type)#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
+  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"))#
+  if (type=="within"){#
+    call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))#
+  } else{#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b)), by = c(byvars)], list(a = a, b=b))#
+  }#
+  ans  <- eval(call)#
+  setnames(ans, c(byvars, along_with))#
+  setkeyv(ans, c(byvars, along_with))#
+  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
+  setkeyv(.data, c(byvars,along_with))#
+  .data <- .data[ans,allow.cartesian=TRUE]#
+    .data#
+}#
+#
+#' @export#
+expand_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across")){#
+  along_with  <- names(select_vars_(names(.data), along_with ))#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(.data), dots))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(.data), along_with)#
+  }#
+  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
+  if (isna>0) stop("Variable along_with has missing values",call. = FALSE)#
+  if (anyDuplicated(.data, by = along_with)) stop(paste(along_with,"does not uniquely identify observations"))#
+    setkeyv(.data,c(along_with))#
+    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
+    call <- substitute(.data[, list(seq.int(a, b))], list(a = a, b=b))#
+    ans  <- eval(call)#
+    setnames(ans, c(along_with))#
+    setkeyv(ans, c(along_with))#
+    .data <- .data[, c(vars, along_with), with = FALSE]#
+    setkeyv(.data, c(along_with))#
+    .data <- .data[ans,allow.cartesian=TRUE]#
+  .data#
+}#
+#' @export#
+expand_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across")) {#
+  tbl_dt(NextMethod())#
+}
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
+#
+# expand (= Stata tsfill)#
+DT <- data.table(#
+    id    = c(1, 1, 1, 1, 1, 2, 2),#
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")#
+#
+# fill_na #
+DT <- data.table(#
+ id    = c(1, 1, 1, 1, 1, 2, 2),#
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
+ value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
+DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
+#
+# expand (= Stata tsfill)#
+DT <- data.table(#
+    id    = c(1, 1, 1, 1, 1, 2, 2),#
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")#
+#
+# fill_na #
+DT <- data.table(#
+ id    = c(1, 1, 1, 1, 1, 2, 2),#
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
+ value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
+DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' fill NA based on non missing observations#
+#'#
+#' @param .data a data.table #
+#' @param ... variables to fill in. Default to every variable except grouped and along_with #
+#' @param along_with  a variable along with observations should be filled#
+#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
+#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
+#' @examples#
+#' DT <- data.table(#
+#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
+#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+#'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
+#' )#
+#' DT %>% group_by(id) %>% fill_na(value, along_with  = date)#
+#' DT %>% group_by(id) %>% fill_na(value, along_with  = date, inplace = TRUE)#
+#' @name fill_na#
+NULL#
+#
+#' @export#
+#' @rdname fill_na#
+fill_na <- function(.data, ..., along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
+  else if (roll>=0) c(FALSE,TRUE)#
+  else c(TRUE,FALSE)){#
+	fill_na_(.data, .dots = lazy_dots(...), along_with  = substitute(along_with ), roll = TRUE, rollends = rollends)#
+}#
+#' @export#
+#' @rdname fill_na#
+fill_na_ <- function(.data, ...,.dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
+  else if (roll>=0) c(FALSE,TRUE)#
+  else c(TRUE,FALSE)) {#
+  UseMethod("fill_na_")#
+}#
+#
+#' @export#
+fill_na_.grouped_dt  <- function(.data, ...,.dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
+  else if (roll>=0) c(FALSE,TRUE)#
+  else c(TRUE,FALSE)){#
+	dots <- lazyeval::all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(.data), dots))#
+	byvars <- as.character(groups(.data))#
+	along_with  <- names(select_vars_(names(.data), along_with ))#
+	if (length(vars) == 0) {#
+		vars <- setdiff(names(.data), c(byvars, along_with ))#
+	}#
+	.data <- copy(.data)#
+	keys <- key(.data)#
+	setkeyv(.data, c(byvars, along_with ))#
+	for (col in vars){	#
+    eval(substitute(.data[, (col) := .data[!is.na(x), c(byvars, along_with , col), with = FALSE ][.data, value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
+  	}#
+  	setkeyv(.data, keys)#
+  	.data#
+}#
+#' @export#
+fill_na_.data.table <- function(.data, ...,.dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
+  else if (roll>=0) c(FALSE,TRUE)#
+  else c(TRUE,FALSE)){#
+	dots <- lazyeval::all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(.data), dots))#
+	if (length(vars) == 0) {#
+		vars <- setdiff(names(.data), along_with )#
+	}#
+	.data <- copy(.data)#
+	keys <- key(.data)#
+	setkeyv(.data, c(along_with ))#
+	for (col in vars){	#
+    eval(substitute(.data[, (col) := .data[!is.na(x), c(along_with , col), with = FALSE ][.data, value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
+  	}#
+  	setkeyv(.data, keys)#
+  	.data#
+}#
+#' @export#
+fill_na_.tbl_dt <- function(.data, ..., .dots, along_with , roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
+  else if (roll>=0) c(FALSE,TRUE)#
+  else c(TRUE,FALSE)) {#
+  tbl_dt(NextMethod(), copy = FALSE)#
+}#
+# problem: inplace does not work after group_by
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)#
+  )#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))#
+#
+# expand (= Stata tsfill)#
+DT <- data.table(#
+    id    = c(1, 1, 1, 1, 1, 2, 2),#
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")#
+#
+# fill_na #
+DT <- data.table(#
+ id    = c(1, 1, 1, 1, 1, 2, 2),#
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
+ value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
+DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
+devtools::install_github("matthieugomez/statar")
+# expand (= Stata tsfill)#
+DT <- data.table(#
+    id    = c(1, 1, 1, 1, 1, 2, 2),#
+    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date)#
+DT %>% group_by(id) %>% expand(value, along_with = date, type = "across")#
+#
+# fill_na #
+DT <- data.table(#
+ id    = c(1, 1, 1, 1, 1, 2, 2),#
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
+ value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% group_by(id) %>% fill_na(value, along_with  = date) #
+DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")

@@ -1,4 +1,4 @@
-#' fill NA based on non missing observations
+#' fill NA in place based on non missing observations
 #'
 #' @param .data a data.table 
 #' @param cols a character vector of variable names to fill-in
