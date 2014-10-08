@@ -46,17 +46,16 @@ The package adds the following verbs for data.tables
 ````R
 library(data.table)
 library(dplyr)
+
+# sum_up (= Stata summarize)
 N=1e6; K=100
 DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE),
-  v3 = sample(round(runif(100, max = 100), 4), N, TRUE)
   )
-
-# sum_up (= Stata summarize)
 DT  %>% sum_up
-DT  %>% sum_up(v3, d=T)
+DT  %>% sum_up(v2, d=T)
 DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
 
 # fill_gap (= Stata tsfill)
@@ -68,7 +67,7 @@ DT <- data.table(
 DT %>% group_by(id) %>% fill_gap(value, along_with = date)
 DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")
 
-# fill_na  (in a new dataset)
+# fill na (in a new dataset)
 DT <- data.table(
  id    = c(1, 1, 1, 1, 1, 2, 2),
  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
