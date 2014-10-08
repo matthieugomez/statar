@@ -6,7 +6,7 @@
 #' @examples                          
 #' winsorize(c(1, 2, 3, 99))
 #' winsorize(c(1, 2, 3, 99), replace = NA)
-#' winsorize(c(1, 2, 3, 99), cutpoints = quantile(v, c(0.01, 0.99), type = 1))
+#' winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
 #' @export
 winsorize <- function(x, 
                       cutpoints = {
