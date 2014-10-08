@@ -4,11 +4,9 @@
 #' @param cutpoints Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.
 #' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.
 #' @examples                          
-#' v <- sample(c(1:10, 99), 100, TRUE)                   
-#' winsorize(v)
-#' winsorize(v, replace = NA)
-#' winsorize(v, cutpoints = quantile(v, c(0.01, 0.99)))
-#' @name winsorize
+#' winsorize(c(1,2,99))
+#' winsorize(c(1,2,99), replace = NA)
+#' winsorize(c(1,2,99), cutpoints = quantile(v, c(0.01, 0.99)))#' @name winsorize
 NULL
 
 
