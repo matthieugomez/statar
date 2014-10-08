@@ -101,8 +101,8 @@ DT %>% group_by(id) %>% fill_na(value, along_with  = date, roll = "nearest")
 
 # join
 The package adds a wrapper for data.table merge functions based on SQL join. Possible types are : left, right, inner, outer,  semi and anti. As in Stata, 
+- the option "check"  checks there are no duplicates in the master or using data.tables
 - the option "gen" specifies the name of a new variable that identifies non matched and matched rows 
-- the option "check"  checks there are no duplicates in the master or using data.tables. 
 
 ````R
 x <- data.table(a = rep(1:2, each = 3), b=1:6)
