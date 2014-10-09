@@ -94,7 +94,7 @@ fill_gap(DT, value, by = id, along_with = datem, units = "month")
 DT <- data.table(
  id    = c(1, 1, 1, 1, 1, 2, 2),
  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
+ value = c(NA, NA, 3, 5.3, NA, 3.2, 5.2)
 )
 DT1 <- copy(DT)
 setna(DT1, value, by = id, along_with = date)

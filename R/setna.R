@@ -10,7 +10,7 @@
 #' DT <- data.table(
 #'  id    = c(1, 1, 1, 1, 1, 2, 2),
 #'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
-#'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
+#'  value = c(NA, NA, 3, 5.3, NA, 3.2, 5.2)
 #' )
 #' DT1 <- copy(DT)
 #' setna(DT1, value, by = id, along_with = date)
@@ -46,6 +46,9 @@ setna_ <- function(x, ..., .dots, by = NULL, along_with = NULL, roll = TRUE ,  r
   setkeyv(x, c(byvars, along_with))
   dots <- all_dots(.dots, ...)
   vars <- names(select_vars_(names(x), dots, exclude = c(byvars, along_with)))  
+  if (length(vars) == 0) {
+     vars <- setdiff(names(x),c(byvars, along_with))
+  }
   for (col in vars){
     eval(substitute(x[, (col) := x[!is.na(t), c(byvars,along_with, col), with = FALSE ][x, value, roll = roll, rollends = rollends]], list(t = as.name(col))))
   }

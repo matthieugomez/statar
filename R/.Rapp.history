@@ -1,134 +1,3 @@
-years(1)
-years
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-library(biglm)#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))
-?expand
-?expand_
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-lag
-?lag
-?lead
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-library(biglm)#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))
-?lag
-?lead
-?expand
-?xtile
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-?sum_up
-library(statar)
-?sum_up
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-library(statar)
-?sum_up
-library(statar)
-?sum_up
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
-  if (!is.null(units)) {#
-    if (is.null(date)) stop("units cannot be used without order_by")#
-    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
-    date_origin <- as.Date('0001-01-01')#
-    if (unitsc=="day"){#
-      return(lead_along(x = x, n = n, default = default, date = along))#
-    }#
-    if (unitsc == "week"){#
-      date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    }  #
-    else if (unitsc == "month"){#
-      date_elapsed <- as.period(date-date_origin)  %/% months(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    } else if (unitsc == "quarter"){#
-      date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    } else if (unitsc == "year"){#
-      date_elapsed <- as.period(date-date_origin)  %/% years(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    }#
-  }#
-#
-  if (n == 0) return(x)#
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
-  index <- match(date + n, date, incomparable = NA)#
-  out <- x[index]#
-  if (!is.na(default)) out[which(is.na(index))] <- default#
-  attributes(out) <- attributes(x)#
-  out#
-}
-lag_along <- function(x, n = 1L,  units = NULL, date = NULL, default = NA) {#
-    if (!is.null(units)) {#
-      if (is.null(date)) stop("units cannot be used without order_by")#
-      unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
-      date_origin <- as.Date('0001-01-01')#
-      if (unitsc=="day"){#
-        return(lag_along(x = x, n = n, default = default, date = along))#
-      }#
-      if (unitsc == "week"){#
-        date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      }  #
-      else if (unitsc == "month"){#
-        date_elapsed <- as.period(date-date_origin)  %/% months(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      } else if (unitsc == "quarter"){#
-        date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      } else if (unitsc == "year"){#
-        date_elapsed <- as.period(date-date_origin)  %/% years(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      }#
-    }#
-#
-    if (n == 0) return(x)#
-    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
-    index <- match(date - n, date, incomparable = NA)#
-    out <- x[index]#
-    if (!is.na(default)) out[which(is.na(index))] <- default#
-    attributes(out) <- attributes(x)#
-    out#
-  }
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date+1
 date
 date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
 date
@@ -1293,6 +1162,7 @@ f(v1~v2, df)#
 f(v1~1|0|(v2~v3),df)
 ?felm
 felm
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 setwd("/Users/Matthieu/Dropbox/Symlink")#
 devtools::install_github("matthieugomez/statar")#
 suppressMessages(library("tidyr"))#
@@ -1314,37 +1184,6 @@ suppressMessages(library("statar"))#
 assignInNamespace("cedta.override",#
                   c(data.table:::cedta.override,"IRkernel"),#
                   "data.table")
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
-year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
-lag(value, 1, along_with = year) #  returns value in year - 1#
-#
-library(lubridate)#
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-value <- c(4.1, 4.5, 3.3, 5.3)#
-datem <- floor_date(date, "month")#
-value_l <- lag(value, units = "month", along_with = datem) #
-#
-# tag (corresponds to Stata tag)#
-tag(c(1, 2))#
-tag(c(1, 2), fromLast = TRUE)#
-#
-# sample_mode (corresponds to Stata mode)#
-sample_mode(c(1, 2, 2))#
-sample_mode(c(1, 2))#
-sample_mode(c(NA, NA, 1))#
-sample_mode(c(NA, NA, 1), na.rm = TRUE)#
-#
-# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
-v <- sample(c(NA, 1:10), 10, TRUE)                   #
-partition(v, nq = 3) # 3 groups based on terciles#
-partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
-#
-# winsorize (default based on 5 x interquartile range)#
-winsorize(c(1, 2, 99))#
-winsorize(c(1, 2, 99), replace = NA)#
-winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
 library(data.table)#
 #
 # sum_up (= Stata summarize)#
@@ -1369,7 +1208,7 @@ fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
 library(lubridate)#
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
 DT[, datem :=  floor_date(date, "month")]#
-fill_gap(DT, value,by = id, along_with = datem, units = "month")#
+fill_gap(DT, value, by = id, along_with = datem, units = "month")#
 #
 # set na (in the original dataset)#
 DT <- data.table(#
@@ -1378,27 +1217,49 @@ DT <- data.table(#
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
 )#
 DT1 <- copy(DT)#
-setna(DT, value, by = id, along_with = date)#
+setna(DT1, value, by = id, along_with = date)#
 setkey(DT, id, date)#
 DT2 <- copy(DT)#
 DT3 <- copy(DT)#
+setna(DT)#
 setna(DT2, value, rollend = TRUE)#
 setna(DT3, value, roll = "nearest")#
 #
-# duplicates returns duplicated groups#
-DT <- data.table(a = rep(1:2, each = 3), b=1:6)#
+# duplicates (returns rows of duplicated groups)#
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
 duplicates(DT, by = a)
+sum_up(DT, v2, d = T)
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE)#
+)#
+sum_up(DT)
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE)#
+)#
+sum_up(DT, value)
+sum_up(DT, v1)
+sum_up(DT, list(v1,v2))
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 DT
-duplicates(DT, by = list(a,b))
+duplicates(DT)
+duplicates_(DT,"a", by = "a")
+duplicates(DT,"a", by = "a")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' returns groups with duplicates#
+#' returns duplicated rows#
 #'#
 #' @param x a data.table#
-#' @param ... Variables to keep (beyond the grouped). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param by Variable to group by. Default is key of data.table#
-#' @return a data.table composed of groups that have duplicates. The first column is a new variable, named "N", that displays the number of duplicates#
+#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
+#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
+#' @return a data.table with rows in groups that have duplicates. The first column is a new variable, called "N", that displays the number of duplicates#
 #' @examples#
-#' DT <- data.table(a = rep(1:2, each = 3), b=1:6)#
+#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
 #' duplicates(DT, by = "a")#
 #' @export#
 duplicates <- function(x, ..., by = NULL){#
@@ -1408,8 +1269,7 @@ duplicates <- function(x, ..., by = NULL){#
 #' @export#
 #' @rdname duplicates#
 duplicates_ <- function(x, ..., .dots, by = NULL){#
-  if ("N" %in% names(x))#
-    stop("Variable N already exists")#
+  N <- tempname("N", x)#
   if (anyDuplicated(names(x))){#
     stop("x has duplicate column names")#
   }#
@@ -1419,54 +1279,294 @@ duplicates_ <- function(x, ..., .dots, by = NULL){#
     byvars <- copy(names(x))#
   }#
   vars <- names(select_vars_(names(x), dots, exclude = byvars))#
-  x[, N := .N-1,  by = c(byvars)]#
+  x[, (N) := .N-1,  by = c(byvars)]#
   on.exit(x[, N :=NULL])#
-  ans <- x[N>0, c("N",byvars,vars), with = FALSE]#
-  n_groups <- sum(duplicated(ans))#
-  message(paste(n_groups," groups have duplicates"))#
-  if n_groups >0{#
-    setkeyv(ans, c("N",byvars))#
-    setcolorder(ans, c("N", byvars, setdiff(names(ans),c(byvars,"N"))))#
-    ans#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' returns groups with duplicates#
-#'#
-#' @param x a data.table#
-#' @param ... Variables to keep (beyond the grouped). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param by Variable to group by. Default is key of data.table#
-#' @return a data.table composed of groups that have duplicates. The first column is a new variable, named "N", that displays the number of duplicates#
-#' @examples#
-#' DT <- data.table(a = rep(1:2, each = 3), b=1:6)#
-#' duplicates(DT, by = "a")#
-#' @export#
-duplicates <- function(x, ..., by = NULL){#
-  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by))#
-}#
-#
-#' @export#
-#' @rdname duplicates#
-duplicates_ <- function(x, ..., .dots, by = NULL){#
-  if ("N" %in% names(x))#
-    stop("Variable N already exists")#
-  if (anyDuplicated(names(x))){#
-    stop("x has duplicate column names")#
-  }#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  byvars <- names(select_vars_(names(x), by))#
-  if (length(byvars)==0){#
-    byvars <- copy(names(x))#
-  }#
-  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
-  x[, N := .N-1,  by = c(byvars)]#
-  on.exit(x[, N :=NULL])#
-  ans <- x[N>0, c("N",byvars,vars), with = FALSE]#
+  ans <- eval(substitute(x[N>0, c("N",byvars,vars), with = FALSE], list( N = as.name(N))))#
   n_groups <- sum(duplicated(ans))#
   message(paste(n_groups," groups have duplicates"))#
   if (n_groups >0){#
-    setkeyv(ans, c("N",byvars))#
-    setcolorder(ans, c("N", byvars, setdiff(names(ans),c(byvars,"N"))))#
+    setkeyv(ans, c(N,byvars))#
+    setcolorder(ans, c(N, byvars, setdiff(names(ans),c(byvars,"N"))))#
     ans#
   }#
 }
+DT
+setnames(DT,"a","N")
+duplicates(DT, by = a)
+duplicates(DT, by = N)
+DT
+DT
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' returns duplicated rows#
+#'#
+#' @param x a data.table#
+#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
+#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
+#' @return a data.table with rows in groups that have duplicates. The first column is a new variable, called "N", that displays the number of duplicates#
+#' @examples#
+#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
+#' duplicates(DT, by = "a")#
+#' @export#
+duplicates <- function(x, ..., by = NULL){#
+  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by))#
+}#
+#
+#' @export#
+#' @rdname duplicates#
+duplicates_ <- function(x, ..., .dots, by = NULL){#
+  N <- tempname("N", x)#
+  if (anyDuplicated(names(x))){#
+    stop("x has duplicate column names")#
+  }#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- names(select_vars_(names(x), by))#
+  if (length(byvars)==0){#
+    byvars <- copy(names(x))#
+  }#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  x[, (N) := .N-1,  by = c(byvars)]#
+  on.exit(x[, (N) :=NULL])#
+  ans <- eval(substitute(x[N>0, c("N", byvars, vars), with = FALSE], list(N = as.name(N))))#
+  n_groups <- sum(duplicated(ans))#
+  message(paste(n_groups," groups have duplicates"))#
+  if (n_groups >0){#
+    setkeyv(ans, c(N,byvars))#
+    setcolorder(ans, c(N, byvars, setdiff(names(ans),c(byvars,"N"))))#
+    ans#
+  }#
+}
+duplicates(DT, by = a)
+DDT
+DT
+setnames(DT,"a","N")
+DT
+duplicates(DT, by = N)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' returns duplicated rows#
+#'#
+#' @param x a data.table#
+#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
+#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
+#' @return a data.table with rows in groups that have duplicates. The first column is a new variable, called "N", that displays the number of duplicates#
+#' @examples#
+#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
+#' duplicates(DT, by = "a")#
+#' @export#
+duplicates <- function(x, ..., by = NULL){#
+  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by))#
+}#
+#
+#' @export#
+#' @rdname duplicates#
+duplicates_ <- function(x, ..., .dots, by = NULL){#
+  N <- tempname("N", x)#
+  if (anyDuplicated(names(x))){#
+    stop("x has duplicate column names")#
+  }#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- names(select_vars_(names(x), by))#
+  if (length(byvars)==0){#
+    byvars <- copy(names(x))#
+  }#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  x[, (N) := .N-1,  by = c(byvars)]#
+  on.exit(x[, (N) :=NULL])#
+  ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))#
+  n_groups <- sum(duplicated(ans))#
+  message(paste(n_groups," groups have duplicates"))#
+  if (n_groups >0){#
+    setkeyv(ans, c(N,byvars))#
+    setcolorder(ans, c(N, byvars, setdiff(names(ans),c(byvars,"N"))))#
+    ans#
+  }#
+}
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
+setnames(DT,"a","N")
+duplicates(DT, by = N)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' returns duplicated rows#
+#'#
+#' @param x a data.table#
+#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
+#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
+#' @return a data.table with rows in groups that have duplicates. The first column is a new variable, called "N", that displays the number of duplicates#
+#' @examples#
+#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
+#' duplicates(DT, by = "a")#
+#' @export#
+duplicates <- function(x, ..., by = NULL){#
+  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by))#
+}#
+#
+#' @export#
+#' @rdname duplicates#
+duplicates_ <- function(x, ..., .dots, by = NULL){#
+  N <- tempname("N", x)#
+  if (anyDuplicated(names(x))){#
+    stop("x has duplicate column names")#
+  }#
+  dots <- lazyeval::all_dots(.dots, ...)#
+  byvars <- names(select_vars_(names(x), by))#
+  if (length(byvars)==0){#
+    byvars <- copy(names(x))#
+  }#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  x[, (N) := .N-1,  by = c(byvars)]#
+  on.exit(x[, (N) :=NULL])#
+  ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))#
+  n_groups <- sum(duplicated(ans))#
+  message(paste(n_groups," groups have duplicates"))#
+  if (n_groups >0){#
+    setkeyv(ans, c(N,byvars))#
+    setcolorder(ans, c(N, byvars, setdiff(names(ans),c(byvars,N))))#
+    ans#
+  }#
+}
+duplicates(DT, by = N)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Retain certain columns of a data.table in place (= Stata keep).#
+#'#
+#' @param x a data.table #
+#' @param ... Variables to keep#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' setcols(DT, id, v2)#
+#' setcols(DT, -id)#
+#' @export#
+setcols <- function(x, ...){#
+	setcols_(x = x, .dots = lazyeval::lazy_dots(...)#
+}#
+#' @export#
+#' @rdname setcols#
+setcols_ <- function(x, ..., .dots){#
+	dots <- lazyeval::all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(.data), dots))#
+	if (length(vars)){#
+		drop <- setdiff(names(.data),cols)#
+		.data[, (drop) := NULL]#
+	}#
+}
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Retain certain columns of a data.table in place (= Stata keep).#
+#'#
+#' @param x a data.table #
+#' @param ... Variables to keep#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' setcols(DT, id, v2)#
+#' setcols(DT, -id)#
+#' @export#
+setcols <- function(x, ...){#
+	setcols_(x = x, .dots = lazyeval::lazy_dots(...)#
+}#
+#
+#' @export#
+#' @rdname setcols#
+setcols_ <- function(x, ..., .dots){#
+	dots <- lazyeval::all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(.data), dots))#
+	if (!length(vars)) stop("No variable selected")#
+	drop <- setdiff(names(.data),cols)#
+	.data[, (drop) := NULL]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Retain certain columns of a data.table in place (= Stata keep).#
+#'#
+#' @param x a data.table #
+#' @param ... Variables to keep#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' setcols(DT, id, v2)#
+#' setcols(DT, -id)#
+#' @export#
+setcols <- function(x, ...){#
+	setcols_(x = x, .dots = lazyeval::lazy_dots(...)#
+}#
+#
+#' @export#
+#' @rdname setcols#
+setcols_ <- function(x, ..., .dots){#
+	dots <- lazyeval::all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(x), dots))#
+	if (!length(vars)) stop("No variable selected")#
+	drop <- setdiff(names(.data),cols)#
+	x[, (drop) := NULL]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Retain certain columns of a data.table in place (= Stata keep).#
+#'#
+#' @param x a data.table #
+#' @param ... Variables to keep#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' setcols(DT, id, v2)#
+#' setcols(DT, -id)#
+#' @export#
+setcols <- function(x, ...){#
+	setcols_(x = x, .dots = lazyeval::lazy_dots(...)#
+}#
+#
+#' @export#
+#' @rdname setcols#
+setcols_ <- function(x, ..., .dots){#
+	dots <- lazyeval::all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(x), dots))#
+	if (!length(vars)) stop("No variable selected")#
+	drop <- setdiff(names(.data),cols)#
+	x[, (drop) := NULL]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Retain certain columns of a data.table in place (= Stata keep).#
+#'#
+#' @param x a data.table #
+#' @param ... Variables to keep#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' setcols(DT, id, v2)#
+#' setcols(DT, -id)#
+#' @export#
+setcols <- function(x, ...){#
+	setcols_(x = x, .dots = lazyeval::lazy_dots(...))#
+}#
+#
+#' @export#
+#' @rdname setcols#
+setcols_ <- function(x, ..., .dots){#
+	dots <- lazyeval::all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(x), dots))#
+	if (!length(vars)) stop("No variable selected")#
+	drop <- setdiff(names(.data),cols)#
+	x[, (drop) := NULL]#
+}
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
