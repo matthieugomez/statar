@@ -50,7 +50,7 @@ winsorize(c(1:4, 99), cutpoints = c(1, 50))
 ````
 
 # data.table functions
-The package adds the following verbs for data.tables.  Syntax for variable selections works similarly to `dplyr`.  Every function that uses NSE also has a version that accepts strings, formulas or quoted expressions : the SE name is the NSE name with _ at the end (see [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)). 
+The package adds the following verbs for data.tables.  Syntax for variable selections works similarly to `dplyr`.  
 
 ````R
 library(data.table)
@@ -109,6 +109,7 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
+Every function also has a version that accepts strings, formulas or quoted expressions : the SE name is the NSE name with _ at the end (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)).
 
 # join
 The package adds a wrapper for the data.table merge command.
