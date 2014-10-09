@@ -38,14 +38,14 @@ sample_mode(c(NA, NA, 1), na.rm = TRUE)
 # partition creates integer variable for quantile categories (corresponds to Stata xtile)
 v <- c(NA, 1:10)                   
 partition(v, n_quantiles = 3) # 3 groups based on terciles
-partition(v, prob = c(0.3, 0.7)) # 3 groups based on terciles
+partition(v, probs = c(0.3, 0.7)) 3 groups based on two quantiles
 partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 
 # winsorize (default based on 5 x interquartile range)
 v <- c(1:4, 99)
 winsorize(c(1:4, 99))
 winsorize(c(1:4, 99), replace = NA)
-winsorize(c(1:4, 99), prob = c(0.01, 0.99))
+winsorize(c(1:4, 99), probs = c(0.01, 0.99))
 winsorize(c(1:4, 99), cutpoints = c(1, 50))
 ````
 

@@ -3,14 +3,14 @@
 \alias{partition}
 \title{Create quantile categories (corresponds to Stata command xtile)}
 \usage{
-partition(x, cutpoints = NULL, prob = NULL, n_quantiles = NULL)
+partition(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL)
 }
 \arguments{
 \item{x}{A vector}
 
 \item{cutpoints}{Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.}
 
-\item{prob}{A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
+\item{probs}{A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
 
 \item{n_quantiles}{A numeric specifying number of quantiles. Can be used instead of cutpoints}
 }
@@ -23,7 +23,7 @@ Create quantile categories (corresponds to Stata command xtile)
 \examples{
 v <- c(NA, 1:10)
 partition(v, n_quantiles = 3) # 3 groups based on terciles
-partition(v, prob = c(0.3, 0.7)) # 3 groups based on terciles
+partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
 partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 }
 

@@ -4,16 +4,16 @@
 \alias{winsorize}
 \title{Winsorize a numeric vector}
 \usage{
-winsorize(x, prob = NULL, cutpoints = NULL, replace = c(cutpoints[1],
+winsorize(x, probs = NULL, cutpoints = NULL, replace = c(cutpoints[1],
   cutpoints[2]), verbose = TRUE)
 
-winsorise(x, prob = NULL, cutpoints = NULL, replace = c(cutpoints[1],
+winsorise(x, probs = NULL, cutpoints = NULL, replace = c(cutpoints[1],
   cutpoints[2]), verbose = TRUE)
 }
 \arguments{
 \item{x}{A vector of values}
 
-\item{prob}{A vector of probabilities. Can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
+\item{probs}{A vector of probabilities that can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
 
 \item{cutpoints}{Cutpoints under and above which are defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.}
 
@@ -25,7 +25,7 @@ Winsorize a numeric vector
 \examples{
 winsorize(c(1:4, 99))
 winsorize(c(1:4, 99), replace = NA)
-winsorize(c(1:4, 99), prob = c(0.01, 0.99))
+winsorize(c(1:4, 99), probs = c(0.01, 0.99))
 winsorize(c(1:4, 99), cutpoints = c(1, 50))
 }
 
