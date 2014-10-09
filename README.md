@@ -74,7 +74,7 @@ fill_gap(DT, value, by = id, along_with = year, full = TRUE)
 library(lubridate)
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 DT[, datem :=  floor_date(date, "month")]
-fill_gap(DT, value,by = id, along_with = datem, units = "month")
+fill_gap(DT, value, by = id, along_with = datem, units = "month")
 
 # set na (in the original dataset)
 DT <- data.table(
@@ -83,16 +83,16 @@ DT <- data.table(
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 )
 DT1 <- copy(DT)
-setna(DT, value, by = id, along_with = date)
-setkey(DT1, id, date)
-setna(DT1)
+setna(DT1, value, by = id, along_with = date)
+setkey(DT, id, date)
 DT2 <- copy(DT)
 DT3 <- copy(DT)
+setna(DT)
 setna(DT2, value, rollend = TRUE)
 setna(DT3, value, roll = "nearest")
 
-# duplicates returns duplicated groups
-DT <- data.table(a = rep(1:2, each = 3), b=1:6)
+# duplicates (returns rows of duplicated groups)
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = a)
 ````
 

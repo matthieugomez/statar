@@ -4,16 +4,16 @@
 \alias{setna_}
 \title{fill NA in place based on non missing observations}
 \usage{
-setna(.data, ..., by = NULL, along_with = NULL, roll = TRUE,
-  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
-  TRUE) else c(TRUE, FALSE))
+setna(x, ..., by = NULL, along_with = NULL, roll = TRUE, rollends = if
+  (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else
+  c(TRUE, FALSE))
 
-setna_(.data, ..., .dots, by = NULL, along_with = NULL, roll = TRUE,
+setna_(x, ..., .dots, by = NULL, along_with = NULL, roll = TRUE,
   rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
   TRUE) else c(TRUE, FALSE))
 }
 \arguments{
-\item{.data}{a data.table}
+\item{x}{a data.table}
 
 \item{by}{Groups within which gaps should be fill. Default to keys (or to keys minus last if along_with is unspecified)}
 
@@ -32,9 +32,13 @@ DT <- data.table(
  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 )
+DT1 <- copy(DT)
+setna(DT1, value, by = id, along_with = date)
 setkey(DT, id, date)
-setna(DT, value)
-setna(DT, value, rollend = TRUE)
-setna(DT, value, roll = "nearest")
+DT2 <- copy(DT)
+DT3 <- copy(DT)
+setna(DT)
+setna(DT2, value, rollend = TRUE)
+setna(DT3, value, roll = "nearest")
 }
 

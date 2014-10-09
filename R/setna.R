@@ -12,10 +12,11 @@
 #'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 #' )
 #' DT1 <- copy(DT)
-#' setna(DT, value, by = id, along_with = date)
+#' setna(DT1, value, by = id, along_with = date)
 #' setkey(DT, id, date)
 #' DT2 <- copy(DT)
 #' DT3 <- copy(DT)
+#' setna(DT)
 #' setna(DT2, value, rollend = TRUE)
 #' setna(DT3, value, roll = "nearest")
 #' @export
