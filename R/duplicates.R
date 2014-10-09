@@ -1,4 +1,4 @@
-#' returns duplicated rows
+#' returns rows in duplicated groups
 #'
 #' @param x a data.table
 #' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.

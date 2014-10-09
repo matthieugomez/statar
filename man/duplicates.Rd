@@ -2,7 +2,7 @@
 \name{duplicates}
 \alias{duplicates}
 \alias{duplicates_}
-\title{returns duplicated rows}
+\title{returns rows in duplicated groups}
 \usage{
 duplicates(x, ..., by = NULL)
 
@@ -19,7 +19,7 @@ duplicates_(x, ..., .dots, by = NULL)
 a data.table with rows in groups that have duplicates. The first column is a new variable, called "N" (N-i if N already exists), that countains the number of duplicates
 }
 \description{
-returns duplicated rows
+returns rows in duplicated groups
 }
 \examples{
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
