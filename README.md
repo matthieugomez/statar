@@ -95,8 +95,11 @@ DT <- data.table(
 setkeyv(DT,c("id", "date"))
 setna(DT, "value")
 setna(DT, "value", roll = "nearest")
-````
 
+# duplicates returns a new data.table composed of groups that have duplicates
+DT <- data.table(a = rep(1:2, each = 3), b=1:6)
+duplicates(DT, by = "a")
+````
 
 # join
 The package adds a wrapper for the data.table merge command.
