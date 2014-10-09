@@ -1,11 +1,11 @@
-#' returns groups with duplicates
+#' Returns a data.table with duplicated groups
 #'
 #' @param x a data.table
 #' @param ... Variables to keep (beyond the grouped). Default to all variables. See the \link[dplyr]{select} documentation.
-#' @param by Variable to group by. Default is key of data.table
+#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.
 #' @return a data.table composed of groups that have duplicates. The first column is a new variable, named "N", that displays the number of duplicates
 #' @examples
-#' DT <- data.table(a = rep(1:2, each = 3), b=1:6)
+#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 #' duplicates(DT, by = "a")
 #' @export
 duplicates <- function(x, ..., by = NULL){
@@ -29,9 +29,12 @@ duplicates_ <- function(x, ..., .dots, by = NULL){
   x[, N := .N-1,  by = c(byvars)]
   on.exit(x[, N :=NULL])
   ans <- x[N>0, c("N",byvars,vars), with = FALSE]
-  setkeyv(ans, c("N",byvars))
-  setcolorder(ans, c("N", byvars, setdiff(names(ans),c(byvars,"N"))))
-  message(paste(sum(duplicated(ans))," groups have duplicates"))
-  ans
+  n_groups <- sum(duplicated(ans))
+  message(paste(n_groups," groups have duplicates"))
+  if (n_groups >0){
+    setkeyv(ans, c("N",byvars))
+    setcolorder(ans, c("N", byvars, setdiff(names(ans),c(byvars,"N"))))
+    ans
+  }
 }
 

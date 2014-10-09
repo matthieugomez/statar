@@ -2,7 +2,7 @@
 #' 
 #' @param DT A tbl_dt or tbl_grouped_dt.
 #' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param by Print summary statistics by group. Default to NULL (since it is the most common behavior)
+#' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @examples
 #' library(data.table)

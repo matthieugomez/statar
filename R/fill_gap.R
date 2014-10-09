@@ -2,9 +2,9 @@
 #'
 #' @param .data A tbl_dt, grouped or not
 #' @param ... Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.
-#' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified)
-#' @param along_with Numeric variable along which gaps should be filled. Default to last key.
-#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  
+#' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.
+#' @param along_with Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.
+#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").   
 #' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. 
 #' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.
 #' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end
@@ -19,7 +19,7 @@
 #' library(lubridate)
 #' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 #' DT[, datem :=  floor_date(date, "month")]
-#' fill_gap(DT, value,by = id, along_with = datem, units = "month")
+#' fill_gap(DT, value, by = id, along_with = datem, units = "month")
 #' @export
 fill_gap <- function(.data, ..., by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)

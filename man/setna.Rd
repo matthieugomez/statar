@@ -15,9 +15,11 @@ setna_(x, ..., .dots, by = NULL, along_with = NULL, roll = TRUE,
 \arguments{
 \item{x}{a data.table}
 
-\item{by}{Groups within which gaps should be fill. Default to keys (or to keys minus last if along_with is unspecified)}
+\item{...}{Variables to fill in. Default to all non grouping variables. See the \link[dplyr]{select} documentation.}
 
-\item{along_with}{Numeric variable along which NAs should be filled. Default to last key.}
+\item{by}{Groups within which gaps should be fill. Default to keys (or to keys minus last if along_with is unspecified). See the \link[dplyr]{select} documentation.}
+
+\item{along_with}{Numeric variable along which NAs should be filled. Default to last key. See the \link[dplyr]{select} documentation.}
 
 \item{roll}{When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.}
 

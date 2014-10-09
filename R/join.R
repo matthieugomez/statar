@@ -8,6 +8,7 @@
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
+#' library(data.table)
 #' x <- data.table(a = rep(1:2, each = 3), b=1:6)
 #' y <- data.table(a = 0:1, bb = 10:11)
 #' join(x, y, type = "outer")

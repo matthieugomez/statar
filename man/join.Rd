@@ -26,6 +26,7 @@ A data.table that joins rows in master and using datases. In order to avoid dupl
 Join two data.tables together
 }
 \examples{
+library(data.table)
 x <- data.table(a = rep(1:2, each = 3), b=1:6)
 y <- data.table(a = 0:1, bb = 10:11)
 join(x, y, type = "outer")

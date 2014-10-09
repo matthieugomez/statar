@@ -17,9 +17,9 @@ fill_gap_(.data, ..., .dots, by = NULL, along_with = NULL, units = NULL,
 
 \item{...}{Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.}
 
-\item{by}{Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified)}
+\item{by}{Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.}
 
-\item{along_with}{Numeric variable along which gaps should be filled. Default to last key.}
+\item{along_with}{Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.}
 
 \item{units}{A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
 
@@ -43,6 +43,6 @@ fill_gap(DT, value, by = id, along_with = year, full = TRUE)
 library(lubridate)
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 DT[, datem :=  floor_date(date, "month")]
-fill_gap(DT, value,by = id, along_with = datem, units = "month")
+fill_gap(DT, value, by = id, along_with = datem, units = "month")
 }
 

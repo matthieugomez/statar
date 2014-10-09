@@ -29,7 +29,7 @@ value_l <- lag(value, units = "month", along_with = datem)
 tag(c(1, 2))
 tag(c(1, 2), fromLast = TRUE)
 
-# sample_mode (corresponds to Stata mode)
+# sample_mode returns the statistical mode
 sample_mode(c(1, 2, 2))
 sample_mode(c(1, 2))
 sample_mode(c(NA, NA, 1))
@@ -52,7 +52,7 @@ The package adds the following verbs for data.tables
 ````R
 library(data.table)
 
-# sum_up (= Stata summarize)
+# sum_up prints detailed summary statistics (corresponds to Stata summarize)
 N=1e6; K=100
 DT <- data.table(
   id = 1:N,
@@ -63,7 +63,11 @@ sum_up(DT)
 sum_up(DT, v2, d = T)
 sum_up(DT, starts_with("v"), by = v1)
 
-# fill_gap (= Stata tsfill)
+# duplicates returns a data.table with duplicated groups
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
+duplicates(DT, by = a)
+
+# fill_gap fills in gaps in a time variable (corresponds to Stata tsfill)
 DT <- data.table(
     id    = c(1, 1, 1, 1, 1, 2, 2),
     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
@@ -76,7 +80,7 @@ DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03
 DT[, datem :=  floor_date(date, "month")]
 fill_gap(DT, value, by = id, along_with = datem, units = "month")
 
-# set na (in the original dataset)
+# setna fill in missing values along a time variable
 DT <- data.table(
  id    = c(1, 1, 1, 1, 1, 2, 2),
  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
@@ -91,9 +95,7 @@ setna(DT)
 setna(DT2, value, rollend = TRUE)
 setna(DT3, value, roll = "nearest")
 
-# duplicates (returns rows of duplicated groups)
-DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-duplicates(DT, by = a)
+
 ````
 
 Syntax for variable selections works similarly to `dplyr`.  Each function has a corresponding non NSE function with the suffix "_", that accepts strings, formula or quoted expressions.

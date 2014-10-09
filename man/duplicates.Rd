@@ -2,7 +2,7 @@
 \name{duplicates}
 \alias{duplicates}
 \alias{duplicates_}
-\title{returns groups with duplicates}
+\title{Returns a data.table with duplicated groups}
 \usage{
 duplicates(x, ..., by = NULL)
 
@@ -13,16 +13,16 @@ duplicates_(x, ..., .dots, by = NULL)
 
 \item{...}{Variables to keep (beyond the grouped). Default to all variables. See the \link[dplyr]{select} documentation.}
 
-\item{by}{Variable to group by. Default is key of data.table}
+\item{by}{Variable to group by. Default is the key, or everything is the data.table is not keyed.}
 }
 \value{
 a data.table composed of groups that have duplicates. The first column is a new variable, named "N", that displays the number of duplicates
 }
 \description{
-returns groups with duplicates
+Returns a data.table with duplicated groups
 }
 \examples{
-DT <- data.table(a = rep(1:2, each = 3), b=1:6)
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = "a")
 }
 

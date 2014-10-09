@@ -11,7 +11,7 @@ sum_up_(.data, ..., .dots, by = NULL, d = FALSE)
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
-\item{by}{Print summary statistics by group. Default to NULL (since it is the most common behavior)}
+\item{by}{Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 
