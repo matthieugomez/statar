@@ -22,7 +22,7 @@ lead(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL,
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
 
-\item{units.}{A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
+\item{units.}{A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
 }
 \description{
 lead and lag are useful for comparing values for date offset by a constant

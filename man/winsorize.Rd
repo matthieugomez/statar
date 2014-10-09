@@ -4,18 +4,18 @@
 \alias{winsorize}
 \title{Winsorize a numeric vector}
 \usage{
-winsorize(x, cutpoints = {     l <- quantile(v, c(0.25, 0.5, 0.75), type = 1,
-  na.rm = TRUE)     c(l[2] - 5 * (l[3] - l[1]), l[2] + 5 * (l[3] - l[1])) },
-  replace = c(cutpoints[1], cutpoints[2]))
+winsorize(x, prob = NULL, cutpoints = NULL, replace = c(cutpoints[1],
+  cutpoints[2]), verbose = TRUE)
 
-winsorise(x, cutpoints = {     l <- quantile(v, c(0.25, 0.5, 0.75), type = 1,
-  na.rm = TRUE)     c(l[2] - 5 * (l[3] - l[1]), l[2] + 5 * (l[3] - l[1])) },
-  replace = c(cutpoints[1], cutpoints[2]))
+winsorise(x, prob = NULL, cutpoints = NULL, replace = c(cutpoints[1],
+  cutpoints[2]), verbose = TRUE)
 }
 \arguments{
 \item{x}{A vector of values}
 
-\item{cutpoints}{Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.}
+\item{prob}{A vector of probabilities. Can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
+
+\item{cutpoints}{Cutpoints under and above which are defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.}
 
 \item{replace}{Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.}
 }
@@ -23,8 +23,9 @@ winsorise(x, cutpoints = {     l <- quantile(v, c(0.25, 0.5, 0.75), type = 1,
 Winsorize a numeric vector
 }
 \examples{
-winsorize(c(1, 2, 3, 99))
-winsorize(c(1, 2, 3, 99), replace = NA)
-winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
+winsorize(c(1:4, 99))
+winsorize(c(1:4, 99), replace = NA)
+winsorize(c(1:4, 99), prob = c(0.01, 0.99))
+winsorize(c(1:4, 99), cutpoints = c(1, 50))
 }
 
