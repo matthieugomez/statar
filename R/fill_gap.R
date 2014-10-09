@@ -3,7 +3,7 @@
 #' @param .data A tbl_dt, grouped or not
 #' @param ... Variables to keep
 #' @param along_with integer variable to fill_gap
-#' @param type  "within"  means that rows are fill_gaped with respect to min and max of \code{...} within groups (default) while "across" means that dates are fill_gaped with respect to min and max of \code{...} across groups. 
+#' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within groups. When full = TRUE, rows are filled with respect to min and max of \code{...} across groups. 
 #' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.
 #' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end
 #' @examples
@@ -15,9 +15,9 @@
 #'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 #')
 #' DT %>% group_by(id) %>% fill_gap(value, along_with = date)
-#' DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")
+#' DT %>% group_by(id) %>% fill_gap(value, along_with = date, full = TRUE)
 #' @export
-fill_gap <- function(.data, ..., along_with, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap <- function(.data, ..., along_with, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
   fill_gap_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)
@@ -25,14 +25,14 @@ fill_gap <- function(.data, ..., along_with, type = c("within", "across"), roll 
 
 #' @export
 #' @rdname fill_gap
-fill_gap_ <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap_ <- function(.data, ..., along_with, .dots, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
   UseMethod("fill_gap_")
 }
 
 #' @export
-fill_gap_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap_.grouped_dt <- function(.data,...,along_with, .dots, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)){
   along_with  <- names(select_vars_(names(.data), along_with ))
@@ -42,11 +42,10 @@ fill_gap_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within",
   if (length(vars) == 0) {
      vars <- setdiff(names(.data),c(byvars, along_with))
   }
-  type <- match.arg(type, c("within", "across"))
   isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))
   if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)
   if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)
-  if (type=="within"){
+  if (!full){
     call <- substitute(.data[, list(seq.int(min(t, na.rm = TRUE), max(t, na.rm = TRUE))), by = c(byvars)], list(t = as.name(along_with)))
   } else{
     a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))
@@ -63,7 +62,7 @@ fill_gap_.grouped_dt <- function(.data,...,along_with, .dots, type = c("within",
 }
 
 #' @export
-fill_gap_.data.table <- function(.data,..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap_.data.table <- function(.data,..., along_with, .dots, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)){
   along_with  <- names(select_vars_(names(.data), along_with ))
@@ -90,7 +89,7 @@ fill_gap_.data.table <- function(.data,..., along_with, .dots, type = c("within"
 
 
 #' @export
-fill_gap_.tbl_dt <- function(.data, ..., along_with, .dots, type = c("within", "across"), roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap_.tbl_dt <- function(.data, ..., along_with, .dots, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
   tbl_dt(NextMethod())

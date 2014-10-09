@@ -31,7 +31,7 @@ y <- data.table(a = 0:1, bb = 10:11)
 join(x, y, type = "outer")
 join(x, y, type = "left", gen = "_merge")
 join(x, y, type = "right", gen = "_merge")
-join(x, y, type = "inner", check = 1~1)
+join(x, y, type = "inner", check = 1~m)
 join(x, y, type = "semi")
 join(x, y, type = "anti")
 }

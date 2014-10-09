@@ -4,13 +4,13 @@
 \alias{fill_gap_}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
-fill_gap(.data, ..., along_with, type = c("within", "across"), roll = FALSE,
+fill_gap(.data, ..., along_with, full = FALSE, roll = FALSE, rollends = if
+  (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else
+  c(TRUE, FALSE))
+
+fill_gap_(.data, ..., along_with, .dots, full = FALSE, roll = FALSE,
   rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
   TRUE) else c(TRUE, FALSE))
-
-fill_gap_(.data, ..., along_with, .dots, type = c("within", "across"),
-  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
-  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 }
 \arguments{
 \item{.data}{A tbl_dt, grouped or not}
@@ -19,7 +19,7 @@ fill_gap_(.data, ..., along_with, .dots, type = c("within", "across"),
 
 \item{along_with}{integer variable to fill_gap}
 
-\item{type}{"within"  means that rows are fill_gaped with respect to min and max of \code{...} within groups (default) while "across" means that dates are fill_gaped with respect to min and max of \code{...} across groups.}
+\item{full}{A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within groups. When full = TRUE, rows are filled with respect to min and max of \code{...} across groups.}
 
 \item{roll}{When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.}
 
@@ -37,6 +37,6 @@ DT <- data.table(
  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = date)
-DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = date, type = "across")
+DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = date, full = TRUE)
 }
 

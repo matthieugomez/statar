@@ -71,7 +71,7 @@ DT <- data.table(
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
 DT %>% group_by(id) %>% fill_gap(value, along_with = date)
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, type = "across")
+DT %>% group_by(id) %>% fill_gap(value, along_with = date, full = TRUE)
 
 # fill na (in a new dataset)
 DT <- data.table(
@@ -97,7 +97,7 @@ setna(DT, "value", roll = "nearest")
 # join
 The package adds a wrapper for the data.table merge command.
 
-- The option "type" is based on SQL syntax. Possible types are : left, right, inner, outer, semi and anti. 
+- The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi and anti. 
 - The option "check" checks there are no duplicates in the master or using data.tables (as in Stata)
 - The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata)
 
