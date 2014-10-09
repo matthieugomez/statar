@@ -5,7 +5,7 @@
 #' @param n a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)
 #' @param order_by override the default ordering to use another vector
 #' @param along_with  compute lag with respect to this vector instead of previous row
-#' @param units. A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  
+#' @param units. A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @examples
 #' year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
@@ -29,13 +29,12 @@ lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, de
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
     return(with_order(order_by, lead, x, n = n, default = default))
   }
-
   if (!is.null(along_with)) {
     if (!is.null(units)){
       units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
       if ("units"=="quarter"){
         units <- "month"
-        n <- 3
+        n <- 3 * n
       }
       index <- match(along_with + period(n, units = units), along_with, incomparable = NA)
     } else{
@@ -53,14 +52,13 @@ lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, de
 }
 
 
-
 #' @export
 #' @rdname lead-lag
 lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, default = NA, ...) { 
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
   if (!is.null(order_by)) {
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
-    return(with_order(order_by, lead, x, n = n, default = default))
+    return(with_order(order_by, lag, x, n = n, default = default))
  }
 
   if (!is.null(along_with)) {
@@ -68,7 +66,7 @@ lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = N
       units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
       if ("units"=="quarter"){
         units <- "month"
-        n <- 3
+        n <- 3 * n
       }
       index <- match(along_with - period(n, units = units), along_with, incomparable = NA)
     } else{

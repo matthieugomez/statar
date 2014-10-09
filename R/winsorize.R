@@ -10,7 +10,7 @@
 #' @export
 winsorize <- function(x, 
                       cutpoints = {
-                        l <- quantile(v, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) 
+                        l <- quantile(x, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) 
                         c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))
                       }, 
                       replace = c(cutpoints[1], cutpoints[2])){
@@ -25,7 +25,7 @@ winsorize <- function(x,
 #' @rdname winsorize
 winsorise <- function(x, 
                       cutpoints = {
-                        l <- quantile(v, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) 
+                        l <- quantile(x, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) 
                         c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))
                       }, 
                       replace = c(cutpoints[1],cutpoints[2])){
