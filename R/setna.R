@@ -12,12 +12,10 @@
 #'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 #' )
 #' DT1 <- copy(DT)
-#' DT2 <- copy(DT)
-#' DT3 <- copy(DT)
 #' setna(DT, value, by = id, along_with = date)
 #' setkey(DT, id, date)
-#' setna(DT1)
-#' setna(DT2)
+#' DT2 <- copy(DT)
+#' DT3 <- copy(DT)
 #' setna(DT2, value, rollend = TRUE)
 #' setna(DT3, value, roll = "nearest")
 #' @export
@@ -47,6 +45,7 @@ setna_ <- function(x, ..., .dots, by = NULL, along_with = NULL, roll = TRUE ,  r
   dots <- all_dots(.dots, ...)
   vars <- names(select_vars_(names(x), dots, exclude = c(byvars, along_with)))  
   for (col in vars){
-    eval(substitute(x[, (col) := x[!is.na(x), c(byvars,along_with, col), with = FALSE ][x[, c(byvars,along_with), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))
+    eval(substitute(x[, (col) := x[!is.na(t), c(byvars,along_with, col), with = FALSE ][x, value, roll = roll, rollends = rollends]], list(t = as.name(col))))
   }
 }
+
