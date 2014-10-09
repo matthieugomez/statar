@@ -53,11 +53,10 @@ The package adds the following verbs for data.tables. Syntax for variable select
 library(data.table)
 
 #setcols keeps certain columns
-N <- 100; K <- 10
 DT <- data.table(
-  id = 1:N,
-  v1 = sample(5, N, TRUE),
-  v2 = sample(1e6, N, TRUE)
+  id = c(1,2),
+  v1 = c(1,1),
+  v2 = c(2,1)
 )
 setcols(DT, id, v2)
 setcols(DT, -id)
