@@ -4,9 +4,9 @@
 \alias{sum_up_}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(.data, ..., by = NULL, d = FALSE)
+sum_up(x, ..., by = NULL, d = FALSE)
 
-sum_up_(.data, ..., .dots, by = NULL, d = FALSE)
+sum_up_(x, ..., .dots, by = NULL, d = FALSE)
 }
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
@@ -21,14 +21,11 @@ sum_up_(.data, ..., .dots, by = NULL, d = FALSE)
 Gives summary statistics (corresponds to Stata command summarize)
 }
 \examples{
-library(data.table)
-library(dplyr)
 N <- 100; K <- 10
 DT <- data.table(
   id = 1:N,
-  v1 =  sample(5, N, TRUE),
-  v2 =  sample(1e6, N, TRUE),
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
 )
 sum_up(DT)
 sum_up(DT, v2, d = T)

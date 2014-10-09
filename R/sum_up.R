@@ -5,42 +5,39 @@
 #' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @examples
-#' library(data.table)
-#' library(dplyr)
 #' N <- 100; K <- 10
 #' DT <- data.table(
 #'   id = 1:N,
-#'   v1 =  sample(5, N, TRUE),                          
-#'   v2 =  sample(1e6, N, TRUE),                       
-#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
+#'   v1 = sample(5, N, TRUE),
+#'   v2 = sample(1e6, N, TRUE)
 #' )
 #' sum_up(DT)
 #' sum_up(DT, v2, d = T)
 #' sum_up(DT, starts_with("v"), by = v1)
 #' @export
-sum_up <- function(.data, ..., by = NULL, d = FALSE) {
-  sum_up_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)
+sum_up <- function(x, ..., by = NULL, d = FALSE) {
+  sum_up_(x, .dots = lazy_dots(...) , by = substitute(by), d = d)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(.data, ..., .dots ,by = NULL, d = FALSE) {
-  byvars <- names(select_vars_(names(.data), by))
+sum_up_<- function(x, ..., .dots ,by = NULL, d = FALSE) {
+  byvars <- names(select_vars_(names(x), by))
   dots <- all_dots(.dots, ...)
-  vars <- names(select_vars_(names(.data), dots, exclude = byvars))
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))
   if (length(vars) == 0) {
-     vars <- setdiff(names(.data), byvars)
+     vars <- setdiff(names(x), byvars)
   }
-  nums <- sapply(.data, is.numeric)
+  nums <- sapply(x, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
 
   if (!length(byvars)){
-    invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars])
+    invisible(x[, describe_matrix(.SD,d = d), .SDcols = vars])
   } else{
-    invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])
+    invisible(x[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])
   }
 }
 

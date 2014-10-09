@@ -1,18 +1,29 @@
-#' Retain certain columns of a data.table in place.
+#' Retain certain columns of a data.table in place (= Stata keep).
 #'
-#' @param .data a data.table 
-#' @param cols a character vector of variable names to keep
+#' @param x a data.table 
+#' @param ... Variables to keep. See the \link[dplyr]{select} documentation.
 #' @examples
+#' N <- 100; K <- 10
 #' DT <- data.table(
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),
-#'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
-#'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
+#'   id = 1:N,
+#'   v1 = sample(5, N, TRUE),
+#'   v2 = sample(1e6, N, TRUE)
 #' )
-#' setcols(DT, c("id", "date"))
+#' setcols(DT, id, v2)
+#' setcols(DT, -id)
 #' @export
-setcols <- function(.data, cols){
+setcols <- function(x, ...){
+	setcols_(x = x, .dots = lazyeval::lazy_dots(...))
+}
+
+#' @export
+#' @rdname setcols
+setcols_ <- function(x, ..., .dots){
+	dots <- lazyeval::all_dots(.dots, ...)
+	vars <- names(select_vars_(names(x), dots))
+	if (!length(vars)) stop("No variable selected")
 	drop <- setdiff(names(.data),cols)
-	.data[, (drop) := NULL]
+	x[, (drop) := NULL]
 }
 
 

@@ -4,16 +4,16 @@
 \alias{fill_gap_}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
-fill_gap(.data, ..., by = NULL, along_with = NULL, units = NULL,
+fill_gap(x, ..., by = NULL, along_with = NULL, units = NULL,
   full = FALSE, roll = FALSE, rollends = if (roll == "nearest") c(TRUE,
   TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 
-fill_gap_(.data, ..., .dots, by = NULL, along_with = NULL, units = NULL,
+fill_gap_(x, ..., .dots, by = NULL, along_with = NULL, units = NULL,
   full = FALSE, roll = FALSE, rollends = if (roll == "nearest") c(TRUE,
   TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 }
 \arguments{
-\item{.data}{A tbl_dt, grouped or not}
+\item{x}{A tbl_dt, grouped or not}
 
 \item{...}{Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.}
 

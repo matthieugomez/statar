@@ -1,6 +1,6 @@
 #'  Add rows corresponding to gaps in some variable
 #'
-#' @param .data A tbl_dt, grouped or not
+#' @param x A tbl_dt, grouped or not
 #' @param ... Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.
 #' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.
 #' @param along_with Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.
@@ -21,55 +21,55 @@
 #' DT[, datem :=  floor_date(date, "month")]
 #' fill_gap(DT, value, by = id, along_with = datem, units = "month")
 #' @export
-fill_gap <- function(.data, ..., by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap <- function(x, ..., by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)
+  fill_gap_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)
 }
 
 #' @export
 #' @rdname fill_gap
-fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap_ <- function(x, ..., .dots, by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
-  byvars <- names(select_vars_(names(.data), by))
-  along_with  <- names(select_vars_(names(.data), along_with ))
+  byvars <- names(select_vars_(names(x), by))
+  along_with  <- names(select_vars_(names(x), along_with ))
   if (!length(byvars) & (!length(along_with))){
-      byvars <- head(key(.data),-1)
-      along_with <- tail(key(.data),1)
+      byvars <- head(key(x),-1)
+      along_with <- tail(key(x),1)
       if (!length(along_with)) stop("along_with is not specified but x is not keyed")
 
   } else if (!length(byvars)){
-      byvars <- key(.data)
+      byvars <- key(x)
   } else if (!length(along_with)){
     stop("When by is specified, along_with must also be specified")
   }
   dots <- lazyeval::all_dots(.dots, ...)
-  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars, along_with)))
   if (length(vars) == 0) {
-     vars <- setdiff(names(.data),c(byvars, along_with))
+     vars <- setdiff(names(x),c(byvars, along_with))
   }
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))
+  isna <- eval(substitute(x[,sum(is.na(t))], list(t = as.name(along_with))))
   if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)
+  if (anyDuplicated(x, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)
   if (is.null(units)){
     units <-1
   } else{
     units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
   }
   if (!full){
-    call <- substitute(.data[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))
+    call <- substitute(x[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))
   } else{
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))
-    call <- substitute(.data[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))
+    a <- eval(substitute(x[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))
+    b <- eval(substitute(x[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))
+    call <- substitute(x[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))
   }
   ans  <- eval(call)
   setnames(ans, c(byvars, along_with))
   setkeyv(ans, c(byvars, along_with))
-  .data <- .data[, c(byvars,along_with, vars), with = FALSE]
-  setkeyv(.data, c(byvars,along_with))
-  .data <- .data[ans,allow.cartesian=TRUE]
-  .data
+  x <- x[, c(byvars,along_with, vars), with = FALSE]
+  setkeyv(x, c(byvars,along_with))
+  x <- x[ans,allow.cartesian=TRUE]
+  x
 }
 

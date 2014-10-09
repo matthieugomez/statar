@@ -52,8 +52,19 @@ The package adds the following verbs for data.tables
 ````R
 library(data.table)
 
+
+#setcols keeps certain columns
+N <- 100; K <- 10
+DT <- data.table(
+  id = 1:N,
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+)
+setcols(DT, id, v2)
+setcols(DT, -id)
+
 # sum_up prints detailed summary statistics (corresponds to Stata summarize)
-N=1e6; K=100
+N <- 100; K <- 10
 DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),
@@ -62,6 +73,8 @@ DT <- data.table(
 sum_up(DT)
 sum_up(DT, v2, d = T)
 sum_up(DT, starts_with("v"), by = v1)
+
+
 
 # duplicates returns duplicated rows
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
