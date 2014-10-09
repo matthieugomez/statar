@@ -50,7 +50,7 @@ winsorize(c(1:4, 99), cutpoints = c(1, 50))
 ````
 
 # data.table functions
-The package adds the following verbs for data.tables. Syntax for variable selections works similarly to `dplyr`.  Each function has a corresponding non NSE function with the suffix "_", that accepts strings, formulas or quoted expressions.
+The package adds the following verbs for data.tables.  Syntax for variable selections works similarly to `dplyr`.  Every function that uses NSE also has a version that accepts strings, formulas or quoted expressions : its name is the NSE name with _ at the end. 
 
 ````R
 library(data.table)
