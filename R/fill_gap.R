@@ -20,7 +20,7 @@
 fill_gap <- function(.data, ..., along_with, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), type = type, roll = roll, rollends = rollends)
+  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with),full = full, roll = roll, rollends = rollends)
 }
 
 #' @export
