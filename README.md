@@ -47,7 +47,7 @@ winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), ty
 ````
 
 # data.table functions
-The package adds the following verbs for data.tables
+The package adds the following verbs for data.tables. Syntax for variable selections works similarly to `dplyr`.  Each function has a corresponding non NSE function with the suffix "_", that accepts strings, formulas or quoted expressions.
 
 ````R
 library(data.table)
@@ -106,7 +106,6 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
-Syntax for variable selections works similarly to `dplyr`.  Each function has a corresponding non NSE function with the suffix "_", that accepts strings, formula or quoted expressions.
 
 # join
 The package adds a wrapper for the data.table merge command.
