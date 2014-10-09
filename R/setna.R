@@ -27,7 +27,7 @@ setna <- function(.data, ..., by = NULL, along_with = NULL, roll = TRUE ,  rolle
 setna_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){
-  if (!length(byvars)) byvars <- key(vars)
+  byvars <- names(select_vars_(names(.data), by))
   along_with  <- names(select_vars_(names(.data), along_with ))
   if (!length(byvars) & (!length(along_with))){
       byvars <- head(key(.data),-1)
@@ -38,8 +38,8 @@ setna_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, roll = TRUE 
       stop("If by is specified, along_with must be specified")
   }
   dots <- all_dots(.dots, ...)
-  vars <- names(select_vars_(names(.data), dots, exclude = keys))  
+  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))  
   for (col in vars){
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))
+    eval(substitute(.data[, (col) := .data[!is.na(x), c(byvars,along_with, col), with = FALSE ][.data[, c(byvars,along_with), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))
   }
 }

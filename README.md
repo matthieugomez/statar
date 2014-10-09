@@ -60,7 +60,7 @@ DT <- data.table(
   v2 = sample(1e6, N, TRUE)
 )
 sum_up(DT)
-sum_up(DT, v2, d=T)
+sum_up(DT, v2, d = T)
 sum_up(DT, starts_with("v"), by = v1)
 
 # fill_gap (= Stata tsfill)
