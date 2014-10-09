@@ -106,6 +106,7 @@ The package adds a wrapper for the data.table merge command.
 - The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata)
 
 ````R
+library(data.table)
 x <- data.table(a = rep(1:2, each = 3), b = 1:6)
 y <- data.table(a = 0:1, bb = 10:11)
 # outer corresponds to Stata joinby keep(master matched using)
