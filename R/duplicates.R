@@ -28,10 +28,11 @@ duplicates_ <- function(x, ..., .dots, by = NULL){
   x[, (N) := .N-1,  by = c(byvars)]
   on.exit(x[, (N) :=NULL])
   ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))
-  n_groups <- sum(duplicated(ans))
-  message(paste(n_groups," groups have duplicates"))
-  if (n_groups >0){
+  length <- nrow(ans)
+  if (length >0){
     setkeyv(ans, c(N,byvars))
+    n_groups <- length- sum(duplicated(ans))
+    message(paste(n_groups," groups have duplicates"))
     setcolorder(ans, c(N, byvars, setdiff(names(ans), c(byvars, N))))
     ans
   }
