@@ -58,8 +58,8 @@ N=1e6; K=100
 DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),
-  v2 = sample(1e6, N, TRUE),
-  )
+  v2 = sample(1e6, N, TRUE)
+)
 DT %>% sum_up
 DT %>% sum_up(v2, d=T)
 DT %>% filter(v1==1) %>% sum_up(starts_with("v"))
