@@ -23,6 +23,7 @@ sum_up <- function(x, ..., by = NULL, d = FALSE) {
 #' @export
 #' @rdname sum_up
 sum_up_<- function(x, ..., .dots ,by = NULL, d = FALSE) {
+  stopifnot(is.data.table(x))
   byvars <- names(select_vars_(names(x), by))
   dots <- all_dots(.dots, ...)
   vars <- names(select_vars_(names(x), dots, exclude = byvars))

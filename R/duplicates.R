@@ -16,6 +16,7 @@ duplicates <- function(x, ..., by = NULL){
 #' @export
 #' @rdname duplicates
 duplicates_ <- function(x, ..., .dots, by = NULL){
+  stopifnot(is.data.table(x))
   N <- tempname("N", x)
   if (anyDuplicated(names(x))){
     stop("x has duplicate column names")

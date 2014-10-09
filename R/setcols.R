@@ -19,10 +19,11 @@ setcols <- function(x, ...){
 #' @export
 #' @rdname setcols
 setcols_ <- function(x, ..., .dots){
+	stopifnot(is.data.table(x))
 	dots <- lazyeval::all_dots(.dots, ...)
 	vars <- names(select_vars_(names(x), dots))
 	if (!length(vars)) stop("No variable selected")
-	drop <- setdiff(names(.data),cols)
+	drop <- setdiff(names(x),cols)
 	x[, (drop) := NULL]
 }
 

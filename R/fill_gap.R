@@ -32,6 +32,7 @@ fill_gap <- function(x, ..., by = NULL, along_with = NULL, units = NULL, full = 
 fill_gap_ <- function(x, ..., .dots, by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
+  stopifnot(is.data.table(x))
   byvars <- names(select_vars_(names(x), by))
   along_with  <- names(select_vars_(names(x), along_with ))
   if (!length(byvars) & (!length(along_with))){
