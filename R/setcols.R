@@ -23,7 +23,7 @@ setcols_ <- function(x, ..., .dots){
 	dots <- lazyeval::all_dots(.dots, ...)
 	vars <- names(select_vars_(names(x), dots))
 	if (!length(vars)) stop("No variable selected")
-	drop <- setdiff(names(x),cols)
+	drop <- setdiff(names(x), vars)
 	x[, (drop) := NULL]
 }
 
