@@ -7,6 +7,7 @@
 #' @examples
 #' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 #' duplicates(DT, by = "a")
+#' duplicates(DT, by = list(a,b))
 #' @export
 duplicates <- function(x, ..., by = NULL){
   duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
@@ -32,9 +33,12 @@ duplicates_ <- function(x, ..., .dots, by = NULL){
   if (length >0){
     setkeyv(ans, c(N,byvars))
     n_groups <- length- sum(duplicated(ans))
-    message(paste(n_groups," groups have duplicates"))
+    message(paste(n_groups,"groups have duplicates"))
     setcolorder(ans, c(N, byvars, setdiff(names(ans), c(byvars, N))))
-    ans
+    return(ans)
+  }
+  else{
+    message("There are no duplicates")
   }
 }
 
