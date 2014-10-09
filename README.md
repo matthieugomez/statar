@@ -109,7 +109,7 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
-Every function also has a version that accepts strings, formulas or quoted expressions : the SE name is the NSE name with _ at the end (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)).
+Every function also has a SE version that accepts strings, formulas or quoted expressions : its name is the NSE name with _ at the end (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)).
 
 # join
 The package adds a wrapper for the data.table merge command.
