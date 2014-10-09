@@ -1,3 +1,10 @@
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+library(statar)
+?sum_up
+library(statar)
 ?sum_up
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
@@ -1254,159 +1261,231 @@ suppressMessages(library("statar"))#
 assignInNamespace("cedta.override",#
                   c(data.table:::cedta.override,"IRkernel"),#
                   "data.table")
-library(data.table)#
-#
-#setcols keeps certain columns#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
-)#
-setcols(DT, id, v2)#
-setcols(DT, -id)#
-#
-# sum_up prints detailed summary statistics (corresponds to Stata summarize)#
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
-)#
-sum_up(DT)#
-sum_up(DT, v2, d = T)#
-sum_up(DT, starts_with("v"), by = v1)#
-#
-# duplicates returns rows in non unique groups#
-DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
-duplicates(DT, by = a)#
-duplicates(DT, by = list(a,b))#
-#
-# fill_gap fills in gaps in a time variable (corresponds to Stata tsfill)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-fill_gap(DT, value, by = id, along_with = year)#
-fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
-library(lubridate)#
-DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-DT[, datem :=  floor_date(date, "month")]#
-fill_gap(DT, value, by = id, along_with = datem, units = "month")#
-#
-# setna fills in missing values along a time variable#
-DT1 <- copy(DT)#
-setkey(DT1, id, date)#
-DT2 <- copy(DT1)#
-DT3 <- copy(DT1)#
-setna(DT, value, by = id, along_with = date)#
-setna(DT1)#
-setna(DT2, value, rollends = TRUE)#
-setna(DT3, value, roll = "nearest")
-DT
-DT1
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
- value = c(NA, NA, 3, 5.3, NA, 3.2, 5.2)#
-)#
-DT1 <- copy(DT)#
-setkey(DT1, id, date)#
-DT2 <- copy(DT1)#
-DT3 <- copy(DT1)#
-setna(DT, value, by = id, along_with = date)#
-setna(DT1)#
-setna(DT2, value, rollends = TRUE)#
-setna(DT3, value, roll = "nearest")
-DT
-DT1
-DT2
-DT3
-N <- 100; K <- 10#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
-)#
-setcols(DT, id, v2)#
-setcols(DT, -id)
-DT <- data.table(#
-  id = c(1,2,#
-  v1 = c(1,1),#
-  v2 = c(2,1)#
-#
-)
-}
-DT <- data.table(#
-  id = c(1,2,#
-  v1 = c(1,1),#
-  v2 = c(2,1)#
-)#
-setcols(DT, id, v2)
-DT <- data.table(#
-  id = c(1,2),#
-  v1 = c(1,1),#
-  v2 = c(2,1)#
-)#
-setcols(DT, id, v2)
-setcols(DT, -id)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-y <- 1:10#
-attr(y, "my_attribute") <- "This is a vector"
-winsorize(y)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Winsorize a numeric vector#
-#' #
-#' @param x A vector of values#
-#' @param cutpoints Cutpoints to defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.#
-#' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.#
-#' @examples                          #
-#' winsorize(c(1, 2, 3, 99))#
-#' winsorize(c(1, 2, 3, 99), replace = NA)#
-#' winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))#
-#' @export#
-winsorize <- function(x, #
-                      cutpoints = {#
-                        l <- quantile(x, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) #
-                        c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))#
-                      }, #
-                      replace = c(cutpoints[1], cutpoints[2])){#
-  if (is.integer(x)) replace <- round(replace)#
-  if (!length(cutpoints)==2) stop("cutpoints must be a vector of length 2")#
-  x[x < cutpoints[1]] <- replace[1]#
-  x[x > cutpoints[2]] <- replace[2]#
-  x#
-}#
-#
-#' @export#
-#' @rdname winsorize#
-winsorise <- function(x, #
-                      cutpoints = {#
-                        l <- quantile(x, c(0.25, 0.50, 0.75), type = 1, na.rm = TRUE) #
-                        c(l[2]-5*(l[3]-l[1]), l[2]+5*(l[3]-l[1]))#
-                      }, #
-                      replace = c(cutpoints[1],cutpoints[2])){#
-    if (is.integer(x)) replace <- round(replace)#
-    if (!length(cutpoints)==2) stop("cutpoints must be a vector of length 2")#
-    winsorize(x, cutpoints, replace)#
-}
-winsorize(y)
 year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-attr(value, "my_attribute") <- "This is a vector"
-lag(value, 1, order_by = year)
-attr(y)
-attributes(y)
-attributes(value)
-attributes(vlag(value, 1, order_by = year))
-attributes(lag(value, 1, order_by = year))
-attributes(lead(value, 1, order_by = year))
-is.numeric(months(1))
-debug(lead)
-attributes(lead(value, 1, order_by = year))
-x
-attributes(x)
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
+lag(value, 1, along_with = year) #  returns value in year - 1#
+#
+library(lubridate)#
+date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
+value <- c(4.1, 4.5, 3.3, 5.3)#
+datem <- floor_date(date, "month")#
+value_l <- lag(value, units = "month", along_with = datem) #
+#
+# tag (corresponds to Stata tag)#
+tag(c(1, 2))#
+tag(c(1, 2), fromLast = TRUE)#
+#
+# sample_mode returns the statistical mode#
+sample_mode(c(1, 2, 2))#
+sample_mode(c(1, 2))#
+sample_mode(c(NA, NA, 1))#
+sample_mode(c(NA, NA, 1), na.rm = TRUE)#
+#
+# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
+v <- c(NA, 1:10)                   #
+partition(v, n_quantiles = 3) # 3 groups based on terciles#
+partition(v, prob = c(0.3, 0.7)) # 3 groups based on terciles#
+partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#
+# winsorize (default based on 5 x interquartile range)#
+v <- c(1:4, 99)#
+winsorize(c(1:4, 99))#
+winsorize(c(1:4, 99), replace = NA)#
+winsorize(c(1:4, 99), prob = c(0.01, 0.99))#
+winsorize(c(1:4, 99), cutpoints = c(1, 50))
+?quantile
+partition(v, prob = c(0.3, 0.7))
+debug(partition)
+partition(v, prob = c(0.3, 0.7))
+breaks
+prob
+quantile(x, probs, type = 1, na.rm = TRUE
+)
+quantile(x, probs, type = 1, na.rm = TRUE)
+quantile(x, prob, type = 1, na.rm = TRUE)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups separated by cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+      return(partition(x, cutpoints = breaks))#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  	breaks <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)) stop("Cutpoints are not unique")#
+  cut(x, breaks = breaks , labels = FALSE, include.lowest=TRUE)#
+}
 f
-attributes(lead(value, 1))
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups separated by cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+      return(partition(x, cutpoints = breaks))#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  	breaks <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)) stop("Cutpoints are not unique")#
+  cut(x, breaks = breaks , labels = FALSE, include.lowest=TRUE)#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups separated by cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+      return(partition(x, cutpoints = breaks))#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  	breaks <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)) stop("Cutpoints are not unique")#
+  cut(x, breaks = breaks , labels = FALSE, include.lowest=TRUE)#
+}
+v <- c(NA, 1:10)                   #
+partition(v, n_quantiles = 3) # 3 groups based on terciles#
+partition(v, prob = c(0.3, 0.7)) # 3 groups based on terciles#
+partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups separated by cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      breaks <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+      return(partition(x, cutpoints = breaks))#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  	breaks <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)) stop("Cutpoints are not unique")#
+  cut(x, breaks = breaks , labels = FALSE, include.lowest=TRUE)#
+}
+v <- c(NA, 1:10)                   #
+partition(v, n_quantiles = 3) # 3 groups based on terciles#
+partition(v, prob = c(0.3, 0.7)) # 3 groups based on terciles#
+partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+debug(partition)
+partition(v, prob = c(0.3, 0.7)) # 3 groups based on terciles
+breaks
+breaks
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups separated by cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)) stop("Cutpoints are not unique")#
+  cut(x, breaks = breaks , labels = FALSE, include.lowest=TRUE)#
+}
 f
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups separated by cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)) stop("Cutpoints are not unique")#
+  cut(x, breaks = breaks , labels = FALSE, include.lowest=TRUE)#
+}
+v <- c(NA, 1:10)                   #
+partition(v, n_quantiles = 3) # 3 groups based on terciles#
+partition(v, prob = c(0.3, 0.7)) # 3 groups based on terciles#
+partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+v <- c(1:4, 99)#
+winsorize(c(1:4, 99))#
+winsorize(c(1:4, 99), replace = NA)#
+winsorize(c(1:4, 99), prob = c(0.01, 0.99))#
+winsorize(c(1:4, 99), cutpoints = c(1, 50))
+?message
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
