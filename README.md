@@ -41,9 +41,9 @@ partition(v, nq = 3) # 3 groups based on terciles
 partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints
 
 # winsorize (default based on 5 x interquartile range)
-winsorize(c(1, 2, 99))
-winsorize(c(1, 2, 99), replace = NA)
-winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
+winsorize(c(1:4, 99))
+winsorize(c(1:4, 99), replace = NA)
+winsorize(c(1:4, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
 ````
 
 # data.table functions
