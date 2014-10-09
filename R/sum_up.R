@@ -27,7 +27,6 @@ sum_up <- function(.data, ..., by = NULL, d = FALSE) {
 #' @rdname sum_up
 sum_up_<- function(.data, ..., .dots ,by = NULL, d = FALSE) {
   byvars <- names(select_vars_(names(.data), by))
-  if (!length(byvars)) byvars <- NULL
   dots <- all_dots(.dots, ...)
   vars <- names(select_vars_(names(.data), dots, exclude = byvars))
   if (length(vars) == 0) {
@@ -37,7 +36,12 @@ sum_up_<- function(.data, ..., .dots ,by = NULL, d = FALSE) {
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])
+
+  if (!length(byvars)){
+    invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars])
+  } else{
+    invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])
+  }
 }
 
 
