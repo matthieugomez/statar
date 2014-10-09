@@ -1,3 +1,135 @@
+months
+months(1)
+years(1)
+years
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+library(biglm)#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+?expand
+?expand_
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+lag
+?lag
+?lead
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+library(biglm)#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+?lag
+?lead
+?expand
+?xtile
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+library(statar)
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
+  if (!is.null(units)) {#
+    if (is.null(date)) stop("units cannot be used without order_by")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    date_origin <- as.Date('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lead_along(x = x, n = n, default = default, date = along))#
+    }#
+    if (unitsc == "week"){#
+      date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      date_elapsed <- as.period(date-date_origin)  %/% months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "quarter"){#
+      date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "year"){#
+      date_elapsed <- as.period(date-date_origin)  %/% years(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }#
+  }#
+#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+  index <- match(date + n, date, incomparable = NA)#
+  out <- x[index]#
+  if (!is.na(default)) out[which(is.na(index))] <- default#
+  attributes(out) <- attributes(x)#
+  out#
+}
+lag_along <- function(x, n = 1L,  units = NULL, date = NULL, default = NA) {#
+    if (!is.null(units)) {#
+      if (is.null(date)) stop("units cannot be used without order_by")#
+      unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+      date_origin <- as.Date('0001-01-01')#
+      if (unitsc=="day"){#
+        return(lag_along(x = x, n = n, default = default, date = along))#
+      }#
+      if (unitsc == "week"){#
+        date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      }  #
+      else if (unitsc == "month"){#
+        date_elapsed <- as.period(date-date_origin)  %/% months(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      } else if (unitsc == "quarter"){#
+        date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      } else if (unitsc == "year"){#
+        date_elapsed <- as.period(date-date_origin)  %/% years(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      }#
+    }#
+#
+    if (n == 0) return(x)#
+    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+    index <- match(date - n, date, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+    attributes(out) <- attributes(x)#
+    out#
+  }
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
+date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
 date+1
 date
 date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
@@ -1164,6 +1296,7 @@ f(v1~1|0|(v2~v3),df)
 ?felm
 felm
 setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
 suppressMessages(library("tidyr"))#
 suppressMessages(library("dplyr"))#
 suppressMessages(library("data.table"))#
@@ -1179,390 +1312,13 @@ suppressMessages(library("biglm"))#
 suppressMessages(library("foreign"))#
 suppressMessages(library("stargazer"))#
 suppressMessages(library("parallel"))#
-#suppressMessages(library("statar"))#
+suppressMessages(library("statar"))#
 assignInNamespace("cedta.override",#
                   c(data.table:::cedta.override,"IRkernel"),#
                   "data.table")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Add rows corresponding to gaps in some variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param along_with integer variable to fill_gap#
-#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  #
-#' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. #
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'     id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' fill_gap(DT, value, by = id, along_with = year, )#
-#' fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
-#' library(lubridate)#
-#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-#' DT[, datem :=  floor_date(date, "month")]#
-#' fill_gap(DT, value,by = id, along_with = datem, units = "month")#
-#' @export#
-fill_gap <- function(.data, ..., by = NULL, along_with, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, ), full = full, roll = roll, rollends = rollends)#
-}#
+library(data.table)#
 #
-#' @export#
-#' @rdname fill_gap#
-fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  if (!length(byvars)) byvars <- NULL#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data),c(byvars, along_with))#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)#
-  if (is.null(units)){#
-    units <-1#
-  } else{#
-    units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-  }#
-  if (!full){#
-    call <- substitute(.data[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE]#
-  .data#
-}#
- DT <- data.table(#
-     id    = c(1, 1, 1, 1, 1, 2, 2),#
-     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
- )#
- fill_gap(DT, value, by = id, along_with = year)#
- fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
- library(lubridate)#
- DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
- DT[, datem :=  floor_date(date, "month")]#
- fill_gap(DT, value,by = id, along_with = datem, units = "month")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Add rows corresponding to gaps in some variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param along_with integer variable to fill_gap#
-#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  #
-#' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. #
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'     id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' fill_gap(DT, value, by = id, along_with = year, )#
-#' fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
-#' library(lubridate)#
-#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-#' DT[, datem :=  floor_date(date, "month")]#
-#' fill_gap(DT, value,by = id, along_with = datem, units = "month")#
-#' @export#
-fill_gap <- function(.data, ..., by = NULL, along_with, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname fill_gap#
-fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  if (!length(byvars)) byvars <- NULL#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data),c(byvars, along_with))#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)#
-  if (is.null(units)){#
-    units <-1#
-  } else{#
-    units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-  }#
-  if (!full){#
-    call <- substitute(.data[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE]#
-  .data#
-}#
- DT <- data.table(#
-     id    = c(1, 1, 1, 1, 1, 2, 2),#
-     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
- )#
- fill_gap(DT, value, by = id, along_with = year)#
- fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
- library(lubridate)#
- DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
- DT[, datem :=  floor_date(date, "month")]#
- fill_gap(DT, value,by = id, along_with = datem, units = "month")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Gives summary statistics (corresponds to Stata command summarize)#
-#' #
-#' @param DT A tbl_dt or tbl_grouped_dt.#
-#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
-#' @param d Should detailed summary statistics be printed?#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' N <- 100; K <- 10#
-#' DT <- data.table(#
-#'   id = 1:N,#
-#'   v1 =  sample(5, N, TRUE),                          #
-#'   v2 =  sample(1e6, N, TRUE),                       #
-#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
-#' )#
-#' sum_up(DT)#
-#' sum_up(DT, v2, d=T)#
-#' sum_up(DT, starts_with("v"), by = v1)#
-#' @export#
-sum_up <- function(.data, ..., by = NULL, d = FALSE) {#
-  sum_up_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)#
-}#
-#' @export#
-#' @rdname sum_up#
-sum_up_<- function(.data, ..., .dots  , d = FALSE) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  if (!length(byvars)) byvars <- NULL#
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data), byvars)#
-  }#
-  nums <- sapply(.data, is.numeric)#
-  nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,nums_name)#
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
-  invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])#
-}#
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
-  # import from stargazer#
-  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
-      simply.output = FALSE,  .format.digit.separator = ",") {#
-    .format.initial.zero <- TRUE#
-    .format.until.nonzero.digit <- TRUE#
-    .format.max.extra.digits <- 2#
-    .format.digit.separator.where <- c(3)#
-    .format.ci.separator <- ", "#
-    .format.round.digits <- 3#
-    .format.decimal.character <- "."#
-    .format.dec.mark.align <- FALSE#
-    .format.dec.mark.align <- TRUE#
-    x.original <- x#
-    first.part <- ""#
-    if (is.na(x) | is.null(x)) {#
-      return("")#
-    }#
-    if (simply.output == TRUE) {#
-      if (!is.numeric(x)) {#
-        return(.remove.special.chars(x))#
-      }#
-    }#
-    if (x.original < 0) {#
-      x <- abs(x)#
-    }#
-    if (!is.na(decimal.places)) {#
-        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
-            0)) {#
-            round.result <- round(x, digits = decimal.places)#
-        }#
-        else {#
-            temp.places <- decimal.places#
-            if (!.is.all.integers(x)) {#
-              while ((round(x, digits = temp.places) == 0) & #
-                (temp.places < (decimal.places + .format.max.extra.digits))) {#
-                temp.places <- temp.places + 1#
-              }#
-            }#
-            round.result <- round(x, digits = temp.places)#
-            decimal.places <- temp.places#
-        }#
-        if ((round.up.positive == TRUE) & (round.result < #
-            x)) {#
-            if (x > (10^((-1) * (decimal.places + 1)))) {#
-              round.result <- round.result + 10^((-1) * decimal.places)#
-            }#
-            else {#
-              round.result <- 0#
-            }#
-        }#
-    }#
-    else {#
-        round.result <- x#
-    }#
-    round.result.char <- as.character(format(round.result, #
-        scientific = FALSE))#
-    split.round.result <- unlist(strsplit(round.result.char, #
-        "\\."))#
-    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
-        if (.format.digit.separator.where[i] <= 0) {#
-            .format.digit.separator.where[i] <<- -1#
-        }#
-    }#
-    separator.count <- 1#
-    length.integer.part <- nchar(split.round.result[1])#
-    digits.in.separated.unit <- 0#
-    for (i in seq(from = length.integer.part, to = 1)) {#
-        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
-            (substr(split.round.result[1], i, i) != "-")) {#
-            first.part <- paste(.format.digit.separator, #
-              first.part, sep = "")#
-            if (separator.count < length(.format.digit.separator.where)) {#
-              separator.count <- separator.count + 1#
-            }#
-            digits.in.separated.unit <- 0#
-        }#
-        first.part <- paste(substr(split.round.result[1], #
-            i, i), first.part, sep = "")#
-        digits.in.separated.unit <- digits.in.separated.unit + #
-            1#
-    }#
-    if (x.original < 0) {#
-        if (.format.dec.mark.align == TRUE) {#
-            first.part <- paste("-", first.part, sep = "")#
-        }#
-        else {#
-            first.part <- paste("$-$", first.part, sep = "")#
-        }#
-    }#
-    if (!is.na(decimal.places)) {#
-        if (decimal.places <= 0) {#
-            return(first.part)#
-        }#
-    }#
-    if (.format.initial.zero == FALSE) {#
-        if ((round.result >= 0) & (round.result < 1)) {#
-            first.part <- ""#
-        }#
-    }#
-    if (length(split.round.result) == 2) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-        if (nchar(split.round.result[2]) < decimal.places) {#
-            decimal.part <- split.round.result[2]#
-            for (i in seq(from = 1, to = (decimal.places - #
-              nchar(split.round.result[2])))) {#
-              decimal.part <- paste(decimal.part, "0", sep = "")#
-            }#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        else {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-    }#
-    else if (length(split.round.result) == 1) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        decimal.part <- ""#
-        for (i in seq(from = 1, to = decimal.places)) {#
-            decimal.part <- paste(decimal.part, "0", sep = "")#
-        }#
-        return(paste(first.part, .format.decimal.character, #
-            decimal.part, sep = ""))#
-    }#
-    else {#
-        return(NULL)#
-    }#
-  }#
-  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
-      round(x)) < tol#
-  .is.all.integers <- function(x) {#
-      if (!is.numeric(x)) {#
-          return(FALSE)#
-      }#
-      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
-          (is.wholenumber(x) == TRUE)])) {#
-          return(TRUE)#
-      }#
-      else {#
-          return(FALSE)#
-      }#
-  }#
-  # Now starts the code #
-#
-  if (details==FALSE) {#
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
-    sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
-#
-  } else {#
-    N <- nrow(M)#
-    sum_mean <- colMeans(M ,na.rm=na.rm)#
-    f=function(x,m){#
-      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
-      sum_higher[1] <- sqrt(sum_higher[1])#
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
-      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
-      n_NA <- sum(is.na(x))#
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
-    }#
-    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-  }#
-  print <- apply(sum,c(1,2),#
-    function(x){#
-    if (is.numeric(x)){#
-      y <- .iround(x,decimal.places=3)#
-      y <- str_replace(y,"0+$","")#
-      if (y==""){#
-        y <- "0"#
-      }#
-      y <- str_replace(y,"\\.$","")#
-      y <- str_replace(y,"-0","0")#
-    } else{#
-      y <- x#
-    }#
-    y#
-  })#
-  print(noquote(format(print,justify="right")),right=TRUE)#
-}
+# sum_up (= Stata summarize)#
 N=1e6; K=100#
 DT <- data.table(#
   id = 1:N,#
@@ -1570,884 +1326,53 @@ DT <- data.table(#
   v2 = sample(1e6, N, TRUE)#
 )#
 sum_up(DT)#
-sum_up(DT, v2, d=T)#
-sum_up(DT, starts_with("v"), by = v1)
-library(sum_up)
-debug(sum_up)
-N=1e6; K=100#
+sum_up(DT, v2, d = T)#
+sum_up(DT, starts_with("v"), by = v1)#
+#
+# fill_gap (= Stata tsfill)#
 DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
+    id    = c(1, 1, 1, 1, 1, 2, 2),#
+    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
 )#
-sum_up(DT)
-n
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
-)#
-sum_up(DT)
-s
-n
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Gives summary statistics (corresponds to Stata command summarize)#
-#' #
-#' @param DT A tbl_dt or tbl_grouped_dt.#
-#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
-#' @param d Should detailed summary statistics be printed?#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' N <- 100; K <- 10#
-#' DT <- data.table(#
-#'   id = 1:N,#
-#'   v1 =  sample(5, N, TRUE),                          #
-#'   v2 =  sample(1e6, N, TRUE),                       #
-#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
-#' )#
-#' sum_up(DT)#
-#' sum_up(DT, v2, d=T)#
-#' sum_up(DT, starts_with("v"), by = v1)#
-#' @export#
-sum_up <- function(.data, ..., by = NULL, d = FALSE) {#
-  sum_up_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)#
-}#
-#' @export#
-#' @rdname sum_up#
-sum_up_<- function(.data, ..., .dots  ,by = NULL, d = FALSE) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  if (!length(byvars)) byvars <- NULL#
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data), byvars)#
-  }#
-  nums <- sapply(.data, is.numeric)#
-  nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,nums_name)#
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
-  invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])#
-}#
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
-  # import from stargazer#
-  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
-      simply.output = FALSE,  .format.digit.separator = ",") {#
-    .format.initial.zero <- TRUE#
-    .format.until.nonzero.digit <- TRUE#
-    .format.max.extra.digits <- 2#
-    .format.digit.separator.where <- c(3)#
-    .format.ci.separator <- ", "#
-    .format.round.digits <- 3#
-    .format.decimal.character <- "."#
-    .format.dec.mark.align <- FALSE#
-    .format.dec.mark.align <- TRUE#
-    x.original <- x#
-    first.part <- ""#
-    if (is.na(x) | is.null(x)) {#
-      return("")#
-    }#
-    if (simply.output == TRUE) {#
-      if (!is.numeric(x)) {#
-        return(.remove.special.chars(x))#
-      }#
-    }#
-    if (x.original < 0) {#
-      x <- abs(x)#
-    }#
-    if (!is.na(decimal.places)) {#
-        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
-            0)) {#
-            round.result <- round(x, digits = decimal.places)#
-        }#
-        else {#
-            temp.places <- decimal.places#
-            if (!.is.all.integers(x)) {#
-              while ((round(x, digits = temp.places) == 0) & #
-                (temp.places < (decimal.places + .format.max.extra.digits))) {#
-                temp.places <- temp.places + 1#
-              }#
-            }#
-            round.result <- round(x, digits = temp.places)#
-            decimal.places <- temp.places#
-        }#
-        if ((round.up.positive == TRUE) & (round.result < #
-            x)) {#
-            if (x > (10^((-1) * (decimal.places + 1)))) {#
-              round.result <- round.result + 10^((-1) * decimal.places)#
-            }#
-            else {#
-              round.result <- 0#
-            }#
-        }#
-    }#
-    else {#
-        round.result <- x#
-    }#
-    round.result.char <- as.character(format(round.result, #
-        scientific = FALSE))#
-    split.round.result <- unlist(strsplit(round.result.char, #
-        "\\."))#
-    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
-        if (.format.digit.separator.where[i] <= 0) {#
-            .format.digit.separator.where[i] <<- -1#
-        }#
-    }#
-    separator.count <- 1#
-    length.integer.part <- nchar(split.round.result[1])#
-    digits.in.separated.unit <- 0#
-    for (i in seq(from = length.integer.part, to = 1)) {#
-        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
-            (substr(split.round.result[1], i, i) != "-")) {#
-            first.part <- paste(.format.digit.separator, #
-              first.part, sep = "")#
-            if (separator.count < length(.format.digit.separator.where)) {#
-              separator.count <- separator.count + 1#
-            }#
-            digits.in.separated.unit <- 0#
-        }#
-        first.part <- paste(substr(split.round.result[1], #
-            i, i), first.part, sep = "")#
-        digits.in.separated.unit <- digits.in.separated.unit + #
-            1#
-    }#
-    if (x.original < 0) {#
-        if (.format.dec.mark.align == TRUE) {#
-            first.part <- paste("-", first.part, sep = "")#
-        }#
-        else {#
-            first.part <- paste("$-$", first.part, sep = "")#
-        }#
-    }#
-    if (!is.na(decimal.places)) {#
-        if (decimal.places <= 0) {#
-            return(first.part)#
-        }#
-    }#
-    if (.format.initial.zero == FALSE) {#
-        if ((round.result >= 0) & (round.result < 1)) {#
-            first.part <- ""#
-        }#
-    }#
-    if (length(split.round.result) == 2) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-        if (nchar(split.round.result[2]) < decimal.places) {#
-            decimal.part <- split.round.result[2]#
-            for (i in seq(from = 1, to = (decimal.places - #
-              nchar(split.round.result[2])))) {#
-              decimal.part <- paste(decimal.part, "0", sep = "")#
-            }#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        else {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-    }#
-    else if (length(split.round.result) == 1) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        decimal.part <- ""#
-        for (i in seq(from = 1, to = decimal.places)) {#
-            decimal.part <- paste(decimal.part, "0", sep = "")#
-        }#
-        return(paste(first.part, .format.decimal.character, #
-            decimal.part, sep = ""))#
-    }#
-    else {#
-        return(NULL)#
-    }#
-  }#
-  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
-      round(x)) < tol#
-  .is.all.integers <- function(x) {#
-      if (!is.numeric(x)) {#
-          return(FALSE)#
-      }#
-      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
-          (is.wholenumber(x) == TRUE)])) {#
-          return(TRUE)#
-      }#
-      else {#
-          return(FALSE)#
-      }#
-  }#
-  # Now starts the code #
+fill_gap(DT, value, by = id, along_with = year)#
+fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
+library(lubridate)#
+DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
+DT[, datem :=  floor_date(date, "month")]#
+fill_gap(DT, value,by = id, along_with = datem, units = "month")#
 #
-  if (details==FALSE) {#
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
-    sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
-#
-  } else {#
-    N <- nrow(M)#
-    sum_mean <- colMeans(M ,na.rm=na.rm)#
-    f=function(x,m){#
-      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
-      sum_higher[1] <- sqrt(sum_higher[1])#
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
-      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
-      n_NA <- sum(is.na(x))#
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
-    }#
-    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-  }#
-  print <- apply(sum,c(1,2),#
-    function(x){#
-    if (is.numeric(x)){#
-      y <- .iround(x,decimal.places=3)#
-      y <- str_replace(y,"0+$","")#
-      if (y==""){#
-        y <- "0"#
-      }#
-      y <- str_replace(y,"\\.$","")#
-      y <- str_replace(y,"-0","0")#
-    } else{#
-      y <- x#
-    }#
-    y#
-  })#
-  print(noquote(format(print,justify="right")),right=TRUE)#
-}
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
-)#
-sum_up(DT)
-sum_up(DT, v2, d=T)
-sum_up(DT, starts_with("v"), by = v1)
-cat(\n)
-cat("\n")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Gives summary statistics (corresponds to Stata command summarize)#
-#' #
-#' @param DT A tbl_dt or tbl_grouped_dt.#
-#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
-#' @param d Should detailed summary statistics be printed?#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' N <- 100; K <- 10#
-#' DT <- data.table(#
-#'   id = 1:N,#
-#'   v1 =  sample(5, N, TRUE),                          #
-#'   v2 =  sample(1e6, N, TRUE),                       #
-#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
-#' )#
-#' sum_up(DT)#
-#' sum_up(DT, v2, d=T)#
-#' sum_up(DT, starts_with("v"), by = v1)#
-#' @export#
-sum_up <- function(.data, ..., by = NULL, d = FALSE) {#
-  sum_up_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)#
-}#
-#' @export#
-#' @rdname sum_up#
-sum_up_<- function(.data, ..., .dots  ,by = NULL, d = FALSE) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  if (!length(byvars)) byvars <- NULL#
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data), byvars)#
-  }#
-  nums <- sapply(.data, is.numeric)#
-  nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,nums_name)#
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
-  invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])#
-}#
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
-  # import from stargazer#
-  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
-      simply.output = FALSE,  .format.digit.separator = ",") {#
-    .format.initial.zero <- TRUE#
-    .format.until.nonzero.digit <- TRUE#
-    .format.max.extra.digits <- 2#
-    .format.digit.separator.where <- c(3)#
-    .format.ci.separator <- ", "#
-    .format.round.digits <- 3#
-    .format.decimal.character <- "."#
-    .format.dec.mark.align <- FALSE#
-    .format.dec.mark.align <- TRUE#
-    x.original <- x#
-    first.part <- ""#
-    if (is.na(x) | is.null(x)) {#
-      return("")#
-    }#
-    if (simply.output == TRUE) {#
-      if (!is.numeric(x)) {#
-        return(.remove.special.chars(x))#
-      }#
-    }#
-    if (x.original < 0) {#
-      x <- abs(x)#
-    }#
-    if (!is.na(decimal.places)) {#
-        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
-            0)) {#
-            round.result <- round(x, digits = decimal.places)#
-        }#
-        else {#
-            temp.places <- decimal.places#
-            if (!.is.all.integers(x)) {#
-              while ((round(x, digits = temp.places) == 0) & #
-                (temp.places < (decimal.places + .format.max.extra.digits))) {#
-                temp.places <- temp.places + 1#
-              }#
-            }#
-            round.result <- round(x, digits = temp.places)#
-            decimal.places <- temp.places#
-        }#
-        if ((round.up.positive == TRUE) & (round.result < #
-            x)) {#
-            if (x > (10^((-1) * (decimal.places + 1)))) {#
-              round.result <- round.result + 10^((-1) * decimal.places)#
-            }#
-            else {#
-              round.result <- 0#
-            }#
-        }#
-    }#
-    else {#
-        round.result <- x#
-    }#
-    round.result.char <- as.character(format(round.result, #
-        scientific = FALSE))#
-    split.round.result <- unlist(strsplit(round.result.char, #
-        "\\."))#
-    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
-        if (.format.digit.separator.where[i] <= 0) {#
-            .format.digit.separator.where[i] <<- -1#
-        }#
-    }#
-    separator.count <- 1#
-    length.integer.part <- nchar(split.round.result[1])#
-    digits.in.separated.unit <- 0#
-    for (i in seq(from = length.integer.part, to = 1)) {#
-        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
-            (substr(split.round.result[1], i, i) != "-")) {#
-            first.part <- paste(.format.digit.separator, #
-              first.part, sep = "")#
-            if (separator.count < length(.format.digit.separator.where)) {#
-              separator.count <- separator.count + 1#
-            }#
-            digits.in.separated.unit <- 0#
-        }#
-        first.part <- paste(substr(split.round.result[1], #
-            i, i), first.part, sep = "")#
-        digits.in.separated.unit <- digits.in.separated.unit + #
-            1#
-    }#
-    if (x.original < 0) {#
-        if (.format.dec.mark.align == TRUE) {#
-            first.part <- paste("-", first.part, sep = "")#
-        }#
-        else {#
-            first.part <- paste("$-$", first.part, sep = "")#
-        }#
-    }#
-    if (!is.na(decimal.places)) {#
-        if (decimal.places <= 0) {#
-            return(first.part)#
-        }#
-    }#
-    if (.format.initial.zero == FALSE) {#
-        if ((round.result >= 0) & (round.result < 1)) {#
-            first.part <- ""#
-        }#
-    }#
-    if (length(split.round.result) == 2) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-        if (nchar(split.round.result[2]) < decimal.places) {#
-            decimal.part <- split.round.result[2]#
-            for (i in seq(from = 1, to = (decimal.places - #
-              nchar(split.round.result[2])))) {#
-              decimal.part <- paste(decimal.part, "0", sep = "")#
-            }#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        else {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-    }#
-    else if (length(split.round.result) == 1) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        decimal.part <- ""#
-        for (i in seq(from = 1, to = decimal.places)) {#
-            decimal.part <- paste(decimal.part, "0", sep = "")#
-        }#
-        return(paste(first.part, .format.decimal.character, #
-            decimal.part, sep = ""))#
-    }#
-    else {#
-        return(NULL)#
-    }#
-  }#
-  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
-      round(x)) < tol#
-  .is.all.integers <- function(x) {#
-      if (!is.numeric(x)) {#
-          return(FALSE)#
-      }#
-      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
-          (is.wholenumber(x) == TRUE)])) {#
-          return(TRUE)#
-      }#
-      else {#
-          return(FALSE)#
-      }#
-  }#
-  # Now starts the code #
-#
-  if (details==FALSE) {#
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
-    sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
-#
-  } else {#
-    N <- nrow(M)#
-    sum_mean <- colMeans(M ,na.rm=na.rm)#
-    f=function(x,m){#
-      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
-      sum_higher[1] <- sqrt(sum_higher[1])#
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
-      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
-      n_NA <- sum(is.na(x))#
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
-    }#
-    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-  }#
-  print <- apply(sum,c(1,2),#
-    function(x){#
-    if (is.numeric(x)){#
-      y <- .iround(x,decimal.places=3)#
-      y <- str_replace(y,"0+$","")#
-      if (y==""){#
-        y <- "0"#
-      }#
-      y <- str_replace(y,"\\.$","")#
-      y <- str_replace(y,"-0","0")#
-    } else{#
-      y <- x#
-    }#
-    y#
-  })#
-  print(noquote(format(print,justify="right")),right=TRUE)#
-  cat(\n)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Gives summary statistics (corresponds to Stata command summarize)#
-#' #
-#' @param DT A tbl_dt or tbl_grouped_dt.#
-#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
-#' @param d Should detailed summary statistics be printed?#
-#' @examples#
-#' library(data.table)#
-#' library(dplyr)#
-#' N <- 100; K <- 10#
-#' DT <- data.table(#
-#'   id = 1:N,#
-#'   v1 =  sample(5, N, TRUE),                          #
-#'   v2 =  sample(1e6, N, TRUE),                       #
-#'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) #
-#' )#
-#' sum_up(DT)#
-#' sum_up(DT, v2, d=T)#
-#' sum_up(DT, starts_with("v"), by = v1)#
-#' @export#
-sum_up <- function(.data, ..., by = NULL, d = FALSE) {#
-  sum_up_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)#
-}#
-#' @export#
-#' @rdname sum_up#
-sum_up_<- function(.data, ..., .dots  ,by = NULL, d = FALSE) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  if (!length(byvars)) byvars <- NULL#
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = byvars))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data), byvars)#
-  }#
-  nums <- sapply(.data, is.numeric)#
-  nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,nums_name)#
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
-  invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])#
-}#
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption("mc.cores", 2L)){#
-  # import from stargazer#
-  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
-      simply.output = FALSE,  .format.digit.separator = ",") {#
-    .format.initial.zero <- TRUE#
-    .format.until.nonzero.digit <- TRUE#
-    .format.max.extra.digits <- 2#
-    .format.digit.separator.where <- c(3)#
-    .format.ci.separator <- ", "#
-    .format.round.digits <- 3#
-    .format.decimal.character <- "."#
-    .format.dec.mark.align <- FALSE#
-    .format.dec.mark.align <- TRUE#
-    x.original <- x#
-    first.part <- ""#
-    if (is.na(x) | is.null(x)) {#
-      return("")#
-    }#
-    if (simply.output == TRUE) {#
-      if (!is.numeric(x)) {#
-        return(.remove.special.chars(x))#
-      }#
-    }#
-    if (x.original < 0) {#
-      x <- abs(x)#
-    }#
-    if (!is.na(decimal.places)) {#
-        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
-            0)) {#
-            round.result <- round(x, digits = decimal.places)#
-        }#
-        else {#
-            temp.places <- decimal.places#
-            if (!.is.all.integers(x)) {#
-              while ((round(x, digits = temp.places) == 0) & #
-                (temp.places < (decimal.places + .format.max.extra.digits))) {#
-                temp.places <- temp.places + 1#
-              }#
-            }#
-            round.result <- round(x, digits = temp.places)#
-            decimal.places <- temp.places#
-        }#
-        if ((round.up.positive == TRUE) & (round.result < #
-            x)) {#
-            if (x > (10^((-1) * (decimal.places + 1)))) {#
-              round.result <- round.result + 10^((-1) * decimal.places)#
-            }#
-            else {#
-              round.result <- 0#
-            }#
-        }#
-    }#
-    else {#
-        round.result <- x#
-    }#
-    round.result.char <- as.character(format(round.result, #
-        scientific = FALSE))#
-    split.round.result <- unlist(strsplit(round.result.char, #
-        "\\."))#
-    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
-        if (.format.digit.separator.where[i] <= 0) {#
-            .format.digit.separator.where[i] <<- -1#
-        }#
-    }#
-    separator.count <- 1#
-    length.integer.part <- nchar(split.round.result[1])#
-    digits.in.separated.unit <- 0#
-    for (i in seq(from = length.integer.part, to = 1)) {#
-        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
-            (substr(split.round.result[1], i, i) != "-")) {#
-            first.part <- paste(.format.digit.separator, #
-              first.part, sep = "")#
-            if (separator.count < length(.format.digit.separator.where)) {#
-              separator.count <- separator.count + 1#
-            }#
-            digits.in.separated.unit <- 0#
-        }#
-        first.part <- paste(substr(split.round.result[1], #
-            i, i), first.part, sep = "")#
-        digits.in.separated.unit <- digits.in.separated.unit + #
-            1#
-    }#
-    if (x.original < 0) {#
-        if (.format.dec.mark.align == TRUE) {#
-            first.part <- paste("-", first.part, sep = "")#
-        }#
-        else {#
-            first.part <- paste("$-$", first.part, sep = "")#
-        }#
-    }#
-    if (!is.na(decimal.places)) {#
-        if (decimal.places <= 0) {#
-            return(first.part)#
-        }#
-    }#
-    if (.format.initial.zero == FALSE) {#
-        if ((round.result >= 0) & (round.result < 1)) {#
-            first.part <- ""#
-        }#
-    }#
-    if (length(split.round.result) == 2) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-        if (nchar(split.round.result[2]) < decimal.places) {#
-            decimal.part <- split.round.result[2]#
-            for (i in seq(from = 1, to = (decimal.places - #
-              nchar(split.round.result[2])))) {#
-              decimal.part <- paste(decimal.part, "0", sep = "")#
-            }#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        else {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-    }#
-    else if (length(split.round.result) == 1) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        decimal.part <- ""#
-        for (i in seq(from = 1, to = decimal.places)) {#
-            decimal.part <- paste(decimal.part, "0", sep = "")#
-        }#
-        return(paste(first.part, .format.decimal.character, #
-            decimal.part, sep = ""))#
-    }#
-    else {#
-        return(NULL)#
-    }#
-  }#
-  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
-      round(x)) < tol#
-  .is.all.integers <- function(x) {#
-      if (!is.numeric(x)) {#
-          return(FALSE)#
-      }#
-      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
-          (is.wholenumber(x) == TRUE)])) {#
-          return(TRUE)#
-      }#
-      else {#
-          return(FALSE)#
-      }#
-  }#
-  # Now starts the code #
-#
-  if (details==FALSE) {#
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm), sd(x,na.rm= na.rm), quantile(x, c(0,1), type = 1, na.rm = na.rm))}))#
-    sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min","Max")#
-#
-  } else {#
-    N <- nrow(M)#
-    sum_mean <- colMeans(M ,na.rm=na.rm)#
-    f=function(x,m){#
-      sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
-      sum_higher[1] <- sqrt(sum_higher[1])#
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
-      sum_quantile=quantile(x,c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type=1,na.rm=na.rm,names=FALSE)#
-      n_NA <- sum(is.na(x))#
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
-    }#
-    sum <- do.call(cbind,mcMap(f,M,sum_mean))#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-  }#
-  print <- apply(sum,c(1,2),#
-    function(x){#
-    if (is.numeric(x)){#
-      y <- .iround(x,decimal.places=3)#
-      y <- str_replace(y,"0+$","")#
-      if (y==""){#
-        y <- "0"#
-      }#
-      y <- str_replace(y,"\\.$","")#
-      y <- str_replace(y,"-0","0")#
-    } else{#
-      y <- x#
-    }#
-    y#
-  })#
-  print(noquote(format(print,justify="right")),right=TRUE)#
-  cat("\n")#
-}
-sum_up(DT, starts_with("v"), by = v1)
-sum_up(DT, starts_with("v"), by = v1, d = T)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA in place based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
-#'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, "value")#
-#' setna(DT, "value", rollend = TRUE)#
-#' setna(DT, "value", roll = "nearest")#
-#
-#' @export#
-setna <- function(.data, ..., roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	setna_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)#
-}#
-#
-setna_ <- function(.data, ..., .dots,  roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)  #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = keys))  #
-  for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA in place based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
-#'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, value)#
-#' setna(DT, value, rollend = TRUE)#
-#' setna(DT, value, roll = "nearest")#
-#' @export#
-setna <- function(.data, ..., roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	setna_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)#
-}#
-#
-#' @export#
-#' @rdname setna#
-setna_ <- function(.data, ..., .dots,  roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)  #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = keys))  #
-  for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-sum_up(DT, starts_with("v"), by = v1, d = T)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+# set na (in the original dataset)#
 DT <- data.table(#
  id    = c(1, 1, 1, 1, 1, 2, 2),#
  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
 )#
+DT1 <- copy(DT)#
+setna(DT, value, by = id, along_with = date)#
 setkey(DT, id, date)#
-setna(DT, value)#
-setna(DT, value, rollend = TRUE)#
-setna(DT, value, roll = "nearest")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA in place based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
-#'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, value)#
-#' setna(DT, value, rollend = TRUE)#
-#' setna(DT, value, roll = "nearest")#
-#' @export#
-setna <- function(.data, ..., roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	setna_(.data, .dots = lazy_dots(...) , roll = roll, rollends = rollends)#
-}#
+DT2 <- copy(DT)#
+DT3 <- copy(DT)#
+setna(DT2, value, rollend = TRUE)#
+setna(DT3, value, roll = "nearest")#
 #
-#' @export#
-#' @rdname setna#
-setna_ <- function(.data, ..., .dots,  roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  keys <- key(.data)  #
-  if (length(keys)<1){#
-    stop(".data must be keyed by at least one variable")#
-  }   #
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = keys))  #
-  for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}#
+# duplicates returns duplicated groups#
+DT <- data.table(a = rep(1:2, each = 3), b=1:6)#
+duplicates(DT, by = a)
 DT <- data.table(#
  id    = c(1, 1, 1, 1, 1, 2, 2),#
  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
 )#
-setkey(DT, id, date)#
-setna(DT, value)#
-setna(DT, value, rollend = TRUE)#
-setna(DT, value, roll = "nearest")
-sum_up(DT, starts_with("v"), by = v1, d = T)
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-setkey(DT, id, date)#
-setna(DT, value)#
-setna(DT, value, rollend = TRUE)#
-setna(DT, value, roll = "nearest")
-DT
-head(c(1,2),-1)
-head(c(1,2),1)
-head(c(1,2,3),1)
-head(c(1,2,3),-1)
-head(c(1),1)
-head(c(1),-1)
+DT1 <- copy(DT)#
+setna(DT, value, by = id, along_with = date)
+traceback()
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' fill NA in place based on non missing observations#
 #'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
+#' @param x a data.table #
+#' @param by Groups within which gaps should be fill. Default to keys (or to keys minus last if along_with is unspecified)#
+#' @param along_with Numeric variable along which NAs should be filled. Default to last key.#
 #' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
 #' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
 #' @examples#
@@ -2456,416 +1381,40 @@ setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
 #'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
 #' )#
+#' DT1 <- copy(DT)#
+#' setna(DT, value, by = id, along_with = date)#
 #' setkey(DT, id, date)#
-#' setna(DT, value)#
-#' setna(DT, value, rollend = TRUE)#
-#' setna(DT, value, roll = "nearest")#
+#' DT2 <- copy(DT)#
+#' DT3 <- copy(DT)#
+#' setna(DT2, value, rollend = TRUE)#
+#' setna(DT3, value, roll = "nearest")#
 #' @export#
-setna <- function(.data, ..., by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
+setna <- function(x, ..., by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
   else if (roll>=0) c(FALSE,TRUE)#
   else c(TRUE,FALSE)){#
-  	setna_(.data, .dots = lazy_dots(...) , by = substitute(by), along_with = substitute(along_with), roll = roll, rollends = rollends)#
+  	setna_(x, .dots = lazy_dots(...) , by = substitute(by), along_with = substitute(along_with), roll = roll, rollends = rollends)#
 }#
 #
 #' @export#
 #' @rdname setna#
-setna_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
+setna_ <- function(x, ..., .dots, by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
   else if (roll>=0) c(FALSE,TRUE)#
   else c(TRUE,FALSE)){#
-  if (!length(byvars)) byvars <- key(vars)#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  if (!length(byvars)) & (!length(along_with)){#
-      byvars <- head(key(.data),-1)#
-      along_with <- tail(key(.data),1)#
+  byvars <- names(select_vars_(names(x), by))#
+  along_with  <- names(select_vars_(names(x), along_with ))#
+  if (!length(byvars) & (!length(along_with))){#
+      byvars <- head(key(x),-1)#
+      along_with <- tail(key(x),1)#
+      if (!length(along_with)) stop("along_with is not specified but x is not keyed")#
   } else if (!length(byvars)){#
-      byvars <- key(.data)#
-  } else if (!along(with)){#
-      stop("If by is specified, along_with must be specified")#
+      byvars <- key(x)#
+  } else if (!length(along_with)){#
+      stop("When by is specified, along_with must also be specified")#
   }#
+  setkeyv(x, c(byvars, along_with))#
   dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = keys))  #
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars, along_with)))  #
   for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
+    eval(substitute(x[, (col) := x[!is.na(t), c(byvars,along_with, col), with = FALSE ][x, value, roll = roll, rollends = rollends]], list(t = as.name(col))))#
   }#
 }
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Add rows corresponding to gaps in some variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param along_with integer variable to fill_gap#
-#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  #
-#' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. #
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'     id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' fill_gap(DT, value, by = id, along_with = year, )#
-#' fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
-#' library(lubridate)#
-#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-#' DT[, datem :=  floor_date(date, "month")]#
-#' fill_gap(DT, value,by = id, along_with = datem, units = "month")#
-#' @export#
-fill_gap <- function(.data, ..., by = NULL, along_with, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname fill_gap#
-fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  if (!length(byvars) & (!length(along_with))){#
-      byvars <- head(key(.data),-1)#
-      along_with <- tail(key(.data),1)#
-  } else if (!length(byvars)){#
-      byvars <- key(.data)#
-  } else if (!along(with)){#
-      stop("If by is specified, along_with must be specified")#
-  }#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data),c(byvars, along_with))#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)#
-  if (is.null(units)){#
-    units <-1#
-  } else{#
-    units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-  }#
-  if (!full){#
-    call <- substitute(.data[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE]#
-  .data#
-}#
- DT <- data.table(#
-     id    = c(1, 1, 1, 1, 1, 2, 2),#
-     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
- )#
- fill_gap(DT, value, by = id, along_with = year)#
- fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
- library(lubridate)#
- DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
- DT[, datem :=  floor_date(date, "month")]#
- fill_gap(DT, value,by = id, along_with = datem, units = "month")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Add rows corresponding to gaps in some variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param along_with integer variable to fill_gap#
-#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  #
-#' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. #
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'     id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' fill_gap(DT, value, by = id, along_with = year, )#
-#' fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
-#' library(lubridate)#
-#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-#' DT[, datem :=  floor_date(date, "month")]#
-#' fill_gap(DT, value,by = id, along_with = datem, units = "month")#
-#' @export#
-fill_gap <- function(.data, ..., by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname fill_gap#
-fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  if (!length(byvars) & (!length(along_with))){#
-      byvars <- head(key(.data),-1)#
-      along_with <- tail(key(.data),1)#
-  } else if (!length(byvars)){#
-      byvars <- key(.data)#
-  } else if (!along(with)){#
-      stop("If by is specified, along_with must be specified")#
-  }#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data),c(byvars, along_with))#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)#
-  if (is.null(units)){#
-    units <-1#
-  } else{#
-    units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-  }#
-  if (!full){#
-    call <- substitute(.data[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE]#
-  .data#
-}#
- DT <- data.table(#
-     id    = c(1, 1, 1, 1, 1, 2, 2),#
-     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
- )#
- fill_gap(DT, value, by = id, along_with = year)#
- fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
- library(lubridate)#
- DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
- DT[, datem :=  floor_date(date, "month")]#
- fill_gap(DT, value,by = id, along_with = datem, units = "month")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' fill NA in place based on non missing observations#
-#'#
-#' @param .data a data.table #
-#' @param cols a character vector of variable names to fill-in#
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
-#'  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' setkey(DT, id, date)#
-#' setna(DT, value)#
-#' setna(DT, value, rollend = TRUE)#
-#' setna(DT, value, roll = "nearest")#
-#' @export#
-setna <- function(.data, ..., by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  	setna_(.data, .dots = lazy_dots(...) , by = substitute(by), along_with = substitute(along_with), roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname setna#
-setna_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)#
-  else if (roll>=0) c(FALSE,TRUE)#
-  else c(TRUE,FALSE)){#
-  if (!length(byvars)) byvars <- key(vars)#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  if (!length(byvars) & (!length(along_with))){#
-      byvars <- head(key(.data),-1)#
-      along_with <- tail(key(.data),1)#
-  } else if (!length(byvars)){#
-      byvars <- key(.data)#
-  } else if (!length(along_with)){#
-      stop("If by is specified, along_with must be specified")#
-  }#
-  dots <- all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = keys))  #
-  for (col in vars){#
-    eval(substitute(.data[, (col) := .data[!is.na(x), c(keys, col), with = FALSE ][.data[, c(keys), with = FALSE], value, roll = roll, rollends = rollends]], list(x = as.name(col))))#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Add rows corresponding to gaps in some variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param along_with integer variable to fill_gap#
-#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  #
-#' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. #
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'     id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' fill_gap(DT, value, by = id, along_with = year, )#
-#' fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
-#' library(lubridate)#
-#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-#' DT[, datem :=  floor_date(date, "month")]#
-#' fill_gap(DT, value,by = id, along_with = datem, units = "month")#
-#' @export#
-fill_gap <- function(.data, ..., by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname fill_gap#
-fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  if (!length(byvars) & (!length(along_with))){#
-      byvars <- head(key(.data),-1)#
-      along_with <- tail(key(.data),1)#
-  } else if (!length(byvars)){#
-      byvars <- key(.data)#
-  } else if (!length(along_with)){#
-      stop("If by is specified, along_with must be specified")#
-  }#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data),c(byvars, along_with))#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)#
-  if (is.null(units)){#
-    units <-1#
-  } else{#
-    units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-  }#
-  if (!full){#
-    call <- substitute(.data[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE]#
-  .data#
-}#
- DT <- data.table(#
-     id    = c(1, 1, 1, 1, 1, 2, 2),#
-     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
- )#
- fill_gap(DT, value, by = id, along_with = year)#
- fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
- library(lubridate)#
- DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
- DT[, datem :=  floor_date(date, "month")]#
- fill_gap(DT, value,by = id, along_with = datem, units = "month")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#'  Add rows corresponding to gaps in some variable#
-#'#
-#' @param .data A tbl_dt, grouped or not#
-#' @param ... Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param by Groups within which gaps should be fill. Default to keys, minus last key if along_with is specified#
-#' @param along_with integer variable to fill_gap. Default to last key.#
-#' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  #
-#' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. #
-#' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.#
-#' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end#
-#' @examples#
-#' DT <- data.table(#
-#'     id    = c(1, 1, 1, 1, 1, 2, 2),#
-#'     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-#'     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#' )#
-#' fill_gap(DT, value, by = id, along_with = year, )#
-#' fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
-#' library(lubridate)#
-#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-#' DT[, datem :=  floor_date(date, "month")]#
-#' fill_gap(DT, value,by = id, along_with = datem, units = "month")#
-#' @export#
-fill_gap <- function(.data, ..., by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  fill_gap_(.data, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)#
-}#
-#
-#' @export#
-#' @rdname fill_gap#
-fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)#
-             else if (roll>=0) c(FALSE,TRUE)#
-             else c(TRUE,FALSE)) {#
-  byvars <- names(select_vars_(names(.data), by))#
-  along_with  <- names(select_vars_(names(.data), along_with ))#
-  if (!length(byvars) & (!length(along_with))){#
-      byvars <- head(key(.data),-1)#
-      along_with <- tail(key(.data),1)#
-  } else if (!length(byvars)){#
-      byvars <- key(.data)#
-  } else if (!length(along_with)){#
-      stop("If by is specified, along_with must be specified")#
-  }#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))#
-  if (length(vars) == 0) {#
-     vars <- setdiff(names(.data),c(byvars, along_with))#
-  }#
-  isna <- eval(substitute(.data[,sum(is.na(t))], list(t = as.name(along_with))))#
-  if (isna>0) stop("Variable along_with has missing values" ,call. = FALSE)#
-  if (anyDuplicated(.data, by = c(byvars,along_with))) stop(paste0(paste(byvars, collapse = ","),", ",along_with," do not uniquely identify observations"), call. = FALSE)#
-  if (is.null(units)){#
-    units <-1#
-  } else{#
-    units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-  }#
-  if (!full){#
-    call <- substitute(.data[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))#
-  } else{#
-    a <- eval(substitute(.data[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    b <- eval(substitute(.data[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))#
-    call <- substitute(.data[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))#
-  }#
-  ans  <- eval(call)#
-  setnames(ans, c(byvars, along_with))#
-  setkeyv(ans, c(byvars, along_with))#
-  .data <- .data[, c(byvars,along_with, vars), with = FALSE]#
-  setkeyv(.data, c(byvars,along_with))#
-  .data <- .data[ans,allow.cartesian=TRUE]#
-  .data#
-}#
- DT <- data.table(#
-     id    = c(1, 1, 1, 1, 1, 2, 2),#
-     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
- )#
- fill_gap(DT, value, by = id, along_with = year)#
- fill_gap(DT, value, by = id, along_with = year, full = TRUE)#
- library(lubridate)#
- DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
- DT[, datem :=  floor_date(date, "month")]#
- fill_gap(DT, value,by = id, along_with = datem, units = "month")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")

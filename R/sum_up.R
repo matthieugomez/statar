@@ -15,7 +15,7 @@
 #'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
 #' )
 #' sum_up(DT)
-#' sum_up(DT, v2, d=T)
+#' sum_up(DT, v2, d = T)
 #' sum_up(DT, starts_with("v"), by = v1)
 #' @export
 sum_up <- function(.data, ..., by = NULL, d = FALSE) {
