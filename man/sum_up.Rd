@@ -12,7 +12,7 @@ sum_up_(.data, ..., .dots, d = FALSE)
 \method{sum_up_}{data.frame}(.data, ..., .dots, d = FALSE)
 }
 \arguments{
-\item{...}{Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.}
+\item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 

@@ -5,6 +5,7 @@
 #' @param n a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)
 #' @param order_by override the default ordering to use another vector
 #' @param along_with  compute lag with respect to this vector instead of previous row
+#' @param units. A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @examples
 #' # along_with
@@ -29,19 +30,25 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...) {
-  if (!inherits(n,"Period")){
-    if (n == 0) return(x)
-    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
-  }
-
+lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, default = NA,  ...) {
+  if (n == 0) return(x)
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   if (!is.null(order_by)) {
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
   if (!is.null(along_with)) {
-    index <- match(along_with + n, along_with, incomparable = NA)
+    if (!is.null(units)){
+      units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
+      if ("units"=="quarter"){
+        units <- "month"
+        n <- 3
+      }
+      index <- match(along_with + period(n, units = units), along_with, incomparable = NA)
+    } else{
+      index <- match(along_with + n, along_with, incomparable = NA)
+    }
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
   } else{
@@ -57,19 +64,26 @@ lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ..
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, default = NA, ...) { 
-  if (!inherits(n,"Period")){
-    if (n == 0) return(x)
-    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
-  }
-
+lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, default = NA, ...) { 
+  if (n == 0) return(x)
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
   if (!is.null(order_by)) {
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
     return(with_order(order_by, lead, x, n = n, default = default))
  }
 
   if (!is.null(along_with)) {
-    index <- match(along_with - n, along_with, incomparable = NA)
+    if (!is.null(units)){
+      units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
+      if ("units"=="quarter"){
+        units <- "month"
+        n <- 3
+      }
+      index <- match(along_with - period(n, units = units), along_with, incomparable = NA)
+    } else{
+      index <- match(along_with + n, along_with, incomparable = NA)
+    }
+
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
   } else{

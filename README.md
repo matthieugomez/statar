@@ -23,7 +23,7 @@ library(lubridate)
 date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))
 value <- c(4.1, 4.5, 3.3, 5.3)
 datem <- floor_date(date, "month")
-value_l <- lag(value, months(1), along_with = datem) 
+value_l <- lag(value, units = "month", along_with = datem) 
 
 # tag (corresponds to Stata tag)
 tag(c(1, 2))
@@ -67,11 +67,14 @@ DT %>% filter(v1==1) %>% sum_up(starts_with("v"))
 # fill_gap (= Stata tsfill)
 DT <- data.table(
     id    = c(1, 1, 1, 1, 1, 2, 2),
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+    date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% group_by(id) %>% fill_gap(value, along_with = date)
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, full = TRUE)
+DT %>% group_by(id) %>% fill_gap(value, along_with = year)
+DT %>% group_by(id) %>% fill_gap(value, along_with = year, full = TRUE)
+DT[, datem:= floor_date(date, "month")]
+DT %>% group_by(id) %>% fill_gap(value, along_with = date, units = "month")
 
 # fill na (in a new dataset)
 DT <- data.table(

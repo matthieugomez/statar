@@ -11,6 +11,7 @@
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval all_dots
 #' @importFrom lazyeval common_env
+#' @importFrom lubridate period
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap
 #' @importFrom stats lag

@@ -4,22 +4,24 @@
 \alias{fill_gap_}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
-fill_gap(.data, ..., along_with, full = FALSE, roll = FALSE, rollends = if
-  (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else
-  c(TRUE, FALSE))
-
-fill_gap_(.data, ..., along_with, .dots, full = FALSE, roll = FALSE,
+fill_gap(.data, ..., along_with, units = NULL, full = FALSE, roll = FALSE,
   rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
   TRUE) else c(TRUE, FALSE))
+
+fill_gap_(.data, ..., along_with, units = NULL, .dots, full = FALSE,
+  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
+  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 }
 \arguments{
 \item{.data}{A tbl_dt, grouped or not}
 
-\item{...}{Variables to keep}
+\item{...}{Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.}
 
 \item{along_with}{integer variable to fill_gap}
 
-\item{full}{A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within groups. When full = TRUE, rows are filled with respect to min and max of \code{...} across groups.}
+\item{units}{A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
+
+\item{full}{A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets.}
 
 \item{roll}{When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.}
 

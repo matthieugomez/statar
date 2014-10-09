@@ -1,7 +1,7 @@
 #' Gives summary statistics (corresponds to Stata command summarize)
 #' 
 #' @param DT A tbl_dt or tbl_grouped_dt.
-#' @param ... Variables to include/exclude. You can use the same specifications as in \code{dplyr select}. If missing, defaults to all non-grouping variables.
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @examples
 #' library(data.table)

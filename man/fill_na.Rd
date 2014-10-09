@@ -15,7 +15,7 @@ fill_na_(.data, ..., .dots, along_with, roll = TRUE, rollends = if (roll ==
 \arguments{
 \item{.data}{a data.table}
 
-\item{...}{variables to fill in. Default to every variable except grouped and along_with}
+\item{...}{variables to fill in. See the \link[dplyr]{select} documentation. Default to every variable except grouped and along_with.}
 
 \item{along_with}{a variable along with observations should be filled}
 
