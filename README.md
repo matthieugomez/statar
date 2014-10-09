@@ -90,7 +90,7 @@ DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03
 DT[, datem :=  floor_date(date, "month")]
 fill_gap(DT, value, by = id, along_with = datem, units = "month")
 
-# setna fill in missing values along a time variable
+# setna fills in missing values along a time variable
 DT <- data.table(
  id    = c(1, 1, 1, 1, 1, 2, 2),
  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
