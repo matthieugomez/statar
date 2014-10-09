@@ -5,9 +5,9 @@
 #' @param nq Quantiles can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function.
 #' @return An integer vector spanning integers from 1 to length nq (or cutpoints+1). Eventually includes missing values when present in the original vector
 #' @examples 
-#' v <- sample(c(NA, 1:10, 10, TRUE)                   
+#' v <- c(NA, 1:10)                   
 #' partition(v, nq = 3) # 3 groups based on terciles
-#' partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 #' @export
 partition <- function(x, nq = NULL, cutpoints = NULL){
   if (!is.null(nq)){
