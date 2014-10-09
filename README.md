@@ -96,7 +96,7 @@ DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = a)
 ````
 
-Syntax for variable names is similar to dplyr. Non NSE functions are also available (`sum_up_`, `fill_gap_`, `setna_` and `duplicates_`)
+Syntax for variable names in `..., by = , along_with =` is similar to dplyr. Non NSE functions that accepts strings or quoted expressions are available (`sum_up_`, `fill_gap_`, `setna_` and `duplicates_`)
 
 # join
 The package adds a wrapper for the data.table merge command.
