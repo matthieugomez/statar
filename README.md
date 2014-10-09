@@ -51,8 +51,6 @@ The package adds the following verbs for data.tables
 
 ````R
 library(data.table)
-library(dplyr)
-
 # sum_up (= Stata summarize)
 N=1e6; K=100
 DT <- data.table(
@@ -60,9 +58,9 @@ DT <- data.table(
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
 )
-DT %>% sum_up
-DT %>% sum_up(v2, d=T)
-DT %>% filter(v1==1) %>% sum_up(starts_with("v"))
+sum_up(DT)
+sum_up(DT, v2, d=T)
+sum_up(DT, starts_with("v"), by = v1)
 
 # fill_gap (= Stata tsfill)
 DT <- data.table(
@@ -70,35 +68,29 @@ DT <- data.table(
     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% group_by(id) %>% fill_gap(value, along_with = year)
-DT %>% group_by(id) %>% fill_gap(value, along_with = year, full = TRUE)
+fill_gap(DT, value, by = id, along_with = year)
+fill_gap(DT, value, by = id, along_with = year, full = TRUE)
 library(lubridate)
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 DT[, datem :=  floor_date(date, "month")]
-DT %>% group_by(id) %>% fill_gap(value, along_with = datem, units = "month")
+fill_gap(DT, value,by = id, along_with = datem, units = "month")
 
-# fill na (in a new dataset)
+
+
+# set na (in the original dataset)
 DT <- data.table(
  id    = c(1, 1, 1, 1, 1, 2, 2),
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
+ date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 )
-DT %>% group_by(id) %>% fill_na(value, along_with = date) 
-DT %>% group_by(id) %>% fill_na(value, along_with = date, roll = "nearest")
-
-# fill na (in the original dataset)
-DT <- data.table(
- id    = c(1, 1, 1, 1, 1, 2, 2),
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), 
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
-)
-setkeyv(DT,c("id", "date"))
-setna(DT, "value")
-setna(DT, "value", roll = "nearest")
+setkey(DT, id, date)
+setna(DT, value)
+setna(DT, value, rollend = TRUE)
+setna(DT, value, roll = "nearest")
 
 # duplicates returns a new data.table composed of groups that have duplicates
 DT <- data.table(a = rep(1:2, each = 3), b=1:6)
-duplicates(DT, by = "a")
+duplicates(DT, by = a)
 ````
 
 # join

@@ -2,6 +2,7 @@
 #' 
 #' @param DT A tbl_dt or tbl_grouped_dt.
 #' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
+#' @param by Print summary statistics by group. Default to NULL (since it is the most common behavior)
 #' @param d Should detailed summary statistics be printed?
 #' @examples
 #' library(data.table)
@@ -13,72 +14,30 @@
 #'   v2 =  sample(1e6, N, TRUE),                       
 #'   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) 
 #' )
-#' DT %>% sum_up
-#' DT %>% sum_up(v3, d=T)
-#' DT %>% filter(v1==1) %>% sum_up(starts_with("v"))
+#' sum_up(DT)
+#' sum_up(DT, v2, d=T)
+#' sum_up(DT, starts_with("v"), by = v1)
 #' @export
-sum_up <- function(.data, ..., d = FALSE) {
-  sum_up_(.data, .dots = lazy_dots(...) , d = d)
+sum_up <- function(.data, ..., by = NULL, d = FALSE) {
+  sum_up_(.data, .dots = lazy_dots(...) , by = substitute(by), d = d)
 }
+
 
 #' @export
 #' @rdname sum_up
-sum_up_ <- function(.data, ...,.dots, d = FALSE) {
-  UseMethod("sum_up_")
-}
-
-#' @export
-#' @rdname sum_up
-sum_up_.data.frame<- function(.data, ..., .dots  , d = FALSE) {
+sum_up_<- function(.data, ..., .dots ,by = NULL, d = FALSE) {
+  byvars <- names(select_vars_(names(.data), by))
+  if (!length(byvars)) byvars <- NULL
   dots <- all_dots(.dots, ...)
-  vars <- names(select_vars_(names(.data), dots))
+  vars <- names(select_vars_(names(.data), dots, exclude = byvars))
   if (length(vars) == 0) {
-     vars <- names(.data)
+     vars <- setdiff(names(.data), byvars)
   }
-  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
   nums <- sapply(.data, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  .data2 <- select_(.data, .dots = vars)
-  invisible(describe_matrix(.data2,d = d))
-}
-
-#' @export
-sum_up_.data.table<- function(.data, ..., .dots  , d = FALSE) {
-  dots <- all_dots(.dots, ...)
-  vars <- names(select_vars_(names(.data), dots))
-  if (length(vars) == 0) {
-     vars <- names(.data)
-  }
-  vars <- select_vars_(tbl_vars(.data), vars, exclude = as.character(groups(.data)))
-  nums <- sapply(.data, is.numeric)
-  nums_name <- names(nums[nums==TRUE])
-  vars=intersect(vars,nums_name)
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  .data2 <- select_(.data, .dots = vars)
-  invisible(describe_matrix(.data2))
-}
-
-#' @export
-sum_up_.grouped_dt<- function(.data,..., .dots , d = FALSE) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- names(select_vars_(names(.data), dots))
-  if (length(vars) == 0) {
-     vars <- names(.data)
-  }
-  byvars <- as.character(groups(.data))
-  nums <- sapply(.data, is.numeric)
-  nums_name <- names(nums[nums==TRUE])
-  vars=intersect(vars,nums_name)
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  .data2 <- select_(.data, .dots = vars)
-  invisible(.data2[, describe_matrix(.SD,d = d), .SDcols = names(.data2)])
-}
-
-#' @export
-sump_up_.tbl_dt <- function(.data, ..., .dots) {
-  tbl_dt(NextMethod())
+  invisible(.data[, describe_matrix(.SD,d = d), .SDcols = vars, by = byvars])
 }
 
 
@@ -273,6 +232,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, mc.cores=getOption
     y
   })
   print(noquote(format(print,justify="right")),right=TRUE)
+  cat("\n")
 }
 
 

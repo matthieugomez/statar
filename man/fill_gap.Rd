@@ -4,20 +4,22 @@
 \alias{fill_gap_}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
-fill_gap(.data, ..., along_with, units = NULL, full = FALSE, roll = FALSE,
-  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
-  TRUE) else c(TRUE, FALSE))
+fill_gap(.data, ..., by = NULL, along_with = NULL, units = NULL,
+  full = FALSE, roll = FALSE, rollends = if (roll == "nearest") c(TRUE,
+  TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 
-fill_gap_(.data, ..., along_with, units = NULL, .dots, full = FALSE,
-  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
-  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
+fill_gap_(.data, ..., .dots, by = NULL, along_with = NULL, units = NULL,
+  full = FALSE, roll = FALSE, rollends = if (roll == "nearest") c(TRUE,
+  TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 }
 \arguments{
 \item{.data}{A tbl_dt, grouped or not}
 
-\item{...}{Variables to keep (beyond the grouped and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.}
+\item{...}{Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.}
 
-\item{along_with}{integer variable to fill_gap}
+\item{by}{Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified)}
+
+\item{along_with}{Numeric variable along which gaps should be filled. Default to last key.}
 
 \item{units}{A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
 
@@ -36,11 +38,11 @@ DT <- data.table(
     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = year)
-DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = year, full = TRUE)
+fill_gap(DT, value, by = id, along_with = year, )
+fill_gap(DT, value, by = id, along_with = year, full = TRUE)
 library(lubridate)
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 DT[, datem :=  floor_date(date, "month")]
-DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = datem, units = "month")
+fill_gap(DT, value,by = id, along_with = datem, units = "month")
 }
 

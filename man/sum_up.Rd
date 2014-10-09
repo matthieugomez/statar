@@ -2,17 +2,16 @@
 \name{sum_up}
 \alias{sum_up}
 \alias{sum_up_}
-\alias{sum_up_.data.frame}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(.data, ..., d = FALSE)
+sum_up(.data, ..., by = NULL, d = FALSE)
 
-sum_up_(.data, ..., .dots, d = FALSE)
-
-\method{sum_up_}{data.frame}(.data, ..., .dots, d = FALSE)
+sum_up_(.data, ..., .dots, by = NULL, d = FALSE)
 }
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
+
+\item{by}{Print summary statistics by group. Default to NULL (since it is the most common behavior)}
 
 \item{d}{Should detailed summary statistics be printed?}
 
@@ -31,8 +30,8 @@ DT <- data.table(
   v2 =  sample(1e6, N, TRUE),
   v3 =  sample(round(runif(100, max = 100), 4), N, TRUE)
 )
-DT \%>\% sum_up
-DT \%>\% sum_up(v3, d=T)
-DT \%>\% filter(v1==1) \%>\% sum_up(starts_with("v"))
+sum_up(DT)
+sum_up(DT, v2, d=T)
+sum_up(DT, starts_with("v"), by = v1)
 }
 
