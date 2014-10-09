@@ -82,15 +82,20 @@ DT <- data.table(
  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)
 )
+DT1 <- copy(DT)
+setna(DT, value, by = id, along_with = date)
 setkey(DT, id, date)
-setna(DT, value)
-setna(DT, value, rollend = TRUE)
-setna(DT, value, roll = "nearest")
+DT2 <- copy(DT)
+DT3 <- copy(DT)
+setna(DT2, value, rollend = TRUE)
+setna(DT3, value, roll = "nearest")
 
 # duplicates returns duplicated groups
 DT <- data.table(a = rep(1:2, each = 3), b=1:6)
 duplicates(DT, by = a)
 ````
+
+Syntax for variable names is similar to dplyr. Non NSE functions are also available (sum_up_, fill_gap_, setna_ and duplicates_)
 
 # join
 The package adds a wrapper for the data.table merge command.

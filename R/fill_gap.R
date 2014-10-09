@@ -37,10 +37,12 @@ fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, units = N
   if (!length(byvars) & (!length(along_with))){
       byvars <- head(key(.data),-1)
       along_with <- tail(key(.data),1)
+      if (!length(along_with)) stop("along_with is not specified but x is not keyed")
+
   } else if (!length(byvars)){
       byvars <- key(.data)
   } else if (!length(along_with)){
-      stop("If by is specified, along_with must be specified")
+    stop("When by is specified, along_with must also be specified")
   }
   dots <- lazyeval::all_dots(.dots, ...)
   vars <- names(select_vars_(names(.data), dots, exclude = c(byvars, along_with)))
@@ -70,18 +72,4 @@ fill_gap_ <- function(.data, ..., .dots, by = NULL, along_with = NULL, units = N
   .data <- .data[ans,allow.cartesian=TRUE]
   .data
 }
-
-
- DT <- data.table(
-     id    = c(1, 1, 1, 1, 1, 2, 2),
-     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
-     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
- )
- fill_gap(DT, value, by = id, along_with = year)
- fill_gap(DT, value, by = id, along_with = year, full = TRUE)
- library(lubridate)
- DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
- DT[, datem :=  floor_date(date, "month")]
- fill_gap(DT, value,by = id, along_with = datem, units = "month")
-
 
