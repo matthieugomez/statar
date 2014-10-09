@@ -1,3 +1,5 @@
+library(lubridate)
+weeks
 months
 months(1)
 years(1)
@@ -1359,14 +1361,6 @@ setna(DT3, value, roll = "nearest")#
 # duplicates returns duplicated groups#
 DT <- data.table(a = rep(1:2, each = 3), b=1:6)#
 duplicates(DT, by = a)
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),#
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT1 <- copy(DT)#
-setna(DT, value, by = id, along_with = date)
-traceback()
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' fill NA in place based on non missing observations#
 #'#
@@ -1383,7 +1377,8 @@ setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' )#
 #' DT1 <- copy(DT)#
 #' setna(DT, value, by = id, along_with = date)#
-#' setkey(DT, id, date)#
+#' setkey(DT1, id, date)#
+#' setna(DT1)#
 #' DT2 <- copy(DT)#
 #' DT3 <- copy(DT)#
 #' setna(DT2, value, rollend = TRUE)#
