@@ -77,6 +77,7 @@ sum_up(DT, starts_with("v"), by = v1)
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = a)
 duplicates(DT, by = list(a,b))
+
 # fill_gap fills in gaps in a time variable (corresponds to Stata tsfill)
 DT <- data.table(
     id    = c(1, 1, 1, 1, 1, 2, 2),
