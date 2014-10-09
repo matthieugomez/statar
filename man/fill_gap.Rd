@@ -31,14 +31,16 @@ fill_gap_(.data, ..., along_with, units = NULL, .dots, full = FALSE,
 Add rows corresponding to gaps in some variable
 }
 \examples{
-library(data.table)
-library(dplyr)
 DT <- data.table(
- id = c(1, 1, 1, 1, 1, 2, 2),
- date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
- value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+    id    = c(1, 1, 1, 1, 1, 2, 2),
+    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 )
-DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = date)
-DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = date, full = TRUE)
+DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = year)
+DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = year, full = TRUE)
+library(lubridate)
+DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
+DT[, datem :=  floor_date(date, "month")]
+DT \%>\% group_by(id) \%>\% fill_gap(value, along_with = datem, units = "month")
 }
 

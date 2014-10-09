@@ -28,22 +28,15 @@ lead(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL,
 lead and lag are useful for comparing values for date offset by a constant
 }
 \examples{
-# along_with
-DT <- data.table(
- id    = c(1, 1, 1, 1, 1, 2, 2),
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
- value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-)
-DT \%>\% group_by(id) \%>\% mutate(lag(value, 1, order_by = date)) # wrong
-DT \%>\% group_by(id) \%>\% mutate(lag(value, 1, along_with = date)) # right
-# units
+year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
+value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
+lag(value, 1, along_with = year) #  returns value in year - 1
+
 library(lubridate)
-df <- data.frame(
-    id = c("1", "1", "1", "1"),
-  date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "\%m/\%d/\%Y"),
- value = c(4.1, 4.5, 3.3, 5.3)
-  )
-df <- df \%>\% mutate(datem = floor_date(date, "month"))
-DT \%>\% group_by(id) \%>\% mutate(lag(value, months(1), along_with = datem))
+date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))
+value <- c(4.1, 4.5, 3.3, 5.3)
+datem <- floor_date(date, "month")
+value_l <- lag(value, units = "month", along_with = datem)
 }
 
