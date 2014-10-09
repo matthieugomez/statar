@@ -52,7 +52,6 @@ The package adds the following verbs for data.tables
 ````R
 library(data.table)
 
-
 #setcols keeps certain columns
 N <- 100; K <- 10
 DT <- data.table(
@@ -73,8 +72,6 @@ DT <- data.table(
 sum_up(DT)
 sum_up(DT, v2, d = T)
 sum_up(DT, starts_with("v"), by = v1)
-
-
 
 # duplicates returns duplicated rows
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
@@ -107,8 +104,6 @@ DT3 <- copy(DT)
 setna(DT)
 setna(DT2, value, rollend = TRUE)
 setna(DT3, value, roll = "nearest")
-
-
 ````
 
 Syntax for variable selections works similarly to `dplyr`.  Each function has a corresponding non NSE function with the suffix "_", that accepts strings, formula or quoted expressions.
