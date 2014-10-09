@@ -102,7 +102,7 @@ setkey(DT, id, date)
 DT2 <- copy(DT)
 DT3 <- copy(DT)
 setna(DT)
-setna(DT2, value, rollend = TRUE)
+setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
