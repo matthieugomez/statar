@@ -13,7 +13,7 @@
 
 #' )
 #' graph(DT)
-#' graph(DT, by = v1)
+#' graph(DT, v2, by = v1)
 #' @export
 graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE) {
   graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize)

@@ -114,7 +114,7 @@ DT <- data.table(
 
 )
 graph(DT)
-graph(DT, by = v1)
+graph(DT, v2, by = v1)
 ````
 
 Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,

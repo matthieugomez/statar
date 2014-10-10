@@ -30,6 +30,6 @@ DT <- data.table(
   v2 =  sample(round(runif(100,max=100),4), N, TRUE)
 )
 graph(DT)
-graph(DT, by = v1)
+graph(DT, v2, by = v1)
 }
 
