@@ -114,7 +114,7 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
-Every function also has a SE version that accepts strings, formulas or quoted expressions : its name is the NSE name with _ at the end (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
+Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix "_" (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
 
 ````R
 N <- 100; K <- 10
