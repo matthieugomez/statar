@@ -13,7 +13,7 @@ sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 
 \item{d}{Should detailed summary statistics be printed?}
 
-\item{w}{Weights. Default to NULL. See the \link[dplyr]{select} documentation.}
+\item{w}{Weights (experimental). Default to NULL. See the \link[dplyr]{select} documentation.}
 
 \item{by}{Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.}
 

@@ -4,10 +4,11 @@
 \alias{graph_}
 \title{Experimental function to graph a dataset}
 \usage{
-graph(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE)
+graph(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE,
+  facet = FALSE)
 
 graph_(x, ..., .dots, by = NULL, d = FALSE, reorder = TRUE,
-  winsorize = winsorize)
+  winsorize = winsorize, facet = FALSE)
 }
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
@@ -18,14 +19,17 @@ graph_(x, ..., .dots, by = NULL, d = FALSE, reorder = TRUE,
 
 \item{winsorize}{Should numeric variables winsorized?}
 
+\item{facet}{Should results graphed in different windows for each group?}
+
 \item{DT}{A tbl_dt or tbl_grouped_dt.}
 }
 \description{
 Experimental function to graph a dataset
 }
 \examples{
-N <- 100; K <- 10
+N <- 100
 DT <- data.table(
+  id = sample(sprintf("id\%03d",1:3), N, TRUE),
   v1 = sample(5, N, TRUE),
   v2 =  sample(round(runif(100,max=100),4), N, TRUE)
 )
