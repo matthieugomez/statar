@@ -20,7 +20,7 @@ partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){
 	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)
 	}
   breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)
-  if (anyDuplicated(breaks)) warning("Cutpoints are not unique")
+  if (anyDuplicated(breaks)) warning("Cutpoints are not unique", call. = FALSE)
   .bincode(x, breaks = breaks , include.lowest=TRUE)
 }
 
