@@ -2,7 +2,7 @@
 #' 
 #' @param DT A tbl_dt or tbl_grouped_dt.
 #' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param w Weights. Default to NULL. See the \link[dplyr]{select} documentation.
+#' @param w Weights (experimental). Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @examples
