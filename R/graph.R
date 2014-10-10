@@ -14,7 +14,10 @@
 #'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)
 #' )
 #' graph(DT)
-#' graph(DT, v2, by = v1)
+#' graph(DT, v1)
+#' graph(DT, by = v1)
+#' graph(DT, by = v1, facet = TRUE)
+#' graph(DT, v2, by = v1, facet = TRUE)
 #' @export
 graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE) {
   graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, facet = facet)

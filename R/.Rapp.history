@@ -1,361 +1,3 @@
-months(1)
-years(1)
-years
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-library(biglm)#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))
-?expand
-?expand_
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-lag
-?lag
-?lead
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-library(biglm)#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))
-?lag
-?lead
-?expand
-?xtile
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-?sum_up
-library(statar)
-?sum_up
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-library(statar)
-?sum_up
-library(statar)
-?sum_up
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
-  if (!is.null(units)) {#
-    if (is.null(date)) stop("units cannot be used without order_by")#
-    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
-    date_origin <- as.Date('0001-01-01')#
-    if (unitsc=="day"){#
-      return(lead_along(x = x, n = n, default = default, date = along))#
-    }#
-    if (unitsc == "week"){#
-      date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    }  #
-    else if (unitsc == "month"){#
-      date_elapsed <- as.period(date-date_origin)  %/% months(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    } else if (unitsc == "quarter"){#
-      date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    } else if (unitsc == "year"){#
-      date_elapsed <- as.period(date-date_origin)  %/% years(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    }#
-  }#
-#
-  if (n == 0) return(x)#
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
-  index <- match(date + n, date, incomparable = NA)#
-  out <- x[index]#
-  if (!is.na(default)) out[which(is.na(index))] <- default#
-  attributes(out) <- attributes(x)#
-  out#
-}
-lag_along <- function(x, n = 1L,  units = NULL, date = NULL, default = NA) {#
-    if (!is.null(units)) {#
-      if (is.null(date)) stop("units cannot be used without order_by")#
-      unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
-      date_origin <- as.Date('0001-01-01')#
-      if (unitsc=="day"){#
-        return(lag_along(x = x, n = n, default = default, date = along))#
-      }#
-      if (unitsc == "week"){#
-        date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      }  #
-      else if (unitsc == "month"){#
-        date_elapsed <- as.period(date-date_origin)  %/% months(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      } else if (unitsc == "quarter"){#
-        date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      } else if (unitsc == "year"){#
-        date_elapsed <- as.period(date-date_origin)  %/% years(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      }#
-    }#
-#
-    if (n == 0) return(x)#
-    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
-    index <- match(date - n, date, incomparable = NA)#
-    out <- x[index]#
-    if (!is.na(default)) out[which(is.na(index))] <- default#
-    attributes(out) <- attributes(x)#
-    out#
-  }
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date+1
-date
-date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date
-?as.Date
-date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%Y")
-date
-devtools::install_github("matthieugomez/tidyr")#
-devtools::install_github("matthieugomez/lazyeval")#
-devtools::install_github("matthieugomez/dplyr")#
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-library(dplyr)#
-library(data.table)#
-library(statar)#
-#
-# partition creates quantile categories (corresponds to Stata xtile)#
-v2 <-   sample(1e6, 1e6, TRUE)                   #
-v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles#
-v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
-## unbalanced panel#
-DT <- data.frame(#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
- value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% mutate(lag(value, 1, order_by = date)) # wrong#
-DT %>% mutate(lag(value, 1, along_with = date)) # right#
-#
-## periods can be used instead of integers#
-library(lubridate)#
-df <- data.frame(     #
-   id = c("id1", "id1", "id1", "id1"),#
-   date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
-   value = c(4.1, 4.5, 3.3, 5.3)#
-)#
-df <- df %>% mutate(date = floor_date(date, "month"))#
-df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date))
-?data.table::lag
-?lag
-library(data.table)
-library(dplyr)
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
-#
-DT <- data.table(#
-   id = c(1, 1, 1, 1, 1, 2, 2),#
-   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-#
-R> DT#
-   id date value#
-1:  1 1992   4.1#
-2:  1 1989   4.5#
-3:  1 1991   3.3#
-4:  1 1990   5.3#
-5:  1 1994   3.0#
-6:  2 1992   3.2#
-7:  2 1991   5.2#
-R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
-Source: local data table [7 x 4]#
-Groups: id#
-#
-  id date value lead_lag(value, 1)#
-1  1 1992   4.1                4.5#
-2  1 1989   4.5                4.5#
-3  1 1991   3.3                4.5#
-4  1 1990   5.3                4.5#
-5  1 1994   3.0                4.5#
-6  2 1992   3.2                5.2#
-7  2 1991   5.2                5.2#
-R>
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
-#
-DT <- data.table(#
-   id = c(1, 1, 1, 1, 1, 2, 2),#
-   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-#
-DT#
-   id date value#
-1:  1 1992   4.1#
-2:  1 1989   4.5#
-3:  1 1991   3.3#
-4:  1 1990   5.3#
-5:  1 1994   3.0#
-6:  2 1992   3.2#
-7:  2 1991   5.2#
-DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
-Source: local data table [7 x 4]#
-Groups: id#
-#
-  id date value lead_lag(value, 1)#
-1  1 1992   4.1                4.5#
-2  1 1989   4.5                4.5#
-3  1 1991   3.3                4.5#
-4  1 1990   5.3                4.5#
-5  1 1994   3.0                4.5#
-6  2 1992   3.2                5.2#
-7  2 1991   5.2                5.2#
-R>
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
-#
-DT <- data.table(#
-   id = c(1, 1, 1, 1, 1, 2, 2),#
-   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)
-R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
-debug(lead_lag)
-DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1)) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1))
-s
-n
-s
-debug(lead_lag)
-lead_lag(DT$value,1)
-s
-f
-lead_lag(value,1)
-s
-f
-undebug(lead_lag)
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }
-lead_lag(c(1,2),k=1)
-lag(c(1,2),n=1)
-sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}
-sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
-lead_lag(k) <- function{if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
-lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
-lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}
-}
-lead_lag <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}}
-lea_lag(3)(c(1,2)
-_
-lea_lag(3)(c(1,2))
-lead_lag(3)(c(1,2))
-lead_lag(1)(c(1,2))
-?ifelse
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-library(statar)
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("data.table"))#
-suppressMessages(library("biglm"))#
-N=1e7; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-DT[, condition := id>100]#
-system.time(DT[ id >100, coefficients(biglm(v3 ~ v2 + v1, .SD)), .SDcols = c("v1","v2","v3")])#
-system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = "condition", .SDcols = c("v1","v2","v3")])#
-system.time(coefficients(biglm(v3 ~ v2 + v1, DT[id>100, c("v1","v2","v3"), with = FALSE])
-)
-suppressMessages(library("data.table"))#
-suppressMessages(library("biglm"))#
-N=1e7; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-DT[, condition := id>100]
-system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = condition, .SDcols = c("v1", "v2", "v3")])
-library(Matrix)
-?expand
-isS4(expand)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-?expand
-DT <- data.table(#
-    id = c(1, 1, 1, 1, 1, 2, 2),#
-    date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% expand(date)
-library(dpryr)
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 devtools::install_github("matthieugomez/statar")
 ?lag
@@ -1295,6 +937,77 @@ f(v1~1|0|(v2~v3),df)
 ?felm
 felm
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)){#
+    warning("Cutpoints are not unique")#
+  }#
+  .bincode(x, breaks = breaks , include.lowest=TRUE)#
+}
+v <- c(NA, 1:10)                   #
+partition(v, n_quantiles = 3)
+partition(v, cutpoints = c(1,1))
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Create quantile categories (corresponds to Stata command xtile)#
+#'#
+#' @param x A vector#
+#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. Cutpoints must be unique.#
+#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
+#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
+#' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.#
+#' @examples #
+#' v <- c(NA, 1:10)                   #
+#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
+#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
+#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+#' @export#
+partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL){#
+  if (!is.null(n_quantiles)){#
+  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+      cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+  } else if (!is.null(probs)){#
+	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
+	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)#
+	}#
+  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
+  if (anyDuplicated(breaks)) warning("Cutpoints are not unique", call. = FALSE)#
+  .bincode(x, breaks = breaks , include.lowest=TRUE)#
+}
+partition(v, cutpoints = c(1,1))
+sum_up(v
+)
+v
+DT
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+N=1e2; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
 setwd("/Users/Matthieu/Dropbox/Symlink")#
 devtools::install_github("matthieugomez/statar")#
 suppressMessages(library("tidyr"))#
@@ -1316,259 +1029,2796 @@ suppressMessages(library("statar"))#
 assignInNamespace("cedta.override",#
                   c(data.table:::cedta.override,"IRkernel"),#
                   "data.table")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-N <- 100; K <- 10#
+N=1e2; K=100#
 DT <- data.table(#
   id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
-)#
-sum_up(DT)#
-sum_up(DT, v2, d = T)#
-sum_up(DT, starts_with("v"), by = v1)
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT[1, id = -20]
+DT[1, id := -20]
+DT
+sum_up(DT,id)
+?sample
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Gives summary statistics (corresponds to Stata command summarize)#
+#' Experimental function to graph a dataset#
 #' #
 #' @param DT A tbl_dt or tbl_grouped_dt.#
 #' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
-#' @param w Weights. Default to NULL. See the \link[dplyr]{select} documentation.#
-#' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.#
-#' @param d Should detailed summary statistics be printed?#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
 #' @examples#
 #' N <- 100; K <- 10#
 #' DT <- data.table(#
-#'   id = 1:N,#
 #'   v1 = sample(5, N, TRUE),#
-#'   v2 = sample(1e6, N, TRUE)#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
 #' )#
-#' sum_up(DT)#
-#' sum_up(DT, v2, d = T)#
-#' sum_up(DT, starts_with("v"), by = v1)#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
 #' @export#
-sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {#
-  sum_up_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, w = substitute(w))#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize)#
 }#
+#
 #' @export#
-#' @rdname sum_up#
-sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) {#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize) {#
   stopifnot(is.data.table(x))#
-  w <- names(select_vars_(names(x), w))#
-  if (!length(w)) w <- NULL#
   byvars <- names(select_vars_(names(x), by))#
   dots <- all_dots(.dots, ...)#
   vars <- names(select_vars_(names(x), dots, exclude = byvars))#
   if (length(vars) == 0) {#
-     vars <- setdiff(names(x), c(byvars,w))#
-  }#
-  nums <- sapply(x, is.numeric)#
-  nums_name <- names(nums[nums==TRUE])#
-  vars=intersect(vars,nums_name)#
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
-#
-  if (!is.null(w)){#
-    w <- x[[which(names(x)== w)]]#
+     vars <- setdiff(names(x), byvars)#
   }#
   if (!length(byvars)){#
-    invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            if (nrow(ans)>1000){#
+              ans <- sample(ans, size = 10000)#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_plot()#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
   } else{#
-    invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+              setkeyv(ans, c(group, "N",v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            ans <- ans %>% group_by_(group)#
+            if (nrow(ans)>1000 * n_groups(ans)){#
+              ans <-  ans %>% sample(size = 10000)#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_plot() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
   }#
 }#
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){#
-  # import from stargazer#
-  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
-      simply.output = FALSE,  .format.digit.separator = ",") {#
-    .format.initial.zero <- TRUE#
-    .format.until.nonzero.digit <- TRUE#
-    .format.max.extra.digits <- 2#
-    .format.digit.separator.where <- c(3)#
-    .format.ci.separator <- ", "#
-    .format.round.digits <- 3#
-    .format.decimal.character <- "."#
-    .format.dec.mark.align <- FALSE#
-    .format.dec.mark.align <- TRUE#
-    x.original <- x#
-    first.part <- ""#
-    if (is.na(x) | is.null(x)) {#
-      return("")#
-    }#
-    if (simply.output == TRUE) {#
-      if (!is.numeric(x)) {#
-        return(.remove.special.chars(x))#
-      }#
-    }#
-    if (x.original < 0) {#
-      x <- abs(x)#
-    }#
-    if (!is.na(decimal.places)) {#
-        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
-            0)) {#
-            round.result <- round(x, digits = decimal.places)#
-        }#
-        else {#
-            temp.places <- decimal.places#
-            if (!.is.all.integers(x)) {#
-              while ((round(x, digits = temp.places) == 0) & #
-                (temp.places < (decimal.places + .format.max.extra.digits))) {#
-                temp.places <- temp.places + 1#
-              }#
-            }#
-            round.result <- round(x, digits = temp.places)#
-            decimal.places <- temp.places#
-        }#
-        if ((round.up.positive == TRUE) & (round.result < #
-            x)) {#
-            if (x > (10^((-1) * (decimal.places + 1)))) {#
-              round.result <- round.result + 10^((-1) * decimal.places)#
-            }#
-            else {#
-              round.result <- 0#
-            }#
-        }#
-    }#
-    else {#
-        round.result <- x#
-    }#
-    round.result.char <- as.character(format(round.result, #
-        scientific = FALSE))#
-    split.round.result <- unlist(strsplit(round.result.char, #
-        "\\."))#
-    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
-        if (.format.digit.separator.where[i] <= 0) {#
-            .format.digit.separator.where[i] <<- -1#
-        }#
-    }#
-    separator.count <- 1#
-    length.integer.part <- nchar(split.round.result[1])#
-    digits.in.separated.unit <- 0#
-    for (i in seq(from = length.integer.part, to = 1)) {#
-        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
-            (substr(split.round.result[1], i, i) != "-")) {#
-            first.part <- paste(.format.digit.separator, #
-              first.part, sep = "")#
-            if (separator.count < length(.format.digit.separator.where)) {#
-              separator.count <- separator.count + 1#
-            }#
-            digits.in.separated.unit <- 0#
-        }#
-        first.part <- paste(substr(split.round.result[1], #
-            i, i), first.part, sep = "")#
-        digits.in.separated.unit <- digits.in.separated.unit + #
-            1#
-    }#
-    if (x.original < 0) {#
-        if (.format.dec.mark.align == TRUE) {#
-            first.part <- paste("-", first.part, sep = "")#
-        }#
-        else {#
-            first.part <- paste("$-$", first.part, sep = "")#
-        }#
-    }#
-    if (!is.na(decimal.places)) {#
-        if (decimal.places <= 0) {#
-            return(first.part)#
-        }#
-    }#
-    if (.format.initial.zero == FALSE) {#
-        if ((round.result >= 0) & (round.result < 1)) {#
-            first.part <- ""#
-        }#
-    }#
-    if (length(split.round.result) == 2) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-        if (nchar(split.round.result[2]) < decimal.places) {#
-            decimal.part <- split.round.result[2]#
-            for (i in seq(from = 1, to = (decimal.places - #
-              nchar(split.round.result[2])))) {#
-              decimal.part <- paste(decimal.part, "0", sep = "")#
-            }#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        else {#
-            return(paste(first.part, .format.decimal.character, #
-              split.round.result[2], sep = ""))#
-        }#
-    }#
-    else if (length(split.round.result) == 1) {#
-        if (is.na(decimal.places)) {#
-            return(paste(first.part, .format.decimal.character, #
-              decimal.part, sep = ""))#
-        }#
-        decimal.part <- ""#
-        for (i in seq(from = 1, to = decimal.places)) {#
-            decimal.part <- paste(decimal.part, "0", sep = "")#
-        }#
-        return(paste(first.part, .format.decimal.character, #
-            decimal.part, sep = ""))#
-    }#
-    else {#
-        return(NULL)#
-    }#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
   }#
-  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
-      round(x)) < tol#
-  .is.all.integers <- function(x) {#
-      if (!is.numeric(x)) {#
-          return(FALSE)#
-      }#
-      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
-          (is.wholenumber(x) == TRUE)])) {#
-          return(TRUE)#
-      }#
-      else {#
-          return(FALSE)#
-      }#
-  }#
-  # Now starts the code #
-  if (details==FALSE) {#
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm)), Hmisc::wtd.quantile(x, c(0, 0.5, 1), type = "i/n", na.rm = na.rm, weights = w))}))#
-    sum <- as.matrix(sum_mean)#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min", "50%", "Max")#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
 #
   } else {#
-    N <- nrow(M)#
-    f=function(x){#
-      m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)#
-      sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)#
-      sum_higher[1] <- sqrt(sum_higher[1])#
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
-      sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type= "i/n", na.rm=na.rm, weights = w)#
-      n_NA <- sum(is.na(x))#
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
     }#
-    sum <- as.data.frame(mclapply(M, f))#
-    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
-    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
   }#
-  print <- apply(sum,c(1,2),#
-    function(x){#
-    if (is.numeric(x)){#
-      y <- .iround(x,decimal.places=3)#
-      y <- str_replace(y,"000$","")#
-      if (y==""){#
-        y <- "0"#
-      }#
-      y <- str_replace(y,"\\.$","")#
-      y <- str_replace(y,"-0","0")#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize)#
+}#
+#
+#' @
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            if (nrow(ans)>1000){#
+              ans <- sample(ans, size = 10000)#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_plot()#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
     } else{#
-      y <- x#
+      do.call(multiplot, g)#
     }#
-    y#
-  })#
-  print(noquote(format(print,justify="right")),right=TRUE)#
-  cat("\n")#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+              setkeyv(ans, c(group, "N",v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            ans <- ans %>% group_by_(group)#
+            if (nrow(ans)>1000 * n_groups(ans)){#
+              ans <-  ans %>% sample(size = 10000)#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_plot() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            if (nrow(ans)>1000){#
+              ans <- sample(ans, size = 10000)#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_plot()#
+            }#
+          } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+              setkeyv(ans, c(group, "N",v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            ans <- ans %>% group_by_(group)#
+            if (nrow(ans)>1000 * n_groups(ans)){#
+              ans <-  ans %>% sample(size = 10000)#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_plot() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+    } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
 }
 N <- 100; K <- 10#
 DT <- data.table(#
-  id = 1:N,#
   v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE)#
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+)
+graph(DT)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            if (nrow(ans)>1000){#
+              ans <- sample(ans, size = 10000)#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_point()#
+            }#
+          } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+              setkeyv(ans, c(group, "N",v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            ans <- ans %>% group_by_(group)#
+            if (nrow(ans)>1000 * n_groups(ans)){#
+              ans <-  ans %>% sample(size = 10000)#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_point() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+    } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT)
+traceback()
+graph(DT)
+graph(DT,v2)
+graph(DT,v1)
+DT
+graph(DT,v2)
+debug(graph)
+graph(DT,v2)
+s
+n
+ans
+ans
+ans
+v
+print(ggplot(ans, aes_string(x = v)) + geom_point())
+ans
+v
+f
+f
+f
+ggplot(DT, aes(x=v2))+ geom_point
+ggplot(DT, aes(x=v2))+ geom_point()
+?geom_point
+ecdf(DT$v2)
+names(ecdf(DT$v2))
+attr(ecdf(DT$v2))
+attributes(ecdf(DT$v2))
+attributes(ecdf(DT$v2))$ecdf
+ecdf(DT$v2)$ecdf
+ecdf(DT$v2)$function
+ecdf(DT$v2)(DT$v2)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            if (nrow(ans)>1000){#
+              ans <- sample(ans, size = 10000)#
+            }#
+            eval(substitute(ans[, x:=ecdf(v)(v)], list(v=as.name(v))))#
+            g[[i]] <-  ggplot(ans, aes_string(x = "x", y = v)) + geom_point()#
+            }#
+          } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+              setkeyv(ans, c(group, "N",v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            ans <- ans %>% group_by_(group)#
+            if (nrow(ans)>1000 * n_groups(ans)){#
+              ans <-  ans %>% sample(size = 10000)#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_point() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+    } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT,v2)
+?geom_bar
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density()#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = groups)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+          } else{ #
+#
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density()#
+            }             #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, dodge = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, dodge = dodge)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, dodge = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density()#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = groups)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density()#
+            }             #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT,v2)
+graph(DT)
+graph(DT, v2, by = v1)
+graph(DT, v2, by = v1, dodge = TRUE)
+graph(DT, v2, by = v1, dodge = TRUE)
+graph(DT, v2, by = v1, dodge = TRUE)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, dodge = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, dodge = dodge)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, dodge = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density()#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = groups)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density()#
+            }             #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density() + facet_grid(as.formula(paste0(group, "~.")))#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+debug(graph)
+graph(DT, v2, by = v1, dodge = TRUE)
+s
+n
+dodge
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, dodge = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, dodge = dodge)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, dodge = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density()#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = groups)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density()#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+f
+f#
+f
+f#
+f#
+f
+f
+f
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, dodge = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, dodge = dodge)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, dodge = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density()#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = groups)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density()#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, v2, by = v1, dodge = TRUE)
+ggplot(DT, aes_string(x = "v2", color = "v1")) + stat_density()
+ggplot(DT, aes_string(x = "v2", group = "v1", color = "v1")) + stat_density()
+ggplot(DT, aes(x = v2, group = v1, color = "v1")) + stat_density()
+ggplot(DT, aes(x = v2, group = v1, color = v1)) + stat_density()
+ggplot(DT, aes(x = v2, group = as.factor(v1), color = as.factor(v1))) + stat_density()
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, dodge = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, dodge = dodge)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, dodge = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density()#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density()#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density() + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, v2, by = v1, dodge = TRUE)
+?stat_density
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, dodge = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, dodge = dodge)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, dodge = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line")#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, v2, by = v1, dodge = TRUE)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100; K <- 10#
+#' DT <- data.table(#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, dodge = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, dodge = dodge)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, dodge = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (dodge){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar()+ coord_flip()#
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (dodge){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, v2, by = v1, dodge = TRUE)
+graph(DT)
+graph(DT, by = v1)
+graph(DT, by = v1)
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = sample(sprintf("id%03d",1:K), N, TRUE)),#
+  v1 = sample(5, N, TRUE),#
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+)
+N <- 100; K <- 10#
+DT <- data.table(#
+  id = sample(sprintf("id%03d",1:K), N, TRUE),#
+  v1 = sample(5, N, TRUE),#
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+)
+graph(DT)
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = sample(sprintf("id%03d",1:3), N, TRUE),#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#' )N <- 100#
+DT <- data.table(#
+  id = sample(sprintf("id%03d",1:3), N, TRUE),#
+  v1 = sample(5, N, TRUE),#
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
 )#
-sum_up(DT)#
-sum_up(DT, v2, d = T)#
-sum_up(DT, starts_with("v"), by = v1)
+graph(DT)
+DT(N <- 100#
+DT <- data.table(#
+  id = sample(c("id1","id2","id3"), N, TRUE),#
+  v1 = sample(5, N, TRUE),#
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+)#
+graph(DT)
+N <- 100#
+DT <- data.table(#
+  id = sample(c("id1","id2","id3"), N, TRUE),#
+  v1 = sample(5, N, TRUE),#
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+)#
+graph(DT)#
+graph(DT, v2, by = v1)
+N <- 100#
+DT <- data.table(#
+  id = sample(c("id1","id2","id3"), N, TRUE),#
+  v1 = sample(5, N, TRUE),#
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+)#
+graph(DT)
+graph(DT, by = id)
+graph(DT, by = id, dodge = TRUE)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = sample(sprintf("id%03d",1:3), N, TRUE),#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, position = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, position = position)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, position = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (position == "dodge"){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar(position = "dodge")+ coord_flip() #
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (position == "dodge"){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, by = id, dodge = TRUE)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = sample(sprintf("id%03d",1:3), N, TRUE),#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, position = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, position = position)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, position = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (position == "dodge"){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar(position = "dodge")+ coord_flip() #
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (position == "dodge"){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, by = id)
+graph(DT, by = id, position = "dodge")
+?position
+graph(DT, by = id)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = sample(sprintf("id%03d",1:3), N, TRUE),#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, position = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, position = position)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, position = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (position == "dodge"){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              eval(substitute(ans[, v:= as.factor(v)], list(v = as.name(v))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar(position = "dodge")+ coord_flip() #
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (position == "dodge"){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, by = id)
+graph(DT, by = id, position = "dodge")
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @examples#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = sample(sprintf("id%03d",1:3), N, TRUE),#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, facet = facet)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (!facet){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              eval(substitute(ans[, v:= as.factor(v)], list(v = as.name(v))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar(position = "dodge")+ coord_flip() #
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (!facet){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+graph(DT, by = id, position = "dodge")
+graph(DT, by = id)
+graph(DT, by = id)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param DT A tbl_dt or tbl_grouped_dt.#
+#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param reorder Should the value of strings with the most count be printed first?#
+#' @param winsorize Should numeric variables winsorized?#
+#' @param facet Should results graphed in different windows for each group?#
+#' @examples#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = sample(sprintf("id%03d",1:3), N, TRUE),#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 =  sample(round(runif(100,max=100),4), N, TRUE)#
+#' )#
+#' graph(DT)#
+#' graph(DT, v2, by = v1)#
+#' @export#
+graph <- function(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE) {#
+  graph_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, facet = facet)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots ,by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE) {#
+  stopifnot(is.data.table(x))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), byvars)#
+  }#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          if (dummy) {#
+            if (!reorder){#
+              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()#
+            } else{#
+              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))#
+              setkeyv(ans, c("N", v))#
+              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip()#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))#
+              setnames(ans,v)#
+            } else{#
+              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))#
+            }#
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  } else{#
+    ans <- x[,c(byvars, vars), with = FALSE]#
+    if (length(byvars)>1){#
+      group <- tempname("group", x)#
+      setkeyv(ans, byvars)#
+      ans[, (group) := 0]#
+      ans[unique(ans), (group) := 1]#
+      eval(substitute(ans[, (group):= cumsum(v)], list(v = as.name(group))))#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+          dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))#
+          assign(v,v)#
+          if (dummy) {#
+            if (!facet){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              eval(substitute(ans[, v:= as.factor(v)], list(v = as.name(v))))#
+              g[[i]] <-  ggplot(x, aes_string(x = v, fill = group)) + geom_bar(position = "dodge")+ coord_flip() #
+            } else{#
+              if (!reorder){#
+                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar()+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))#
+              } else{#
+                ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))#
+                setkeyv(ans, c(group, "N",v))#
+                ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))#
+                g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar() + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            }#
+          } else{ #
+            if (winsorize){#
+              eval(substitute(ans <- x[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))#
+              setnames(ans,c(group,v))#
+            } else{#
+              eval(substitute(ans <- x[, list(group, v)], list(group = as.name(group), v= as.name(v))))#
+            }#
+            if (!facet){#
+              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))#
+              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          }#
+      } #
+    if (length(g)==1){#
+      print(g)#
+    } else{#
+      do.call(multiplot, g)#
+    }#
+  }#
+}#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  require(grid)#
+#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+#
+  numPlots = length(plots)#
+#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
