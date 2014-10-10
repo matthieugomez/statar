@@ -139,6 +139,8 @@ DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 graph(DT)
 ````
 [Read more words!](output_2_0.png)
+
+````
 graph(DT, by = id)
 graph(DT, v3, v4, along_with = v2)
 graph(DT, v3, v4, along_with = v2, by = id)
