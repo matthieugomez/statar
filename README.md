@@ -104,6 +104,17 @@ setna(DT, value, along_with = date, by = id)
 setna(DT1)
 setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
+
+
+# graph (experimental)
+N <- 100; K <- 10
+DT <- data.table(
+  v1 = sample(5, N, TRUE),
+  v2 =  sample(round(runif(100,max=100),4), N, TRUE)
+
+)
+graph(DT)
+graph(DT, by = v1)
 ````
 
 Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
