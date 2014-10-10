@@ -124,7 +124,7 @@ sum_up_(DT, .dots(c("id","v1"))
 ````
 
 # graph
-Graphs for interactive explortations
+Graphs for interactive explorations
 
 ````R
 N <- 10000
@@ -152,6 +152,12 @@ graph(DT, v3, v4, along_with = v2)
 
 ````R
 graph(DT, v3, v4, along_with = v2, by = id)
+````
+
+![Read more words!](output_5_0.png)
+
+````R
+graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
 ````
 ![Read more words!](output_5_0.png)
 
