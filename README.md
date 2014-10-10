@@ -153,6 +153,7 @@ join(x, y, type = "semi")
 join(x, y, type = "anti")
 join(x, y, type = "outer", check = 1~m)
 join(x, y, type = "outer", gen = "_merge")
+join(x, y, type = "left", check = m~1, inplace = TRUE)
 ````
 
 # others

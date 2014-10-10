@@ -6,6 +6,7 @@
 #' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".
 #' @param check A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
+#' @param inplace A boolean. In case "type"= "left" and RHS of check is 1, the merge can be one in-place. 
 #' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
 #' library(data.table)
@@ -17,9 +18,9 @@
 #' join(x, y, type = "inner", check = 1~m)
 #' join(x, y, type = "semi")
 #' join(x, y, type = "anti")
-
+#' join(x, y, type = "left", check = m~1, inplace = TRUE)
 #' @export
-join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check = m~m,  gen = FALSE){
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check = m~m,  gen = FALSE, inplace = FALSE){
 
   #type
   type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
@@ -31,17 +32,21 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
     stop(paste0("Using is not a data.table. Convert it first using setDT()"))
   }
   
+  # check inplace possible
+  if (inplace & !((type =="left") & check[[3]]==1)){
+      stop("inplace = TRUE but type is not left or formula is not ~1)")
+  }
+
+  # check gen
+  if (gen != FALSE & !(type %in% c("left", "right", "outer"))){
+    stop(" The option gen only makes sense for left, right and outer joins", call. = FALSE)
+  }
+
   if (type == "cross"){
         k <- NULL # Setting the variables to NULL first for CRAN check NOTE
         DT_output <- setkey(x[,c(k=1, .SD)],k)[y[, c(k = 1,.SD)], allow.cartesian = TRUE][,k := NULL]
-  }else {
-
-
-    # check gen
-    if (gen != FALSE & !(type %in% c("left", "right", "outer"))){
-      stop(" The option gen only makes sense for left, right and outer joins", call. = FALSE)
-    }
-
+        return(DT_output)
+  } else {
     # find names and  check no common names
     vars <- on
     message(paste0("Join based on : ", paste(vars, collapse = " ")))
@@ -53,8 +58,10 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
     if (length(common_names)>0){
       setnames(x, common_names, paste0(common_names, ".x"))
       setnames(y, common_names, paste0(common_names, ".y"))
-      on.exit(setnames(x, paste0(common_names, ".x"), common_names))
-      on.exit(setnames(y, paste0(common_names, ".y"), common_names), add = TRUE)
+      on.exit(setnames(y, paste0(common_names, ".y"), common_names))
+      if (!inplace){
+        on.exit(setnames(x, paste0(common_names, ".x"), common_names), add = TRUE)
+      }
     }
 
 
@@ -63,6 +70,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
     key_y <- key(y)
     setkeyv(x, vars)
     setkeyv(y, vars)
+  
     on.exit(setkeyv(x, key_x), add = TRUE)
     on.exit(setkeyv(y, key_y), add = TRUE)
 
@@ -77,19 +85,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
        stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in y"), call. = FALSE)
      }
     }
-
-
-
-
     if (type %in% c("left", "right", "outer", "inner")){
-      all.x <- FALSE
-      all.y <- FALSE
-      if (type == "left"| type == "outer"){
-        all.x = TRUE
-      }
-      if (type == "right" | type == "outer"){
-        all.y = TRUE
-      }
       if (!gen == FALSE){
         if (gen %chin% names(x)){
           stop(paste0(gen," alreay exists in master"))
@@ -105,21 +101,46 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
         on.exit(y[, c(idu) := NULL], add = TRUE) 
       }
 
-      DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)
-      if (gen != FALSE){
-        DT_output[, c(gen) := 3L]
-        eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))
-        eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))
-        DT_output[, c(idm) := NULL]
-        DT_output[, c(idu) := NULL]
+      if (inplace){
+        lhs = setdiff(names(y), vars)
+        v<- lapply(paste0("i.",lhs), as.name)
+        call <- as.call(c(quote(list), v)) 
+        call <- substitute(x[y,(lhs) :=v], list(v = call))
+        eval(call)
+        if (!gen == FALSE){
+          x[, c(gen) := 3L]
+          eval(substitute(x[is.na(v), c(gen) := 1L], list(v = as.name(idu))))
+          x[, c(idu) := NULL]
+        }
+        return(x)
+      } else{
+        all.x <- FALSE
+        all.y <- FALSE
+        if (type == "left"| type == "outer"){
+          all.x = TRUE
+        }
+        if (type == "right" | type == "outer"){
+          all.y = TRUE
+        }
+        DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)
+        if (gen != FALSE){
+          DT_output[, c(gen) := 3L]
+          eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))
+          eval(substitute(DT_output[is.na(v), c(gen) := 2L], list(v = as.name(idm))))
+          DT_output[, c(idm) := NULL]
+          DT_output[, c(idu) := NULL]
+        }
+        return(DT_output)
       }
     } else if (type == "semi"){
-      w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
-      w <- w[!is.na(w)]
-      DT_output <- x[w]
+        w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
+        w <- w[!is.na(w)]
+        DT_output <- x[w]
+        return(DT_output)
     } else if (type == "anti"){
-      DT_output <- x[!y, allow.cartesian = TRUE]
-    } 
+        DT_output <- x[!y, allow.cartesian = TRUE]
+        return(DT_output)
+    }
   }
-  DT_output
 }
+
