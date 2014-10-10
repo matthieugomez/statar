@@ -3,6 +3,7 @@
 #' @docType package
 #' @name statar
 #' @import data.table 
+#' @import ggplot2
 #' @importFrom dplyr with_order
 #' @importFrom dplyr with_order
 #' @importFrom dplyr select_vars_
