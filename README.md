@@ -138,7 +138,7 @@ DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 ````R
 graph(DT)
 ````
-[Read more words!](output_2_0.png)
+![Read more words!](output_2_0.png)
 
 ````
 graph(DT, by = id)
