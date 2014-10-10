@@ -27,6 +27,7 @@ lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, de
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
   if (!is.null(order_by)) {
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
+    if (!is.null(units))  stop("order_by cannot be used with units")
     return(with_order(order_by, lead, x, n = n, default = default))
   }
   if (!is.null(along_with)) {
@@ -43,6 +44,7 @@ lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, de
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
   } else{
+    if (!is.null(units)) stop("Units is specified but along_with is not specified")
     xlen <- length(x)
     n <- pmin(n, xlen)
     out <- c(x[-seq_len(n)], rep(default, n))
@@ -58,6 +60,7 @@ lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = N
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
   if (!is.null(order_by)) {
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
+    if (!is.null(units))  stop("order_by cannot be used with units")
     return(with_order(order_by, lag, x, n = n, default = default))
  }
 
@@ -76,6 +79,7 @@ lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = N
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
   } else{
+    if (!is.null(units)) stop("Units is specified but along_with is not specified")
     xlen <- length(x)
     n <- pmin(n, xlen)
     out <- c(rep(default, n), x[seq_len(xlen - n)])
