@@ -73,7 +73,7 @@ sum_up(DT)
 sum_up(DT, v2, d = T)
 sum_up(DT, starts_with("v"), by = v1)
 
-# duplicates returns rows in duplicated groups
+# duplicates returns duplicated rows
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = a)
 duplicates(DT, by = list(a,b))

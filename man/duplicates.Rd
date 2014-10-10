@@ -2,7 +2,7 @@
 \name{duplicates}
 \alias{duplicates}
 \alias{duplicates_}
-\title{returns rows in duplicated groups}
+\title{returns duplicated rows}
 \usage{
 duplicates(x, ..., by = NULL, gen = "N")
 
@@ -15,13 +15,13 @@ duplicates_(x, ..., .dots, by = NULL, gen = "N")
 
 \item{by}{Variable to group by. Default is the key, or everything is the data.table is not keyed.}
 
-\item{gen}{A character. Default to "N". Name of a new variable that contains the number of duplicates.}
+\item{gen}{A character that specifies  the name of a new variable with the number of duplicates. Default to "N".}
 }
 \value{
 a data.table with rows in groups that have duplicates.
 }
 \description{
-returns rows in duplicated groups
+returns duplicated rows
 }
 \examples{
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)

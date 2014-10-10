@@ -1,9 +1,9 @@
-#' returns rows in duplicated groups
+#' returns duplicated rows
 #'
 #' @param x a data.table
 #' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.
 #' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.
-#' @param gen A character. Default to "N". Name of a new variable that contains the number of duplicates.
+#' @param gen A character that specifies  the name of a new variable with the number of duplicates. Default to "N".
 #' @return a data.table with rows in groups that have duplicates. 
 #' @examples
 #' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
