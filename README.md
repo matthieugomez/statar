@@ -105,20 +105,6 @@ setna(DT1)
 setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 
-
-# graph (experimental)
-N <- 10000
-DT <- data.table(
-  id = sample(c("id1","id2","id3"), N, TRUE),
-  v1 = sample(c(1:5), N, TRUE),
-  v2 = rnorm(N, sd = 20),
-  v3 = sample(runif(100, max=100), N, TRUE)
-)
-DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5) ]
-graph(DT)
-graph(DT, by = id)
-graph(DT, v3, v4, along_with = v2)
-graph(DT, v3, v4, along_with = v2, by = id)
 ````
 
 Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
@@ -137,7 +123,24 @@ sum_up_(DT, "id", "v1"))
 sum_up_(DT, .dots(c("id","v1"))
 ````
 
-# join
+# graph
+Graphs for interactive explortations
+
+````R
+N <- 10000
+DT <- data.table(
+  id = sample(c("id1","id2","id3"), N, TRUE),
+  v1 = sample(c(1:5), N, TRUE),
+  v2 = rnorm(N, sd = 20),
+  v3 = sample(runif(100, max=100), N, TRUE)
+)
+DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5) ]
+graph(DT)
+graph(DT, by = id)
+graph(DT, v3, v4, along_with = v2)
+graph(DT, v3, v4, along_with = v2, by = id)
+````
+## join
 The package adds a wrapper for data.table merge functionalities.
 
 - The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
@@ -164,6 +167,7 @@ join(x, y, type = "outer", check = 1~m)
 join(x, y, type = "outer", gen = "_merge")
 join(x, y, type = "left", check = m~1, inplace = TRUE)
 ````
+
 
 # others
 - A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).

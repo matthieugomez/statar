@@ -19,6 +19,7 @@
 #' DT[, v4 := v3 + rnorm(N, sd = 20)]
 #' graph(DT)
 #' graph(DT, by = id)
+#' graph(DT, by = id, facet = TRUE)
 #' graph(DT, v3, v4, along_with = v2)
 #' graph(DT, v3, v4, along_with = v2, by = id)
 #' @export
@@ -117,7 +118,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
             eval(substitute(ans <- ans[, list(group, along_with, v)], list(group = as.name(group), v= as.name(v), along_with = as.name(along_with))))
           }
           if (nrow(ans) > 1000){ 
-            ans2 <- ans %>% group_by_(group) %>% sample_n(size = round(1000/  length(unique(group))), replace = TRUE)
+            ans2 <- ans %>% group_by_(group) %>% sample_n(size = round(1000/length(unique(group))), replace = TRUE)
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               eval(substitute(ans2[, group:= as.factor(group)], list(group = as.name(group))))
