@@ -3,21 +3,24 @@
 #' @param x a data.table
 #' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.
 #' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.
-#' @return a data.table with rows in groups that have duplicates. The first column is a new variable, called "N" (N-i if N already exists), that countains the number of duplicates
+#' @param gen A character. Default to "N". Name of a new variable that contains the number of duplicates.
+#' @return a data.table with rows in groups that have duplicates. 
 #' @examples
 #' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 #' duplicates(DT, by = "a")
 #' duplicates(DT, by = list(a,b))
 #' @export
-duplicates <- function(x, ..., by = NULL){
-  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
+duplicates <- function(x, ..., by = NULL, gen = "N"){
+  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), gen = gen)
 }
 
 #' @export
 #' @rdname duplicates
-duplicates_ <- function(x, ..., .dots, by = NULL){
+duplicates_ <- function(x, ..., .dots, by = NULL gen = "N"){
   stopifnot(is.data.table(x))
-  N <- tempname("N", x)
+  if (gen %in% names(x)){
+    stop(paste("A variable named",gen, "already exists.")
+  }
   if (anyDuplicated(names(x))){
     stop("x has duplicate column names")
   }
