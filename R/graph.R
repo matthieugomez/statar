@@ -54,7 +54,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
           if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
 
             if (winsorize){
-              eval(substitute(ans <- x[, list(winsorize(along_with, verbose = TRUE), winsorize(v, verbose = TRUE))], list(along_with = as.name(along_with), v= as.name(v))))
+              eval(substitute(ans <- x[, list(winsorize(along_with, verbose = FALSE), winsorize(v, verbose = FALSE))], list(along_with = as.name(along_with), v= as.name(v))))
               setnames(ans,c(along_with,v))
             } else{
               eval(substitute(ans <- x[, list(along_with,v)], list(v= as.name(v), along_with = as.name(along_with))))
@@ -78,7 +78,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
             }
           } else{ 
             if (winsorize){
-              eval(substitute(ans <- x[, list(winsorize(v, verbose = TRUE))], list(v= as.name(v))))
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = FALSE))], list(v= as.name(v))))
               setnames(ans,v)
             } else{
               eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))
@@ -110,7 +110,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
         i <- i+1
         if (length(along_with)){
           if (winsorize){
-            eval(substitute(ans_ans <- ans[, list(group, winsorize(along_with, verbose = TRUE), winsorize(v, verbose = TRUE))], list(group = as.name(group), along_with = as.name(along_with), v= as.name(v))))
+            eval(substitute(ans_ans <- ans[, list(group, winsorize(along_with, verbose = FALSE), winsorize(v, verbose = FALSE))], list(group = as.name(group), along_with = as.name(along_with), v= as.name(v))))
             setnames(ans, c(group, along_with, v))
           } else{
             eval(substitute(ans <- ans[, list(group, along_with, v)], list(group = as.name(group), v= as.name(v), along_with = as.name(along_with))))
@@ -152,7 +152,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
             }
           } else{ 
             if (winsorize){
-              eval(substitute(ans <- ans[, list(group, v = winsorize(v, verbose = TRUE))], list(group = as.name(group), v= as.name(v))))
+              eval(substitute(ans <- ans[, list(group, v = winsorize(v, verbose = FALSE))], list(group = as.name(group), v= as.name(v))))
               setnames(ans,c(group,v))
             } else{
               eval(substitute(ans <- ans[, list(group, v)], list(group = as.name(group), v= as.name(v))))

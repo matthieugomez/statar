@@ -110,9 +110,11 @@ setna(DT3, value, roll = "nearest")
 N <- 10000
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
-  v1 = sample(5, N, TRUE),
+  v1 = sample(c(NA,1:5), N, TRUE),
   v2 = sample(runif(100, max=100), N, TRUE)
 )
+DT[1, v2 :=  NA]
+
 DT[, v3 := v2 + rnorm(N, sd = 20)]
 graph(DT)
 graph(DT, by = v1)
