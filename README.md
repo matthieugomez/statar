@@ -135,7 +135,7 @@ The package adds a wrapper for data.table merge functionalities.
 - The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
 - The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
 - The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
-- The option "inplace = TRUE" allows the dataset x to be merged in place. It is available for left joins only (for now).
+- The option "inplace" specifies whether the dataset x should be merged in place. It is available for left joins only (for now).
 
 ````R
 library(data.table)
