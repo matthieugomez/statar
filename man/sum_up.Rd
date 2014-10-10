@@ -6,7 +6,7 @@
 \usage{
 sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 
-sum_up_(x, ..., .dots, d = FALSE, w = NULL, by = NULL)
+sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 }
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}

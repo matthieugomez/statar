@@ -23,7 +23,7 @@ sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, ..., .dots,  d = FALSE, w = NULL, by = NULL) {
+sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
   if (!length(w)) w <- NULL
@@ -210,7 +210,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
   } else {
     N <- nrow(M)
     f=function(x){
-      m <- wtd.mean(x, na.rm = na.rm, w = w)
+      m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)
       sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)
       sum_higher[1] <- sqrt(sum_higher[1])
       sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
