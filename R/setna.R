@@ -8,9 +8,9 @@
 #' @param rollends  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end
 #' @examples
 #' DT <- data.table(
-#'  id    = c(1, 1, 1, 1, 1, 2, 2),
-#'  date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
-#'  value = c(NA, NA, 3, 5.3, NA, 3.2, 5.2)
+#'  id    = c(1, 1, 1, 1, 2, 2),
+#'  date  = c(1992, 1989, 1991, 1993, 1992, 1991),
+#'  value = c(NA, NA, 3, NA, 3.2, 5.2)
 #' )
 #' DT1 <- copy(DT)
 #' setkey(DT1, id, date)

@@ -50,6 +50,8 @@ winsorize(v, cutpoints = c(1, 50))
 ````
 
 # data.table functions
+
+## verbs
 The package adds the following verbs for data.tables.  Syntax for variable selections works similarly to `dplyr`.  
 
 ````R
@@ -82,27 +84,21 @@ duplicates(DT, by = list(a,b))
 
 # fill_gap fills in gaps in a time variable (corresponds to Stata tsfill)
 DT <- data.table(
-    id    = c(1, 1, 1, 1, 1, 2, 2),
-    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
-)
-DT <- data.table(
-    id    = c(1, 1, 1, 1, 1, 2, 2),
-    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+    id    = c(1, 1, 1, 2, 2),
+    year  = c(1992, 1989, 1991, 1992, 1991),
+    value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
 fill_gap(DT, value, along_with = year, by = id)
-fill_gap(DT, value, along_with = year, by = id, full = TRUE)
 library(lubridate)
-DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
+DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992"))]
 DT[, datem :=  floor_date(date, "month")]
 fill_gap(DT, value, along_with = datem , units = "month", by = id)
 
 # setna fills in missing values along a time variable
 DT <- data.table(
- id    = c(1, 1, 1, 1, 1, 2, 2),
- date  = c(1992, 1989, 1991, 1993, 1994, 1992, 1991),
- value = c(NA, NA, 3, 5.3, NA, 3.2, 5.2)
+ id    = c(1, 1, 1, 1, 2, 2),
+ date  = c(1992, 1989, 1991, 1993, 1992, 1991),
+ value = c(NA, NA, 3, NA, 3.2, 5.2)
 )
 DT1 <- copy(DT)
 setkey(DT1, id, date)
