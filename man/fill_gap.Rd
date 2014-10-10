@@ -43,6 +43,6 @@ fill_gap(DT, value, along_with = year, by = id, full = TRUE)
 library(lubridate)
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 DT[, datem :=  floor_date(date, "month")]
-fill_gap(DT, value, along_with = datem , units = "month", by = id, )
+fill_gap(DT, value, along_with = datem , units = "month", by = id)
 }
 

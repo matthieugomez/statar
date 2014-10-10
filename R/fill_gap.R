@@ -2,8 +2,8 @@
 #'
 #' @param x A tbl_dt, grouped or not
 #' @param ... Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.
-#' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.
 #' @param along_with Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.
+#' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.
 #' @param units A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").   
 #' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. 
 #' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.
@@ -19,7 +19,7 @@
 #' library(lubridate)
 #' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 #' DT[, datem :=  floor_date(date, "month")]
-#' fill_gap(DT, value, along_with = datem , units = "month", by = id, )
+#' fill_gap(DT, value, along_with = datem , units = "month", by = id)
 #' @export
 fill_gap <- function(x, ..., along_with = NULL,  units = NULL, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
