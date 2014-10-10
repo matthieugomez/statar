@@ -159,7 +159,7 @@ graph(DT, v3, v4, along_with = v2, by = id)
 ````R
 graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
 ````
-![Read more words!](output_5_0.png)
+![Read more words!](output_6_0.png)
 
 ## join
 The package adds a wrapper for data.table merge functionalities.
