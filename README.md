@@ -134,8 +134,11 @@ DT <- data.table(
   v2 = rnorm(N, sd = 20),
   v3 = sample(runif(100, max=100), N, TRUE)
 )
-DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5) ]
+DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
+````R
 graph(DT)
+````
+[Read more words!](output_2_0.png)
 graph(DT, by = id)
 graph(DT, v3, v4, along_with = v2)
 graph(DT, v3, v4, along_with = v2, by = id)
