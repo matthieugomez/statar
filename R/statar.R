@@ -10,6 +10,7 @@
 #' @importFrom dplyr select_
 #' @importFrom dplyr tbl_vars
 #' @importFrom dplyr groups
+#' @importFrom dplyr sample_n
 #' @importFrom Hmisc wtd.mean
 #' @importFrom Hmisc wtd.var
 #' @importFrom Hmisc wtd.quantile

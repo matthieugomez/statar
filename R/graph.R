@@ -12,14 +12,15 @@
 #' N <- 10000
 #' DT <- data.table(
 #'   id = sample(c("id1","id2","id3"), N, TRUE),
-#'   v1 = sample(5, N, TRUE),
-#'   v2 = sample(runif(100, max=100), N, TRUE)
+#'   v1 = sample(c(1:5), N, TRUE),
+#'   v2 = rnorm(N, sd = 20),
+#'   v3 = sample(runif(100, max=100), N, TRUE)
 #' )
-#' DT[, v3 := v2 + rnorm(N, sd = 20)]
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]
 #' graph(DT)
-#' graph(DT, by = v1)
-#' graph(DT, by = v1, facet = TRUE)
-#' graph(DT, v3, along_with = v2, by = id)
+#' graph(DT, by = id)
+#' graph(DT, v3, v4, along_with = v2)
+#' graph(DT, v3, v4, along_with = v2, by = id)
 #' @export
 graph <- function(x, ..., along_with = NULL, by = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1) {
   graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, facet = facet, size = size)
@@ -115,21 +116,21 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
           } else{
             eval(substitute(ans <- ans[, list(group, along_with, v)], list(group = as.name(group), v= as.name(v), along_with = as.name(along_with))))
           }
-          if (nrow(ans) > 1000 * length(unique(group))){ 
-            ans2 <- ans %>% group_by_(group) %>% sample_n(size = 1000, replace = TRUE)
+          if (nrow(ans) > 1000){ 
+            ans2 <- ans %>% group_by_(group) %>% sample_n(size = round(1000/  length(unique(group))), replace = TRUE)
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               eval(substitute(ans2[, group:= as.factor(group)], list(group = as.name(group))))
               g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), size = size) + stat_smooth(method = "loess")
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point(data =ans2, aes_string(x = along_with, y = v), size = size) + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")), scale = "free")
+              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point(data =ans2, aes_string(x = along_with, y = v), size = size) + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
             }
           } else{
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v, color = group)) + geom_point() + stat_smooth(method = "loess")
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point() + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")), scale = "free")
+              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point() + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
             }
           }
         } else{
@@ -147,7 +148,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
                   ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))
                   setkeyv(ans, c(group, "N",v))
                   ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))
-                  g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar(width=.5) + coord_flip() + facet_grid(as.formula(paste0(group, "~.")), scale = "free")                 
+                  g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar(width=.5) + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))                 
               }
             }
           } else{ 
@@ -161,7 +162,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")
             } else{            
-            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")), scale = "free")
+            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))
             }
           }
         }

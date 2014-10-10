@@ -110,16 +110,15 @@ setna(DT3, value, roll = "nearest")
 N <- 10000
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
-  v1 = sample(c(NA,1:5), N, TRUE),
-  v2 = sample(runif(100, max=100), N, TRUE)
+  v1 = sample(c(1:5), N, TRUE),
+  v2 = rnorm(N, sd = 20),
+  v3 = sample(runif(100, max=100), N, TRUE)
 )
-DT[1, v2 :=  NA]
-
-DT[, v3 := v2 + rnorm(N, sd = 20)]
+DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5) ]
 graph(DT)
-graph(DT, by = v1)
-graph(DT, by = v1, facet = TRUE)
-graph(DT, v3, along_with = v2, by = id)
+graph(DT, by = id)
+graph(DT, v3, v4, along_with = v2)
+graph(DT, v3, v4, along_with = v2, by = id)
 ````
 
 Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
