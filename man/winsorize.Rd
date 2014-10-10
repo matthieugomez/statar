@@ -23,9 +23,10 @@ winsorise(x, probs = NULL, cutpoints = NULL, replace = c(cutpoints[1],
 Winsorize a numeric vector
 }
 \examples{
-winsorize(c(1:4, 99))
-winsorize(c(1:4, 99), replace = NA)
-winsorize(c(1:4, 99), probs = c(0.01, 0.99))
-winsorize(c(1:4, 99), cutpoints = c(1, 50))
+v <- c(1:4, 99)
+winsorize(v)
+winsorize(v, replace = NA)
+winsorize(v, probs = c(0.01, 0.99))
+winsorize(v, cutpoints = c(1, 50))
 }
 

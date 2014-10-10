@@ -4,9 +4,9 @@
 \alias{duplicates_}
 \title{returns rows in duplicated groups}
 \usage{
-duplicates(x, ..., by = NULL)
+duplicates(x, ..., by = NULL, gen = "N")
 
-duplicates_(x, ..., .dots, by = NULL)
+duplicates_(x, ..., .dots, by = NULL, gen = "N")
 }
 \arguments{
 \item{x}{a data.table}
@@ -14,9 +14,11 @@ duplicates_(x, ..., .dots, by = NULL)
 \item{...}{Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.}
 
 \item{by}{Variable to group by. Default is the key, or everything is the data.table is not keyed.}
+
+\item{gen}{A character. Default to "N". Name of a new variable that contains the number of duplicates.}
 }
 \value{
-a data.table with rows in groups that have duplicates. The first column is a new variable, called "N" (N-i if N already exists), that countains the number of duplicates
+a data.table with rows in groups that have duplicates.
 }
 \description{
 returns rows in duplicated groups
