@@ -15,7 +15,7 @@ partition(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL)
 \item{n_quantiles}{A numeric specifying number of quantiles. Can be used instead of cutpoints}
 }
 \value{
-An integer vector representing groups separated by cutpoints. Includes missing values when present in the original vector.
+An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
 }
 \description{
 Create quantile categories (corresponds to Stata command xtile)

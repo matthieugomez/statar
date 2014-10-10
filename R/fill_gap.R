@@ -14,22 +14,22 @@
 #'     year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
 #'     value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
 #' )
-#' fill_gap(DT, value, by = id, along_with = year, )
-#' fill_gap(DT, value, by = id, along_with = year, full = TRUE)
+#' fill_gap(DT, value, along_with = year, by = id)
+#' fill_gap(DT, value, along_with = year, by = id, full = TRUE)
 #' library(lubridate)
 #' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]
 #' DT[, datem :=  floor_date(date, "month")]
-#' fill_gap(DT, value, by = id, along_with = datem, units = "month")
+#' fill_gap(DT, value, along_with = datem , units = "month", by = id, )
 #' @export
-fill_gap <- function(x, ..., by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap <- function(x, ..., along_with = NULL,  units = NULL, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
-  fill_gap_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), along_with = substitute(along_with), units = units, full = full, roll = roll, rollends = rollends)
+  fill_gap_(x, .dots = lazyeval::lazy_dots(...), along_with = substitute(along_with), units = units, by = substitute(by), full = full, roll = roll, rollends = rollends)
 }
 
 #' @export
 #' @rdname fill_gap
-fill_gap_ <- function(x, ..., .dots, by = NULL, along_with = NULL, units = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap_ <- function(x, ..., .dots, along_with = NULL, units = NULL, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE)) {
   stopifnot(is.data.table(x))
@@ -59,11 +59,19 @@ fill_gap_ <- function(x, ..., .dots, by = NULL, along_with = NULL, units = NULL,
     units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
   }
   if (!full){
-    call <- substitute(x[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))
+    if (length(byvars)){
+      call <- substitute(x[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units)), by = c(byvars)], list(t = as.name(along_with)))
+    } else{
+      call <- substitute(x[, list(seq(min(t, na.rm = TRUE), max(t, na.rm = TRUE), by = units))], list(t = as.name(along_with)))
+      }
   } else{
     a <- eval(substitute(x[,min(t, na.rm = TRUE)], list(t = as.name(along_with))))
     b <- eval(substitute(x[,max(t, na.rm = TRUE)], list(t = as.name(along_with))))
-    call <- substitute(x[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))
+    if (length(byvars)){
+      call <- substitute(x[, list(seq.int(a, b, by = units)), by = c(byvars)], list(a = a, b = b))
+    } else{
+      call <- substitute(x[, list(seq.int(a, b, by = units))], list(a = a, b = b))
+    }
   }
   ans  <- eval(call)
   setnames(ans, c(byvars, along_with))

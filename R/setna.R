@@ -2,8 +2,8 @@
 #'
 #' @param x a data.table 
 #' @param ... Variables to fill in. Default to all non grouping variables. See the \link[dplyr]{select} documentation.
-#' @param by Groups within which gaps should be fill. Default to keys (or to keys minus last if along_with is unspecified). See the \link[dplyr]{select} documentation.
 #' @param along_with Numeric variable along which NAs should be filled. Default to last key. See the \link[dplyr]{select} documentation.
+#' @param by Groups within which gaps should be fill. Default to keys (or to keys minus last if along_with is unspecified). See the \link[dplyr]{select} documentation.
 #' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.
 #' @param rollends  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end
 #' @examples
@@ -21,15 +21,15 @@
 #' setna(DT2, value, rollends = TRUE)
 #' setna(DT3, value, roll = "nearest")
 #' @export
-setna <- function(x, ..., by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+setna <- function(x, ..., along_with = NULL, by = NULL, roll = TRUE,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){
-  	setna_(x, .dots = lazy_dots(...) , by = substitute(by), along_with = substitute(along_with), roll = roll, rollends = rollends)
+  	setna_(x, .dots = lazy_dots(...) , along_with = substitute(along_with),  by = substitute(by), roll = roll, rollends = rollends)
 }
 
 #' @export
 #' @rdname setna
-setna_ <- function(x, ..., .dots, by = NULL, along_with = NULL, roll = TRUE ,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+setna_ <- function(x, ..., .dots, along_with = NULL, by = NULL, roll = TRUE,  rollends = if (roll=="nearest") c(TRUE,TRUE)
   else if (roll>=0) c(FALSE,TRUE)
   else c(TRUE,FALSE)){
   stopifnot(is.data.table(x))
