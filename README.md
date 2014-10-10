@@ -1,7 +1,7 @@
 statar
 ======
 
-A set of R commands for Stata users built on data.table and dplyr.
+A set of R commands for data manipulation built on data.table and dplyr.
 
 The package can be installed via `devtools`
 
@@ -153,7 +153,7 @@ join(x, y, type = "left", check = m~1, inplace = TRUE)
 
 
 ## Graphs
-Graphs for interactive explorations
+`graph` is a wrapper for ggplot2 functionalities, useful for interactive explorations
 
 ````R
 N <- 10000
