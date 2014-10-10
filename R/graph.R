@@ -88,9 +88,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
         }
       } 
     if (length(g)==1){
-      print(g[[1]])
+      suppressMessages(print(g[[1]]))
     } else{
-      do.call(multiplot, g)
+      suppressMessages(do.call(multiplot, g))
     }
   } else{
     x <- x[,c(byvars, vars, along_with), with = FALSE]
@@ -167,9 +167,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
         }
       } 
     if (length(g)==1){
-      print(g[[1]])
+      suppressMessages(print(g[[1]]))
     } else{
-      do.call(multiplot, g)
+      suppressMessages(do.call(multiplot, g))
     }
   }
 }
