@@ -25,10 +25,6 @@ value <- c(4.1, 4.5, 3.3, 5.3)
 datem <- floor_date(date, "month")
 value_l <- lag(value, units = "month", along_with = datem) 
 
-# tag (corresponds to Stata tag)
-tag(c(1, 2))
-tag(c(1, 2), fromLast = TRUE)
-
 # sample_mode returns the statistical mode
 sample_mode(c(1, 2, 2))
 sample_mode(c(1, 2))

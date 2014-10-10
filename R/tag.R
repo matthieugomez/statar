@@ -1,16 +1,18 @@
-#' Tag a numeric vector (= Stata tag)
+#' Creates a vector of zero except for one subscript
 #' 
-#' @param x A vector of values
-#' @return A vector with only 1
+#' @param n An integer (size of output)
+#' @fromLast Should 1 be at the end?
+#' @return A vector of zeros except one subscript equal to one.
 #' @examples                        
-#' tag(c(1,2))
-#' tag(c(1,2), fromLast = TRUE)
+#' tag(2)
+#' tag(2, fromLast = TRUE)
 #' @export
-tag <- function(x, fromLast = FALSE){
-  out <- rep(0, length(x))
+tag <- function(n, fromLast = FALSE){
+  out <- rep(0, n)
   if (!fromLast){
-    return(c(1L, rep(0L, length(x)-1)))
+    out[1] <-1
   } else{
-    return(c(rep(0L, length(x)-1),1))
+  	out[n]<- 1
   }
+  out
 }
