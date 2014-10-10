@@ -123,7 +123,36 @@ sum_up_(DT, "id", "v1"))
 sum_up_(DT, .dots(c("id","v1"))
 ````
 
-# graph
+## join
+The package adds a wrapper for data.table merge functionalities.
+
+- The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
+- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
+- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
+- The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
+
+````R
+library(data.table)
+x <- data.table(a = rep(1:2, each = 3), b = 1:6)
+y <- data.table(a = 0:1, bb = 10:11)
+# outer corresponds to Stata joinby keep(master matched using)
+join(x, y, type = "outer")
+# left corresponds to Stata joinby keep(master matched)
+join(x, y, type = "left")
+# right corresponds to Stata joinby keep(mached using)
+join(x, y, type = "right")
+# inner corresponds to Stata joinby keep(matched)
+join(x, y, type = "inner")
+
+join(x, y, type = "semi")
+join(x, y, type = "anti")
+join(x, y, type = "outer", check = 1~m)
+join(x, y, type = "outer", gen = "_merge")
+join(x, y, type = "left", check = m~1, inplace = TRUE)
+````
+
+
+## Graphs
 Graphs for interactive explorations
 
 ````R
@@ -161,33 +190,6 @@ graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
 ````
 ![Read more words!](output_6_0.png)
 
-## join
-The package adds a wrapper for data.table merge functionalities.
-
-- The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
-- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
-- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
-- The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
-
-````R
-library(data.table)
-x <- data.table(a = rep(1:2, each = 3), b = 1:6)
-y <- data.table(a = 0:1, bb = 10:11)
-# outer corresponds to Stata joinby keep(master matched using)
-join(x, y, type = "outer")
-# left corresponds to Stata joinby keep(master matched)
-join(x, y, type = "left")
-# right corresponds to Stata joinby keep(mached using)
-join(x, y, type = "right")
-# inner corresponds to Stata joinby keep(matched)
-join(x, y, type = "inner")
-
-join(x, y, type = "semi")
-join(x, y, type = "anti")
-join(x, y, type = "outer", check = 1~m)
-join(x, y, type = "outer", gen = "_merge")
-join(x, y, type = "left", check = m~1, inplace = TRUE)
-````
 
 
 # others
