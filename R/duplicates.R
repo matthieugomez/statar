@@ -26,15 +26,15 @@ duplicates_ <- function(x, ..., .dots, by = NULL, gen = "N"){
     byvars <- copy(names(x))
   }
   vars <- names(select_vars_(names(x), dots, exclude = byvars))
-  x[, (N) := .N-1,  by = c(byvars)]
-  on.exit(x[, (N) :=NULL])
-  ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))
+  x[, (gen) := .N-1,  by = c(byvars)]
+  on.exit(x[, (gen) :=NULL])
+  ans <- eval(substitute(x[NN>0, c(gen, byvars, vars), with = FALSE], list(NN = as.name(gen))))
   length <- nrow(ans)
   if (length >0){
-    setkeyv(ans, c(N,byvars))
+    setkeyv(ans, c(gen, byvars))
     n_groups <- length- sum(duplicated(ans))
     message(paste(n_groups,"groups have duplicates"))
-    setcolorder(ans, c(N, byvars, setdiff(names(ans), c(byvars, N))))
+    setcolorder(ans, c(gen, byvars, setdiff(names(ans), c(byvars, gen))))
     return(ans)
   }
   else{
