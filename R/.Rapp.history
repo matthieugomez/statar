@@ -1,455 +1,973 @@
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
-  if (!is.null(units)) {#
-    if (is.null(date)) stop("units cannot be used without order_by")#
-    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
-    date_origin <- as.Date('0001-01-01')#
-    if (unitsc=="day"){#
-      return(lead_along(x = x, n = n, default = default, date = along))#
-    }#
-    if (unitsc == "week"){#
-      date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    }  #
-    else if (unitsc == "month"){#
-      date_elapsed <- as.period(date-date_origin)  %/% months(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    } else if (unitsc == "quarter"){#
-      date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    } else if (unitsc == "year"){#
-      date_elapsed <- as.period(date-date_origin)  %/% years(1)#
-      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
-    }#
-  }#
-#
-  if (n == 0) return(x)#
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
-  index <- match(date + n, date, incomparable = NA)#
-  out <- x[index]#
-  if (!is.na(default)) out[which(is.na(index))] <- default#
-  attributes(out) <- attributes(x)#
-  out#
-}
-lag_along <- function(x, n = 1L,  units = NULL, date = NULL, default = NA) {#
-    if (!is.null(units)) {#
-      if (is.null(date)) stop("units cannot be used without order_by")#
-      unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
-      date_origin <- as.Date('0001-01-01')#
-      if (unitsc=="day"){#
-        return(lag_along(x = x, n = n, default = default, date = along))#
-      }#
-      if (unitsc == "week"){#
-        date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      }  #
-      else if (unitsc == "month"){#
-        date_elapsed <- as.period(date-date_origin)  %/% months(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      } else if (unitsc == "quarter"){#
-        date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      } else if (unitsc == "year"){#
-        date_elapsed <- as.period(date-date_origin)  %/% years(1)#
-        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
-      }#
-    }#
-#
-    if (n == 0) return(x)#
-    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
-    index <- match(date - n, date, incomparable = NA)#
-    out <- x[index]#
-    if (!is.na(default)) out[which(is.na(index))] <- default#
-    attributes(out) <- attributes(x)#
-    out#
-  }
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date+1
-date
-date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
-date
-?as.Date
-date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%Y")
-date
-devtools::install_github("matthieugomez/tidyr")#
-devtools::install_github("matthieugomez/lazyeval")#
-devtools::install_github("matthieugomez/dplyr")#
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-library(dplyr)#
-library(data.table)#
-library(statar)#
-#
-# partition creates quantile categories (corresponds to Stata xtile)#
-v2 <-   sample(1e6, 1e6, TRUE)                   #
-v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles#
-v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
-## unbalanced panel#
-DT <- data.frame(#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
- value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% mutate(lag(value, 1, order_by = date)) # wrong#
-DT %>% mutate(lag(value, 1, along_with = date)) # right#
-#
-## periods can be used instead of integers#
-library(lubridate)#
-df <- data.frame(     #
-   id = c("id1", "id1", "id1", "id1"),#
-   date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
-   value = c(4.1, 4.5, 3.3, 5.3)#
-)#
-df <- df %>% mutate(date = floor_date(date, "month"))#
-df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date))
-?data.table::lag
-?lag
+library(pryr)
+object_size(DT,DT1)
+object_size(DT)
+sessionInfo()
 library(data.table)
 library(dplyr)
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
-#
-DT <- data.table(#
-   id = c(1, 1, 1, 1, 1, 2, 2),#
-   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-#
-R> DT#
-   id date value#
-1:  1 1992   4.1#
-2:  1 1989   4.5#
-3:  1 1991   3.3#
-4:  1 1990   5.3#
-5:  1 1994   3.0#
-6:  2 1992   3.2#
-7:  2 1991   5.2#
-R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
-Source: local data table [7 x 4]#
-Groups: id#
-#
-  id date value lead_lag(value, 1)#
-1  1 1992   4.1                4.5#
-2  1 1989   4.5                4.5#
-3  1 1991   3.3                4.5#
-4  1 1990   5.3                4.5#
-5  1 1994   3.0                4.5#
-6  2 1992   3.2                5.2#
-7  2 1991   5.2                5.2#
-R>
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
-#
-DT <- data.table(#
-   id = c(1, 1, 1, 1, 1, 2, 2),#
-   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-#
-DT#
-   id date value#
-1:  1 1992   4.1#
-2:  1 1989   4.5#
-3:  1 1991   3.3#
-4:  1 1990   5.3#
-5:  1 1994   3.0#
-6:  2 1992   3.2#
-7:  2 1991   5.2#
-DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
-Source: local data table [7 x 4]#
-Groups: id#
-#
-  id date value lead_lag(value, 1)#
-1  1 1992   4.1                4.5#
-2  1 1989   4.5                4.5#
-3  1 1991   3.3                4.5#
-4  1 1990   5.3                4.5#
-5  1 1994   3.0                4.5#
-6  2 1992   3.2                5.2#
-7  2 1991   5.2                5.2#
-R>
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
-#
-DT <- data.table(#
-   id = c(1, 1, 1, 1, 1, 2, 2),#
-   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)
-R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
-debug(lead_lag)
-DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1)) )
-DT %>% group_by(id) %>% mutate( lead_lag(value,1))
-s
-n
-s
-debug(lead_lag)
-lead_lag(DT$value,1)
-s
-f
-lead_lag(value,1)
-s
-f
-undebug(lead_lag)
-lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }
-lead_lag(c(1,2),k=1)
-lag(c(1,2),n=1)
-sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}
-sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
-lead_lag(k) <- function{if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
-lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
-lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}
-}
-lead_lag <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}}
-lea_lag(3)(c(1,2)
-_
-lea_lag(3)(c(1,2))
-lead_lag(3)(c(1,2))
-lead_lag(1)(c(1,2))
-?ifelse
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-library(statar)
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
-  )#
-#
-# colorder (= Stata order)#
-DT  %>% colorder(starts_with("v"))#
-DT  %>% colorder(starts_with("v"), inplace = TRUE)#
-#
-# sum_up (= Stata summarize)#
-DT  %>% sum_up#
-DT  %>% sum_up(v3, d=T)#
-DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("data.table"))#
-suppressMessages(library("biglm"))#
-N=1e7; K=100#
+N=1e8; K=100#
 set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-DT[, condition := id>100]#
-system.time(DT[ id >100, coefficients(biglm(v3 ~ v2 + v1, .SD)), .SDcols = c("v1","v2","v3")])#
-system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = "condition", .SDcols = c("v1","v2","v3")])#
-system.time(coefficients(biglm(v3 ~ v2 + v1, DT[id>100, c("v1","v2","v3"), with = FALSE])
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
 )
-suppressMessages(library("data.table"))#
-suppressMessages(library("biglm"))#
-N=1e7; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-DT[, condition := id>100]
-system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = condition, .SDcols = c("v1", "v2", "v3")])
-library(Matrix)
-?expand
-isS4(expand)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-?expand
-DT <- data.table(#
-    id = c(1, 1, 1, 1, 1, 2, 2),#
-    date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% expand(date)
-library(dpryr)
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-?lag
-lag
-devtools::install_github("smbache/magrittr")
-library(magrittr)
-rnorm(100) %T>%#
-  plot(type = "l", col = "firebrick") %>%#
-  abs %>%#
-  sum
-tmp :=#
-  subset(Species == "setosa") %>%#
-  set_names(LETTERS[1:5])
-install.packages("colorout")
-download.file("http://www.lepem.ufc.br/jaa/colorout_1.0-3.tar.gz", destfile = "colorout_1.0-3.tar.gz")#
-install.packages("colorout_1.0-3.tar.gz", type = "source", repos = NULL)
-savehistory
-savehistory(ok)
-savehistory("ok")
-savehistory("~/.R.app.history")
-savehistory()
-fefe
-savehistory()
+DT1 <- DT %>% mutate(y=mean(v1))
+object_size(DT,DT1)
 library(pryr)
-N <- 1e3#
-	DF <- data.frame(#
-	  id = sample(c("id01","id02","id03"), N, TRUE),     #
-	  v1 = sample(5, N, TRUE),                          #
-	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
-	  )
-DT
-DF
-DT <- setDF(DF)
+object_size(DT,DT1)
 library(data.table)
-DT <- setDF(DF)
+data.table:::shallow
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+data.table:::shallow(DT)
+DT1<-data.table:::shallow(DT)
+DT1[,y:=mean(v1)]
+copy(DT,DT1)
+library(pryr)
+copy(DT,DT1)
+object_size(DT,DT1)
 DT
-DT1 <- copy(DT)
+DT1
+set(DT,id)
+setkey(DT,id)
+setkey(DT1,id)
+Y <- DT[DT1]
+object_size(DT,DT1,Y)
+DT
+DT %>% select(v1) %>% mutate_each(funs(mean),inplace=T)
+library(dplyr)
+library(data.table)#
+x <- data.table(a = 11:15, b = 111:115, val1 = rnorm(5), key = c("a", "b"))#
+y <- data.table(b = 101:120, val2 = letters[1:20], key = "b")
+x
+y
+N=1e4; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+)
+N=1e4; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE)                         # int in range [1,5]#
+)
+setkey(DT,id)
+DT[J(id,v1)]
+DT1 <- DT[,list(id,v1)]
+DT[DT1]
+names(DT[J(id,v1)])
+names(DT[DT1])
+setkey(DT,id)#
+names(DT[DT[,list(id,v1)]])
+names(DT[list(id,v1)])
+library(data.table)
+library(dplyr)
+N=1e8; K=100#
+set.seed(1)#
+DF <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(round(runif(100,max=100),4), N, TRUE)                       #
+)
+rm(DF)
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+DT1 <- DT[,names(DT),with=FALSE]
+copy(DT,DT1)
+library(pryr)
+object_size(DT,DT1)
+DT1 <-DT[5*1e7]
+DT1 <-DT[1:(5*1e7)]
 object_size(DT,DT1)
 object_size(DT)
 object_size(DT,DT1)
-object_size(DT,DT1, merge(DT,DT1)
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
 )
-library(pryr)#
-	N <- 1e3#
-	DF <- data.frame(#
-	  id = sample(c("id01","id02","id03"), N, TRUE),     #
-	  v1 = sample(5, N, TRUE),                          #
-	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
-	  )#
-	DF1 <- DF$v1#
-	DF2 <- DF[1:(5e2)]#
-	object_size(DF, DF1)#
-	17.4 kB#
-	object_size(DF, DF3)#
-	25.9 kB#
-	object_size(DF,DF3, merge(DF,DF3)
-library(pryr)#
-	N <- 1e3#
-	DF <- data.frame(#
-	  id = sample(c("id01","id02","id03"), N, TRUE),     #
-	  v1 = sample(5, N, TRUE),                          #
-	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
-	  )#
-	DF1 <- DF$v1#
-	DF2 <- DF[1:(5e2),]#
-	object_size(DF, DF1)#
-	17.4 kB#
-	object_size(DF, DF3)#
-	25.9 kB#
-	object_size(DF,DF3, merge(DF,DF3)
-}
-library(pryr)#
-	N <- 1e3#
-	DF <- data.frame(#
-	  id = sample(c("id01","id02","id03"), N, TRUE),     #
-	  v1 = sample(5, N, TRUE),                          #
-	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
-	  )#
-	DF1 <- DF$v1#
-	DF2 <- DF[1:(5e2),]#
-	object_size(DF, DF1)#
-	17.4 kB#
-	object_size(DF, DF3)#
-	25.9 kB#
-	object_size(DF,DF3, merge(DF,DF3)
-library(pryr)#
-	N <- 1e3#
-	DF <- data.frame(#
-	  id = sample(c("id01","id02","id03"), N, TRUE),     #
-	  v1 = sample(5, N, TRUE),                          #
-	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
-	  )#
-	DF1 <- DF$v1#
-	DF2 <- DF[1:(5e2),]#
-	object_size(DF, DF1)#
-	#> 17.4 kB#
-	object_size(DF, DF3)#
-	#> 25.9 kB#
-	object_size(DF,DF3, merge(DF,DF3)
-q
-library(pryr)#
-	N <- 1e3#
-	DF <- data.frame(#
-	  id = sample(c("id01","id02","id03"), N, TRUE),     #
-	  v1 = sample(5, N, TRUE),                          #
-	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
-	  )#
-	DF1 <- DF$v1#
-	DF2 <- DF[1:(5e2),]#
-	object_size(DF, DF1)#
-	#> 17.4 kB#
-	object_size(DF, DF3)#
-	#> 25.9 kB#
-	object_size(DF,DF3, merge(DF,DF3)
+library(data.table)
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
 )
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+   id = 1:N,#
+   v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+library(plyr)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+library(pryr)
+object_size(DT,DT1)
+object_size(DT)
+object_size(DT,DT1)
+system.time(DT1 <- DT[,c("id")])
+object_size(DT,DT1)
+object_size(DT)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+DT
+DT1
+system.time(DT1 <- DT[,c("id","v1"),with=FALSE])
+object_size(DT, DT1)
+system.time(DT1 <- setDT(setDF(DT)[,c("id","v1")]))
+object_size(DT, DT1)
+library(dplyr)#
+library(data.table)
+DT1 <- DT %>% mutate(y=mean(v1))
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+DT1 <- DT %>% mutate(y=mean(v1))
+object_size(DT,DT1)
+library(pryr)
+object_size(DT,DT1)
+DT1 <- DT %>% select(v1)
+object_size(DT,DT1)
+DF1 <- DF %>% select(v1)#
+object_size(DF,DF1)
+library(pryr)
+library(dplyr)#
+library(data.table)#
+#
+N=1e8; K=100#
+set.seed(1)#
+DF <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(round(runif(100,max=100),4), N, TRUE)                       #
+)#
+object_size(DF)#
+1.2 GB#
+DF1 <- DF %>% mutate(y=mean(v1))#
+object_size(DF,DF1)#
+2 GB#
+DF1 <- DF %>% select(v1)#
+object_size(DF,DF1)#
+2 GB
+names(DF1)
+rm(ls())
+rm(list=ls())
+N=1e8; K=100#
+set.seed(1)#
+DF <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(round(runif(100,max=100),4), N, TRUE)                       #
+)#
+object_size(DF)
+DF1 <- DF %>% select(v1)
+object_size(DF,DF1)
+DT1<-DT[,list(id)]
+setDT(DT)
+setDT(DF)
+DF1<-DT[,list(id)]
+DF1<-DF[,list(id)]
+object_size(DF,DF1)
+object_size(DF)
+library(data.table)
+df1 <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame())}#
+f(df1)#
+df1[, temp := 1]
+df1
+df <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame())}#
+f(df)#
+df[, temp := 1]
+df
+df <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame()); df[, temp := 1]}
+f(df)
+df
+df1 <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame()); df[, temp := 1]}
+f(df1)
+df1
+df1 <- data.frame(id = 1:10)#
+f <- function(df){#
+      eval(substitute(setDT(df)),parent.frame())#
+      df[, temp := 1]#
+      }#
+f(df1)
+df1
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+system.time( DT1 <- DT[,c("id","v1","v2"), with = FALSE] )#
+object_size(DT,DT1)#
+system.time( DT1 <- setDT(setDF(DT)[,c("id","v1","v2")]) ) #
+system.time( setDT(DT)  )#
+object_size(DT,DT1)
+library(data.table)#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+system.time( DT1 <- DT[,c("id","v1","v2"), with = FALSE] )#
+object_size(DT,DT1)#
+system.time( DT1 <- setDT(setDF(DT)[,c("id","v1","v2")]) ) #
+system.time( setDT(DT)  )#
+object_size(DT,DT1)
+library(data.table)#
 library(pryr)#
-	N <- 1e3#
-	DF <- data.frame(#
-	  id = sample(c("id01","id02","id03"), N, TRUE),     #
-	  v1 = sample(5, N, TRUE),                          #
-	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
-	  )#
-	DF1 <- DF$v1#
-	DF2 <- DF[1:(5e2),]#
-	object_size(DF, DF1)#
-	#> 17.4 kB#
-	object_size(DF, DF2)#
-	#> 25.9 kB#
-	object_size(DF,DF2, merge(DF,DF2)
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+system.time( DT1 <- DT[,c("id","v1","v2"), with = FALSE] )#
+object_size(DT,DT1)#
+system.time( DT1 <- setDT(setDF(DT)[,c("id","v1","v2")]) ) #
+system.time( setDT(DT)  )#
+object_size(DT,DT1)
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-library(tidyr)
-?gather
-DTx <- data.table (#
-  gvkey = c("2222","2222"), #
-  permno = c("20990", "20980"), #
-  year_min = c(1991,2000), #
-  year_max = c(1999, 2001)#
-)
-debugdebug(mutate)
-debug(mutate)
+object_size(DT[1:(.N-1)])
+object_size(DT[1:(.N-1)],DT)
+object_size(DT[1:.N/2],DT)
+object_size(DT)
+DT1 <- DT[1:.N/2]
+object_size(DT,DT1)
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT1 <- DT[,c("id","v1","v2"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.N/2]#
+object_size(DT,DT1)#
+400 MB
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.N/2]#
+object_size(DT,DT1)
+DF1 <- DF[1:1e7/2]
+setDF(DT)#
+DT1 <- DT[,c("id","v1","v2")]) #
+DT1 <- DT[1:1e7/2]
+setDF(DT)#
+DT1 <- DT[,c("id","v1","v2")]#
+DT1 <- DT[1:1e7/2]
+DT1 <- DT[1:(1e7/2)]
+DT1 <- DT[1:(5e6)]
+DT1 <- DT[1:(5e6),]
+object_size(DT,DT1)
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[,c("id","v1","v2")]#
+object_size(DT,DT1)#
+DT1 <- DT[1:(5e6),]#
+object_size(DT,DT1)#
+#
+setDT(DT)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[,c("id","v1","v2")]#
+object_size(DT,DT1)#
+#> 200#
+DT1 <- DT[1:(5e6),]#
+object_size(DT,DT1)#
+#> 300#
+#
+setDT(DT)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+#> 400 MB#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)#
+#> 210 MB
+DT1 <- DT[1:.5e6,]
+object_size(DT,DT1)#
+210 MB
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[,c("id","v1","v2")]#
+object_size(DT,DT1)#
+#> 200 MB#
+DT1 <- DT[1:(5e6),]#
+object_size(DT,DT1)#
+#> 300 MB#
+#
+setDT(DT)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+#> 400 MB#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)#
+#> 210 MB
+DT1
+DT1 <- DT[,list(id,v1,v2,v3)] #
+object_size(DT,DT1)
 library(dplyr)
-DT <- data.table ( id = 1:10)
-mutate(DT, mean(id))
-debug(mutate)
-DT <- data.table ( id = 1:10)
-mutate(DT, mean(id))
-s
-n
-?forder
-DT
-DT[1, id:= NA]
-DT
-forder(DT,id)
-DT[order(id)]
-setorder(DT,id)
-DT
-?setorder
+library(data.table)#
+library(pryr)#
+N = 1e7; K = 100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+DT1 <- DT %>% filter(v1>=3)
+object_size(DT,DT1)
+object_size(DT)
+DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)]
+setDT(DT)
+DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)]
+system.time(DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)])
+system.time(lm(v3~v2,DT[v1==3]))
+system.time(DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)])
+library(data.table)#
+library(pryr)#
+N = 1e7; K = 100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[1:(5e6),]#
+object_size(DT, DT1)#
+#> 300 MB#
+#
+setDT(DT)#
+DT1 <- DT[1:.5e6]#
+object_size(DT ,DT1)#
+#> 210 MB
+DT1 <- DT[3:.5e6]
+object_size(DT,DT1)
+library(dplyr)
+?order_by
+?lag
+?lead
+?break
+break=function(x){x+2}
+break <- function(x){x+2}
+?separate
+?culster
+?cluster
+devtools::document("/Users/Matthieu/Dropbox/github/statar-package")
+#' lead and lag.#
+#'#
+#' lead and lag are useful for comparing values for date offset by a constant#
+#' @param x a vector of values#
+#' @param n a positive integer of length 1, giving the number of positions to lead or lag by#
+#' @param order_by override the default ordering to use another vector#
+#' @param along_with  compute lag with respect to this vector instead of previous row#
+#' @param units computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a date. #
+#' @param default value used for non-existant rows. Defaults to \code{NA}.#
+#' @examples#
+#' # Unbalanced panel#
+#' DT <- data.table(#
+#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
+#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#' )#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right#
+#
+#' # Units#
+#' DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "08/21/1992"), "%m/%d/%Y")]#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, units = "month", along_with = date)) #
+#' @name lead-lag#
+NULL#
+#
+#' @export#
+#' @rdname lead-lag#
+lead <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lead(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+#
+  if (!is.null(along_with)) {#
+    index <- match(along_with - n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(x[-seq_len(n)], rep(default, n))#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}#
+#' @export#
+#' @rdname lead-lag#
+lag.default <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lag, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lag(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+  if (!is.null(along_with)) {#
+    index <- match(along_with + n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(rep(default, n), x[seq_len(xlen - n)])#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+date <- as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "08/21/1992"), "%m/%d/%Y")
+date
+as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y")
+#' lead and lag.#
+#'#
+#' lead and lag are useful for comparing values for date offset by a constant#
+#' @param x a vector of values#
+#' @param n a positive integer of length 1, giving the number of positions to lead or lag by#
+#' @param order_by override the default ordering to use another vector#
+#' @param along_with  compute lag with respect to this vector instead of previous row#
+#' @param units computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a date. #
+#' @param default value used for non-existant rows. Defaults to \code{NA}.#
+#' @examples#
+#' # along_with#
+#' DT <- data.table(#
+#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
+#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#' )#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right#
+#
+#' # units#
+#' value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#' date <- as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y")#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) #
+#' @name lead-lag#
+NULL#
+#
+#' @export#
+#' @rdname lead-lag#
+lead <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with("0001-01-01")#
+    if (unitsc=="day"){#
+      return(lead(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+#
+  if (!is.null(along_with)) {#
+    index <- match(along_with - n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(x[-seq_len(n)], rep(default, n))#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}#
+#' @export#
+#' @rdname lead-lag#
+lag.default <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lag, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with("0001-01-01")#
+    if (unitsc=="day"){#
+      return(lag(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+#
+  if (!is.null(along_with)) {#
+    index <- match(along_with + n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(rep(default, n), x[seq_len(xlen - n)])#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+library(dplyr)
+library(data.table)
+df <- data.frame(#
+   date = 1:N,#
+   id =  sample(5, N, TRUE),   #
+   value =  sample(1e6, N, TRUE)                   #
+ )#
+# This solution#
+system.time(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id])#
+#> user  system elapsed #
+#> 0.186   0.007   0.157  #
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#> user  system elapsed #
+#> 0.186   0.007   0.200 #
+# pure data.table solution#
+setDF(df)#
+system.time(setkey(setDT(df), id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#> user  system elapsed #
+#> 0.113   0.023   0.147 #
+#
+# pure dplyr solution#
+setDF(df)#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#> user  system elapsed #
+#> 1.148   0.057   1.197
+N <- 2e6#
+df <- data.frame(#
+   date = 1:N,#
+   id =  sample(5, N, TRUE),   #
+   value =  sample(1e6, N, TRUE)                   #
+ )#
+# This solution#
+system.time(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id])#
+#> user  system elapsed #
+#> 0.186   0.007   0.157  #
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#> user  system elapsed #
+#> 0.186   0.007   0.200 #
+# pure data.table solution#
+setDF(df)#
+system.time(setkey(setDT(df), id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#> user  system elapsed #
+#> 0.113   0.023   0.147 #
+#
+# pure dplyr solution#
+setDF(df)#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#> user  system elapsed #
+#> 1.148   0.057   1.197
+library(microbenchmark)
+microbenchmark(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id],times=10L)
+N <- 2e6#
+    df <- data.frame(#
+       date = 1:N,#
+       id =  sample(5, N, TRUE),   #
+       value =  sample(1e6, N, TRUE)                   #
+     )#
+    # This solution#
+    microbenchmark(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id])#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.157  #
+    microbenchmark(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.200 #
+    # pure data.table solution#
+    setDF(df)#
+    microbenchmark(setkey(setDT(df), id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+    #> user  system elapsed #
+    #> 0.113   0.023   0.147 #
+#
+    # pure dplyr solution#
+    setDF(df)#
+    microbenchmark(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+    #> user  system elapsed #
+    #> 1.148   0.057   1.197
+# This solution#
+    setDT(df)#
+    microbenchmark(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.157  #
+    setDF(df)#
+    microbenchmark(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.200 #
+    # pure data.table solution#
+    setDT(df)#
+    microbenchmark(setkey(df, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+    #> user  system elapsed #
+    #> 0.113   0.023   0.147 #
+#
+    # pure dplyr solution#
+    setDF(df)#
+    microbenchmark(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+    #> user  system elapsed #
+    #> 1.148   0.057   1.197
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+   }#
+# This solution against pure data.table#
+setDT(df)#
+microbenchmark(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>      min       lq   median       uq      max neval#
+#> 39.23331 45.63224 48.26503 51.30011 88.56598   100 #
+microbenchmark(setkey(df, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>      min       lq   median       uq      max neval#
+#> 162.0913 179.7229 191.2539 230.4258 1663.312   100
+setDF(df)#
+    microbenchmark(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+    #>      min       lq   median       uq      max neval#
+    #> 97.22887 111.8242 121.0254 141.8194 1090.357   100#
+#
+    microbenchmark(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))
+df
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>     min       lq   median       uq      max neval#
+#> 98.4322 105.3136 110.1891 116.5764 320.0336   100#
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>      min       lq   median       uq      max neval#
+#> 135.2102 145.7594 161.0235 188.1168 390.2336   100#
+#
+# This solution against pure dplyr#
+setDF(df)#
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#>      min       lq   median       uq      max neval#
+#> 92.40668 95.37822 99.20339 103.0889 140.8624   100#
+#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#>      min       lq   median       uq      max neval#
+#> 2.422102 3.071185 3.281669 3.631934 4.818416   100
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>   user  system elapsed #
+#>  0.201   0.026   0.228 #
+#
+# This solution against pure dplyr#
+setDF(df)#
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#>   user  system elapsed #
+#>  0.156   0.028   0.186 #
+#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#>   user  system elapsed #
+#>  3.301   0.086   3.363
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ]))
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+setDT(df)
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>   user  system elapsed #
+#>  0.201   0.026   0.228 #
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>   user  system elapsed #
+#>  0.201   0.026   0.228
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+all.equal(setkey(df),df1)
+all.equal(setkey(df,id,date),df1)
+all.equal(setkey(df[, lag_value := lag(value, 1, along_with = date), by = id],id,date),setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+df1<- setkey(df[, lag_value := lag(value, 1, along_with = date), by = id],id,date)
+df2<- setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+df2<- setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ]
+df1
+df2
+dfdf1[!is.na(value_lagged)]
+df1[!is.na(value_lagged)]
+df[!is.na(value_lagged)]
+lag <- function(x, n = 1L, along_with){#
+ index <- match(along_with - n, along_with, incomparable = NA)#
+ out <- x[index]#
+ attributes(out) <- attributes(x)#
+ out#
+}
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+setDF(df)#
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#>   user  system elapsed #
+#>  0.156   0.028   0.186 #
+#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#>   user  system elapsed #
+#>  3.301   0.086   3.363
+?biglm
+library(biglm)
+install.packages("biglm")
+?biglm
+library(biglm)
+?biglm
+FALSE && NA
+true || NA
+TRUE || NA
+library(tidyr)
+library(statar)
+df <- data.frame (id=c(1,1), variable = c("v1","v1"), value = c(1,3))
+df
+spread(df, variable, value)
+dt <- as.data.table(df)
+dt <- data.table(df)
+library(data.table)
+dt <- as.data.table(df)
+spread(df, variable, value)
+spread(dt, variable, value)
+library(tidyr)
+?expand
+devtools::install_github("hadley/tidyr")
+f <-function(){#
+on.exit(print("salut"))#
+}
+f(1)
+f()
+library(tidyr)
+devtools::install_github("hadley/tidyr")
+library(tidyr)
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
 suppressMessages(library("tidyr"))#
 suppressMessages(library("dplyr"))#
 suppressMessages(library("data.table"))#
@@ -469,918 +987,31 @@ suppressMessages(library("statar"))#
 assignInNamespace("cedta.override",#
                   c(data.table:::cedta.override,"IRkernel"),#
                   "data.table")
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-result1 <- felm( v4 ~ v2 + v1, DT )#
-result2 <- felm( v3 ~ v2 + v1, DT )#
-result3 <- felm( v4 ~ v3 + v1 |0| (v3 ~ v2) |0, DT )
-ivreg
-library(aer)
-library(AER)
-ivreg(v3~v1,DT)
-?ivreg
-ivreg(v3~v2 | v1,DT)
-ivreg(v3 ~ v2 | v1,D T)
-ivreg(v3 ~ v2 | v1, DT)
-?ivreg
-ivreg(v3 ~ v2 | v1, DT)
-ivreg(v3 ~ v2 | v1, date = DT)
-ivreg(v3 ~ v2 | v1, data = DT)
-library("lfe")#
-N <- 1e6#
-df <- data.frame(#
-   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-)#
-felm(v1~v2|0|(v2~v3)|0, df)
-library("lfe")#
-N <- 1e6#
-df <- data.frame(#
-   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-felm(v1~v2|0|(v2~v3)|0, df)
-library("lfe")#
-N <- 1e6#
-df <- data.frame(#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100, max = 100), 4), N, TRUE) # numeric e.g. 23.5749#
-)#
-felm(v1 ~ v2 | 0 | (v2 ~ v3) |0, df)
-felm(v1 ~ v2 | 0 | (v2 ~ v3) |, df)
-felm(v1 ~ v2 |  | (v2 ~ v3) |, df)
-felm(v1 ~ v2 |  | (v2 ~ v3) |0, df)
-felm(v1 ~ v2 |  | (v2 ~ v3), df)
-felm(v1 ~ v2 |0| (v2 ~ v3), df)
-l= c("col1","some","col3")
-l[c(1,NA)]
-l[c(1,NA)] <- c("col11","col12")
-l[c(TRUE,NA)] <- c("col11","col12")
-l[l=="col1"] <- c("col11","col12")
-l=="col1"
-l <- c("col1", NA, "col3")#
-l[l==col1] <- c("col1")
-l <- c("col1", NA, "col3")#
-l[l == "col1"] <- c("col1")
-l
-condition = l== "col1"
-condition
-l[condition] <- c("col1")
-l[c(TRUE,NA,FALSE) <- c("col1")
-)
-l[c(TRUE,NA,FALSE)] <- c("col1")
-l <- c("col1", NA, "col3")#
-condition = l== "col1"#
-l[condition] <- c("col1")#
-l[l == "col1"] <- c("col1")#
-l[which(l == "col1")
-]
-l <- c("col1", NA, "col3")#
-condition = l== "col1"#
-l[condition] <- c("col1")#
-l[l == "col1"] <- c("col1")#
-l[which(condition)] <- c("col1")
-l
-l[NA,1]
-l[c(NA,1)]
-l <- c("col1", "col2", "col3")#
-    l[c(NA,1)]
-l[c(TRUE, NA, TRUE)]
-l[c(NA, TRUE)]
-l <- c("col1", NA, "col3")#
-	l[which(l == "col1" | l == "col3")]
-l <- c("col1", NA, "col3")#
-	l[l == "col1"]
-l[which(l == "col1")]
-DT
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-lm(v2~v1,DT)
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-lm(v2~v1,DT)
-result <- lm(v2~v1,DT)
-names(result)
-result$coefficients
-result$model
-result
-names(result)
-summary(result)
-list(summary(result))
-names(summary(result))
-result <- felm(v2~v1,DT)
-library(lfe)
-result <- felm(v2~v1,DT)
-names(result)
-names(result)$se
-result$se
-result$coefficients
-result$robustvcv
-summary(result)
-names(summary(result))
-?summary
-object_size(summary(result))
-library(pryr)
-object_size(summary(result))
-object_size(result)
-result <- lm(y ~ x)
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- lm(v3 ~ v2, DT)
-pryr::object_size(results)
-pryr::object_size(result)
-pryr::object_size(summary(results))
-pryr::object_size(summary(result))
-names(result)
-result$coefficients
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- felm(v3 ~ v2, DT)
-vcov(result)
-result
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- felm(v3 ~ v2|||v1, DT)
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- felm(v3 ~ v2|0|0|v1, DT)
-names(result)
-vcov(result)
-result$vcv
-result$robustvcv
-object_size(results)
-object_size(result)
-result <- felm(v3~v2|0|0|v1, DT)
-stargazer(result, type = "text")
-library(stargazer)
-stargazer(result, type = "text")
-devtools::install_github("matthieugomez/statar")
-lazy(date)
-library(lazyeval)
-lazy(date0
-)
-lazy(date)
-lazy_eval(lazy(date))
-lazy_eval(lazy(date1))
-select_vars(names(df),lazy(ok))
-library(dplyr)
-select_vars(names(df),lazy(ok))
-select_vars(names(df), args = lazy(ok))
-lazydots
-lazy_dots
-lazykeep = function(df,x){#
-  keep_(df, lazy(x))#
-}#
-keep_ = function(df,x){#
-  df[, lazy_eval(x,df)]#
-}(date)
-df
-df <- data.frame(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
- )
-keep(df,id)
-keep = function(df,x){#
-  keep_(df, lazy(x))#
-}#
-keep_ = function(df,x){#
-  df[, lazy_eval(x,df)]#
-}
-keep(df,id)
-lazy(date)
-lazy(date1)
-devtools::load_all("/Users/Matthieu/Dropbox/Symlink/Downloads/data.table-master")
-dt <- data.table(id = c(1,2), date = c(1999, 2000))#
-setcolorder(dt, "date", 1)#
-setcolorder(dt, 2, 1)#
-setcolorder(dt, "id", 2)#
-setcolorder(dt, 1, 2)
-devtools::load_all("/Users/Matthieu/Dropbox/Symlink/Downloads/data.table-master")
-library(lfe)
-suppressMessages(library("data.table"))
-N <- 1e3#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-felm(v3 ~ v2, DT)
-felm(v3 ~ 1|0|(v2~v1), DT)
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-n
-f
-felm(v3 ~ 1|0|(v2~v1), DT)
-pform
-parseformula(formula,data)
-knownargs
-sc
-sc <- names(sys.call())[-1]
-sc
-named <- knownargs[pmatch(sc, knownargs)]
-formula
-f
-felm::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
-lfe:::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
-felm = function (formula, data, iv = NULL, clustervar = NULL, exactDOF = FALSE, #
-    subset, na.action, contrasts = NULL, ...) #
-{#
-    knownargs <- c("iv", "clustervar", "cmethod")#
-    sc <- names(sys.call())[-1]#
-    named <- knownargs[pmatch(sc, knownargs)]#
-    for (arg in c("iv", "clustervar")) {#
-        if (!is.null(eval(as.name(arg))) && !(arg %in% named)) {#
-            warning("Please specify the '", arg, "' argument by name, or use a multi part formula. Its position in the argument list will change in a later version")#
-        }#
-    }#
-    mf <- match.call(expand.dots = FALSE)#
-    cmethod <- "cgm"#
-    args <- list(...)#
-    ka <- knownargs[pmatch(names(args), knownargs, duplicates.ok = FALSE)]#
-    names(args)[!is.na(ka)] <- ka[!is.na(ka)]#
-    env <- environment()#
-    lapply(intersect(knownargs, ka), function(arg) assign(arg, #
-        args[[arg]], pos = env))#
-    if (!(cmethod %in% c("cgm", "gaure"))) #
-        stop("Unknown cmethod: ", cmethod)#
-    unk <- setdiff(names(args), knownargs)#
-    if (length(unk) > 0) #
-        stop("unknown arguments ", paste(unk, collapse = " "))#
-    if (missing(data)) #
-        data <- environment(formula)#
-    pf <- parent.frame()#
-    pform <- parseformula(formula, data)#
-    print(formula)#
-    print(pform)#
-}
-felm(v3 ~ 1|0|v2~v1, DT)
-parseformula <- function (form, data) #
-{#
-    f <- as.Formula(form)#
-    len <- length(f)[[2]]#
-    if (len == 1) #
-        return(oldparseformula(form, data))#
-    opart <- formula(f, lhs = 1, rhs = 1)#
-    if (len == 1) #
-        return(list(formula = opart, gpart = ~0, ivpart = ~0, #
-            cpart = ~0))#
-    gpart <- formula(f, lhs = 0, rhs = 2)#
-    if (!nopart(gpart)) {#
-        tm <- terms(gpart, keep.order = TRUE)#
-        parts <- attr(tm, "term.labels")#
-        parts <- parts[parts != "0"]#
-        nm <- parts#
-        glist <- lapply(paste(".G(", parts, ")", sep = ""), function(e) parse(text = e))#
-        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
-            factor(f)#
-        else f#
-        Ginfunc <- function(x, f) {#
-            if (is.factor(x)) {#
-                structure(interaction(factor(f), factor(x), drop = TRUE), #
-                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
-            }#
-            else {#
-                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
-                  fnam = deparse(substitute(f)))#
-            }#
-        }#
-        if (is.environment(data)) {#
-            fl <- lapply(glist, eval, list(.G = Gfunc, `:` = Ginfunc), #
-                data)#
-        }#
-        else {#
-            fl <- lapply(glist, eval, data, as.environment(list(.G = Gfunc, #
-                `:` = Ginfunc)))#
-        }#
-        names(fl) <- nm#
-    }#
-    else {#
-        fl <- NULL#
-    }#
-    if (len == 2) #
-        return(list(formula = opart, fl = fl, gpart = gpart, #
-            ivpart = ~0, cpart = ~0))#
-    ivparts <- formula(f, lhs = 0, rhs = 3, drop = TRUE)#
-    if (!nopart(ivparts) && length(ivparts[[2]]) > 1 && ivparts[[2]][[1]] == #
-        "(") {#
-        ivspec <- as.Formula(ivparts[[2]][[2]])#
-        lhs <- formula(ivspec, rhs = 0)#
-        ivpart <- lapply(seq_along(all.vars(lhs)), function(i) formula(ivspec, #
-            lhs = i))#
-    }#
-    else {#
-        ivpart <- NULL#
-    }#
-    if (len == 3 && !is.null(ivpart)) #
-        return(list(formula = opart, fl = fl, iv = ivpart, gpart = gpart, #
-            ivpart = ivparts, cpart = ~0))#
-    if (len == 3 && is.null(ivpart)) {#
-        cpart <- ivparts#
-        ivparts <- NULL#
-    }#
-    else {#
-        cpart <- formula(f, lhs = 0, rhs = 4, drop = TRUE)#
-    }#
-    if (!nopart(cpart)) {#
-        tm <- terms(cpart, keep.order = TRUE)#
-        nm <- parts <- attr(tm, "term.labels")#
-        clist <- lapply(paste("factor(", parts, ")", sep = ""), #
-            function(e) parse(text = e))#
-        cluster <- lapply(clist, eval, data)#
-        names(cluster) <- nm#
-    }#
-    else {#
-        cluster <- NULL#
-    }#
-    list(formula = opart, fl = fl, iv = ivpart, cluster = cluster, #
-        gpart = gpart, ivpart = ivparts, cpart = cpart)#
-}
-felm(v3 ~ 1|0|v2~v1, DT)
-library(Formula)
-felm(v3 ~ 1|0|v2~v1, DT)
-oldparseformula = function (formula, data) #
-{#
-    trm <- terms(formula, specials = c("G"))#
-    feidx <- attr(trm, "specials")$G + 1#
-    va <- attr(trm, "variables")#
-    festr <- paste(sapply(feidx, function(i) deparse(va[[i]])), #
-        collapse = "+")#
-    if (festr != "") {#
-        formula <- update(formula, paste(". ~ . -(", festr, ") - 1"))#
-        felist <- parse(text = paste("list(", gsub("+", ",", #
-            festr, fixed = TRUE), ")", sep = ""))#
-        nm <- eval(felist, list(G = function(arg) deparse(substitute(arg))))#
-        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
-            factor(f)#
-        else f#
-        Ginfunc <- function(x, f) {#
-            if (is.factor(x)) {#
-                structure(interaction(factor(f), factor(x), drop = TRUE), #
-                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
-            }#
-            else {#
-                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
-                  fnam = deparse(substitute(f)))#
-            }#
-        }#
-        if (is.environment(data)) {#
-            fl <- eval(felist, list(G = Gfunc, `:` = Ginfunc), #
-                data)#
-        }#
-        else {#
-            fl <- local({#
-                eval(felist, data)#
-            }, list(G = Gfunc, `:` = Ginfunc))#
-        }#
-        names(fl) <- nm#
-        gpart <- eval(parse(text = paste("~", paste(nm, collapse = "+"))))#
-        if (is.null(names(fl))) #
-            names(fl) <- paste("fe", 1:length(fl), sep = "")#
-    }#
-    else {#
-        fl <- NULL#
-        gpart <- ~0#
-    }#
-    return(list(formula = formula, fl = fl, gpart = gpart, ivpart = ~0, #
-        cpart = ~0))#
-}
-felm(v3 ~ 1|0|v2~v1, DT)
-library(lfe)
-suppressMessages(library("data.table"))
-N <- 1e3#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-felm(v3 ~ 1|0|v2~v1, DT)
-DT
-felm(v3 ~ 1|0|v2~v1, DT)
-DT
-felm(v3 ~ 1|0|(v2~v1), DT)
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-formula
-pform
-f <- as.Formula(formula)
-f
-felm(v3 ~ 1|0|(v2~v1), DT)
-s
-n
-formula
-data
-p <- as.Formula(formula)
-p
-length(f)[[2]]
-length(p)[[2]]
-length(p)[[1]]
-names(length(p))
-length(p)
-p
-length(formula)
-length(formula)[[2]]
-gpart <-  formula(p, lhs = 0, rhs = 2)
-nopart(gpart)
-ivparts <- formula(p, lhs = 0, rhs = 3, drop = TRUE)
-ivparts
-f
-as.list(body(felm))
-trace(felm, print(mf), at = 40)
-trace(felm, quote(print(mf)), at = 40)
-felm(v3 ~ 1|0|(v2~v1), DT)
-g=function(formula,env){eval(formula,env)}
-f=function(x){assign("t1",1:10,envir = parent.frame()); g(y~t1, parent.frame())}
-f=function(x){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-f(1:10)
-g=function(formula,env){stats::model.frame(formula,env)}
-f(1:10)
-f=function(){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-x <- 1:10
-f(1:10)
-f()
-ls()
-ls(parent.env())
-?ls
-g=function(formula,env){eval(formula,env)}
-g=function(formula,env){stats::model.frame(formula,env)}
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-f()
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-f()
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
-f()
-lfe::project
-library(data.table)
-last(c(1,2))
-library(statar)
-?setcols
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package/R/statar.R")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-?saveRDS
-x <- data.table(a = rep(1:2, each = 3), b=1:6) y <- data.table(a = 0:1, bb = 10:11)
-x <- data.table(a = rep(1:2, each = 3), b=1:6) ; y <- data.table(a = 0:1, bb = 10:11)
-library(data.table)
-x <- data.table(a = rep(1:2, each = 3), b=1:6) ; y <- data.table(a = 0:1, bb = 10:11)
-join(x, y, type = "inner", check = 1~m)
-biglm
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-biglm(v1~id)
-biglm(v1~id, DT)
-library(biglm)
-biglm(v1~id, DT)
-?biglm
-?speedlm
-library(speedlm)
-library(speedglm)
-?speedlm
-system.time(speedlm(v1~id,DT))
-system.time(speedlm.fit(v1~id,DT))
-system.time(speedlm(v1~id,DT))
-system.time(biglm(v1~id,DT))
-system.time(speedlm(v1~id,DT))
-system.time(biglm(v1~id,DT))
-object.size(biglm(v1~id,DT))
-object.size(speedlm(v1~id,DT))
-ls(getNamespace("lfe"), all.names=TRUE)
-C_conncomp
-id <- function(){print("1")}
-g<- function(x){lazy(x)}
-g(id)
-library(lazyeval)
-g(id)
-install.packages("lfe")
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-fllibrary(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-library(lfe)
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-felm
-felm::project
-lfe::project
-lfe:::project
-x
-?felm
-remove.packages("lfe")         # revert back to CRAN
-install.packages("data.table")
-install.packages("lfe")
-library(lfe)
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)#
-#> "Error in eval(expr, envir, enclos) : object 'v2(fit)' not found”
-lfe
-sessionInfo()
-lfe
-felm
-project
-lfe::project
-lfe:::project
-doprojols
-felm::doprojols
-felm:::doprojols
-felm::doprojols
-lfe:::doprojols
-library(statar)
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
-year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
-lag(value, 1, along_with = year) #  returns value in year - 1#
-#
-library(lubridate)#
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-value <- c(4.1, 4.5, 3.3, 5.3)#
-datem <- floor_date(date, "month")#
-value_l <- lag(value, months(1), along_with = datem) #
-#
-# tag (corresponds to Stata tag)#
-tag(c(1, 2))#
-tag(c(1, 2), fromLast = TRUE)#
-#
-# sample_mode (corresponds to Stata mode)#
-sample_mode(c(1, 2, 2))#
-sample_mode(c(1, 2))#
-sample_mode(c(NA, NA, 1))#
-sample_mode(c(NA, NA, 1), na.rm = TRUE)#
-#
-# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
-v <- sample(c(NA, 1:10), 10, TRUE)                   #
-partition(v, nq = 3) # 3 groups based on terciles#
-partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
-#
-# winsorize (default based on 5 x interquartile range)#
-winsorize(c(1, 2, 99))#
-winsorize(c(1, 2, 99), replace = NA)#
-winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
 library(data.table)#
-library(dplyr)#
 #
-# sum_up (= Stata summarize)#
-N=1e6; K=100#
+#setcols keeps certain columns#
+DT <- data.table(#
+  id = c(1,2),#
+  v1 = c(1,1),#
+  v2 = c(2,1)#
+)#
+setcols(DT, id, v2)#
+setcols(DT, -id)#
+#
+# sum_up prints detailed summary statistics (corresponds to Stata summarize)#
+N <- 100; K <- 10#
 DT <- data.table(#
   id = 1:N,#
   v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  )#
-DT %>% sum_up#
-DT %>% sum_up(v2, d=T)#
-DT %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#
-# fill_gap (= Stata tsfill)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+  v2 = sample(1e6, N, TRUE)#
 )#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, full = TRUE)#
-#
-# fill na (in a new dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% fill_na(value, along_with = date) #
-DT %>% group_by(id) %>% fill_na(value, along_with = date, roll = "nearest")#
-#
-# fill na (in the original dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-setkeyv(DT,c("id", "date"))#
-setna(DT, "value")#
-setna(DT, "value", roll = "nearest")
-x <- data.table(a = rep(1:2, each = 3), b = 1:6)#
-y <- data.table(a = 0:1, bb = 10:11)#
-# outer corresponds to Stata joinby keep(master matched using)#
-join(x, y, type = "outer")#
-# left corresponds to Stata joinby keep(master matched)#
-join(x, y, type = "left")#
-# right corresponds to Stata joinby keep(mached using)#
-join(x, y, type = "right")#
-# inner corresponds to Stata joinby keep(matched)#
-join(x, y, type = "inner")#
-#
-join(x, y, type = "semi")#
-join(x, y, type = "anti")#
-join(x, y, type = "outer", check = 1~m)#
-join(x, y, type = "outer", gen = "_merge")
-sessionInfo()
-library(lfe)
-sessionInfo()
-install.packages(lfe)
-install.packages(felm)
-install.packages("felm")
-install.packages("lfe")
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz", repos = NULL, type="source")
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz")
-install.packages("lfe")
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-library(lfe)
-system.info()
-systeminfo()
-session.info()
-sessionInfo()
-library(lfe)
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz")
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz", repo = NULL)
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz", repo = NULL, type = "source")
-library(lfe)
-sessionInfo
-sessionInfo()
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-?felm
-felm
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+sum_up(DT)#
+sum_up(DT, v2, d = T)#
+sum_up(DT, starts_with("v"), by = v1)
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
+duplicates(DT, by = a)#
+duplicates(DT, by = list(a,b))
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' returns rows in duplicated groups#
-#'#
-#' @param x a data.table#
-#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
-#' @param gen A character. Default to "N". Name of a new variable that contains the number of duplicates.#
-#' @return a data.table with rows in groups that have duplicates. #
-#' @examples#
-#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
-#' duplicates(DT, by = "a")#
-#' duplicates(DT, by = list(a,b))#
-#' @export#
-duplicates <- function(x, ..., by = NULL, gen = "N"){#
-  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), gen = gen)#
-}#
-#
-#' @export#
-#' @rdname duplicates#
-duplicates_ <- function(x, ..., .dots, by = NULL gen = "N"){#
-  stopifnot(is.data.table(x))#
-  if (gen %in% names(x)){#
-    stop(paste("A variable named",gen, "already exists.")#
-  }#
-  if (anyDuplicated(names(x))){#
-    stop("x has duplicate column names")#
-  }#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  byvars <- names(select_vars_(names(x), by))#
-  if (length(byvars)==0){#
-    byvars <- copy(names(x))#
-  }#
-  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
-  x[, (N) := .N-1,  by = c(byvars)]#
-  on.exit(x[, (N) :=NULL])#
-  ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))#
-  length <- nrow(ans)#
-  if (length >0){#
-    setkeyv(ans, c(N,byvars))#
-    n_groups <- length- sum(duplicated(ans))#
-    message(paste(n_groups,"groups have duplicates"))#
-    setcolorder(ans, c(N, byvars, setdiff(names(ans), c(byvars, N))))#
-    return(ans)#
-  }#
-  else{#
-    message("There are no duplicates")#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' returns rows in duplicated groups#
-#'#
-#' @param x a data.table#
-#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
-#' @param gen A character. Default to "N". Name of a new variable that contains the number of duplicates.#
-#' @return a data.table with rows in groups that have duplicates. #
-#' @examples#
-#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
-#' duplicates(DT, by = "a")#
-#' duplicates(DT, by = list(a,b))#
-#' @export#
-duplicates <- function(x, ..., by = NULL, gen = "N"){#
-  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), gen = gen)#
-}#
-#
-#' @export#
-#' @rdname duplicates#
-duplicates_ <- function(x, ..., .dots, by = NULL gen = "N"){#
-  stopifnot(is.data.table(x))#
-  if (gen %in% names(x))   stop(paste("A variable named", gen, "already exists.")#
-  if (anyDuplicated(names(x)))  stop("x has duplicate column names")#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  byvars <- names(select_vars_(names(x), by))#
-  if (length(byvars)==0){#
-    byvars <- copy(names(x))#
-  }#
-  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
-  x[, (N) := .N-1,  by = c(byvars)]#
-  on.exit(x[, (N) :=NULL])#
-  ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))#
-  length <- nrow(ans)#
-  if (length >0){#
-    setkeyv(ans, c(N,byvars))#
-    n_groups <- length- sum(duplicated(ans))#
-    message(paste(n_groups,"groups have duplicates"))#
-    setcolorder(ans, c(N, byvars, setdiff(names(ans), c(byvars, N))))#
-    return(ans)#
-  }#
-  else{#
-    message("There are no duplicates")#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' returns rows in duplicated groups#
-#'#
-#' @param x a data.table#
-#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
-#' @param gen A character. Default to "N". Name of a new variable that contains the number of duplicates.#
-#' @return a data.table with rows in groups that have duplicates. #
-#' @examples#
-#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
-#' duplicates(DT, by = "a")#
-#' duplicates(DT, by = list(a,b))#
-#' @export#
-duplicates <- function(x, ..., by = NULL, gen = "N"){#
-  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), gen = gen)#
-}#
-#
-#' @export#
-#' @rdname duplicates#
-duplicates_ <- function(x, ..., .dots, by = NULL, gen = "N"){#
-  stopifnot(is.data.table(x))#
-  if (gen %in% names(x))   stop(paste("A variable named", gen, "already exists.")#
-  if (anyDuplicated(names(x)))  stop("x has duplicate column names")#
-  dots <- lazyeval::all_dots(.dots, ...)#
-  byvars <- names(select_vars_(names(x), by))#
-  if (length(byvars)==0){#
-    byvars <- copy(names(x))#
-  }#
-  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
-  x[, (N) := .N-1,  by = c(byvars)]#
-  on.exit(x[, (N) :=NULL])#
-  ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))#
-  length <- nrow(ans)#
-  if (length >0){#
-    setkeyv(ans, c(N,byvars))#
-    n_groups <- length- sum(duplicated(ans))#
-    message(paste(n_groups,"groups have duplicates"))#
-    setcolorder(ans, c(N, byvars, setdiff(names(ans), c(byvars, N))))#
-    return(ans)#
-  }#
-  else{#
-    message("There are no duplicates")#
-  }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' returns rows in duplicated groups#
-#'#
-#' @param x a data.table#
-#' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.#
-#' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.#
-#' @param gen A character. Default to "N". Name of a new variable that contains the number of duplicates.#
-#' @return a data.table with rows in groups that have duplicates. #
-#' @examples#
-#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
-#' duplicates(DT, by = "a")#
-#' duplicates(DT, by = list(a,b))#
-#' @export#
 duplicates <- function(x, ..., by = NULL, gen = "N"){#
   duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), gen = gen)#
 }#
@@ -1397,191 +1028,21 @@ duplicates_ <- function(x, ..., .dots, by = NULL, gen = "N"){#
     byvars <- copy(names(x))#
   }#
   vars <- names(select_vars_(names(x), dots, exclude = byvars))#
-  x[, (N) := .N-1,  by = c(byvars)]#
-  on.exit(x[, (N) :=NULL])#
-  ans <- eval(substitute(x[NN>0, c(N, byvars, vars), with = FALSE], list(NN = as.name(N))))#
+  x[, (gen) := .N-1,  by = c(byvars)]#
+  on.exit(x[, (gen) :=NULL])#
+  ans <- eval(substitute(x[NN>0, c(gen, byvars, vars), with = FALSE], list(NN = as.name(gen))))#
   length <- nrow(ans)#
   if (length >0){#
-    setkeyv(ans, c(N,byvars))#
+    setkeyv(ans, c(gen, byvars))#
     n_groups <- length- sum(duplicated(ans))#
     message(paste(n_groups,"groups have duplicates"))#
-    setcolorder(ans, c(N, byvars, setdiff(names(ans), c(byvars, N))))#
+    setcolorder(ans, c(gen, byvars, setdiff(names(ans), c(byvars, gen))))#
     return(ans)#
   }#
   else{#
     message("There are no duplicates")#
   }#
 }
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-spread_.data.table
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-fill_gap(DT, value, along_with = year, by = id)#
-fill_gap(DT, value, along_with = year, by = id, full = TRUE)#
-library(lubridate)#
-DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-DT[, datem :=  floor_date(date, "month")]#
-fill_gap(DT, value, along_with = datem , units = "month", by = id)
-library(data.table)
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    year  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-fill_gap(DT, value, along_with = year, by = id)#
-fill_gap(DT, value, along_with = year, by = id, full = TRUE)#
-library(lubridate)#
-DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992", "07/15/1992", "08/21/1992"))]#
-DT[, datem :=  floor_date(date, "month")]#
-fill_gap(DT, value, along_with = datem , units = "month", by = id)
-year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
-lag(value, 1, along_with = year) #  returns value in year - 1#
-#
-library(lubridate)#
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-value <- c(4.1, 4.5, 3.3, 5.3)#
-datem <- floor_date(date, "month")#
-value_l <- lag(value, units = "month", along_with = datem)
-value_l
-value_l <- lag(value, units = "quarter", along_with = datem)
-traceback()
-debug(lag)
-value_l <- lag(value, units = "quarter", along_with = datem)
-s
-n
-units
-units
-n
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' lead and lag.#
-#'#
-#' lead and lag are useful for comparing values for date offset by a constant#
-#' @param x a vector of values#
-#' @param n a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)#
-#' @param order_by override the default ordering to use another vector#
-#' @param along_with  compute lag with respect to this vector instead of previous row#
-#' @param units. A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  #
-#' @param default value used for non-existant rows. Defaults to \code{NA}.#
-#' @examples#
-#' year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-#' value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-#' lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
-#' lag(value, 1, along_with = year) #  returns value in year - 1#
-#' #
-#' library(lubridate)#
-#' date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-#' value <- c(4.1, 4.5, 3.3, 5.3)#
-#' datem <- floor_date(date, "month")#
-#' value_l <- lag(value, units = "month", along_with = datem) #
-#' @name lead-lag#
-NULL#
-#
-#' @export#
-#' @rdname lead-lag#
-lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, default = NA,  ...) {#
-  if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")#
-  if (!is.null(order_by)) {#
-    if (!is.null(along_with))  stop("order_by cannot be used with along_with")#
-    return(with_order(order_by, lead, x, n = n, default = default))#
-  }#
-  if (!is.null(along_with)) {#
-    if (!is.null(units)){#
-      units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-      if ( units == "quarter"){#
-        units <- "month"#
-        n <- 3 * n#
-      }#
-      index <- match(along_with + period(n, units = units), along_with, incomparable = NA)#
-    } else{#
-      index <- match(along_with + n, along_with, incomparable = NA)#
-    }#
-    out <- x[index]#
-    if (!is.na(default)) out[which(is.na(index))] <- default#
-  } else{#
-    xlen <- length(x)#
-    n <- pmin(n, xlen)#
-    out <- c(x[-seq_len(n)], rep(default, n))#
-  }#
-  attributes(out) <- attributes(x)#
-  out#
-}#
-#' @export#
-#' @rdname lead-lag#
-lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, default = NA, ...) { #
-  if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")#
-  if (!is.null(order_by)) {#
-    if (!is.null(along_with))  stop("order_by cannot be used with along_with")#
-    return(with_order(order_by, lag, x, n = n, default = default))#
- }#
-#
-  if (!is.null(along_with)) {#
-    if (!is.null(units)){#
-      units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))#
-      if (units =="quarter"){#
-        units <- "month"#
-        n <- 3 * n#
-      }#
-      index <- match(along_with - period(n, units = units), along_with, incomparable = NA)#
-    } else{#
-      index <- match(along_with + n, along_with, incomparable = NA)#
-    }#
-#
-    out <- x[index]#
-    if (!is.na(default)) out[which(is.na(index))] <- default#
-  } else{#
-    xlen <- length(x)#
-    n <- pmin(n, xlen)#
-    out <- c(rep(default, n), x[seq_len(xlen - n)])#
-  }#
-  attributes(out) <- attributes(x)#
-  out#
-}
-year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
-lag(value, 1, along_with = year) #  returns value in year - 1#
-#
-library(lubridate)#
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-value <- c(4.1, 4.5, 3.3, 5.3)#
-datem <- floor_date(date, "month")#
-value_l <- lag(value, units = "month", along_with = datem)
-f
-f
-f
-f
-f
-f
-f
-debug(lag)
-library(lubridate)#
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-value <- c(4.1, 4.5, 3.3, 5.3)#
-datem <- floor_date(date, "month")#
-value_l <- lag(value, units = "month", along_with = datem)
-f
-f
-f
-debug(lag)
-library(lubridate)#
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-value <- c(4.1, 4.5, 3.3, 5.3)#
-datem <- floor_date(date, "month")#
-value_l <- lag(value, units = "month", along_with = datem)
-f
-f
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)#
+duplicates(DT, by = a)#
+duplicates(DT, by = list(a,b))

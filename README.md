@@ -126,8 +126,15 @@ DT <- data.table(
 sum_up(DT, id, v1)
 sum_up(DT, list(id, v1))
 sum_up_(DT, quote(list(id, v1))) 
+<<<<<<< Updated upstream
 sum_up_(DT, "id", "v1")) 
 sum_up_(DT, .dots(c("id","v1"))
+=======
+sum_up_(DT, "list(id, v1))") 
+sum_up_(DT, "id", "v1")) 
+sum_up_(DT, .dots = c("id","v1"))
+
+>>>>>>> Stashed changes
 ````
 
 # join
