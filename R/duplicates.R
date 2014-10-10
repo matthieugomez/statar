@@ -16,14 +16,10 @@ duplicates <- function(x, ..., by = NULL, gen = "N"){
 
 #' @export
 #' @rdname duplicates
-duplicates_ <- function(x, ..., .dots, by = NULL gen = "N"){
+duplicates_ <- function(x, ..., .dots, by = NULL, gen = "N"){
   stopifnot(is.data.table(x))
-  if (gen %in% names(x)){
-    stop(paste("A variable named",gen, "already exists.")
-  }
-  if (anyDuplicated(names(x))){
-    stop("x has duplicate column names")
-  }
+  if (gen %in% names(x))   stop(paste("A variable named", gen, "already exists."))
+  if (anyDuplicated(names(x)))  stop("x has duplicate column names")
   dots <- lazyeval::all_dots(.dots, ...)
   byvars <- names(select_vars_(names(x), by))
   if (length(byvars)==0){
