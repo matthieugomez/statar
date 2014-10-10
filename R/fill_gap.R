@@ -10,13 +10,13 @@
 #' @param rollend  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end
 #' @examples
 #' DT <- data.table(
-#'     id    = c(1, 1, 1, 2, 2),
-#'     year  = c(1992, 1989, 1991, 1992, 1991),
-#'     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
+#'     id    = c(1, 1, 1, 2),
+#'     year  = c(1992, 1989, 1991, 1992),
+#'     value = c(4.1, 4.5, 3.3, 3.2)
 #' )
 #' fill_gap(DT, value, along_with = year, by = id)
 #' library(lubridate)
-#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992"))]
+#' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))]
 #' DT[, datem :=  floor_date(date, "month")]
 #' fill_gap(DT, value, along_with = datem , units = "month", by = id)
 

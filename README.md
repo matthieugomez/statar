@@ -14,16 +14,16 @@ The package should be loaded after `dplyr`  and `lubridate` since it overwrites 
 The package adds the following vector functions
 ````R
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
-year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)
+year <- c(1992, 1989, 1991)
+value <- c(4.1, 4.5, 3.3)
 lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
 lag(value, 1, along_with = year) #  returns value in year - 1
 
 library(lubridate)
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))
-value <- c(4.1, 4.5, 3.3, 5.3)
+date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
 datem <- floor_date(date, "month")
-value_l <- lag(value, units = "month", along_with = datem) 
+value <- c(4.1, 4.5, 3.3, 5.3)
+lag(value, units = "month", along_with = datem) 
 
 # sample_mode returns the statistical mode
 sample_mode(c(1, 2, 2))

@@ -1,7 +1,7 @@
 #' Creates a vector of zero except for one subscript
 #' 
 #' @param n An integer (size of output)
-#' @fromLast Should 1 be at the end?
+#' @param fromLast Should 1 be at the end?
 #' @return A vector of zeros except one subscript equal to one.
 #' @examples                        
 #' tag(2)
