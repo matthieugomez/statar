@@ -4,14 +4,16 @@
 \alias{graph_}
 \title{Experimental function to graph a dataset}
 \usage{
-graph(x, ..., by = NULL, reorder = TRUE, winsorize = TRUE,
-  facet = FALSE)
+graph(x, ..., along_with = NULL, by = NULL, reorder = TRUE,
+  winsorize = TRUE, facet = FALSE, size = 1)
 
-graph_(x, ..., .dots, by = NULL, d = FALSE, reorder = TRUE,
-  winsorize = winsorize, facet = FALSE)
+graph_(x, ..., .dots, along_with = NULL, by = NULL, d = FALSE,
+  reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1)
 }
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
+
+\item{along_with}{Replace x axis from percentiles by this variable.}
 
 \item{by}{Groups within which variables should be ploted.}
 
@@ -21,22 +23,26 @@ graph_(x, ..., .dots, by = NULL, d = FALSE, reorder = TRUE,
 
 \item{facet}{Should results graphed in different windows for each group?}
 
+\item{size}{Point sizes when more than 1000 points by group}
+
 \item{DT}{A tbl_dt or tbl_grouped_dt.}
 }
 \description{
 Experimental function to graph a dataset
 }
 \examples{
-N <- 100
+N <- 10000
 DT <- data.table(
-  id = sample(sprintf("id\%03d",1:3), N, TRUE),
-  v1 = sample(5, N, TRUE),
-  v2 =  sample(round(runif(100,max=100),4), N, TRUE)
+  id = sample(c("id1","id2","id3"), N, TRUE),
+  v1 = sample(c(1:5), N, TRUE),
+  v2 = rnorm(N, sd = 20),
+  v3 = sample(runif(100, max=100), N, TRUE)
 )
+DT[, v4 := v3 + rnorm(N, sd = 20)]
 graph(DT)
-graph(DT, v1)
-graph(DT, by = v1)
-graph(DT, by = v1, facet = TRUE)
-graph(DT, v2, by = v1, facet = TRUE)
+graph(DT, by = id)
+graph(DT, by = id, facet = TRUE)
+graph(DT, v3, v4, along_with = v2)
+graph(DT, v3, v4, along_with = v2, by = id)
 }
 
