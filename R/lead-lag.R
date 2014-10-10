@@ -32,7 +32,7 @@ lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, de
   if (!is.null(along_with)) {
     if (!is.null(units)){
       units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
-      if ("units"=="quarter"){
+      if ( units == "quarter"){
         units <- "month"
         n <- 3 * n
       }
@@ -64,7 +64,7 @@ lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = N
   if (!is.null(along_with)) {
     if (!is.null(units)){
       units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
-      if ("units"=="quarter"){
+      if (units =="quarter"){
         units <- "month"
         n <- 3 * n
       }
