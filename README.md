@@ -43,10 +43,10 @@ partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 
 # winsorize (default based on 5 x interquartile range)
 v <- c(1:4, 99)
-winsorize(c(1:4, 99))
-winsorize(c(1:4, 99), replace = NA)
-winsorize(c(1:4, 99), probs = c(0.01, 0.99))
-winsorize(c(1:4, 99), cutpoints = c(1, 50))
+winsorize(v)
+winsorize(v, replace = NA)
+winsorize(v, probs = c(0.01, 0.99))
+winsorize(v, cutpoints = c(1, 50))
 ````
 
 # data.table functions
@@ -114,7 +114,7 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
-Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix "_" (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
+Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
 
 ````R
 N <- 100; K <- 10

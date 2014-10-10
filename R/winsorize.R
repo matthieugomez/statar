@@ -5,10 +5,11 @@
 #' @param probs A vector of probabilities that can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)
 #' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.
 #' @examples                          
-#' winsorize(c(1:4, 99))
-#' winsorize(c(1:4, 99), replace = NA)
-#' winsorize(c(1:4, 99), probs = c(0.01, 0.99))
-#' winsorize(c(1:4, 99), cutpoints = c(1, 50))
+#' v <- c(1:4, 99)
+#' winsorize(v)
+#' winsorize(v, replace = NA)
+#' winsorize(v, probs = c(0.01, 0.99))
+#' winsorize(v, cutpoints = c(1, 50))
 #' @export
 winsorize <- function(x, probs = NULL, cutpoints = NULL , replace = c(cutpoints[1], cutpoints[2]), verbose = TRUE){
   if (is.integer(x)) cutpoints <- cutpoints
