@@ -114,14 +114,26 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
-Every function also has a SE version that accepts strings, formulas or quoted expressions : its name is the NSE name with _ at the end (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)).
+Every function also has a SE version that accepts strings, formulas or quoted expressions : its name is the NSE name with _ at the end (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)). For instance,
 
+````R
+N <- 100; K <- 10
+DT <- data.table(
+  id = 1:N,
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+)
+sum_up(DT, id, v1)
+sum_up(DT, list(id, v1))
+sum_up_(DT, c("id","v1")) 
+sum_up_(DT, quote(list(id,v1))) 
+```
 # join
-The package adds a wrapper for the data.table merge command.
+The package adds a wrapper for data.table merge functionalities.
 
-- The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi and anti. 
-- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata)
-- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata)
+- The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
+- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
+- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
 
 ````R
 library(data.table)
