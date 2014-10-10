@@ -135,19 +135,21 @@ DT <- data.table(
   v3 = sample(runif(100, max=100), N, TRUE)
 )
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
-````R
 graph(DT)
 ````
 ![Read more words!](output_2_0.png)
 
-````$
+````R
 graph(DT, by = id)
 ````
 ![Read more words!](output_3_0.png)
+
 ````R
 graph(DT, v3, v4, along_with = v2)
-````R
+````
+
 ![Read more words!](output_4_0.png)
+
 ````R
 graph(DT, v3, v4, along_with = v2, by = id)
 ````
