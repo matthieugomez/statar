@@ -114,7 +114,7 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ````
 
-Every function also has a SE version that accepts strings, formulas or quoted expressions : its name is the NSE name with _ at the end (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd)). For instance,
+Every function also has a SE version that accepts strings, formulas or quoted expressions : its name is the NSE name with _ at the end. For instance,
 
 ````R
 N <- 100; K <- 10
@@ -128,6 +128,7 @@ sum_up(DT, list(id, v1))
 sum_up_(DT, c("id","v1")) 
 sum_up_(DT, quote(list(id,v1))) 
 ```
+See the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details.
 # join
 The package adds a wrapper for data.table merge functionalities.
 
