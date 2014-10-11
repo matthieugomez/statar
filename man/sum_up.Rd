@@ -9,15 +9,15 @@ sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 }
 \arguments{
-\item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
+\item{x}{a data.table}
+
+\item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 
 \item{w}{Weights (experimental). Default to NULL. See the \link[dplyr]{select} documentation.}
 
 \item{by}{Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.}
-
-\item{DT}{A tbl_dt or tbl_grouped_dt.}
 }
 \description{
 Gives summary statistics (corresponds to Stata command summarize)

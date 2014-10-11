@@ -1,6 +1,6 @@
 #'  Add rows corresponding to gaps in some variable
 #'
-#' @param x A tbl_dt, grouped or not
+#' @param x A data.table
 #' @param ... Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.
 #' @param along_with Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.
 #' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.

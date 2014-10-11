@@ -13,9 +13,11 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
   verbose = FALSE, method = "loess")
 }
 \arguments{
-\item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
+\item{x}{A data.table.}
 
-\item{along_with}{Replace x axis from percentiles by this variable.}
+\item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
+
+\item{along_with}{Replace x axis by this variable (ie estimate regression models instead of density).}
 
 \item{by}{Groups within which variables should be ploted.}
 
@@ -23,17 +25,15 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
 
 \item{reorder}{Should the category with the most count be printed first?}
 
-\item{winsorize}{Should numeric variables winsorized?}
+\item{winsorize}{Should variables winsorized?}
 
-\item{facet}{Should results graphed in different windows for each group?}
+\item{facet}{Should different groups graphed in different windows?}
 
-\item{size}{Point sizes when more than 1000 points by group}
+\item{size}{Size of points when more than 1000 points by group}
 
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
-\item{method}{A character for regression model (lm, loess)}
-
-\item{DT}{A tbl_dt or tbl_grouped_dt.}
+\item{method}{A character for regression model (lm, loess) when along_with is specified}
 }
 \description{
 Experimental function to graph a dataset

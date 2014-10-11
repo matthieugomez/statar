@@ -1,15 +1,15 @@
 #' Experimental function to graph a dataset
 #' 
-#' @param DT A tbl_dt or tbl_grouped_dt.
-#' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param along_with Replace x axis from percentiles by this variable.
+#' @param x A data.table.
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
+#' @param along_with Replace x axis by this variable (ie estimate regression models instead of density).
 #' @param by Groups within which variables should be ploted.
 #' @param w A weight variable
 #' @param reorder Should the category with the most count be printed first?
-#' @param facet Should results graphed in different windows for each group?
-#' @param size Point sizes when more than 1000 points by group
-#' @param winsorize Should numeric variables winsorized?
-#' @param method A character for regression model (lm, loess)
+#' @param facet Should different groups graphed in different windows?
+#' @param size Size of points when more than 1000 points by group
+#' @param winsorize Should variables winsorized?
+#' @param method A character for regression model (lm, loess) when along_with is specified
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 #' @examples
 #' N <- 10000

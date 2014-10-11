@@ -13,7 +13,7 @@ fill_gap_(x, ..., .dots, along_with = NULL, units = NULL, by = NULL,
   TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
 }
 \arguments{
-\item{x}{A tbl_dt, grouped or not}
+\item{x}{A data.table}
 
 \item{...}{Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.}
 
