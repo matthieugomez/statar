@@ -4,10 +4,11 @@
 #' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param along_with Replace x axis from percentiles by this variable.
 #' @param by Groups within which variables should be ploted.
-#' @param reorder Should the value of strings with the most count be printed first?
-#' @param winsorize Should numeric variables winsorized?
+#' @param reorder Should the category with the most count be printed first?
 #' @param facet Should results graphed in different windows for each group?
 #' @param size Point sizes when more than 1000 points by group
+#' @param winsorize Should numeric variables winsorized?
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 #' @examples
 #' N <- 10000
 #' DT <- data.table(
@@ -23,20 +24,21 @@
 #' graph(DT, v3, v4, along_with = v2)
 #' graph(DT, v3, v4, along_with = v2, by = id)
 #' @export
-graph <- function(x, ..., along_with = NULL, by = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1) {
-  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), d = d, reorder = reorder, winsorize = winsorize, facet = facet, size = size)
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE) {
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), d = d, reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose)
 }
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1) {
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE) {
   stopifnot(is.data.table(x))
+  w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
   byvars <- names(select_vars_(names(x), by))
   dots <- all_dots(.dots, ...)
-  vars <- names(select_vars_(names(x), dots, exclude = byvars))
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))
   if (length(vars) == 0) {
-     vars <- setdiff(names(x), c(byvars, along_with))
+     vars <- setdiff(names(x), c(byvars, along_with, w))
   }
   if (length(along_with)){
     nums <- sapply(x, is.numeric)
@@ -44,6 +46,16 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
     vars=intersect(vars,nums_name)
   }
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
+  x <- x[,c(byvars, vars, along_with, w), with = FALSE]
+
+  if (!length(w)){
+    w <- tempname("weight", x)
+    x[, (w) := 1]
+    ww <- NULL
+  } else{
+    ww <- paste0(w,"/sum(",w,")")
+  }
+
   if (!length(byvars)){
     g <- NULL
     i <- 0
@@ -54,48 +66,39 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
           nums_name <- names(nums[nums==TRUE])
           vars=intersect(vars,nums_name)
           if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-
             if (winsorize){
-              eval(substitute(ans <- x[, list(winsorize(along_with, verbose = FALSE), winsorize(v, verbose = FALSE))], list(along_with = as.name(along_with), v= as.name(v))))
-              setnames(ans,c(along_with,v))
+              eval(substitute(ans <- x[, list(winsorize(along_with, verbose = verbose), winsorize(v, verbose = verbose), w)], list(along_with = as.name(along_with), v= as.name(v), w = as.name(w))))
+              setnames(ans,c(along_with, v, w))
             } else{
-              eval(substitute(ans <- x[, list(along_with,v)], list(v= as.name(v), along_with = as.name(along_with))))
+              eval(substitute(ans <- x[, list(along_with, w, v)], list(v= as.name(v), along_with = as.name(along_with), w= as.name(w))))
             }
             if (nrow(ans)>1000){ 
               ans2 <- sample_n(ans, 1000)
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point(data =ans2, aes_string(x = along_with, y = v), size = size) + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = "loess")
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point(size = size) + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(size = size) + stat_smooth(method = "loess")
             }
         } else{
         dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))
           if (dummy) {
             if (!reorder){
-              g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar(width=.5)+ coord_flip()
+              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()
             } else{
-              ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = v]))
-              setkeyv(ans, c("N", v))
+              ans <- eval(substitute(x[, list(w, N = .N), by = v], list(w=as.name(w))))
+              setkeyv(ans, c(w, "N", v))
               ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))
-              g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar(width=.5) + coord_flip()
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5) + coord_flip()
             }
           } else{ 
             if (winsorize){
-              eval(substitute(ans <- x[, list(winsorize(v, verbose = FALSE))], list(v= as.name(v))))
-              setnames(ans,v)
-            } else{
-              eval(substitute(ans <- x[, list(v)], list(v= as.name(v))))
-            }
-            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line")
+              eval(substitute(ans <- x[, list(winsorize(v, verbose = verbose), w)], list(v= as.name(v), w= as.name(w))))
+              setnames(ans,c(v, w))
+            } 
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")
           }
         }
       } 
-    if (length(g)==1){
-      suppressMessages(print(g[[1]]))
-    } else{
-      suppressMessages(do.call(multiplot, g))
-    }
   } else{
-    x <- x[,c(byvars, vars, along_with), with = FALSE]
     if (length(byvars)>1){
       group <- tempname("group", x)
       setkeyv(x, byvars)
@@ -108,30 +111,31 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
     g <- NULL
     i <- 0
       for (v in vars){
-        ans <- x[,c(byvars, v, along_with), with = FALSE]
+        ans <- x[,c(byvars, v, w, along_with), with = FALSE]
         i <- i+1
         if (length(along_with)){
           if (winsorize){
-            eval(substitute(ans_ans <- ans[, list(group, winsorize(along_with, verbose = FALSE), winsorize(v, verbose = FALSE))], list(group = as.name(group), along_with = as.name(along_with), v= as.name(v))))
-            setnames(ans, c(group, along_with, v))
+            eval(substitute(ans_ans <- ans[, list(group, winsorize(along_with, verbose = verbose), winsorize(v, verbose = verbose), w)], list(group = as.name(group), along_with = as.name(along_with), v= as.name(v), w= as.name(w))))
+            setnames(ans, c(group, along_with, v, w))
           } else{
-            eval(substitute(ans <- ans[, list(group, along_with, v)], list(group = as.name(group), v= as.name(v), along_with = as.name(along_with))))
+            eval(substitute(ans <- ans[, list(group, along_with, v, w)], list(group = as.name(group), v= as.name(v), along_with = as.name(along_with), w= as.name(w))))
           }
           if (nrow(ans) > 1000){ 
-            ans2 <- ans %>% group_by_(group) %>% sample_n(size = round(1000/length(unique(group))), replace = TRUE)
+            eval(substitute(ans2 <- ans %>% group_by(group) %>% sample_n(size = round(1000/length(unique(group))), replace = TRUE), list(group = as.name(group))))
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               eval(substitute(ans2[, group:= as.factor(group)], list(group = as.name(group))))
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), size = size) + stat_smooth(method = "loess")
+
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v, color = group), size = size) + stat_smooth(method = "loess")
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point(data =ans2, aes_string(x = along_with, y = v), size = size) + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
             }
           } else{
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v, color = group)) + geom_point() + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point() + stat_smooth(method = "loess")
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(x = along_with, y = v)) + geom_point() + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point() + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
             }
           }
         } else{
@@ -140,39 +144,44 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, d = FALSE, reord
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               eval(substitute(ans[, v:= as.factor(v)], list(v = as.name(v))))
-              g[[i]] <-  ggplot(ans, aes_string(x = v, fill = group)) + geom_bar(width=.5,position = "dodge")+ coord_flip() 
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5,position = "dodge")+ coord_flip() 
             } else{
               if (!reorder){
-                  g[[i]] <-  ggplot(x, aes_string(x = v)) + geom_bar(width=.5)+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))
+                  g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))
       
               } else{
-                  ans <- eval(substitute(x[, list(N = as.integer(rep(.N,.N))), by = c(group,v)]))
+                  ans <- eval(substitute(ans[, list(N = as.integer(rep(.N,.N)), w= as.name(w)), by = c(group,v)]))
                   setkeyv(ans, c(group, "N",v))
                   ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))
-                  g[[i]] <-  ggplot(ans, aes_string(x = v)) + geom_bar(width=.5) + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))                 
+                  g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5) + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))                 
               }
             }
           } else{ 
             if (winsorize){
-              eval(substitute(ans <- ans[, list(group, v = winsorize(v, verbose = FALSE))], list(group = as.name(group), v= as.name(v))))
-              setnames(ans,c(group,v))
-            } else{
-              eval(substitute(ans <- ans[, list(group, v)], list(group = as.name(group), v= as.name(v))))
-            }
+              eval(substitute(ans <- ans[, list(group, w, v = winsorize(v, verbose = verbose))], list(group = as.name(group), v= as.name(v), w= as.name(w))))
+              setnames(ans,c(group, w, v))
+            } 
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
-              g[[i]] <-  ggplot(ans, aes_string(x = v, color = group)) + stat_density(geom = "line", position = "identity")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity")
             } else{            
-            g[[i]] <-  ggplot(ans, aes_string(x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))
             }
           }
         }
       } 
-    if (length(g)==1){
-      suppressMessages(print(g[[1]]))
+  }
+  if (length(g)==1){
+    if (verbose){
+      print(g[[1]])
     } else{
-      suppressMessages(do.call(multiplot, g))
+      suppressWarnings(suppressMessages(print(g[[1]])))
     }
+  } else{
+    if (verbose){
+      do.call(multiplot, g)
+    }
+    suppressWarnings(suppressMessages(do.call(multiplot, g)))
   }
 }
  

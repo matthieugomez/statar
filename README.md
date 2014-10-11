@@ -153,7 +153,7 @@ join(x, y, type = "left", check = m~1, inplace = TRUE)
 
 
 ## Graphs
-`graph` is a wrapper for ggplot2 functionalities, useful for interactive explorations
+`graph` is a wrapper for `ggplot2` functionalities, useful for interactive explorations
 
 ````R
 N <- 10000
