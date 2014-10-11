@@ -4,11 +4,12 @@
 \alias{graph_}
 \title{Experimental function to graph a dataset}
 \usage{
-graph(x, ..., along_with = NULL, by = NULL, reorder = TRUE,
-  winsorize = TRUE, facet = FALSE, size = 1)
+graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
+  winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE)
 
-graph_(x, ..., .dots, along_with = NULL, by = NULL, d = FALSE,
-  reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1)
+graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
+  reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1,
+  verbose = FALSE)
 }
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
@@ -17,13 +18,15 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, d = FALSE,
 
 \item{by}{Groups within which variables should be ploted.}
 
-\item{reorder}{Should the value of strings with the most count be printed first?}
+\item{reorder}{Should the category with the most count be printed first?}
 
 \item{winsorize}{Should numeric variables winsorized?}
 
 \item{facet}{Should results graphed in different windows for each group?}
 
 \item{size}{Point sizes when more than 1000 points by group}
+
+\item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
 \item{DT}{A tbl_dt or tbl_grouped_dt.}
 }
