@@ -115,18 +115,17 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FA
         i <- i+1
         if (length(along_with)){
           if (winsorize){
-            eval(substitute(ans_ans <- ans[, list(group, winsorize(along_with, verbose = verbose), winsorize(v, verbose = verbose), w)], list(group = as.name(group), along_with = as.name(along_with), v= as.name(v), w= as.name(w))))
+            eval(substitute(ans <- ans[, list(group, winsorize(along_with, verbose = verbose), winsorize(v, verbose = verbose), w)], list(group = as.name(group), along_with = as.name(along_with), v= as.name(v), w= as.name(w))))
             setnames(ans, c(group, along_with, v, w))
           } else{
             eval(substitute(ans <- ans[, list(group, along_with, v, w)], list(group = as.name(group), v= as.name(v), along_with = as.name(along_with), w= as.name(w))))
           }
           if (nrow(ans) > 1000){ 
-            eval(substitute(ans2 <- ans %>% group_by(group) %>% sample_n(size = round(1000/length(unique(group))), replace = TRUE), list(group = as.name(group))))
+            eval(substitute(ans2 <- sample_n(group_by(ans, group), size = round(1000/length(unique(ans[, group]))), replace = TRUE), list(group = as.name(group))))
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               eval(substitute(ans2[, group:= as.factor(group)], list(group = as.name(group))))
-
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v, color = group), size = size) + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), size = size) + stat_smooth(method = "loess")
             } else{
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
             }
