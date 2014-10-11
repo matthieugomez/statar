@@ -5,11 +5,12 @@
 \title{Experimental function to graph a dataset}
 \usage{
 graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
-  winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE)
+  winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE,
+  method = "loess")
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
   reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1,
-  verbose = FALSE)
+  verbose = FALSE, method = "loess")
 }
 \arguments{
 \item{...}{Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
@@ -17,6 +18,8 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
 \item{along_with}{Replace x axis from percentiles by this variable.}
 
 \item{by}{Groups within which variables should be ploted.}
+
+\item{w}{A weight variable}
 
 \item{reorder}{Should the category with the most count be printed first?}
 
@@ -27,6 +30,8 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
 \item{size}{Point sizes when more than 1000 points by group}
 
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
+
+\item{method}{A character for regression model (lm, loess)}
 
 \item{DT}{A tbl_dt or tbl_grouped_dt.}
 }
