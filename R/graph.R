@@ -4,10 +4,12 @@
 #' @param ... Variables to include/exclude. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param along_with Replace x axis from percentiles by this variable.
 #' @param by Groups within which variables should be ploted.
+#' @param w A weight variable
 #' @param reorder Should the category with the most count be printed first?
 #' @param facet Should results graphed in different windows for each group?
 #' @param size Point sizes when more than 1000 points by group
 #' @param winsorize Should numeric variables winsorized?
+#' @param method A character for regression model (lm, loess)
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 #' @examples
 #' N <- 10000
@@ -24,13 +26,13 @@
 #' graph(DT, v3, v4, along_with = v2)
 #' graph(DT, v3, v4, along_with = v2, by = id)
 #' @export
-graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE) {
-  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), d = d, reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose)
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, method = "loess") {
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), d = d, reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, method = method)
 }
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE) {
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE, method = "loess") {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
@@ -74,9 +76,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FA
             }
             if (nrow(ans)>1000){ 
               ans2 <- sample_n(ans, 1000)
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = method)
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(size = size) + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(size = size) + stat_smooth(method = method)
             }
         } else{
         dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))
@@ -125,16 +127,16 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FA
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
               eval(substitute(ans2[, group:= as.factor(group)], list(group = as.name(group))))
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), size = size) + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), size = size) + stat_smooth(method = method)
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
             }
           } else{
             if (!facet){
               eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point() + stat_smooth(method = "loess")
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point() + stat_smooth(method = method)
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point() + stat_smooth(method = "loess") + facet_grid(as.formula(paste0(group, "~.")))
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point() + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
             }
           }
         } else{
