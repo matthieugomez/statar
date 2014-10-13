@@ -33,7 +33,8 @@ evaldt <- function(x, env = parent.frame()){
     for (name in names){
         if (exists(name, envir = env, inherits = FALSE, mode = "character")){
             get_name <- get(name, envir = env)
-            if (length(get_name)){
+            # suppress NULL but also character vector because I'm not sure how to replace list(a,.x) when length(.x) is >1
+            if (length(get_name)==1){
                 L <- c(L, as.name(get_name))
                 names_l <- c(names_l, name)
             }
@@ -47,7 +48,10 @@ evaldt <- function(x, env = parent.frame()){
             if (str_detect(as.character(x),"*\\.")){
                 xx <- str_replace(as.character(x),".","")
                 if (exists(xx, envir = env, inherits = FALSE, mode = "character")){
-                    return(as.name(get(xx, envir = env)))
+                    get_name <- get(xx, envir = env)
+                    if (length(get_name)==1){
+                      return(as.name(get_name))
+                    }
                 } else{
                   return(x)
                 }
