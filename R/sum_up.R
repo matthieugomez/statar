@@ -52,7 +52,7 @@ sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, 
 
 
 
-describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){
+describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){
   # import from stargazer
   .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, 
       simply.output = FALSE,  .format.digit.separator = ",") {
@@ -204,7 +204,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
 
 
   # Now starts the code 
-  if (details==FALSE) {
+  if (d==FALSE) {
     if (!is.null(w)){
       sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm, w = w)), Hmisc::wtd.quantile(x, c(0, 1), na.rm = na.rm, weights = w))}))
     }else{
@@ -238,7 +238,6 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
     rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
     # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
-  print(sum)
   print <- apply(sum,c(1,2),
     function(x){
     if (is.numeric(x)){
@@ -254,7 +253,12 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
     }
     y
   })
-  print(noquote(format(print,justify="right")),right=TRUE)
+  if (!d){
+    print(noquote(format(t(print),justify="right")),right=TRUE)
+
+  } else{
+    print(noquote(format(print,justify="right")),right=TRUE)
+  }
   cat("\n")
 }
 

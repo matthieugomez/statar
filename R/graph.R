@@ -3,11 +3,11 @@
 #' @param x A data.table.
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param by Groups within which variables should be ploted.
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".
+#' @param winsorize Should variables winsorized?
 #' @param reorder Should the category with the most count be printed first?
 #' @param facet Should different groups graphed in different windows?
-#' @param winsorize Should variables winsorized?
-#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"
-#' @param along_with When "type" is "line", "lm" or "loeless", replace x axis by this variable (ie estimate regression models instead of density).
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 
 #' @examples
@@ -69,7 +69,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     nums <- sapply(x, is.numeric)
     nums_name <- names(nums[nums==TRUE])
     v = intersect(v,nums_name)
-    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}), .SDcols = v]
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]
   }
 
   if (type == "boxplot"){
