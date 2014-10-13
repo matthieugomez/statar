@@ -167,24 +167,24 @@ DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 graph(DT)
 ````
 
-<img src="output_2_0.png" alt="alt text" style="height:50px">
+<img src="output_2_0.png" height = "50">
 
 
 ````R
 graph(DT, by = id)
 ````
-<img src="output_3_0.png" alt="alt text" style="height:50px">
+<img src="output_3_0.png" height = "50">
 
 ````R
 graph(DT, by = id, type = "boxplot")
 ````
-<img src="box.png" alt="alt text" style="height:50px">
+<img src="box.png" height = "50">
 
 
 ````R
 graph(DT, v3, v4, along_with = v2)
 ````
-<img src="v2.png" alt="alt text" style="height:50px">
+<img src="v2.png" height = "50">
 
 ````R
 graph(DT, v3, v4, along_with = v2, by = id, type ="loess")
