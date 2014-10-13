@@ -6,7 +6,6 @@
 #' @param by Groups within which variables should be ploted.
 #' @param reorder Should the category with the most count be printed first?
 #' @param facet Should different groups graphed in different windows?
-#' @param size Size of points when more than 1000 points by group
 #' @param winsorize Should variables winsorized?
 #' @param method A character for regression model (lm, loess) when along_with is specified
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
@@ -94,7 +93,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
               ans <- evaldt(ans[, list(.w, N = .N), by = .v])
               setkeyv(ans,c("N", v))
               ans <- evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip()
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
             }
           } else{ 
             if (winsorize){
