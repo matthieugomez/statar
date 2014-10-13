@@ -6,7 +6,7 @@
 #' @param reorder Should the category with the most count be printed first?
 #' @param facet Should different groups graphed in different windows?
 #' @param winsorize Should variables winsorized?
-#' @param type type of graph among "density", "boxplot", "line", "lm", "loeless"
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"
 #' @param along_with When "type" is "line", "lm" or "loeless", replace x axis by this variable (ie estimate regression models instead of density).
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 
@@ -33,7 +33,7 @@ graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE
 #' @export
 #' @rdname graph
 graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){
-  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loeless"))
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
