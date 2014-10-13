@@ -62,12 +62,11 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
 
 
   if (type == "boxplot"){
-    if (minimal){
-      theme = theme_set(theme_minimal())
-      theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())
-      theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())
-      theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))
-    }
+    theme = theme_set(theme_minimal())
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))
+  
     if (length(byvars)){
       if (length(byvars)>1){
           setkeyv(x, byvars)
