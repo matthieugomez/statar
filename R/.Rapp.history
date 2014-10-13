@@ -1,28 +1,3 @@
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-library(biglm)#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))
-?expand
-?expand_
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-lag
-?lag
 ?lead
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 devtools::install_github("matthieugomez/statar")
@@ -1310,7 +1285,33 @@ DT <- data.table(#
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]#
 graph(DT)
 graph(DT, v3, v4, along_with = v2, by = id)
-graph(DT, v3, v4, along_with = v2)
+graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
+graph(DT, v3, v4, along_with = v2, by = id)
+stat_smooth
+library(ggplot2)
+stat_smooth
+?stat_smooth
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
+#
+suppressMessages(library("data.table"))#
+suppressMessages(library("statar"))
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
+#
+suppressMessages(library("data.table"))#
+suppressMessages(library("statar"))
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
+#
+suppressMessages(library("data.table"))#
+suppressMessages(library("statar"))
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
+#
+suppressMessages(library("data.table"))#
+suppressMessages(library("statar"))
+help.search("stat_", package="ggplot2")
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' Experimental function to graph a dataset#
 #' #
@@ -1320,7 +1321,6 @@ setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' @param by Groups within which variables should be ploted.#
 #' @param reorder Should the category with the most count be printed first?#
 #' @param facet Should different groups graphed in different windows?#
-#' @param size Size of points when more than 1000 points by group#
 #' @param winsorize Should variables winsorized?#
 #' @param method A character for regression model (lm, loess) when along_with is specified#
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
@@ -1399,16 +1399,15 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + geom_point(data=ans2, aes_string(x = along_with, y = v)) #
         } else{#
         ans <- evaldt(x[, list(.v, .w)])#
-        print(ans)#
         dummy <- evaldt(is.integer(ans[,.v]) + is.character(ans[,.v]))#
           if (dummy) {#
             if (!reorder){#
-              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_point(stat="bin")+ coord_flip()#
+              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()#
             } else{#
               ans <- evaldt(ans[, list(.w, N = .N), by = .v])#
               setkeyv(ans,c("N", v))#
               ans <- evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])#
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip()#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
             }#
           } else{ #
             if (winsorize){#
@@ -1438,7 +1437,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         i <- i+1#
         if (length(along_with)){#
           if (winsorize){#
-            evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), w)])#
+            evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), .w)])#
           } #
           evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])#
           evaldt(N <- ans[, sum(.w)])#
@@ -1448,7 +1447,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
               evaldt(ans2[, .group:= as.factor(.group)])#
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = method)#
             } else{#
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))#
             } #
         } else{#
           dummy <- evaldt(is.integer(ans[,.v])+ is.character(ans[,.v]))#

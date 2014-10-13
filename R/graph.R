@@ -87,14 +87,11 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         ans <- evaldt(x[, list(.v, .w)])
         dummy <- evaldt(is.integer(ans[,.v]) + is.character(ans[,.v]))
           if (dummy) {
-            if (!reorder){
-              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()
-            } else{
-              ans <- evaldt(ans[, list(.w, N = .N), by = .v])
+            if (reorder){ ans <- evaldt(ans[, list(.w, N = .N), by = .v])
               setkeyv(ans,c("N", v))
-              ans <- evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+              evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
             }
+              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
           } else{ 
             if (winsorize){
               evaldt(ans[, .v:= winsorize(.v, verbose = verbose)])
@@ -144,13 +141,13 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5,position = "dodge")+ coord_flip() 
             } else{
               if (!reorder){
-                  g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))
+                  g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))
       
               } else{
                   ans <- evaldt(ans[, list(N = as.integer(rep(.N,.N)), .w = as.name(.w)), by = c(.group,.v)])
                   setkeyv(ans, c(group, "N",v))
                   ans <- evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
-                  g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5) + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))                 
+                  g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))              
               }
             }
           } else{ 
