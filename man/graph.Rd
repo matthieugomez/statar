@@ -8,7 +8,7 @@ graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
   winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE,
   method = "lm")
 
-graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
+graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
   reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1,
   verbose = FALSE, method = "lm")
 }
