@@ -2,13 +2,15 @@
 #' 
 #' @param x A data.table.
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param along_with Replace x axis by this variable (ie estimate regression models instead of density).
 #' @param by Groups within which variables should be ploted.
 #' @param reorder Should the category with the most count be printed first?
 #' @param facet Should different groups graphed in different windows?
 #' @param winsorize Should variables winsorized?
-#' @param method A character for regression model (lm, loess) when along_with is specified
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loeless"
+#' @param along_with When "type" is "line", "lm", "loeless", replace x axis by this variable (ie estimate regression models instead of density).
+
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
+
 #' @examples
 #' N <- 10000
 #' DT <- data.table(
@@ -24,13 +26,16 @@
 #' graph(DT, v3, v4, along_with = v2)
 #' graph(DT, v3, v4, along_with = v2, by = id)
 #' @export
-graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
-  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, method = method)
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)) "density"
+ else "lm") {
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, type = type)
 }
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)) "density"
+ else "lm"){
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loeless"))
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
@@ -40,7 +45,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   if (length(vars) == 0) {
      vars <- setdiff(names(x), c(byvars, along_with, w))
   }
-  if (length(along_with)){
+  if (length(along_with) | type == "boxplot"){
     nums <- sapply(x, is.numeric)
     nums_name <- names(nums[nums==TRUE])
     vars = intersect(vars,nums_name)
@@ -51,18 +56,52 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     }
     unlist(x)
   }
-
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  
-  assign_var(x, bin, group, count)
-  x <- x[, c(byvars, vars, along_with, w), with = FALSE]
-  if (!length(w)){
-    assign_var(x, w)
-    evaldt(x[, .w := 1])
-    ww <- NULL
+
+  assign_var(x, bin, group, count,  variable, value)
+
+
+  if (type == "boxplot"){
+    if (minimal){
+      theme = theme_set(theme_minimal())
+      theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())
+      theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())
+      theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))
+    }
+    if (length(byvars)){
+      if (length(byvars)>1){
+          setkeyv(x, byvars)
+          x[, .group := 0]
+          x[unique(x), .group := 1]
+          evaldt(x[, .group:= cumsum(.group)])
+      } else{
+        group <- byvars
+      }
+      evaldt(x[, .group := as.factor(.group)])
+    } else{
+      group <- factor(0)
+      evaldt(x[, .group := 1])
+    }
+    if (!length(w)){
+      w <- NULL
+    }
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, gather_cols = vars)))
+    evaldt(x[, .variable := as.factor(.variable)])
+    if (length(byvars)){
+      print(ggplot(x, aes_string(y = value, x = group , weight = w)) + geom_boxplot(outlier.colour = NULL, aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.3)  + stat_summary(geom = "crossbar", width=0.65, fatten=0, aes_string(color = group), fun.data =  function(x){m <- mean(x); c(ymin = m, ymax = m, y = m)}, alpha = 0.7) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
+    } else{
+      print(ggplot(x, aes_string(y = value, x = group , weight = w)) + geom_boxplot(outlier.colour = NULL, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.3)+ stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fun.data =  function(x){m <- mean(x); c(ymin = m, ymax = m, y = m)}, alpha = 0.7)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free")  +stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
+    }
   } else{
-    ww <- as.name(paste0(w,"/sum(",w,")"))
-  }
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]
+    if (!length(w)){
+      assign_var(x, w)
+      evaldt(x[, .w := 1])
+      ww <- NULL
+    } else{
+      ww <- as.name(paste0(w,"/sum(",w,")"))
+    }
+
 
   if (!length(byvars)){
     g <- NULL
@@ -79,10 +118,14 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
               evaldt(ans[, .v := winsorize(.v, verbose = verbose)])
               evaldt(ans[, .along_with:= winsorize(.along_with, verbose = verbose)])
             }
+            if (type == "line"){
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() 
+            } else{
             evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
             evaldt(N <- ans[, sum(.w)])
             ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE)), by = bin])
-            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + geom_point(data=ans2, aes_string(x = along_with, y = v)) 
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) 
+            }
         } else{
         ans <- evaldt(x[, list(.v, .w)])
         dummy <- evaldt(is.integer(ans[,.v]) + is.character(ans[,.v]))
@@ -112,7 +155,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
       setkeyv(x, byvars)
       x[, .group := 0]
       x[unique(x), .group := 1]
-      evaldt(x[, .group:= cumsum(.v)])
+      evaldt(x[, .group:= cumsum(.group)])
     } else{
       group <- byvars
     }
@@ -125,15 +168,23 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
           if (winsorize){
             evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), .w)])
           } 
-          evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
-          evaldt(N <- ans[, sum(.w)])
-          ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE), .group), by = list(.group, .bin)])
+          if (type == "line"){
             if (!facet){
-              evaldt(ans[, .group:= as.factor(.group)])
-              evaldt(ans2[, .group:= as.factor(.group)])
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = method)
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() 
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))
+            }
+          } else{
+            evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
+            evaldt(N <- ans[, sum(.w)])
+            ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE), .group), by = list(.group, .bin)])
+              if (!facet){
+                evaldt(ans[, .group:= as.factor(.group)])
+                evaldt(ans2[, .group:= as.factor(.group)])
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)
+              } else{
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
+              }
             } 
         } else{
           dummy <- evaldt(is.integer(ans[,.v])+ is.character(ans[,.v]))
@@ -161,20 +212,21 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         }
       } 
   }
-  if (length(g)==1){
-    if (verbose){
-      print(g[[1]])
+    if (length(g)==1){
+      if (verbose){
+        print(g[[1]])
+      } else{
+        suppressWarnings(suppressMessages(print(g[[1]])))
+      }
     } else{
-      suppressWarnings(suppressMessages(print(g[[1]])))
+      if (verbose){
+        do.call(multiplot, g)
+      }
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))
     }
-  } else{
-    if (verbose){
-      do.call(multiplot, g)
-    }
-    suppressWarnings(suppressMessages(do.call(multiplot, g)))
   }
 }
- 
+   
 
 
 
@@ -218,5 +270,30 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 
 
+#library(ggplot2)
+#library(tidyr)
+#
+#N=1e4; K=100
+#DT <- data.table(
+#  id = sample(2, N, TRUE),
+#  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
+#  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749
+#  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
+#)
+#DT[, id:= as.factor(id)]
+#DT <- gather(DT, variable, value, starts_with("v"))
+#
+## theme
+#theme = theme_set(theme_minimal())
+#theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=#element_blank())
+#theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = #element_blank(), axis.title.x=element_blank())
+#theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = #element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))
+#
+#mean.n <- function(x){ return(c(y = median(x)*0.97, label = round(mean(x),2))) }
+#
+##Data
+#ggplot(DT, mapping=aes_string(y = "value", x = "id")) + geom_boxplot(outlier.colour = NULL, #aes_string(colour="id", fill="id"))  +  stat_summary(geom = "crossbar", width=0.65, fatten=0, #aes_string(colour = "id"), fill = "white", fun.data =  mean_cl_boot)   + facet_wrap(facets = ~# variable, scales = "free") 
+#
+#+ stat_summary(geom = "crossbar", width=0.65, fatten=0, aes_string(colour = "id"), fun.data =  function(x){m <- mean(x); c(y=m,ymin=m,ymax=m)})
 
 
