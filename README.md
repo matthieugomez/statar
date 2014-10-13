@@ -174,22 +174,10 @@ graph(DT, by = id)
 ![Read more words!](output_3_0.png)
 
 ````R
-graph(DT, v3, v4, along_with = v2)
-````
-
-![Read more words!](output_4_0.png)
-
-````R
 graph(DT, v3, v4, along_with = v2, by = id)
 ````
 
 ![Read more words!](output_5_0.png)
-
-````R
-graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
-````
-![Read more words!](output_6_0.png)
-
 
 
 # others
