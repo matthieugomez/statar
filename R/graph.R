@@ -102,7 +102,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     if (length(byvars)){
       print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
     } else{
-      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free")) + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
     }
   } else{
     x <- x[, c(byvars, vars, along_with, w), with = FALSE]
@@ -144,7 +144,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             evaldt(N <- ans[, sum(.w)])
             ans <- evaldt(ans[, list(.v = mean(.v, na.rm = TRUE), count = sum(.w / N, na.rm = TRUE)), by = .bin])
             # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")
-             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0))
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)
           }
         }
       } 
