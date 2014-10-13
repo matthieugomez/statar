@@ -71,7 +71,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
       for (v in vars){
         i <- i+1
         if (length(along_with)){
-          ans <- x[, list(.along_with, .v, .w)]
+          ans <- evaldt(x[, list(.along_with, .v, .w)])
           nums <- sapply(x, is.numeric)
           nums_name <- names(nums[nums==TRUE])
           vars=intersect(vars,nums_name)
@@ -82,7 +82,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             }
             evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
             evaldt(N <- ans[, sum(.w)])
-            ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  w, na.rm = TRUE)), by = bin])
+            ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE)), by = bin])
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + geom_point(data=ans2, aes_string(x = along_with, y = v)) 
         } else{
         ans <- evaldt(x[, list(.v, .w)])
