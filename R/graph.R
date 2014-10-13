@@ -70,8 +70,8 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     if (length(byvars)){
       if (length(byvars)>1){
           setkeyv(x, byvars)
-          x[, .group := 0]
-          x[unique(x), .group := 1]
+          evaldt(x[, .group := 0])
+          evaldt(x[unique(x), .group := 1])
           evaldt(x[, .group:= cumsum(.group)])
       } else{
         group <- byvars
@@ -152,8 +152,8 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   } else{
     if (length(byvars)>1){
       setkeyv(x, byvars)
-      x[, .group := 0]
-      x[unique(x), .group := 1]
+      evaldt(x[, .group := 0])
+      evaldt(x[unique(x), .group := 1])
       evaldt(x[, .group:= cumsum(.group)])
     } else{
       group <- byvars
