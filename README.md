@@ -120,7 +120,7 @@ sum_up(DT, id, v1)
 sum_up(DT, list(id, v1))
 sum_up_(DT, quote(list(id, v1))) 
 sum_up_(DT, "id", "v1")
-sum_up_(DT, .dots(c("id","v1"))
+sum_up_(DT, .dots = c("id","v1"))
 ````
 
 ## join
@@ -166,27 +166,27 @@ DT <- data.table(
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 graph(DT)
 ````
-<img src="output_2_0.png" height = "400">
+<img src="image/output_2_0.png" height = "400">
 
 ````R
 graph(DT, by = id)
 ````
-<img src="output_3_0.png" height = "400">
+<img src="image/output_3_0.png" height = "400">
 
 ````R
 graph(DT, by = id, type = "boxplot")
 ````
-<img src="box.png" height = "400">
+<img src="image/box.png" height = "400">
 
 ````R
 graph(DT, v3, v4, along_with = v2)
 ````
-<img src="v2.png" height = "400">
+<img src="image/v2.png" height = "400">
 
 ````R
 graph(DT, v3, v4, along_with = v2, by = id, type = "loess")
 ````
-<img src= "v2by.png" height = "400">
+<img src="image/v2by.png" height = "400">
 
 
 
