@@ -139,7 +139,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             if (!facet){
               evaldt(ans[, .group:= as.factor(.group)])
               evaldt(ans[, .v:= as.factor(.v)])
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5,position = "dodge")+ coord_flip() 
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) ++ geom_point(stat="bin") + coord_flip() + expand_limits(y = 0) 
             } else{
               if (!reorder){
                   g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))
