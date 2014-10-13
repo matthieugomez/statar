@@ -89,7 +89,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
           if (dummy) {
             if (reorder){ 
               ans <- evaldt(ans[, list(.w, .count = .N), by = .v])
-              setkeyv(ans,c("N", v))
+              setkeyv(ans,c(count, v))
               evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
             }
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
