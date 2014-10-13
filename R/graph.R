@@ -7,8 +7,7 @@
 #' @param facet Should different groups graphed in different windows?
 #' @param winsorize Should variables winsorized?
 #' @param type type of graph among "density", "boxplot", "line", "lm", "loeless"
-#' @param along_with When "type" is "line", "lm", "loeless", replace x axis by this variable (ie estimate regression models instead of density).
-
+#' @param along_with When "type" is "line", "lm" or "loeless", replace x axis by this variable (ie estimate regression models instead of density).
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 
 #' @examples
@@ -23,8 +22,9 @@
 #' graph(DT)
 #' graph(DT, by = id)
 #' graph(DT, by = id, facet = TRUE)
+#' graph(DT, by = id, type = "boxplot")
 #' graph(DT, v3, v4, along_with = v2)
-#' graph(DT, v3, v4, along_with = v2, by = id)
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loeless")
 #' @export
 graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)) "density"
  else "lm") {
@@ -55,6 +55,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
 
   assign_var(x, bin, group, count,  variable, value)
 
+
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]
+
   if (!length(w)){
     assign_var(x, w)
     evaldt(x[, .w := 1])
@@ -65,7 +68,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
 
 
   if (type == "boxplot"){
-    x <- x[, c(byvars, vars, along_with, w), with = FALSE]
     theme = theme_set(theme_minimal())
     theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())
     theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())
@@ -89,8 +91,8 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
       w <- NULL
     }
     if (winsorize){
-      x [, .w:= winsorize(.w)]
-      x[, vars := lapply(.SD,winsorize), .SDcols= vars]
+      evaldt(x[, .w:= winsorize(.w, verbose = FALSE)])
+      evaldt(x[, vars := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}, .SDcols= vars])
     }
     x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, gather_cols = vars)))
     evaldt(x[, .variable := as.factor(.variable)])
