@@ -137,7 +137,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
           dummy <- evaldt(is.integer(ans[,.v])+ is.character(ans[,.v]))
           if (dummy) {
             if (!facet){
-              setkevy(ans, group, v)
+              setkeyv(ans, group, v)
               evaldt(ans[, .group:= as.factor(.group)])
               evaldt(ans[, .v:= as.factor(.v)])
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5, position = "dodge")+ coord_flip() 
