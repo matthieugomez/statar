@@ -23,6 +23,7 @@
 #' @importFrom parallel mcMap
 #' @importFrom stats lag
 #' @importFrom stringr str_replace
+#' @importFrom stringr str_detect
 #' @importFrom tidyr spread_
 NULL
 
