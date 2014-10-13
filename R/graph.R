@@ -153,7 +153,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             }
           } else{ 
             if (winsorize){
-              evaldt(ans <- ans[, list(.group, .w, .v = winsorize(.v, verbose = verbose))])
+              evaldt(ans[, .v := winsorize(.v, verbose = verbose)])
             } 
             if (!facet){
               evaldt(ans[, .group:= as.factor(.group)])

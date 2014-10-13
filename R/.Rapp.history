@@ -1,53 +1,3 @@
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-library(biglm)#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))
-?expand
-?expand_
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-lag
-?lag
-?lead
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::install_github("matthieugomez/statar")
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("data.table"))#
-suppressMessages(library(lazyeval))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-library(biglm)#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))
-?lag
-?lead
-?expand
-?xtile
-devtools::install_github("matthieugomez/statar")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 ?sum_up
 library(statar)
 ?sum_up
@@ -1308,7 +1258,28 @@ DT <- data.table(#
   v3 = sample(runif(100, max=100), N, TRUE)#
 )#
 DT[, v4 := (id=="id1")* v2 +(id!="id1")*v3 + rnorm(N, sd = 5) ]
-graph(DT)
+graph(DT, by = id)
+DT
+ggplot(DT, aes_string(x = "id", group = "v1")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+library(ggplot2)
+ggplot(DT, aes_string(x = "id", group = "v1")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "v1", fill = "v1")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "v1", color = "v1")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "v1", color = "a.factor(v1)")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "v1", color = "as.factor(v1)")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "a.factor(v1)", color = "as.factor(v1)")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "as.factor(v1)", color = "as.factor(v1)")) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "as.factor(v1)", color = "as.factor(v1)")) + geom_point(stat="bin", position = "dodge") + coord_flip() + expand_limits(y = 0)
+?geom_point
+ggplot(DT, aes_string(x = "id", group = "as.factor(v1)", color = "as.factor(v1)")) + geom_point(stat="bin", position = "dodge") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", group = "as.factor(v1)", color = "as.factor(v1)")) + geom_point(position = "dodge") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(group = "id", color = "as.factor(v1)")) + geom_point(position = "dodge") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", color = "as.factor(v1)")) + geom_point(position = "dodge") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", color = "as.factor(v1)")) + geom_point(position = "dodge") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", color = "as.factor(v1)")) + geom_point(position = "dodge") + coord_flip() + expand_limits(x = 0)
+ggplot(DT, aes_string(y = "id", color = "as.factor(v1)")) + geom_point(position = "dodge") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", color = "as.factor(v1)", group = "as.factor(v1)")) + geom_point(position = "dodge") + coord_flip() + expand_limits(y = 0)
+ggplot(DT, aes_string(x = "id", color = "as.factor(v1)", group = "as.factor(v1)")) + geom_point(position = "dodge", stat = "bin") + coord_flip() + expand_limits(y = 0)
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' Experimental function to graph a dataset#
 #' #
@@ -1450,7 +1421,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             if (!facet){#
               evaldt(ans[, .group:= as.factor(.group)])#
               evaldt(ans[, .v:= as.factor(.v)])#
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5,position = "dodge")+ coord_flip() #
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5, position = "dodge")+ coord_flip() #
             } else{#
               if (!reorder){#
                   g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
@@ -1523,4 +1494,3 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
     }#
   }#
 }
-graph(DT, by = id)
