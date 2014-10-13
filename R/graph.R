@@ -66,6 +66,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     ww <- as.name(paste0(w,"/sum(",w,")"))
   }
 
+  if (winsorize){
+    evaldt(x[, c(vars, w, along_with) := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}, .SDcols = c(vars, w, along_with)])
+  }
 
   if (type == "boxplot"){
     theme = theme_set(theme_minimal())
@@ -90,10 +93,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     if (!length(w)){
       w <- NULL
     }
-    if (winsorize){
-      evaldt(x[, .w:= winsorize(.w, verbose = FALSE)])
-      evaldt(x[, vars := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}, .SDcols= vars])
-    }
+
     x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, gather_cols = vars)))
     evaldt(x[, .variable := as.factor(.variable)])
     if (length(byvars)){
@@ -116,10 +116,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
           nums_name <- names(nums[nums==TRUE])
           vars=intersect(vars,nums_name)
           if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-            if (winsorize){
-              evaldt(ans[, .v := winsorize(.v, verbose = verbose)])
-              evaldt(ans[, .along_with:= winsorize(.along_with, verbose = verbose)])
-            }
             if (type == "line"){
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() 
             } else{
@@ -141,9 +137,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             }
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
           } else{ 
-            if (winsorize){
-              evaldt(ans[, .v:= winsorize(.v, verbose = verbose)])
-            }
             evaldt(ans[, .bin := .bincode(.v, breaks = seq(min(.v, na.rm = TRUE), max(.v, na.rm = TRUE), length = 100))])
             evaldt(N <- ans[, sum(.w)])
             ans <- evaldt(ans[, list(.v = mean(.v, na.rm = TRUE), count = sum(.w / N, na.rm = TRUE)), by = .bin])
@@ -167,9 +160,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         ans <- x[, c(group, v, w, along_with), with = FALSE]
         i <- i+1
         if (length(along_with)){
-          if (winsorize){
-            evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), .w)])
-          } 
           if (type == "line"){
             if (!facet){
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() 
@@ -201,9 +191,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
                 g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))
             }
           } else{ 
-            if (winsorize){
-              evaldt(ans[, .v := winsorize(.v, verbose = verbose)])
-            } 
             if (!facet){
               evaldt(ans[, .group:= as.factor(.group)])
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity")
