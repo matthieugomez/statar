@@ -67,7 +67,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
 
   if (winsorize){
-    evaldt(x[, c(vars, w, along_with) := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}, .SDcols = c(vars, w, along_with)])
+    x[, c(vars, w, along_with) := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}), .SDcols = c(vars, w, along_with)]
   }
 
   if (type == "boxplot"){
