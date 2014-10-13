@@ -9,7 +9,7 @@ graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
   method = "lm")
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
-  reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1,
+  reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1,
   verbose = FALSE, method = "lm")
 }
 \arguments{
@@ -26,8 +26,6 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 \item{winsorize}{Should variables winsorized?}
 
 \item{facet}{Should different groups graphed in different windows?}
-
-\item{size}{Size of points when more than 1000 points by group}
 
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
