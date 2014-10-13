@@ -206,12 +206,12 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
   # Now starts the code 
   if (details==FALSE) {
     if (!is.null(w)){
-      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm)), Hmisc::wtd.quantile(x, c(0, 0.5, 1), na.rm = na.rm, weights = w))}))
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm, w = w)), Hmisc::wtd.quantile(x, c(0, 1), na.rm = na.rm, weights = w))}))
     }else{
       sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 0.5, 1), type = 1, na.rm = na.rm, weights = w))}))
     }
     sum <- as.matrix(sum_mean)
-    rownames(sum) <-  c("N","NA","Mean","Sd","Min", "50%", "Max")
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min", "Max")
 
   } else {
     N <- nrow(M)
