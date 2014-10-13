@@ -54,9 +54,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
 
   assign_var(x, bin, group, count,  variable, value)
-  x <- x[, c(byvars, vars, along_with, w), with == FALSE]
 
   if (type == "boxplot"){
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]
     theme = theme_set(theme_minimal())
     theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())
     theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())
