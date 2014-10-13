@@ -238,6 +238,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
     rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
     # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")
   }
+  print(sum)
   print <- apply(sum,c(1,2),
     function(x){
     if (is.numeric(x)){
@@ -247,7 +248,7 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
         y <- "0"
       }
       y <- str_replace(y,"\\.$","")
-      y <- str_replace(y,"-0","0")
+      y <- str_replace(y,"^-0$","0")
     } else{
       y <- x
     }
