@@ -18,8 +18,9 @@ tempname(where = globalenv(), prefix = "temp", inherits = TRUE)
 Create unique names within environment
 }
 \examples{
-tempname <- tempname(globalenv())
-tempname <- tempname(DT )
-tempname <- tempname(list = c("temp", "temp1"))
+tempname(c("temp","temp1"))
+tempname(globalenv())
+tempname(globalenv())
+tempname(data.table(temp= 1))
 }
 

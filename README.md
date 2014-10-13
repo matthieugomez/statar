@@ -198,9 +198,10 @@ graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
 - `tempname` creates a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
 
 ````R
-tempname <- tempname(globalenv())
-tempname <- tempname(DT)
-tempname <- tempname(c("temp", "temp1"))
+tempname(c("temp","temp1"))
+tempname(globalenv())
+tempname(globalenv())
+tempname(data.table(temp= 1))
 ````
 
 

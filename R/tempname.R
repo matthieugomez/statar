@@ -5,29 +5,25 @@
 #' @param inherits  Should the name unique also in the enclosing frames of the environment?
 #' @param n Number of names to generate
 #' @examples
-#' tempname <- tempname(globalenv())
-#' tempname <- tempname(DT )
-#' tempname <- tempname(list = c("temp", "temp1"))
+#' tempname(c("temp","temp1"))
+#' tempname(globalenv())
+#' tempname(globalenv())
+#' tempname(data.table(temp= 1))
 
 #' @export
 tempname=function(where = globalenv() , prefix = "temp", inherits=TRUE) {
+    i <- 0L
+    name <- prefix
     if (is.character(where)){
-        while (name %in% l) {
+        while (name %in% where) {
             i <- i + 1L
             name <- paste0(prefix, as.character(i))
         }
     } else{
-        i <- 0L
-        out <- NULL
-        name <- prefix
-        if (!is.null(list)){
-           
-        } else{
-        	while (exists(name, where = where, inherits = inherits)){
-                i <- i + 1L
-        	   name <- paste0(prefix, as.character(i))
-    	   }
-        }
+    	while (exists(name, where = where, inherits = inherits)){
+            i <- i + 1L
+    	   name <- paste0(prefix, as.character(i))
+	   }
     }
     name
 }
