@@ -174,10 +174,20 @@ graph(DT, by = id)
 ![Read more words!](output_3_0.png)
 
 ````R
-graph(DT, v3, v4, along_with = v2, by = id)
+graph(DT, by = id, type = "boxplot")
 ````
+![Read more words!](box.png)
 
-![Read more words!](output_5_0.png)
+
+````R
+graph(DT, v3, v4, along_with = v2)
+````
+![Read more words!](v2.png)
+
+````R
+graph(DT, v3, v4, along_with = v2, by = id, type ="loess")
+````
+![Read more words!](v2by.png)
 
 
 # others
