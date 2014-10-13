@@ -26,7 +26,7 @@
 #' graph(DT, v3, v4, along_with = v2, by = id)
 #' @export
 graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
-  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), d = d, reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, method = method)
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, method = method)
 }
 
 #' @export
