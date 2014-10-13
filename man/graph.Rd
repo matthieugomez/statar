@@ -6,11 +6,13 @@
 \usage{
 graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
   winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE,
-  type = if (is.null(along_with)) "density" else "lm")
+  type = if (is.null(substitute(along_with))) {     "density" } else {    
+  "lm" })
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
   reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1,
-  verbose = FALSE, type = if (is.null(along_with)) "density" else "lm")
+  verbose = FALSE, type = if (is.null(along_with)) {     "density" } else { 
+     "lm" })
 }
 \arguments{
 \item{x}{A data.table.}
@@ -29,7 +31,7 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
-\item{type}{type of graph among "density", "boxplot", "line", "lm", "loeless"}
+\item{type}{type of graph among "density", "boxplot", "line", "lm", "loess"}
 }
 \description{
 Experimental function to graph a dataset

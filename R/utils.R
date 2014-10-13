@@ -12,12 +12,12 @@ deparse_all <- function(x) {
 
 
 
-
+#' @export
 assign_var <- function(x, ..., env = parent.frame(), inherits = FALSE){
     names <- sapply(lazy_dots(...), function(x){as.character(x$expr)})
     assign_var_(x = x, names = names, inherits = inherits, env = parent.frame())
 }
-
+#' @export
 assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
     for (name in names){
         tempname <- tempname(paste("temp",name,sep="_"), where = env, inherits = inherits)
@@ -25,6 +25,7 @@ assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
     }
 }
 
+#' @export
 evaldt <- function(x, env = parent.frame()){
     x <- substitute(x)
     names <- ls(all.names = TRUE, envir = env)
@@ -88,4 +89,17 @@ evaldt <- function(x, env = parent.frame()){
     }
     call <- replace_name(x, as.list(L), env = env)
     eval(call, env)
+}
+
+#' @export
+setv = function(x, new = names(x) , f, v = new, i = TRUE, by = NULL){
+  f = substitute(f)
+  if (is.call(f)){
+      f <- interp(f, .values = list(. = as.name("x")))
+    }
+    fun <- substitute(function(x){y}, list(y = f))
+    i <- substitute(i)
+    call <- substitute(dt[i, (new) := lapply(.SD, fun), by = (by), .SDcols= v], list(i = i, fun = fun, v = v, by = by, new = new))
+    dt_env <- dt_env(x, parent.frame())
+    eval(call, dt_env)
 }
