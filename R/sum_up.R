@@ -42,47 +42,12 @@ sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, 
   if (!is.null(w)){
     w <- x[[which(names(x)== w)]]
   }
-  if (graph){
-    x <- x[, c(byvars, vars, w), with = FALSE]
-    assign_var(x, variable, value, group)
-    if (minimal){
-      theme = theme_set(theme_minimal())
-      theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())
-      theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())
-      theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))
-    }
-    if (length(byvars)){
-      if (length(byvars)>1){
-          setkeyv(x, byvars)
-          x[, .group := 0]
-          x[unique(x), .group := 1]
-          evaldt(x[, .group:= cumsum(.group)])
-      } else{
-        group <- byvars
-      }
-      evaldt(x[, .group := as.factor(.group)])
-    } else{
-      group <- factor(0)
-      evaldt(x[, .group := 1])
-    }
-    if (!length(w)){
-      w <- NULL
-    }
-    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, gather_cols = vars)))
-    evaldt(x[, .variable := as.factor(.variable)])
-    if (length(byvars)){
-      print(x)
-    print(ggplot(x, aes_string(y = value, x = group , weight = w)) + geom_boxplot(outlier.colour = NULL, aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.3)  + stat_summary(geom = "crossbar", width=0.65, fatten=0, aes_string(color = group), fun.data =  function(x){m <- mean(x); c(ymin = m, ymax = m, y = m)}, alpha = 0.7) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
-    } else{
-      print(ggplot(x, aes_string(y = value, x = group , weight = w)) + geom_boxplot(outlier.colour = NULL, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.3)+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = hcl(h=15,l=65,c=100), fun.data =  function(x){m <- mean(x); c(ymin = m, ymax = m, y = m)}, alpha = 0.7)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free")  +stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
-    }
-  } else{
     if (!length(byvars)){
       invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])
     } else{
       invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])
     }
-  }
+  
 }
 
 
