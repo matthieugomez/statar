@@ -87,6 +87,5 @@ evaldt <- function(x, env = parent.frame()){
         x
     }
     call <- replace_name(x, as.list(L), env = env)
-    print(call)
     eval(call, env)
 }
