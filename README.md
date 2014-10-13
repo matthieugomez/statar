@@ -166,7 +166,7 @@ DT <- data.table(
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 graph(DT)
 ````
-![Read more words!](output_2_0.png =100)
+![Read more words!](output_2_0.png =100x)
 
 ````R
 graph(DT, by = id)
