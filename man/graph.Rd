@@ -6,11 +6,11 @@
 \usage{
 graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
   winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE,
-  method = "loess")
+  method = "lm")
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
   reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1,
-  verbose = FALSE, method = "loess")
+  verbose = FALSE, method = "lm")
 }
 \arguments{
 \item{x}{A data.table.}
@@ -20,8 +20,6 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL, d = FALSE,
 \item{along_with}{Replace x axis by this variable (ie estimate regression models instead of density).}
 
 \item{by}{Groups within which variables should be ploted.}
-
-\item{w}{A weight variable}
 
 \item{reorder}{Should the category with the most count be printed first?}
 

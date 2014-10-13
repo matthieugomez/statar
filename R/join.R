@@ -93,9 +93,9 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
         if (gen %chin% names(y)){
           stop(paste0(gen," alreay exists in using"))
         }
-        idm <- tempname_list("temp", c(names(x),names(y),gen))
+        idm <- tempname(c(names(x),names(y),gen))
         x[, c(idm) := 1L]
-        idu <- tempname_list("temp", c(names(x),names(y),gen,idm))
+        idu <- tempname(c(names(x),names(y),gen,idm))
         y[, c(idu) := 1L]
         on.exit(x[, c(idm) := NULL], add = TRUE)
         on.exit(y[, c(idu) := NULL], add = TRUE) 

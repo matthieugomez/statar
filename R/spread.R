@@ -3,8 +3,9 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
   id <- setdiff(names(data), c(key_col, value_col))
   length_lhs <- length(id)
   if (!length_lhs) {
-  	id <- tempname("temp", data)
+  	id <- tempname(data)
   	data[, (id) := 1:.N] 
+    on.exit(data[, (id) := NULL])
   }
   else{
   	if (anyDuplicated(data, by = c(id))) stop("Duplicate identifiers", call. = FALSE)

@@ -2,7 +2,7 @@
 #' 
 #' @param x a data.table
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param w Weights (experimental). Default to NULL. See the \link[dplyr]{select} documentation.
+#' @param w Weights. Default to NULL. 
 #' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @examples
@@ -17,7 +17,7 @@
 #' sum_up(DT, starts_with("v"), by = v1)
 #' @export
 sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {
-  sum_up_(x, .dots = lazy_dots(...) , by = substitute(by), d = d, w = substitute(w))
+  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by))
 }
 
 
@@ -203,19 +203,32 @@ describe_matrix <- function(M, details = FALSE, na.rm = TRUE, w = NULL, mc.cores
 
   # Now starts the code 
   if (details==FALSE) {
-   sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm)), Hmisc::wtd.quantile(x, c(0, 0.5, 1), type = "i/n", na.rm = na.rm, weights = w))}))
+    if (!is.null(w)){
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm)), Hmisc::wtd.quantile(x, c(0, 0.5, 1), na.rm = na.rm, weights = w))}))
+    }else{
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 0.5, 1), type = 1, na.rm = na.rm, weights = w))}))
+    }
     sum <- as.matrix(sum_mean)
     rownames(sum) <-  c("N","NA","Mean","Sd","Min", "50%", "Max")
 
   } else {
     N <- nrow(M)
     f=function(x){
-      m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)
-      sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)
-      sum_higher[1] <- sqrt(sum_higher[1])
-      sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
-      sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
-      sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type= "i/n", na.rm=na.rm, weights = w)
+      if (!is.null(w)){
+        m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)
+        sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)
+        sum_higher[1] <- sqrt(sum_higher[1])
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
+        sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1), na.rm=na.rm, weights = w)
+      } else{
+        m <-mean(x, na.rm = na.rm, w = w)
+        sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)
+        sum_higher[1] <- sqrt(sum_higher[1])
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
+        sum_quantile= quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type= 1, na.rm=na.rm, weights = w)
+      }
       n_NA <- sum(is.na(x))
       sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)
     }

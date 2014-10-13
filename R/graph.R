@@ -4,7 +4,6 @@
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param along_with Replace x axis by this variable (ie estimate regression models instead of density).
 #' @param by Groups within which variables should be ploted.
-#' @param w A weight variable
 #' @param reorder Should the category with the most count be printed first?
 #' @param facet Should different groups graphed in different windows?
 #' @param size Size of points when more than 1000 points by group
@@ -26,13 +25,13 @@
 #' graph(DT, v3, v4, along_with = v2)
 #' graph(DT, v3, v4, along_with = v2, by = id)
 #' @export
-graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, method = "loess") {
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
   graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), d = d, reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, method = method)
 }
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE, method = "loess") {
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
@@ -45,17 +44,25 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FA
   if (length(along_with)){
     nums <- sapply(x, is.numeric)
     nums_name <- names(nums[nums==TRUE])
-    vars=intersect(vars,nums_name)
+    vars = intersect(vars,nums_name)
   }
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  x <- x[,c(byvars, vars, along_with, w), with = FALSE]
+  name_list <- function(x){
+    if (length(x)){
+      x <- sapply(x, as.name)
+    }
+    unlist(x)
+  }
 
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
+  assign_var(x, bin, group)
+
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]
   if (!length(w)){
-    w <- tempname("weight", x)
-    x[, (w) := 1]
+    assign_var(x, w)
+    evaldt(x[, .w := 1])
     ww <- NULL
   } else{
-    ww <- paste0(w,"/sum(",w,")")
+    ww <- as.name(paste0(w,"/sum(",w,")"))
   }
 
   if (!length(byvars)){
@@ -64,106 +71,99 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FA
       for (v in vars){
         i <- i+1
         if (length(along_with)){
+          ans <- x[, list(.along_with, .v, .w)]
           nums <- sapply(x, is.numeric)
           nums_name <- names(nums[nums==TRUE])
           vars=intersect(vars,nums_name)
           if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
             if (winsorize){
-              eval(substitute(ans <- x[, list(winsorize(along_with, verbose = verbose), winsorize(v, verbose = verbose), w)], list(along_with = as.name(along_with), v= as.name(v), w = as.name(w))))
-              setnames(ans,c(along_with, v, w))
-            } else{
-              eval(substitute(ans <- x[, list(along_with, w, v)], list(v= as.name(v), along_with = as.name(along_with), w= as.name(w))))
+              evaldt(ans[, .v := winsorize(.v, verbose = verbose)])
+              evaldt(ans[, .along_with:= winsorize(.along_with, verbose = verbose)])
             }
-            if (nrow(ans)>1000){ 
-              ans2 <- sample_n(ans, 1000)
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = method)
-            } else{
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(size = size) + stat_smooth(method = method)
-            }
+            evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
+            evaldt(N <- ans[, sum(.w)])
+            ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  w, na.rm = TRUE)), by = bin])
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + geom_point(data=ans2, aes_string(x = along_with, y = v)) 
         } else{
-        dummy <- eval(substitute(is.integer(x[,v])+ is.character(x[,v]), list(v = as.name(v))))
+        ans <- evaldt(x[, list(.v, .w)])
+        print(ans)
+        dummy <- evaldt(is.integer(ans[,.v]) + is.character(ans[,.v]))
           if (dummy) {
             if (!reorder){
-              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()
+              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_point(stat="bin")+ coord_flip()
             } else{
-              ans <- eval(substitute(x[, list(w, N = .N), by = v], list(w=as.name(w))))
-              setkeyv(ans, c(w, "N", v))
-              ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5) + coord_flip()
+              ans <- evaldt(ans[, list(.w, N = .N), by = .v])
+              setkeyv(ans,c("N", v))
+              ans <- evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip()
             }
           } else{ 
             if (winsorize){
-              eval(substitute(ans <- x[, list(winsorize(v, verbose = verbose), w)], list(v= as.name(v), w= as.name(w))))
-              setnames(ans,c(v, w))
-            } 
-            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")
+              evaldt(ans[, .v:= winsorize(.v, verbose = verbose)])
+            }
+            evaldt(ans[, .bin := .bincode(.v, breaks = seq(min(.v, na.rm = TRUE), max(.v, na.rm = TRUE), length = 100))])
+            evaldt(N <- ans[, sum(.w)])
+            ans <- evaldt(ans[, list(.v = mean(.v, na.rm = TRUE), count = sum(.w / N, na.rm = TRUE)), by = .bin])
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point()
           }
         }
       } 
   } else{
     if (length(byvars)>1){
-      group <- tempname("group", x)
       setkeyv(x, byvars)
-      x[, (group) := 0]
-      x[unique(x), (group) := 1]
-      eval(substitute(x[, (group):= cumsum(v)], list(v = as.name(group))))
+      x[, .group := 0]
+      x[unique(x), .group := 1]
+      evaldt(x[, .group:= cumsum(.v)])
     } else{
       group <- byvars
     }
     g <- NULL
     i <- 0
       for (v in vars){
-        ans <- x[,c(byvars, v, w, along_with), with = FALSE]
+        ans <- x[, c(byvars, v, w, along_with), with = FALSE]
         i <- i+1
         if (length(along_with)){
           if (winsorize){
-            eval(substitute(ans <- ans[, list(group, winsorize(along_with, verbose = verbose), winsorize(v, verbose = verbose), w)], list(group = as.name(group), along_with = as.name(along_with), v= as.name(v), w= as.name(w))))
+            evaldt(ans <- ans[, list(.group, winsorize(.along_with, verbose = verbose), winsorize(.v, verbose = verbose), ,w)])
             setnames(ans, c(group, along_with, v, w))
           } else{
-            eval(substitute(ans <- ans[, list(group, along_with, v, w)], list(group = as.name(group), v= as.name(v), along_with = as.name(along_with), w= as.name(w))))
+            evaldtdt(ans <- ans[, list(.group, .along_with, .v, .w)])
           }
-          if (nrow(ans) > 1000){ 
-            eval(substitute(ans2 <- sample_n(group_by(ans, group), size = round(1000/length(unique(ans[, group]))), replace = TRUE), list(group = as.name(group))))
+          evaldt(ans[, .bin := .bincode(along_with, breaks = seq(min(along_with, na.rm = TRUE), max(along_with, na.rm = TRUE), length = 20))])
+          evaldt(N <- ans[, sum(w)])
+          ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE), .group), by = list(.group, .bin)])
             if (!facet){
-              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
-              eval(substitute(ans2[, group:= as.factor(group)], list(group = as.name(group))))
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), size = size) + stat_smooth(method = method)
+              evaldt(ans[, .group:= as.factor(.group)])
+              evaldt(ans2[, .group:= as.factor(.group)])
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = method)
             } else{
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data =ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
-            }
-          } else{
-            if (!facet){
-              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point() + stat_smooth(method = method)
-            } else{
-              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point() + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
-            }
-          }
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v), size = size) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
+            } 
         } else{
-          dummy <- eval(substitute(is.integer(ans[,v])+ is.character(ans[,v]), list(v = as.name(v))))
+          dummy <- evaldt(is.integer(ans[,.v])+ is.character(ans[,.v]))
           if (dummy) {
             if (!facet){
-              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
-              eval(substitute(ans[, v:= as.factor(v)], list(v = as.name(v))))
+              evaldt(ans[, .group:= as.factor(.group)])
+              evaldt(ans[, .v:= as.factor(.v)])
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5,position = "dodge")+ coord_flip() 
             } else{
               if (!reorder){
                   g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()+ facet_grid(as.formula(paste0(group,"~.")))
       
               } else{
-                  ans <- eval(substitute(ans[, list(N = as.integer(rep(.N,.N)), w= as.name(w)), by = c(group,v)]))
+                  ans <- evaldt(ans[, list(N = as.integer(rep(.N,.N)), .w = as.name(.w)), by = c(.group,.v)])
                   setkeyv(ans, c(group, "N",v))
-                  ans <- eval(substitute(ans[, v := factor(v, levels = unique(v), ordered = TRUE)], list( v= as.name(v))))
+                  ans <- evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
                   g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_bar(width=.5) + coord_flip() + facet_grid(as.formula(paste0(group, "~.")))                 
               }
             }
           } else{ 
             if (winsorize){
-              eval(substitute(ans <- ans[, list(group, w, v = winsorize(v, verbose = verbose))], list(group = as.name(group), v= as.name(v), w= as.name(w))))
-              setnames(ans,c(group, w, v))
+              evaldt(ans <- ans[, list(.group, .w, .v = winsorize(.v, verbose = verbose))])
             } 
             if (!facet){
-              eval(substitute(ans[, group:= as.factor(group)], list(group = as.name(group))))
+              evaldt(ans[, .group:= as.factor(.group)])
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity")
             } else{            
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))
@@ -225,3 +225,9 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
+
+
+
+
+
+

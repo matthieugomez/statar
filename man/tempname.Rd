@@ -3,26 +3,23 @@
 \alias{tempname}
 \title{Create unique names within environment}
 \usage{
-tempname(prefix, where, inherits = TRUE)
+tempname(where = globalenv(), prefix = "temp", inherits = TRUE)
 }
 \arguments{
-\item{prefix}{A character that specifies prefix for new name}
+\item{where}{A chracter vector, list or an environment}
 
-\item{where}{A list or an environment}
+\item{prefix}{A character vector that specifies prefix for new name}
 
 \item{inherits}{Should the name unique also in the enclosing frames of the environment?}
+
+\item{n}{Number of names to generate}
 }
 \description{
 Create unique names within environment
 }
 \examples{
-temp <- 1
-tempname <- tempname("temp", globalenv())
-DT <- data.table(
- temp = c(1, 1, 1, 1, 1, 2, 2),
- temp1 = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),
-)
-tempvar <- tempname("temp", DT)
-tempvar <- tempname("temporary", DT)
+tempname <- tempname(globalenv())
+tempname <- tempname(DT )
+tempname <- tempname(list = c("temp", "temp1"))
 }
 

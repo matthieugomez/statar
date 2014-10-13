@@ -1,7 +1,7 @@
 statar
 ======
 
-A set of R commands for data manipulation built on data.table and dplyr.
+A set of R commands for data manipulation built on data.table, dplyr and ggplot2.
 
 The package can be installed via `devtools`
 
@@ -124,7 +124,7 @@ sum_up_(DT, .dots(c("id","v1"))
 ````
 
 ## join
-The package adds a wrapper for data.table merge functionalities.
+`join` is a wrapper for data.table merge functionalities.
 
 - The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
 - The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
@@ -195,11 +195,12 @@ graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
 # others
 - A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
-- `tempname` creates a name not assigned in the environment specified by the second variable
+- `tempname` creates a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
 
-	````R
-	tempvar <- tempname("temp", DT)
-	tempname <- tempname("temp", globalenv())
-	````
+````R
+tempname <- tempname(globalenv())
+tempname <- tempname(DT)
+tempname <- tempname(c("temp", "temp1"))
+````
 
 
