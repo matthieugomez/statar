@@ -6,18 +6,18 @@
 \usage{
 graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
   winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE,
-  method = "lm")
+  type = if (is.null(along_with)) "density" else "lm")
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
   reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1,
-  verbose = FALSE, method = "lm")
+  verbose = FALSE, type = if (is.null(along_with)) "density" else "lm")
 }
 \arguments{
 \item{x}{A data.table.}
 
 \item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
-\item{along_with}{Replace x axis by this variable (ie estimate regression models instead of density).}
+\item{along_with}{When "type" is "line", "lm", "loeless", replace x axis by this variable (ie estimate regression models instead of density).}
 
 \item{by}{Groups within which variables should be ploted.}
 
@@ -29,7 +29,7 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
-\item{method}{A character for regression model (lm, loess) when along_with is specified}
+\item{type}{type of graph among "density", "boxplot", "line", "lm", "loeless"}
 }
 \description{
 Experimental function to graph a dataset

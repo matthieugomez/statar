@@ -4,9 +4,11 @@
 \alias{sum_up_}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
+sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
+  graph = FALSE, minimal = TRUE)
 
-sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
+sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
+  graph = FALSE, minimal = TRUE)
 }
 \arguments{
 \item{x}{a data.table}
@@ -23,7 +25,7 @@ sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 Gives summary statistics (corresponds to Stata command summarize)
 }
 \examples{
-N <- 100; K <- 10
+N <- 1000; K <- 10
 DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),
@@ -32,5 +34,6 @@ DT <- data.table(
 sum_up(DT)
 sum_up(DT, v2, d = T)
 sum_up(DT, starts_with("v"), by = v1)
+sum_up(DT, by = v1, graph = TRUE)
 }
 
