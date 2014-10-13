@@ -63,7 +63,7 @@ setcols(DT, id, v2)
 setcols(DT, -id)
 
 # sum_up prints detailed summary statistics (corresponds to Stata summarize)
-N <- 100; K <- 10
+N <- 1000; K <- 10
 DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),
@@ -110,7 +110,7 @@ setna(DT3, value, roll = "nearest")
 Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
 
 ````R
-N <- 100; K <- 10
+N <- 1000; K <- 10
 DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),

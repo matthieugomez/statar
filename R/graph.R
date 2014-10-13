@@ -50,16 +50,11 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     nums_name <- names(nums[nums==TRUE])
     vars = intersect(vars,nums_name)
   }
-  name_list <- function(x){
-    if (length(x)){
-      x <- sapply(x, as.name)
-    }
-    unlist(x)
-  }
+
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
 
   assign_var(x, bin, group, count,  variable, value)
-
+  x <- x[, c(byvars, vars, along_with, w), with == FALSE]
 
   if (type == "boxplot"){
     theme = theme_set(theme_minimal())
@@ -83,6 +78,10 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     }
     if (!length(w)){
       w <- NULL
+    }
+    if (winsorize){
+      x [, .w:= winsorize(.w)]
+      x[, vars := lapply(.SD,winsorize), .SDcols= vars]
     }
     x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, gather_cols = vars)))
     evaldt(x[, .variable := as.factor(.variable)])
