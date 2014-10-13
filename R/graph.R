@@ -127,7 +127,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
           if (winsorize){
             evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), w)])
           } 
-          evaldt(ans[, .bin := .bincode(along_with, breaks = seq(min(along_with, na.rm = TRUE), max(along_with, na.rm = TRUE), length = 20))])
+          evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
           evaldt(N <- ans[, sum(w)])
           ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE), .group), by = list(.group, .bin)])
             if (!facet){
