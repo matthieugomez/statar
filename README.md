@@ -152,7 +152,7 @@ join(x, y, type = "left", check = m~1, inplace = TRUE)
 ````
 
 
-## Graphs
+## graphs
 `graph` is a wrapper for `ggplot2` functionalities, useful for interactive explorations
 
 ````R
@@ -195,13 +195,13 @@ graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
 # others
 - A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
-- `tempname` creates a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
+- `tempname` returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
 
-````R
-tempname(c("temp","temp1"))
-tempname(globalenv())
-tempname(globalenv())
-tempname(data.table(temp= 1))
-````
+  ````R
+  tempname(c("temp", "temp1"))
+  tempname(globalenv())
+  tempname(globalenv())
+  tempname(data.table(temp = 1))
+  ````
 
 

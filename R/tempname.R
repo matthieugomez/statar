@@ -1,4 +1,4 @@
-#' Create unique names within environment
+#' Create unique names within a list, a data.frame, or an environment
 #'
 #' @param prefix A character vector that specifies prefix for new name
 #' @param where A chracter vector, list or an environment
@@ -8,7 +8,7 @@
 #' tempname(c("temp","temp1"))
 #' tempname(globalenv())
 #' tempname(globalenv())
-#' tempname(data.table(temp= 1))
+#' tempname(data.table(temp = 1))
 
 #' @export
 tempname=function(where = globalenv() , prefix = "temp", inherits=TRUE) {
