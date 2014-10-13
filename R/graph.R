@@ -31,7 +31,7 @@ graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, d = FALSE, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
