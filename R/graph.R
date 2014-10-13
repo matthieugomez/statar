@@ -55,6 +55,15 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
 
   assign_var(x, bin, group, count,  variable, value)
 
+  if (!length(w)){
+    assign_var(x, w)
+    evaldt(x[, .w := 1])
+    ww <- NULL
+  } else{
+    ww <- as.name(paste0(w,"/sum(",w,")"))
+  }
+
+
   if (type == "boxplot"){
     x <- x[, c(byvars, vars, along_with, w), with = FALSE]
     theme = theme_set(theme_minimal())
@@ -92,13 +101,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     }
   } else{
     x <- x[, c(byvars, vars, along_with, w), with = FALSE]
-    if (!length(w)){
-      assign_var(x, w)
-      evaldt(x[, .w := 1])
-      ww <- NULL
-    } else{
-      ww <- as.name(paste0(w,"/sum(",w,")"))
-    }
 
 
   if (!length(byvars)){
