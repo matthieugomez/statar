@@ -54,7 +54,11 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
 
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
+  
   assign_var(x, bin, group)
+  if (!length(along_with)){
+    assign_var(x, along_with)
+  }
 
   x <- x[, c(byvars, vars, along_with, w), with = FALSE]
   if (!length(w)){
