@@ -145,7 +145,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
                   g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))
       
               } else{
-                  evaldt(ans[, .count = as.integer(rep(.N,.N)), by = c(group,v)])
+                  evaldt(ans[, .count := as.integer(rep(.N,.N)), by = c(group,v)])
                   setkey(ans, .group, .count , .v)
                   ans <- evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
                   g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))              
