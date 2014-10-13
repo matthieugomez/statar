@@ -30,7 +30,7 @@ graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = winsorize, facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, size = 1, verbose = FALSE, method = "lm") {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
@@ -136,10 +136,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         } else{
           dummy <- evaldt(is.integer(ans[,.v])+ is.character(ans[,.v]))
           if (dummy) {
+            setkeyv(ans, group, v)
             if (!facet){
-              setkeyv(ans, group, v)
               evaldt(ans[, .group:= as.factor(.group)])
-              evaldt(ans[, .v:= as.factor(.v)])
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width=.5, position = "dodge")+ coord_flip() 
             } else{
                 g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))
