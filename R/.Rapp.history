@@ -1,4 +1,3 @@
-months(1)
 years(1)
 years
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
@@ -1299,6 +1298,11 @@ devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 library(statar)
 ?graph
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Symlink")#
+devtools::install_github("matthieugomez/statar")#
+#
+suppressMessages(library("data.table"))#
+suppressMessages(library("statar"))
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' Experimental function to graph a dataset#
 #' #
@@ -1367,7 +1371,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }#
 #
   if (winsorize){#
-    v <- v[length(v)>0]#
+    v <-  c(byvars, vars, along_with, w)#
     x[, v := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}), .SDcols = v]#
   }#
 #

@@ -67,7 +67,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
 
   if (winsorize){
-    v <- c(byvars, vars, along_with, w)([length(v)>0]
+    v <-  c(byvars, vars, along_with, w)
     x[, v := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}), .SDcols = v]
   }
 
