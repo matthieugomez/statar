@@ -91,6 +91,8 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
               ans <- evaldt(ans[, list(.w, .count = .N), by = .v])
               setkeyv(ans,c(count, v))
               evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
+            } else{
+              evaldt(ans[, .v := factor(.v)])
             }
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
           } else{ 
@@ -150,6 +152,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             } 
             if (!facet){
               evaldt(ans[, .group:= as.factor(.group)])
+              evaldt(ans[, .v := factor(.v)])
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity")
             } else{            
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~.")))
