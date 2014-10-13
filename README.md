@@ -110,17 +110,10 @@ setna(DT3, value, roll = "nearest")
 Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
 
 ````R
-N <- 1000; K <- 10
-DT <- data.table(
-  id = 1:N,
-  v1 = sample(5, N, TRUE),
-  v2 = sample(1e6, N, TRUE)
-)
-sum_up(DT, id, v1)
-sum_up(DT, list(id, v1))
-sum_up_(DT, quote(list(id, v1))) 
-sum_up_(DT, "id", "v1")
-sum_up_(DT, .dots = c("id","v1"))
+# NSE version
+sum_up(DT, v2, v3, by = list(id,v1))
+# SE version
+sum_up_(DT, .dots = c("v2","v3"), by = c("id","v1"))
 ````
 
 ## join
