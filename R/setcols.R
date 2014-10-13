@@ -11,13 +11,13 @@
 #' setcols(DT, id, v2)
 #' setcols(DT, -id)
 #' @export
-setcols <- function(x, ...){
+setcols <- function(x, ..., new){
 	setcols_(x = x, .dots = lazyeval::lazy_dots(...))
 }
 
 #' @export
 #' @rdname setcols
-setcols_ <- function(x, ..., .dots){
+setcols_ <- function(x, ..., .dots, new){
 	stopifnot(is.data.table(x))
 	dots <- lazyeval::all_dots(.dots, ...)
 	vars <- names(select_vars_(names(x), dots))
