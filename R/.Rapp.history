@@ -1,4 +1,6 @@
 devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
 suppressMessages(library("tidyr"))#
 suppressMessages(library("dplyr"))#
 suppressMessages(library("data.table"))#
@@ -1307,9 +1309,8 @@ DT <- data.table(#
 )#
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]#
 graph(DT)
-graph(DT, v3, v4, along_with = v2)
 graph(DT, v3, v4, along_with = v2, by = id)
-graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)
+graph(DT, v3, v4, along_with = v2)
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
 #' Experimental function to graph a dataset#
 #' #
@@ -1440,7 +1441,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), w)])#
           } #
           evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])#
-          evaldt(N <- ans[, sum(w)])#
+          evaldt(N <- ans[, sum(.w)])#
           ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE), .group), by = list(.group, .bin)])#
             if (!facet){#
               evaldt(ans[, .group:= as.factor(.group)])#
@@ -1528,4 +1529,3 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
     }#
   }#
 }
-graph(DT, v3, v4, along_with = v2, by = id, facet = TRUE)

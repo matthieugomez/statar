@@ -90,7 +90,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         dummy <- evaldt(is.integer(ans[,.v]) + is.character(ans[,.v]))
           if (dummy) {
             if (!reorder){
-              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_point(stat="bin")+ coord_flip()
+              g[[i]] <-  ggplot(x, aes_string(weight = ww, x = v)) + geom_bar(width=.5)+ coord_flip()
             } else{
               ans <- evaldt(ans[, list(.w, N = .N), by = .v])
               setkeyv(ans,c("N", v))
@@ -125,7 +125,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         i <- i+1
         if (length(along_with)){
           if (winsorize){
-            evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), w)])
+            evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), .w)])
           } 
           evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
           evaldt(N <- ans[, sum(.w)])
