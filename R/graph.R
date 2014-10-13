@@ -86,7 +86,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + geom_point(data=ans2, aes_string(x = along_with, y = v)) 
         } else{
         ans <- evaldt(x[, list(.v, .w)])
-        print(ans)
         dummy <- evaldt(is.integer(ans[,.v]) + is.character(ans[,.v]))
           if (dummy) {
             if (!reorder){
