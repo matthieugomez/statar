@@ -166,28 +166,30 @@ DT <- data.table(
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 graph(DT)
 ````
-![Read more words!](output_2_0.png =100x)
+
+<img src="output_2_0.png" alt="alt text" style="width:whatever;height:whatever">
+
 
 ````R
 graph(DT, by = id)
 ````
-![Read more words!](output_3_0.png)
+<img src="output_3_0.png" alt="alt text" style="height = 100px">
 
 ````R
 graph(DT, by = id, type = "boxplot")
 ````
-![Read more words!](box.png)
+<img src="box.png" alt="alt text" style="height = 100px">
 
 
 ````R
 graph(DT, v3, v4, along_with = v2)
 ````
-![Read more words!](v2.png)
+<img src="v2.png" alt="alt text" style="height = 100px">
 
 ````R
 graph(DT, v3, v4, along_with = v2, by = id, type ="loess")
 ````
-![Read more words!](v2by.png)
+<img src="v2by.png" alt="alt text" style="width:whatever;height:whatever">
 
 
 # others
