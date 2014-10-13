@@ -17,7 +17,7 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
-\item{along_with}{When "type" is "line", "lm", "loeless", replace x axis by this variable (ie estimate regression models instead of density).}
+\item{along_with}{When "type" is "line", "lm" or "loeless", replace x axis by this variable (ie estimate regression models instead of density).}
 
 \item{by}{Groups within which variables should be ploted.}
 
@@ -46,7 +46,8 @@ DT[, v4 := v3 + rnorm(N, sd = 20)]
 graph(DT)
 graph(DT, by = id)
 graph(DT, by = id, facet = TRUE)
+graph(DT, by = id, type = "boxplot")
 graph(DT, v3, v4, along_with = v2)
-graph(DT, v3, v4, along_with = v2, by = id)
+graph(DT, v3, v4, along_with = v2, by = id, type = "loeless")
 }
 
