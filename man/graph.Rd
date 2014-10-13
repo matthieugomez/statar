@@ -19,7 +19,7 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
-\item{along_with}{When "type" is "line", "lm" or "loeless", replace x axis by this variable (ie estimate regression models instead of density).}
+\item{along_with}{A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".}
 
 \item{by}{Groups within which variables should be ploted.}
 

@@ -4,9 +4,9 @@
 \alias{setcols_}
 \title{Retain certain columns of a data.table in place (= Stata keep).}
 \usage{
-setcols(x, ...)
+setcols(x, ..., new)
 
-setcols_(x, ..., .dots)
+setcols_(x, ..., .dots, new)
 }
 \arguments{
 \item{x}{a data.table}
