@@ -26,15 +26,13 @@
 #' graph(DT, v3, v4, along_with = v2)
 #' graph(DT, v3, v4, along_with = v2, by = id, type = "loeless")
 #' @export
-graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)) "density"
- else "lm") {
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {
   graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, type = type)
 }
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)) "density"
- else "lm"){
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){
   type <- match.arg(type, c("density", "boxplot", "line", "lm", "loeless"))
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))
@@ -67,11 +65,17 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
 
   if (winsorize){
-    v <-  c(byvars, vars, along_with, w)
+    v <-  c(vars, along_with, w)
+
+    nums <- sapply(x, is.numeric)
+    nums_name <- names(nums[nums==TRUE])
+    v = intersect(v,nums_name)
     x[, v := lapply(.SD,function(x){winsorize(x, verbose = FALSE)}), .SDcols = v]
   }
 
   if (type == "boxplot"){
+    old = theme_get()
+    on.exit(theme_set(old))
     theme = theme_set(theme_minimal())
     theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())
     theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())
