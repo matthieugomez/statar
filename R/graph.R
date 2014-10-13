@@ -121,15 +121,12 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     g <- NULL
     i <- 0
       for (v in vars){
-        ans <- x[, c(byvars, v, w, along_with), with = FALSE]
+        ans <- x[, c(group, v, w, along_with), with = FALSE]
         i <- i+1
         if (length(along_with)){
           if (winsorize){
-            evaldt(ans <- ans[, list(.group, winsorize(.along_with, verbose = verbose), winsorize(.v, verbose = verbose), ,w)])
-            setnames(ans, c(group, along_with, v, w))
-          } else{
-            evaldtdt(ans <- ans[, list(.group, .along_with, .v, .w)])
-          }
+            evaldt(ans <- ans[, list(.group, .along_with = winsorize(.along_with, verbose = verbose), .v = winsorize(.v, verbose = verbose), w)])
+          } 
           evaldt(ans[, .bin := .bincode(along_with, breaks = seq(min(along_with, na.rm = TRUE), max(along_with, na.rm = TRUE), length = 20))])
           evaldt(N <- ans[, sum(w)])
           ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE), .group), by = list(.group, .bin)])
