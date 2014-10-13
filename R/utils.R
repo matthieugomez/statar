@@ -1,4 +1,3 @@
-## imported from dplyr
 dt_env <- function(dt, env) {
   env <- new.env(parent = env, size = 2L)
   env$dt <- dt
@@ -6,19 +5,83 @@ dt_env <- function(dt, env) {
   env
 }
 
-
 deparse_all <- function(x) {
   deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
   vapply(x, deparse2, FUN.VALUE = character(1))
 }
 
-tempname_list=function(prefix, l) {
-    i <- 0L
-    name <- prefix
-    while (name %in% l) {
-        i <- i + 1L
-        name <- paste0(prefix, as.character(i))
-    }
-    name
+
+
+
+assign_var <- function(x, ..., env = parent.frame(), inherits = FALSE){
+    names <- sapply(lazy_dots(...), function(x){as.character(x$expr)})
+    assign_var_(x = x, names = names, inherits = inherits, env = parent.frame())
 }
 
+assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
+    for (name in names){
+        tempname <- tempname(paste("temp",name,sep="_"), where = env, inherits = inherits)
+        assign(name, tempname, env)
+    }
+}
+
+evaldt <- function(x, env = parent.frame()){
+    x <- substitute(x)
+    names <- ls(all.names = TRUE, envir = env)
+    L <- NULL
+    names_l <- NULL
+    for (name in names){
+        if (exists(name, envir = env, inherits = FALSE, mode = "character")){
+            get_name <- get(name, envir = env)
+            if (length(get_name)){
+                L <- c(L, as.name(get_name))
+                names_l <- c(names_l, name)
+            }
+        }
+    }
+    names(L) <- names_l
+    # replace names, even in LHS of list
+    replace_name <- function(x, lenv, env){
+        i <- 0
+        if (is.atomic(x) | is.symbol(x)){
+            if (str_detect(as.character(x),"*\\.")){
+                xx <- str_replace(as.character(x),".","")
+                if (exists(xx, envir = env, inherits = FALSE, mode = "character")){
+                    return(as.name(get(xx, envir = env)))
+                } else{
+                  return(x)
+                }
+            } else{
+                return(x)
+            }
+        }
+        else{
+            out <- NULL
+            for (i in 1:length(x)){
+                if (!is.null(x[[i]])){
+                    x[[i]] <- replace_name(x[[i]], lenv, env)
+                }
+            }
+            names <- NULL
+            if (x[[1]] == quote(list)){
+                for (name in names(x)){
+                    if (str_detect(name,"\\.")) {
+                        namename <- str_replace(as.character(name),".","")
+                        if (exists(namename, envir = env, inherits = FALSE, mode = "character")){
+                            names <- c(names, get(namename, env = env))
+                        } else{
+                            names <- c(names, name)
+                        }
+                    } 
+                    else{
+                        names <- c(names, name)
+                    }
+                }
+                names(x) <- names
+            }
+        }
+        x
+    }
+    call <- replace_name(x, as.list(L), env = env)
+    eval(call, env)
+}
