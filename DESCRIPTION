@@ -17,6 +17,5 @@ Imports:
     lazyeval,
     lubridate,
     matrixStats,
-    stringr
-Suggests:
+    stringr,
     tidyr
