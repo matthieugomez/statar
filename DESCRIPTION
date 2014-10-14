@@ -18,3 +18,5 @@ Imports:
     lubridate,
     matrixStats,
     stringr
+Suggests:
+    tidyr
