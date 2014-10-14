@@ -191,9 +191,9 @@ sum_up_(DT, .dots = c("v2","v3"), by = c("id","v1"))
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
 
-  ````R
-  tempname(c("temp", "temp1"))
-  tempname(globalenv())
-  tempname(globalenv())
-  tempname(data.table(temp = 1))
-  ````
+````R
+tempname(c("temp", "temp1"))
+tempname(globalenv())
+tempname(globalenv())
+tempname(data.table(temp = 1))
+````
