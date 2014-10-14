@@ -64,7 +64,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   } else{
     ww <- as.name(paste0(w,"/sum(",w,")"))
   }
-
+  print(glimpse(x))
   if (winsorize){
     v <-  c(vars, along_with, w)
     nums <- sapply(x, is.numeric)
@@ -72,6 +72,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     v = intersect(v,nums_name)
     x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]
   }
+  print(glimpse(x))
 
   if (type == "boxplot"){
     old = theme_get()
@@ -106,9 +107,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
       print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
     }
   } else{
-    x <- x[, c(byvars, vars, along_with, w), with = FALSE]
-
-
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE] 
   if (!length(byvars)){
     g <- NULL
     i <- 0
@@ -163,7 +162,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     i <- 0
       for (v in vars){
         ans <- x[, c(group, v, w, along_with), with = FALSE]
-        print(glimpse(ans))
         i <- i+1
         if (length(along_with)){
           if (type == "line"){
@@ -187,7 +185,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             } 
         } else{
           dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])
-          print(dummy)
           if (dummy) {
             # same order across groups
             setkeyv(ans, c(v, group))
