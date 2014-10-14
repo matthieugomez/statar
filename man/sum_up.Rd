@@ -20,6 +20,8 @@ sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 \item{na.rm}{A boolean. default to TRUE}
 
 \item{by}{Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.}
+
+\item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{
 Gives summary statistics (corresponds to Stata command summarize)

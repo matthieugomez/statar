@@ -30,6 +30,8 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
 \item{type}{type of graph among "density", "boxplot", "line", "lm", "loess"}
+
+\item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{
 Experimental function to graph a dataset

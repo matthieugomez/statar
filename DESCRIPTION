@@ -3,7 +3,9 @@ Title: A R package for applied data analysis
 Version: 0.1
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
-Description: A set of useful commands for applied data analysis
+Description: A set of useful commands for applied data analysis. The package
+    requires tidyr, which can be installed on github at
+    https://github.com/hadley/tidyr.
 License: GPL-2
 URL: https://github.com/matthieugomez/appliedr
 BugReports: https://github.com/matthieugomez/appliedr/issues
@@ -13,6 +15,7 @@ Imports:
     data.table,
     dplyr (>= 0.3),
     ggplot2,
+    grid,
     Hmisc,
     lazyeval,
     lubridate,

@@ -18,7 +18,7 @@ partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL, w =
       if (is.null(w)){
         cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)
       } else{
-        cutpoints <- tail(head(wtd.quantile(x, seq(0, 1, length = n_quantiles + 1), type ="i/n", na.rm = TRUE, w = w), -1),-1)
+        cutpoints <- tail(head(wtd.quantile(x, seq(0, 1, length = n_quantiles + 1), type ="i/n", na.rm = TRUE, weights = w), -1),-1)
       }
   } else if (!is.null(probs)){
 	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")

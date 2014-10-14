@@ -1,7 +1,6 @@
 dt_env <- function(dt, env) {
   env <- new.env(parent = env, size = 2L)
   env$dt <- dt
-  env$vars <- deparse_all(groups(dt))
   env
 }
 
@@ -70,7 +69,7 @@ evaldt <- function(x, env = parent.frame()){
                     if (str_detect(name,"\\.")) {
                         namename <- str_replace(as.character(name),".","")
                         if (exists(namename, envir = env, inherits = FALSE, mode = "character")){
-                            names <- c(names, get(namename, env = env))
+                            names <- c(names, get(namename, envir = env))
                         } else{
                             names <- c(names, name)
                         }

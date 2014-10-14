@@ -11,13 +11,19 @@
 #' @importFrom dplyr tbl_vars
 #' @importFrom dplyr group_by
 #' @importFrom dplyr sample_n
+#' @importFrom grid grid.layout
+#' @importFrom grid grid.newpage
+#' @importFrom grid pushViewport
+#' @importFrom grid viewport
 #' @importFrom Hmisc wtd.mean
 #' @importFrom Hmisc wtd.var
 #' @importFrom Hmisc wtd.quantile
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval all_dots
 #' @importFrom lazyeval common_env
+#' @importFrom lazyeval interp
 #' @importFrom lubridate period
+#' @importFrom lubridate second
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap
@@ -25,5 +31,6 @@
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_detect
 #' @importFrom tidyr spread_
+#' @importFrom tidyr gather_
 NULL
 

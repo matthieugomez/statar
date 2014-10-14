@@ -23,6 +23,8 @@ lead(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL,
 \item{along_with}{compute lag with respect to this vector instead of previous row}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
+
+\item{...}{Needed for compatibility with lag generic.}
 }
 \description{
 lead and lag are useful for comparing values for date offset by a constant

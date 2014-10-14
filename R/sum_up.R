@@ -6,7 +6,7 @@
 #' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @param na.rm A boolean. default to TRUE
-
+#' @param .dots Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
 #' N <- 100
@@ -75,11 +75,6 @@ describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOp
     first.part <- ""
     if (is.na(x) | is.null(x)) {
       return("")
-    }
-    if (simply.output == TRUE) {
-      if (!is.numeric(x)) {
-        return(.remove.special.chars(x))
-      }
     }
     if (x.original < 0) {
       x <- abs(x)

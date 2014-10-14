@@ -7,6 +7,7 @@
 #' @param along_with  compute lag with respect to this vector instead of previous row
 #' @param units A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
+#' @param ... Needed for compatibility with lag generic.
 #' @examples
 #' year <- c(1992, 1989, 1991)
 #' value <- c(4.1, 4.5, 3.3)
@@ -37,9 +38,9 @@ lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, de
         units <- "month"
         n <- 3 * n
       }
-      index <- match(along_with + period(n, units = units), along_with, incomparable = NA)
+      index <- match(along_with + period(n, units = units), along_with, incomparables = NA)
     } else{
-      index <- match(along_with + n, along_with, incomparable = NA)
+      index <- match(along_with + n, along_with, incomparables = NA)
     }
     out <- x[index]
     if (!is.na(default)) out[which(is.na(index))] <- default
@@ -71,9 +72,9 @@ lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = N
         units <- "month"
         n <- 3 * n
       }
-      index <- match(along_with - period(n, units = units), along_with, incomparable = NA)
+      index <- match(along_with - period(n, units = units), along_with, incomparables = NA)
     } else{
-      index <- match(along_with + n, along_with, incomparable = NA)
+      index <- match(along_with + n, along_with, incomparables = NA)
     }
 
     out <- x[index]

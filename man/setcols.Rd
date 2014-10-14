@@ -12,6 +12,8 @@ setcols_(x, ..., .dots)
 \item{x}{a data.table}
 
 \item{...}{Variables to keep. See the \link[dplyr]{select} documentation.}
+
+\item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{
 Retain certain columns of a data.table in place (= Stata keep).

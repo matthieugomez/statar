@@ -2,6 +2,7 @@
 #'
 #' @param x a data.table 
 #' @param ... Variables to keep. See the \link[dplyr]{select} documentation.
+#' @param .dots Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
 #' DT <- data.table(

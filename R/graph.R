@@ -9,7 +9,7 @@
 #' @param reorder Should the category with the most count be printed first?
 #' @param facet Should different groups graphed in different windows?
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
-
+#' @param .dots Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
 #' N <- 10000
@@ -98,7 +98,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     if (!length(w)){
       ww <- NULL
     }
-    x <-  suppressWarnings(suppressMessages(melt(x, measure.vars = vars, variable.name = variable, value.name = value)))
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))
     evaldt(x[, .variable := as.factor(.variable)])
     if (length(byvars)){
       print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
@@ -223,15 +223,11 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
 
 
 
-
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  require(grid)
-
   # Make a list from the ... arguments and plotlist
   plots <- c(list(...), plotlist)
-
   numPlots = length(plots)
-
   # If layout is NULL, then use 'cols' to determine layout
   if (is.null(layout)) {
     # Make the panel
@@ -240,7 +236,6 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
                     ncol = cols, nrow = ceiling(numPlots/cols))
   }
-
  if (numPlots==1) {
     print(plots[[1]])
 
@@ -259,34 +254,5 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
-
-
-
-
-#library(ggplot2)
-#library(tidyr)
-#
-#N=1e4; K=100
-#DT <- data.table(
-#  id = sample(2, N, TRUE),
-#  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]
-#  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749
-#  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749
-#)
-#DT[, id:= as.factor(id)]
-#DT <- gather(DT, variable, value, starts_with("v"))
-#
-## theme
-#theme = theme_set(theme_minimal())
-#theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=#element_blank())
-#theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = #element_blank(), axis.title.x=element_blank())
-#theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = #element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))
-#
-#mean.n <- function(x){ return(c(y = median(x)*0.97, label = round(mean(x),2))) }
-#
-##Data
-#ggplot(DT, mapping=aes_string(y = "value", x = "id")) + geom_boxplot(outlier.colour = NULL, #aes_string(colour="id", fill="id"))  +  stat_summary(geom = "crossbar", width=0.65, fatten=0, #aes_string(colour = "id"), fill = "white", fun.data =  mean_cl_boot)   + facet_wrap(facets = ~# variable, scales = "free") 
-#
-#+ stat_summary(geom = "crossbar", width=0.65, fatten=0, aes_string(colour = "id"), fun.data =  function(x){m <- mean(x); c(y=m,ymin=m,ymax=m)})
 
 
