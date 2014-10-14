@@ -126,7 +126,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]
             N <- ans[, sum(get(w))]
             ans2 <- copy(ans)
-            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = c(bin)]
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), get(w), na.rm = TRUE)), by = c(bin)]
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)
             }
         } else{
