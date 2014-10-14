@@ -146,7 +146,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             N <- ans[, sum(get(w))]
             ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = c(bin)]
             # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")
-             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= count)) + geom_point() + expand_limits(y = 0)
           }
         }
       } 
