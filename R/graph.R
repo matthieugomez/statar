@@ -163,6 +163,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     i <- 0
       for (v in vars){
         ans <- x[, c(group, v, w, along_with), with = FALSE]
+        print(glimpse(ans))
         i <- i+1
         if (length(along_with)){
           if (type == "line"){
