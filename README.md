@@ -12,8 +12,7 @@ devtools::install_github("matthieugomez/appliedr")
 
 The package should be loaded after `dplyr`  and `lubridate` since it overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`.
 
-# General
-## vector functions
+# Vector functions
 The package adds the following vector functions
 ````R
 
@@ -38,7 +37,7 @@ winsorize(v, probs = c(0.01, 0.99))
 winsorize(v, cutpoints = c(1, 50))
 ````
 
-## data.table functions
+# data.table functions
 
 ````R
 #setcols keeps certain columns
