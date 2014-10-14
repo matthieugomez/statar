@@ -59,7 +59,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
 
   if (!length(w)){
     assign_var(x, w)
-    evaldt(x[, .w := 1])
+    x[, (w) := 1]
     ww <- NULL
   } else{
     ww <- as.name(paste0(w,"/sum(",w,")"))
@@ -84,22 +84,22 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     if (length(byvars)){
       if (length(byvars)>1){
           setkeyv(x, byvars)
-          evaldt(x[, .group := 0])
-          evaldt(x[unique(x), .group := 1])
-          evaldt(x[, .group:= cumsum(.group)])
+          x[, (group) := 0]
+          x[unique(x), (group) := 1]
+          x[, (group):= cumsum(get(group))]
       } else{
         group <- byvars
       }
-      evaldt(x[, .group := as.factor(.group)])
+      x[, (group) := as.factor(get(group))]
     } else{
       group <- factor(0)
-      evaldt(x[, .group := 1])
+      x[, (group) := 1]
     }
     if (!length(w)){
       ww <- NULL
     }
     x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))
-    evaldt(x[, .variable := as.factor(.variable)])
+    x[, (variable) := as.factor(get(variable))]
     if (length(byvars)){
       print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
     } else{
@@ -115,7 +115,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
       for (v in vars){
         i <- i+1
         if (length(along_with)){
-          ans <- evaldt(x[, list(.along_with, .v, .w)])
+          ans <- x[, c(along_with, v, w), with = FALSE]
           nums <- sapply(x, is.numeric)
           nums_name <- names(nums[nums==TRUE])
           vars=intersect(vars,nums_name)
@@ -123,27 +123,28 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             if (type == "line"){
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() 
             } else{
-            evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
-            evaldt(N <- ans[, sum(.w)])
-            ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE)), by = bin])
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]
+            N <- ans[, sum(get(w))]
+            ans2 <- copy(ans)
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)
             }
         } else{
-        ans <- evaldt(x[, list(.v, .w)])
-        dummy <- evaldt(is.integer(ans[,.v]) + is.character(ans[,.v]))
+        ans <- x[, c(v, w), with = FALSE]
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])
           if (dummy) {
             if (reorder){ 
-              ans <- evaldt(ans[, list(.w, .count = .N), by = .v])
+              ans[, (count) := .N, by = (v)]
               setkeyv(ans,c(count, v))
-              evaldt(ans[, .v := factor(.v, levels = unique(.v), ordered = TRUE)])
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]
             } else{
-              evaldt(ans[, .v := as.factor(.v)])
+              ans[, (v) := as.factor(get(v))]
             }
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)
           } else{ 
-            evaldt(ans[, .bin := .bincode(.v, breaks = seq(min(.v, na.rm = TRUE), max(.v, na.rm = TRUE), length = 100))])
-            evaldt(N <- ans[, sum(.w)])
-            ans <- evaldt(ans[, list(.v = mean(.v, na.rm = TRUE), count = sum(.w / N, na.rm = TRUE)), by = .bin])
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]
+            N <- ans[, sum(get(w))]
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]
             # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")
              g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)
           }
@@ -152,9 +153,9 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   } else{
     if (length(byvars)>1){
       setkeyv(x, byvars)
-      evaldt(x[, .group := 0])
-      evaldt(x[unique(x), .group := 1])
-      evaldt(x[, .group:= cumsum(.group)])
+      x[, (group) := 0]
+      x[unique(x), (group) := 1]
+      x[, (group):= cumsum(get(group))]
     } else{
       group <- byvars
     }
@@ -171,32 +172,33 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))
             }
           } else{
-            evaldt(ans[, .bin := .bincode(.along_with, breaks = seq(min(.along_with, na.rm = TRUE), max(.along_with, na.rm = TRUE), length = 20))])
-            evaldt(N <- ans[, sum(.w)])
-            ans2 <- evaldt( ans[, list(.along_with = mean(.along_with), .v = weighted.mean(.v,  .w, na.rm = TRUE), .group), by = list(.group, .bin)])
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]
+            N <- ans[, sum(get(w))]
+            ans2 <- copy(ans)
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]
               if (!facet){
-                evaldt(ans[, .group:= as.factor(.group)])
-                evaldt(ans2[, .group:= as.factor(.group)])
+                ans[, (group):= as.factor(get(group))]
+                ans2[, (group):= as.factor(get(group))]
                 g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)
               } else{
                 g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))
               }
             } 
         } else{
-          dummy <- evaldt(is.integer(ans[,.v])+ is.character(ans[,.v]))
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])
           if (dummy) {
             # same order across groups
             setkeyv(ans, c(v, group))
-            evaldt(ans[, .v := as.factor(.v)])
+            ans[, (v) := as.factor(get(v))]
             if (!facet){
-              evaldt(ans[, .group:= as.factor(.group)])
+              ans[, (group):= as.factor(get(group))]
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)
             } else{
                 g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))
             }
           } else{ 
             if (!facet){
-              evaldt(ans[, .group:= as.factor(.group)])
+              ans[, (group):= as.factor(get(group))]
               g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)
             } else{            
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)
