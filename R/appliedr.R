@@ -1,4 +1,4 @@
-#' The statar package
+#' A package for applied research
 #'
 #' @docType package
 #' @name statar

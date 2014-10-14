@@ -1,8 +1,8 @@
-Package: statar
-Title: Stata Commands in R
+Package: appliedr
+Title: A R package for applied data analysis
 Version: 0.1
 Author: Matthieu Gomez <mattg@princeton.edu>
-Description: R commands for Stata users
+Description: A set of useful commands for applied data analysis
 Depends:
     R (>= 3.1.0)
 Imports:

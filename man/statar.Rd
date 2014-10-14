@@ -3,8 +3,8 @@
 \name{statar}
 \alias{statar}
 \alias{statar-package}
-\title{The statar package}
+\title{A package for applied research}
 \description{
-The statar package
+A package for applied research
 }
 

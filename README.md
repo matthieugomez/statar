@@ -1,12 +1,12 @@
-statar
+appliedr
 ======
 
-A set of R commands for data manipulation built on data.table, dplyr and ggplot2.
+A set of R commands for data analysis built on data.table, dplyr and ggplot2.
 
 The package can be installed via `devtools`
 
 ````R
-devtools::install_github("matthieugomez/statar")
+devtools::install_github("matthieugomez/appliedr")
 ````
 
 The package should be loaded after `dplyr`  and `lubridate` since it overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`.
@@ -31,7 +31,7 @@ sample_mode(c(1, 2))
 sample_mode(c(NA, NA, 1))
 sample_mode(c(NA, NA, 1), na.rm = TRUE)
 
-# partition creates integer variable for quantile categories (corresponds to Stata xtile)
+# partition creates integer variable for quantile categories (corresponds to Stata xtile, or R .bincode)
 v <- c(NA, 1:10)                   
 partition(v, n_quantiles = 3) # 3 groups based on terciles
 partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
