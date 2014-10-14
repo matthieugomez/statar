@@ -14,9 +14,8 @@ The package should be loaded after `dplyr`  and `lubridate` since it overwrites 
 
 ## vector functions
 The package adds the following vector functions
+
 ````R
-
-
 # sample_mode returns the statistical mode
 sample_mode(c(1, 2, 2))
 sample_mode(c(1, 2))
@@ -81,7 +80,6 @@ date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
 datem <- floor_date(date, "month")
 value <- c(4.1, 4.5, 3.3, 5.3)
 lag(value, units = "month", along_with = datem) 
-
 
 # fill_gap fills in gaps in a data.table time variable (corresponds to Stata tsfill)
 DT <- data.table(
@@ -178,9 +176,11 @@ graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
 ````
 <img src="image/v2by.png" height = "400">
 
-## Standard Evaluation
+# Syntax
 
-Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
+Functions with the prefix `set` modify the input data.table in place.
+
+Function selects variables similarly to `dplyr` syntax. Each function has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance, the SE version of `sum_up` is `sum_up_`.
 
 ````R
 # NSE version

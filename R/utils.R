@@ -12,12 +12,10 @@ deparse_all <- function(x) {
 
 
 
-#' @export
 assign_var <- function(x, ..., env = parent.frame(), inherits = FALSE){
     names <- sapply(lazy_dots(...), function(x){as.character(x$expr)})
     assign_var_(x = x, names = names, inherits = inherits, env = parent.frame())
 }
-#' @export
 assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
     for (name in names){
         tempname <- tempname(paste("temp",name,sep="_"), where = env, inherits = inherits)
@@ -25,7 +23,6 @@ assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
     }
 }
 
-#' @export
 evaldt <- function(x, env = parent.frame()){
     x <- substitute(x)
     names <- ls(all.names = TRUE, envir = env)
@@ -96,7 +93,6 @@ set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){
     eval(call)
 }
 
-#' @export
 set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){
     i = substitute(i)
     fun = substitute(fun)
