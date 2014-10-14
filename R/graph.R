@@ -186,6 +186,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             } 
         } else{
           dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])
+          print(dummy)
           if (dummy) {
             # same order across groups
             setkeyv(ans, c(v, group))
