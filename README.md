@@ -50,6 +50,8 @@ winsorize(v, cutpoints = c(1, 50))
 ## verbs
 The package adds the following verbs for data.tables.  Syntax for variable selections works similarly to `dplyr`.  
 
+
+
 ````R
 library(data.table)
 
@@ -77,7 +79,11 @@ sum_up(DT, starts_with("v"), by = v1)
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = a)
 duplicates(DT, by = list(a,b))
+````
 
+## Panel data
+
+````R
 # fill_gap fills in gaps in a time variable (corresponds to Stata tsfill)
 DT <- data.table(
     id    = c(1, 1, 1, 2, 2),
@@ -104,17 +110,10 @@ setna(DT, value, along_with = date, by = id)
 setna(DT1)
 setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
-
 ````
 
-Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
 
-````R
-# NSE version
-sum_up(DT, list(v2, v3), by = list(id,v1))
-# SE version
-sum_up_(DT, .dots = c("v2","v3"), by = c("id","v1"))
-````
+
 
 ## join
 `join` is a wrapper for data.table merge functionalities.
@@ -181,7 +180,16 @@ graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
 ````
 <img src="image/v2by.png" height = "400">
 
+## Standard Evaluation
 
+Every function also has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance,
+
+````R
+# NSE version
+sum_up(DT, list(v2, v3), by = list(id,v1))
+# SE version
+sum_up_(DT, .dots = c("v2","v3"), by = c("id","v1"))
+````
 
 # others
 - A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
