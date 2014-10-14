@@ -14,7 +14,6 @@
 #' @export
 winsorize <- function(x, probs = NULL, cutpoints = NULL , replace = c(cutpoints[1], cutpoints[2]), verbose = TRUE){
   dummy = is.integer(x)
-  if (is.integer(x)) cutpoints <- cutpoints
   if (!is.null(probs)){
       stopifnot(is.null(cutpoints))
       stopifnot(length(probs)==2)
@@ -45,7 +44,6 @@ winsorize <- function(x, probs = NULL, cutpoints = NULL , replace = c(cutpoints[
 #' @rdname winsorize
 winsorise <- function(x, probs = NULL, cutpoints = NULL , replace = c(cutpoints[1], cutpoints[2]), verbose = TRUE){
   dummy = is.integer(x)
-  if (is.integer(x)) cutpoints <- cutpoints
   if (!is.null(probs)){
       stopifnot(is.null(cutpoints))
       stopifnot(length(probs)==2)

@@ -66,7 +66,11 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
   if (winsorize){
     v <-  c(vars, along_with, w)
-    nums <- sapply(x, is.numeric)
+    if (along_with){
+      nums <- sapply(x, is.numeric)
+    } else{
+      nums <- sapply(x, is.double)
+    }
     nums_name <- names(nums[nums==TRUE])
     v = intersect(v,nums_name)
     x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]
