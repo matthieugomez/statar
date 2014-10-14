@@ -66,7 +66,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
   if (winsorize){
     v <-  c(vars, along_with, w)
-    if (along_with){
+    if (length(along_with)){
       nums <- sapply(x, is.numeric)
     } else{
       nums <- sapply(x, is.double)

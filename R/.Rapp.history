@@ -1,3 +1,96 @@
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+library(biglm)#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+?expand
+?expand_
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+lag
+?lag
+?lead
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+library(biglm)#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+?lag
+?lead
+?expand
+?xtile
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+library(statar)
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
+  if (!is.null(units)) {#
+    if (is.null(date)) stop("units cannot be used without order_by")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    date_origin <- as.Date('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lead_along(x = x, n = n, default = default, date = along))#
+    }#
+    if (unitsc == "week"){#
+      date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      date_elapsed <- as.period(date-date_origin)  %/% months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "quarter"){#
+      date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "year"){#
+      date_elapsed <- as.period(date-date_origin)  %/% years(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }#
+  }#
+#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+  index <- match(date + n, date, incomparable = NA)#
+  out <- x[index]#
+  if (!is.na(default)) out[which(is.na(index))] <- default#
+  attributes(out) <- attributes(x)#
+  out#
+}
 lag_along <- function(x, n = 1L,  units = NULL, date = NULL, default = NA) {#
     if (!is.null(units)) {#
       if (is.null(date)) stop("units cannot be used without order_by")#
@@ -1205,29 +1298,10 @@ library(statar)
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 ?bin
 setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
 devtools::install_github("matthieugomez/appliedr")#
 #
 suppressMessages(library("data.table"))#
 suppressMessages(library("appliedr"))
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-graph(DT)
 N <- 10000#
 DT <- data.table(#
   id = sample(c("id1","id2","id3"), N, TRUE),#
@@ -1237,58 +1311,6 @@ DT <- data.table(#
 )#
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]#
 graph(DT)
-graph(DT, by = id)
-graph(DT, by = id, type = "boxplot")
-graph(DT, list(v3, v4), along_with = v2)
-graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
-glimpse(DT)
-library(dplyr)
-glimpse(DT)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/appliedr")#
-#
-suppressMessages(library("data.table"))#
-suppressMessages(library("appliedr"))#
-suppressMessages(library("tidyr"))
-graph(DT, by = id)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/appliedr")#
-#
-suppressMessages(library("data.table"))#
-suppressMessages(library("appliedr"))#
-suppressMessages(library("tidyr"))
-graph(DT, by = id)
-DT
-DT
-glimpse(DT)
-ans <- DT[, "v1", with = FALSE
-]
-glimpse(ans)
-DT <- DT[, "v1", with = FALSE]
-DT
-glimpse(DT)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/appliedr")#
-#
-suppressMessages(library("data.table"))#
-suppressMessages(library("appliedr"))#
-suppressMessages(library("tidyr"))
-N <- 10000#
-DT <- data.table(#
-  id = sample(c("id1","id2","id3"), N, TRUE),#
-  v1 = sample(c(1:5), N, TRUE),#
-  v2 = rnorm(N, sd = 20),#
-  v3 = sample(runif(100, max=100), N, TRUE)#
-)#
-DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]#
-graph(DT)
-as.integer(3.2)
-id.double[DT, v1]
-id.double(DT[ v1])
-id.double(DT[,v1])
-is.double(DT[,v1])
-DT
-glimpse(DT)
 setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
 #' Experimental function to graph a dataset#
 #' #
@@ -1356,7 +1378,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }#
   if (winsorize){#
     v <-  c(vars, along_with, w)#
-    if (along_with){#
+    if (length(along_with)){#
       nums <- sapply(x, is.numeric)#
     } else{#
       nums <- sapply(x, is.double)#
