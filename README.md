@@ -59,7 +59,7 @@ DT <- data.table(
   v1 = c(1,1),
   v2 = c(2,1)
 )
-setcols(DT, id, v2)
+setcols(DT, list(id, v2))
 setcols(DT, -id)
 
 # sum_up prints detailed summary statistics (corresponds to Stata summarize)
@@ -111,7 +111,7 @@ Every function also has a version that accepts strings, formulas or quoted expre
 
 ````R
 # NSE version
-sum_up(DT, v2, v3, by = list(id,v1))
+sum_up(DT, list(v2, v3), by = list(id,v1))
 # SE version
 sum_up_(DT, .dots = c("v2","v3"), by = c("id","v1"))
 ````
@@ -146,7 +146,7 @@ join(x, y, type = "left", check = m~1, inplace = TRUE)
 
 
 ## graphs
-`graph` is a wrapper for `ggplot2` functionalities, useful for interactive explorations
+`graph` is a wrapper for `ggplot2` functionalities, useful for interactive exploration of datasets
 
 ````R
 N <- 10000
@@ -172,12 +172,12 @@ graph(DT, by = id, type = "boxplot")
 <img src="image/box.png" height = "400">
 
 ````R
-graph(DT, v3, v4, along_with = v2)
+graph(DT, list(v3, v4), along_with = v2)
 ````
 <img src="image/v2.png" height = "400">
 
 ````R
-graph(DT, v3, v4, along_with = v2, by = id, type = "loess")
+graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
 ````
 <img src="image/v2by.png" height = "400">
 
