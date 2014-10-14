@@ -12,7 +12,7 @@ devtools::install_github("matthieugomez/appliedr")
 
 The package should be loaded after `dplyr`  and `lubridate` since it overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`.
 
-## Vector functions
+## vector functions
 The package adds the following vector functions
 ````R
 
@@ -67,7 +67,7 @@ duplicates(DT, by = list(a,b))
 ````
 
 ## Panel Data
-The package allows to lag variable, fills gaps, and replaces NA along a time variable within groups.
+The package allows to lag variable, fills gaps, and replaces NA along a time variable within groups. Different time units can be specified.
 
 ````R
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
