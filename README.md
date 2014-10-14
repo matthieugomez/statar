@@ -12,7 +12,7 @@ devtools::install_github("matthieugomez/appliedr")
 
 The package should be loaded after `dplyr`  and `lubridate` since it overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`.
 
-# Vector functions
+## Vector functions
 The package adds the following vector functions
 ````R
 
@@ -37,7 +37,7 @@ winsorize(v, probs = c(0.01, 0.99))
 winsorize(v, cutpoints = c(1, 50))
 ````
 
-# data.table functions
+## data.table functions
 
 ````R
 #setcols keeps certain columns
@@ -189,7 +189,7 @@ sum_up(DT, list(v2, v3), by = list(id,v1))
 sum_up_(DT, .dots = c("v2","v3"), by = c("id","v1"))
 ````
 
-# others
+# Others
 - A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
