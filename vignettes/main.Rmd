@@ -1,16 +1,13 @@
-appliedr
-======
-
-A set of R commands for data analysis built on data.table, dplyr and ggplot2.
-
-The package can be installed via `devtools`
-
-````R
-devtools::install_github("matthieugomez/appliedr")
-````
-
-
-The package should be loaded after `dplyr`  and `lubridate` since it overwrites `dplyr::lag`, `dplyr::lead`, and `lubridate::floor_date`.
+---
+title: "Applied R"
+author: "Matthieu Gomez"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
 
 ## vector functions
 The package adds the following vector functions
@@ -154,27 +151,27 @@ DT <- data.table(
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 graph(DT)
 ````
-<img src="image/output_2_0.png" height = "400">
+<img src="output_2_0.png" height = "400">
 
 ````R
 graph(DT, by = id)
 ````
-<img src="image/output_3_0.png" height = "400">
+<img src="output_3_0.png" height = "400">
 
 ````R
 graph(DT, by = id, type = "boxplot")
 ````
-<img src="image/box.png" height = "400">
+<img src="box.png" height = "400">
 
 ````R
 graph(DT, list(v3, v4), along_with = v2)
 ````
-<img src="image/v2.png" height = "400">
+<img src="v2.png" height = "400">
 
 ````R
 graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
 ````
-<img src="image/v2by.png" height = "400">
+<img src="v2by.png" height = "400">
 
 # Syntax
 
@@ -200,5 +197,3 @@ sum_up_(DT, .dots = c("v2","v3"), by = c("id","v1"))
   tempname(globalenv())
   tempname(data.table(temp = 1))
   ````
-
-
