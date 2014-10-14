@@ -47,14 +47,10 @@ winsorize(v, cutpoints = c(1, 50))
 
 # data.table functions
 
-## verbs
+## Verbs
 The package adds the following verbs for data.tables.  Syntax for variable selections works similarly to `dplyr`.  
 
-
-
 ````R
-library(data.table)
-
 #setcols keeps certain columns
 DT <- data.table(
   id = c(1,2),
@@ -81,7 +77,7 @@ duplicates(DT, by = a)
 duplicates(DT, by = list(a,b))
 ````
 
-## Panel data
+## Panel Data
 
 ````R
 # fill_gap fills in gaps in a time variable (corresponds to Stata tsfill)
@@ -115,7 +111,7 @@ setna(DT3, value, roll = "nearest")
 
 
 
-## join
+## Join
 `join` is a wrapper for data.table merge functionalities.
 
 - The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
@@ -124,7 +120,6 @@ setna(DT3, value, roll = "nearest")
 - The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
 
 ````R
-library(data.table)
 x <- data.table(a = rep(1:2, each = 3), b = 1:6)
 y <- data.table(a = 0:1, bb = 10:11)
 # outer corresponds to Stata joinby keep(master matched using)
@@ -144,7 +139,7 @@ join(x, y, type = "left", check = m~1, inplace = TRUE)
 ````
 
 
-## graphs
+## Graphs
 `graph` is a wrapper for `ggplot2` functionalities, useful for interactive exploration of datasets
 
 ````R
