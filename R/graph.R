@@ -64,7 +64,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   } else{
     ww <- as.name(paste0(w,"/sum(",w,")"))
   }
-  print(glimpse(x))
   if (winsorize){
     v <-  c(vars, along_with, w)
     nums <- sapply(x, is.numeric)
@@ -72,7 +71,6 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     v = intersect(v,nums_name)
     x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]
   }
-  print(glimpse(x))
 
   if (type == "boxplot"){
     old = theme_get()
