@@ -4,6 +4,7 @@
 #' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. 
 #' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)
 #' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints
+#' @param w A variable specifying weight in case the option n_quantiles is specified.
 #' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
 #' @examples 
 #' v <- c(NA, 1:10)                   
@@ -14,7 +15,7 @@
 partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL, w = NULL){
   if (!is.null(n_quantiles)){
   if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")
-      cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)
+      cutpoints <- tail(head(wtd.quantile(x, seq(0, 1, length = n_quantiles + 1), type ="i/n", na.rm = TRUE, w = w), -1),-1)
   } else if (!is.null(probs)){
 	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")
 	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)

@@ -7,9 +7,11 @@ sample_mode(x, na.rm = FALSE)
 }
 \arguments{
 \item{x}{A vector of values}
+
+\item{na.rm}{Should NA values dropped?}
 }
 \value{
-One mode of the vector
+Returns one mode of the vector (in case of ties, the first value is chosen)
 }
 \description{
 Statistical mode

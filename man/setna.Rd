@@ -29,6 +29,7 @@ setna_(x, ..., .dots, along_with = NULL, by = NULL, roll = TRUE,
 fill NA in place based on non missing observations
 }
 \examples{
+library(data.table)
 DT <- data.table(
  id    = c(1, 1, 1, 1, 2, 2),
  date  = c(1992, 1989, 1991, 1993, 1992, 1991),

@@ -4,6 +4,7 @@
 #' @param cutpoints Cutpoints under and above which are defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.
 #' @param probs A vector of probabilities that can be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)
 #' @param replace Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.
+#' @param verbose Boolean. Should the percentage of replaced values printed?
 #' @examples                          
 #' v <- c(1:4, 99)
 #' winsorize(v)

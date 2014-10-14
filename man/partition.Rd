@@ -14,6 +14,8 @@ partition(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL,
 \item{probs}{A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
 
 \item{n_quantiles}{A numeric specifying number of quantiles. Can be used instead of cutpoints}
+
+\item{w}{A variable specifying weight in case the option n_quantiles is specified.}
 }
 \value{
 An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.

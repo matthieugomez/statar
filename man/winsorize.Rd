@@ -18,6 +18,8 @@ winsorise(x, probs = NULL, cutpoints = NULL, replace = c(cutpoints[1],
 \item{cutpoints}{Cutpoints under and above which are defined outliers. Default is (median - five times interquartile range, median + five times interquartile range). Compared to bottom and top percentile, this takes into account the whole distribution of the vector.}
 
 \item{replace}{Values by which outliers are replaced. Default to cutpoints. A frequent alternative is NA.}
+
+\item{verbose}{Boolean. Should the percentage of replaced values printed?}
 }
 \description{
 Winsorize a numeric vector

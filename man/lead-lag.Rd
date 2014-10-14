@@ -18,11 +18,11 @@ lead(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL,
 
 \item{order_by}{override the default ordering to use another vector}
 
+\item{units}{A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
+
 \item{along_with}{compute lag with respect to this vector instead of previous row}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
-
-\item{units.}{A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
 }
 \description{
 lead and lag are useful for comparing values for date offset by a constant

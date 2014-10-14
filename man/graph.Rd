@@ -5,14 +5,12 @@
 \title{Experimental function to graph a dataset}
 \usage{
 graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
-  winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE,
-  type = if (is.null(substitute(along_with))) {     "density" } else {    
-  "lm" })
+  winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if
+  (is.null(substitute(along_with))) {     "density" } else {     "lm" })
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
-  reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1,
-  verbose = FALSE, type = if (is.null(along_with)) {     "density" } else { 
-     "lm" })
+  reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE,
+  type = if (is.null(along_with)) {     "density" } else {     "lm" })
 }
 \arguments{
 \item{x}{A data.table.}
@@ -37,6 +35,7 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 Experimental function to graph a dataset
 }
 \examples{
+library(data.table)
 N <- 10000
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
@@ -50,6 +49,6 @@ graph(DT, by = id)
 graph(DT, by = id, facet = TRUE)
 graph(DT, by = id, type = "boxplot")
 graph(DT, v3, v4, along_with = v2)
-graph(DT, v3, v4, along_with = v2, by = id, type = "loeless")
+graph(DT, v3, v4, along_with = v2, by = id, type = "loess")
 }
 

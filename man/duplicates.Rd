@@ -24,6 +24,7 @@ a data.table with rows in groups that have duplicates.
 returns duplicated rows
 }
 \examples{
+library(data.table)
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = "a")
 duplicates(DT, by = list(a,b))

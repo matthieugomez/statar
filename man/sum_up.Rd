@@ -4,11 +4,9 @@
 \alias{sum_up_}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
-  graph = FALSE, minimal = TRUE)
+sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 
-sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
-  graph = FALSE, minimal = TRUE)
+sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL)
 }
 \arguments{
 \item{x}{a data.table}
@@ -19,12 +17,15 @@ sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
 
 \item{w}{Weights. Default to NULL.}
 
+\item{na.rm}{A boolean. default to TRUE}
+
 \item{by}{Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.}
 }
 \description{
 Gives summary statistics (corresponds to Stata command summarize)
 }
 \examples{
+library(data.table)
 N <- 1000; K <- 10
 DT <- data.table(
   id = 1:N,

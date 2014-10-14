@@ -11,6 +11,7 @@
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 
 #' @examples
+#' library(data.table)
 #' N <- 10000
 #' DT <- data.table(
 #'   id = sample(c("id1","id2","id3"), N, TRUE),
@@ -24,15 +25,15 @@
 #' graph(DT, by = id, facet = TRUE)
 #' graph(DT, by = id, type = "boxplot")
 #' graph(DT, v3, v4, along_with = v2)
-#' graph(DT, v3, v4, along_with = v2, by = id, type = "loeless")
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")
 #' @export
-graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {
-  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, size = size, verbose = verbose, type = type)
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)
 }
 
 #' @export
 #' @rdname graph
-graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, size = 1, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){
   type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x),w))

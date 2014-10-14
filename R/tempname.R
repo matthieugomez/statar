@@ -3,7 +3,6 @@
 #' @param prefix A character vector that specifies prefix for new name
 #' @param where A chracter vector, list or an environment
 #' @param inherits  Should the name unique also in the enclosing frames of the environment?
-#' @param n Number of names to generate
 #' @examples
 #' tempname(c("temp","temp1"))
 #' tempname(globalenv())

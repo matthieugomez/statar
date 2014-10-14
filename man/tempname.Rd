@@ -11,8 +11,6 @@ tempname(where = globalenv(), prefix = "temp", inherits = TRUE)
 \item{prefix}{A character vector that specifies prefix for new name}
 
 \item{inherits}{Should the name unique also in the enclosing frames of the environment?}
-
-\item{n}{Number of names to generate}
 }
 \description{
 Create unique names within a list, a data.frame, or an environment

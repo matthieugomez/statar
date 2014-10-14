@@ -5,7 +5,10 @@
 #' @param w Weights. Default to NULL. 
 #' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
+#' @param na.rm A boolean. default to TRUE
+
 #' @examples
+#' library(data.table)
 #' N <- 1000; K <- 10
 #' DT <- data.table(
 #'   id = 1:N,
@@ -17,14 +20,14 @@
 #' sum_up(DT, starts_with("v"), by = v1)
 #' sum_up(DT, by = v1, graph = TRUE)
 #' @export
-sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL, graph = FALSE, minimal = TRUE) {
+sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {
   sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by), graph = graph, minimal = minimal)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, graph = FALSE, minimal = TRUE) {
+sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
   if (!length(w)) w <- NULL
@@ -227,8 +230,8 @@ describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOp
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
         sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1), na.rm=na.rm, weights = w)
       } else{
-        m <-mean(x, na.rm = na.rm, w = w)
-        sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)
+        m <-mean(x, na.rm = na.rm)
+        sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
