@@ -1,1389 +1,221 @@
-felm(v1 ~ v2 | 0 | (v2 ~ v3) |, df)
-felm(v1 ~ v2 |  | (v2 ~ v3) |, df)
-felm(v1 ~ v2 |  | (v2 ~ v3) |0, df)
-felm(v1 ~ v2 |  | (v2 ~ v3), df)
-felm(v1 ~ v2 |0| (v2 ~ v3), df)
-l= c("col1","some","col3")
-l[c(1,NA)]
-l[c(1,NA)] <- c("col11","col12")
-l[c(TRUE,NA)] <- c("col11","col12")
-l[l=="col1"] <- c("col11","col12")
-l=="col1"
-l <- c("col1", NA, "col3")#
-l[l==col1] <- c("col1")
-l <- c("col1", NA, "col3")#
-l[l == "col1"] <- c("col1")
-l
-condition = l== "col1"
-condition
-l[condition] <- c("col1")
-l[c(TRUE,NA,FALSE) <- c("col1")
-)
-l[c(TRUE,NA,FALSE)] <- c("col1")
-l <- c("col1", NA, "col3")#
-condition = l== "col1"#
-l[condition] <- c("col1")#
-l[l == "col1"] <- c("col1")#
-l[which(l == "col1")
-]
-l <- c("col1", NA, "col3")#
-condition = l== "col1"#
-l[condition] <- c("col1")#
-l[l == "col1"] <- c("col1")#
-l[which(condition)] <- c("col1")
-l
-l[NA,1]
-l[c(NA,1)]
-l <- c("col1", "col2", "col3")#
-    l[c(NA,1)]
-l[c(TRUE, NA, TRUE)]
-l[c(NA, TRUE)]
-l <- c("col1", NA, "col3")#
-	l[which(l == "col1" | l == "col3")]
-l <- c("col1", NA, "col3")#
-	l[l == "col1"]
-l[which(l == "col1")]
-DT
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-lm(v2~v1,DT)
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-lm(v2~v1,DT)
-result <- lm(v2~v1,DT)
-names(result)
-result$coefficients
-result$model
-result
-names(result)
-summary(result)
-list(summary(result))
-names(summary(result))
-result <- felm(v2~v1,DT)
-library(lfe)
-result <- felm(v2~v1,DT)
-names(result)
-names(result)$se
-result$se
-result$coefficients
-result$robustvcv
-summary(result)
-names(summary(result))
-?summary
-object_size(summary(result))
-library(pryr)
-object_size(summary(result))
-object_size(result)
-result <- lm(y ~ x)
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- lm(v3 ~ v2, DT)
-pryr::object_size(results)
-pryr::object_size(result)
-pryr::object_size(summary(results))
-pryr::object_size(summary(result))
-names(result)
-result$coefficients
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- felm(v3 ~ v2, DT)
-vcov(result)
-result
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- felm(v3 ~ v2|||v1, DT)
-result <- lm(y ~ x)N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result <- felm(v3 ~ v2|0|0|v1, DT)
-names(result)
-vcov(result)
-result$vcv
-result$robustvcv
-object_size(results)
-object_size(result)
-result <- felm(v3~v2|0|0|v1, DT)
-stargazer(result, type = "text")
-library(stargazer)
-stargazer(result, type = "text")
-devtools::install_github("matthieugomez/statar")
-lazy(date)
-library(lazyeval)
-lazy(date0
-)
-lazy(date)
-lazy_eval(lazy(date))
-lazy_eval(lazy(date1))
-select_vars(names(df),lazy(ok))
-library(dplyr)
-select_vars(names(df),lazy(ok))
-select_vars(names(df), args = lazy(ok))
-lazydots
-lazy_dots
-lazykeep = function(df,x){#
-  keep_(df, lazy(x))#
-}#
-keep_ = function(df,x){#
-  df[, lazy_eval(x,df)]#
-}(date)
-df
-df <- data.frame(#
-  id    = c(1, 1, 1, 1, 1, 2, 2),#
-  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-  value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
- )
-keep(df,id)
-keep = function(df,x){#
-  keep_(df, lazy(x))#
-}#
-keep_ = function(df,x){#
-  df[, lazy_eval(x,df)]#
-}
-keep(df,id)
-lazy(date)
-lazy(date1)
-devtools::load_all("/Users/Matthieu/Dropbox/Symlink/Downloads/data.table-master")
-dt <- data.table(id = c(1,2), date = c(1999, 2000))#
-setcolorder(dt, "date", 1)#
-setcolorder(dt, 2, 1)#
-setcolorder(dt, "id", 2)#
-setcolorder(dt, 1, 2)
-devtools::load_all("/Users/Matthieu/Dropbox/Symlink/Downloads/data.table-master")
-library(lfe)
-suppressMessages(library("data.table"))
-N <- 1e3#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-felm(v3 ~ v2, DT)
-felm(v3 ~ 1|0|(v2~v1), DT)
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-n
-f
-felm(v3 ~ 1|0|(v2~v1), DT)
-pform
-parseformula(formula,data)
-knownargs
-sc
-sc <- names(sys.call())[-1]
-sc
-named <- knownargs[pmatch(sc, knownargs)]
-formula
-f
-felm::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
-lfe:::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
-felm = function (formula, data, iv = NULL, clustervar = NULL, exactDOF = FALSE, #
-    subset, na.action, contrasts = NULL, ...) #
-{#
-    knownargs <- c("iv", "clustervar", "cmethod")#
-    sc <- names(sys.call())[-1]#
-    named <- knownargs[pmatch(sc, knownargs)]#
-    for (arg in c("iv", "clustervar")) {#
-        if (!is.null(eval(as.name(arg))) && !(arg %in% named)) {#
-            warning("Please specify the '", arg, "' argument by name, or use a multi part formula. Its position in the argument list will change in a later version")#
-        }#
-    }#
-    mf <- match.call(expand.dots = FALSE)#
-    cmethod <- "cgm"#
-    args <- list(...)#
-    ka <- knownargs[pmatch(names(args), knownargs, duplicates.ok = FALSE)]#
-    names(args)[!is.na(ka)] <- ka[!is.na(ka)]#
-    env <- environment()#
-    lapply(intersect(knownargs, ka), function(arg) assign(arg, #
-        args[[arg]], pos = env))#
-    if (!(cmethod %in% c("cgm", "gaure"))) #
-        stop("Unknown cmethod: ", cmethod)#
-    unk <- setdiff(names(args), knownargs)#
-    if (length(unk) > 0) #
-        stop("unknown arguments ", paste(unk, collapse = " "))#
-    if (missing(data)) #
-        data <- environment(formula)#
-    pf <- parent.frame()#
-    pform <- parseformula(formula, data)#
-    print(formula)#
-    print(pform)#
-}
-felm(v3 ~ 1|0|v2~v1, DT)
-parseformula <- function (form, data) #
-{#
-    f <- as.Formula(form)#
-    len <- length(f)[[2]]#
-    if (len == 1) #
-        return(oldparseformula(form, data))#
-    opart <- formula(f, lhs = 1, rhs = 1)#
-    if (len == 1) #
-        return(list(formula = opart, gpart = ~0, ivpart = ~0, #
-            cpart = ~0))#
-    gpart <- formula(f, lhs = 0, rhs = 2)#
-    if (!nopart(gpart)) {#
-        tm <- terms(gpart, keep.order = TRUE)#
-        parts <- attr(tm, "term.labels")#
-        parts <- parts[parts != "0"]#
-        nm <- parts#
-        glist <- lapply(paste(".G(", parts, ")", sep = ""), function(e) parse(text = e))#
-        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
-            factor(f)#
-        else f#
-        Ginfunc <- function(x, f) {#
-            if (is.factor(x)) {#
-                structure(interaction(factor(f), factor(x), drop = TRUE), #
-                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
-            }#
-            else {#
-                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
-                  fnam = deparse(substitute(f)))#
-            }#
-        }#
-        if (is.environment(data)) {#
-            fl <- lapply(glist, eval, list(.G = Gfunc, `:` = Ginfunc), #
-                data)#
-        }#
-        else {#
-            fl <- lapply(glist, eval, data, as.environment(list(.G = Gfunc, #
-                `:` = Ginfunc)))#
-        }#
-        names(fl) <- nm#
-    }#
-    else {#
-        fl <- NULL#
-    }#
-    if (len == 2) #
-        return(list(formula = opart, fl = fl, gpart = gpart, #
-            ivpart = ~0, cpart = ~0))#
-    ivparts <- formula(f, lhs = 0, rhs = 3, drop = TRUE)#
-    if (!nopart(ivparts) && length(ivparts[[2]]) > 1 && ivparts[[2]][[1]] == #
-        "(") {#
-        ivspec <- as.Formula(ivparts[[2]][[2]])#
-        lhs <- formula(ivspec, rhs = 0)#
-        ivpart <- lapply(seq_along(all.vars(lhs)), function(i) formula(ivspec, #
-            lhs = i))#
-    }#
-    else {#
-        ivpart <- NULL#
-    }#
-    if (len == 3 && !is.null(ivpart)) #
-        return(list(formula = opart, fl = fl, iv = ivpart, gpart = gpart, #
-            ivpart = ivparts, cpart = ~0))#
-    if (len == 3 && is.null(ivpart)) {#
-        cpart <- ivparts#
-        ivparts <- NULL#
-    }#
-    else {#
-        cpart <- formula(f, lhs = 0, rhs = 4, drop = TRUE)#
-    }#
-    if (!nopart(cpart)) {#
-        tm <- terms(cpart, keep.order = TRUE)#
-        nm <- parts <- attr(tm, "term.labels")#
-        clist <- lapply(paste("factor(", parts, ")", sep = ""), #
-            function(e) parse(text = e))#
-        cluster <- lapply(clist, eval, data)#
-        names(cluster) <- nm#
-    }#
-    else {#
-        cluster <- NULL#
-    }#
-    list(formula = opart, fl = fl, iv = ivpart, cluster = cluster, #
-        gpart = gpart, ivpart = ivparts, cpart = cpart)#
-}
-felm(v3 ~ 1|0|v2~v1, DT)
-library(Formula)
-felm(v3 ~ 1|0|v2~v1, DT)
-oldparseformula = function (formula, data) #
-{#
-    trm <- terms(formula, specials = c("G"))#
-    feidx <- attr(trm, "specials")$G + 1#
-    va <- attr(trm, "variables")#
-    festr <- paste(sapply(feidx, function(i) deparse(va[[i]])), #
-        collapse = "+")#
-    if (festr != "") {#
-        formula <- update(formula, paste(". ~ . -(", festr, ") - 1"))#
-        felist <- parse(text = paste("list(", gsub("+", ",", #
-            festr, fixed = TRUE), ")", sep = ""))#
-        nm <- eval(felist, list(G = function(arg) deparse(substitute(arg))))#
-        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
-            factor(f)#
-        else f#
-        Ginfunc <- function(x, f) {#
-            if (is.factor(x)) {#
-                structure(interaction(factor(f), factor(x), drop = TRUE), #
-                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
-            }#
-            else {#
-                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
-                  fnam = deparse(substitute(f)))#
-            }#
-        }#
-        if (is.environment(data)) {#
-            fl <- eval(felist, list(G = Gfunc, `:` = Ginfunc), #
-                data)#
-        }#
-        else {#
-            fl <- local({#
-                eval(felist, data)#
-            }, list(G = Gfunc, `:` = Ginfunc))#
-        }#
-        names(fl) <- nm#
-        gpart <- eval(parse(text = paste("~", paste(nm, collapse = "+"))))#
-        if (is.null(names(fl))) #
-            names(fl) <- paste("fe", 1:length(fl), sep = "")#
-    }#
-    else {#
-        fl <- NULL#
-        gpart <- ~0#
-    }#
-    return(list(formula = formula, fl = fl, gpart = gpart, ivpart = ~0, #
-        cpart = ~0))#
-}
-felm(v3 ~ 1|0|v2~v1, DT)
-library(lfe)
-suppressMessages(library("data.table"))
-N <- 1e3#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-felm(v3 ~ 1|0|v2~v1, DT)
-DT
-felm(v3 ~ 1|0|v2~v1, DT)
-DT
-felm(v3 ~ 1|0|(v2~v1), DT)
-debug(felm)
-felm(v3 ~ 1|0|(v2~v1), DT)
-formula
-pform
-f <- as.Formula(formula)
-f
-felm(v3 ~ 1|0|(v2~v1), DT)
-s
-n
-formula
-data
-p <- as.Formula(formula)
-p
-length(f)[[2]]
-length(p)[[2]]
-length(p)[[1]]
-names(length(p))
-length(p)
-p
-length(formula)
-length(formula)[[2]]
-gpart <-  formula(p, lhs = 0, rhs = 2)
-nopart(gpart)
-ivparts <- formula(p, lhs = 0, rhs = 3, drop = TRUE)
-ivparts
-f
-as.list(body(felm))
-trace(felm, print(mf), at = 40)
-trace(felm, quote(print(mf)), at = 40)
-felm(v3 ~ 1|0|(v2~v1), DT)
-g=function(formula,env){eval(formula,env)}
-f=function(x){assign("t1",1:10,envir = parent.frame()); g(y~t1, parent.frame())}
-f=function(x){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-f(1:10)
-g=function(formula,env){stats::model.frame(formula,env)}
-f(1:10)
-f=function(){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-x <- 1:10
-f(1:10)
-f()
-ls()
-ls(parent.env())
-?ls
-g=function(formula,env){eval(formula,env)}
-g=function(formula,env){stats::model.frame(formula,env)}
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-f()
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
-f()
-f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
-f()
-lfe::project
-library(data.table)
-last(c(1,2))
-library(statar)
-?setcols
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package/R/statar.R")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-?saveRDS
-x <- data.table(a = rep(1:2, each = 3), b=1:6) y <- data.table(a = 0:1, bb = 10:11)
-x <- data.table(a = rep(1:2, each = 3), b=1:6) ; y <- data.table(a = 0:1, bb = 10:11)
-library(data.table)
-x <- data.table(a = rep(1:2, each = 3), b=1:6) ; y <- data.table(a = 0:1, bb = 10:11)
-join(x, y, type = "inner", check = 1~m)
-biglm
-N=2e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-biglm(v1~id)
-biglm(v1~id, DT)
-library(biglm)
-biglm(v1~id, DT)
-?biglm
-?speedlm
-library(speedlm)
-library(speedglm)
-?speedlm
-system.time(speedlm(v1~id,DT))
-system.time(speedlm.fit(v1~id,DT))
-system.time(speedlm(v1~id,DT))
-system.time(biglm(v1~id,DT))
-system.time(speedlm(v1~id,DT))
-system.time(biglm(v1~id,DT))
-object.size(biglm(v1~id,DT))
-object.size(speedlm(v1~id,DT))
-ls(getNamespace("lfe"), all.names=TRUE)
-C_conncomp
-id <- function(){print("1")}
-g<- function(x){lazy(x)}
-g(id)
-library(lazyeval)
-g(id)
-install.packages("lfe")
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-fllibrary(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-library(lfe)
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-felm
-felm::project
-lfe::project
-lfe:::project
-x
-?felm
-remove.packages("lfe")         # revert back to CRAN
-install.packages("data.table")
-install.packages("lfe")
-library(lfe)
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)#
-#> "Error in eval(expr, envir, enclos) : object 'v2(fit)' not found”
-lfe
-sessionInfo()
-lfe
-felm
-project
-lfe::project
-lfe:::project
-doprojols
-felm::doprojols
-felm:::doprojols
-felm::doprojols
-lfe:::doprojols
-library(statar)
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
-year <- c(1992, 1989, 1991, 1990, 1994, 1992, 1991)#
-value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag#
-lag(value, 1, along_with = year) #  returns value in year - 1#
-#
-library(lubridate)#
-date <- mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))#
-value <- c(4.1, 4.5, 3.3, 5.3)#
-datem <- floor_date(date, "month")#
-value_l <- lag(value, months(1), along_with = datem) #
-#
-# tag (corresponds to Stata tag)#
-tag(c(1, 2))#
-tag(c(1, 2), fromLast = TRUE)#
-#
-# sample_mode (corresponds to Stata mode)#
-sample_mode(c(1, 2, 2))#
-sample_mode(c(1, 2))#
-sample_mode(c(NA, NA, 1))#
-sample_mode(c(NA, NA, 1), na.rm = TRUE)#
-#
-# partition creates integer variable for quantile categories (corresponds to Stata xtile)#
-v <- sample(c(NA, 1:10), 10, TRUE)                   #
-partition(v, nq = 3) # 3 groups based on terciles#
-partition(v, cutpoints = c(1, 3)) # 3 groups based on two cutpoints#
-#
-# winsorize (default based on 5 x interquartile range)#
-winsorize(c(1, 2, 99))#
-winsorize(c(1, 2, 99), replace = NA)#
-winsorize(c(1, 2, 3, 99), cutpoints = quantile(c(1, 2, 3, 99), c(0.01, 0.99), type = 1))
-library(data.table)#
-library(dplyr)#
-#
-# sum_up (= Stata summarize)#
-N=1e6; K=100#
-DT <- data.table(#
-  id = 1:N,#
-  v1 = sample(5, N, TRUE),#
-  v2 = sample(1e6, N, TRUE),#
-  )#
-DT %>% sum_up#
-DT %>% sum_up(v2, d=T)#
-DT %>% filter(v1==1) %>% sum_up(starts_with("v"))#
-#
-# fill_gap (= Stata tsfill)#
-DT <- data.table(#
-    id    = c(1, 1, 1, 1, 1, 2, 2),#
-    date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
-    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date)#
-DT %>% group_by(id) %>% fill_gap(value, along_with = date, full = TRUE)#
-#
-# fill na (in a new dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-DT %>% group_by(id) %>% fill_na(value, along_with = date) #
-DT %>% group_by(id) %>% fill_na(value, along_with = date, roll = "nearest")#
-#
-# fill na (in the original dataset)#
-DT <- data.table(#
- id    = c(1, 1, 1, 1, 1, 2, 2),#
- date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991), #
- value = c(NA, NA, 3, 5.3, 3.0, 3.2, 5.2)#
-)#
-setkeyv(DT,c("id", "date"))#
-setna(DT, "value")#
-setna(DT, "value", roll = "nearest")
-x <- data.table(a = rep(1:2, each = 3), b = 1:6)#
-y <- data.table(a = 0:1, bb = 10:11)#
-# outer corresponds to Stata joinby keep(master matched using)#
-join(x, y, type = "outer")#
-# left corresponds to Stata joinby keep(master matched)#
-join(x, y, type = "left")#
-# right corresponds to Stata joinby keep(mached using)#
-join(x, y, type = "right")#
-# inner corresponds to Stata joinby keep(matched)#
-join(x, y, type = "inner")#
-#
-join(x, y, type = "semi")#
-join(x, y, type = "anti")#
-join(x, y, type = "outer", check = 1~m)#
-join(x, y, type = "outer", gen = "_merge")
-sessionInfo()
-library(lfe)
-sessionInfo()
-install.packages(lfe)
-install.packages(felm)
-install.packages("felm")
-install.packages("lfe")
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz", repos = NULL, type="source")
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz")
-install.packages("lfe")
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-library(lfe)
-system.info()
-systeminfo()
-session.info()
-sessionInfo()
-library(lfe)
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz")
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz", repo = NULL)
-install.packages("~/Dropbox/Symlink/Downloads/lfe_1.7-1401.tar.gz", repo = NULL, type = "source")
-library(lfe)
-sessionInfo
-sessionInfo()
-library(lfe)#
-f <- function(formula, df){felm(formula,df)}#
-N <- 1e3#
-df <- data.frame(#
-          v1   = sample(10, N, TRUE),#
-          v2   = sample(1e5, N, TRUE),    #
-          v3   = sample(c(1:5), N, TRUE)                    #
-       )#
-f(v1~v2, df)#
-#>(Intercept)          v2  #
-#>  5.332e+00   2.718e-06  #
-f(v1~1|0|(v2~v3),df)
-?felm
-felm
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-?graph
-library(statar)
-?graph
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = new, i = TRUE, by = NULL){#
-  f = substitute(f)#
-  byvars <- names(select_vars_(names(x), by))#
-  newvars <- names(select_vars_(names(x), new))#
-  vvars <- names(select_vars_(names(x), v))#
-  if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-    }#
-    fun <- substitute(function(x){y}, list(y = f))#
-    call <- substitute(dt[i, (new) := lapply(.SD, fun), by = (by), .SDcols= v], list(i = i, fun = fun, v = v, by = by, new = new))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/statar")#
-#
-suppressMessages(library("data.table"))#
-suppressMessages(library("statar"))
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-is.call(sd)
-set_(DT, "v3",0)
-library(dplyr)
-set_(DT, "v3",0)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-dt_env <- function(dt, env) {#
-  env <- new.env(parent = env, size = 2L)#
-  env$dt <- dt#
-  env$vars <- deparse_all(groups(dt))#
-  env#
-}#
-#
-deparse_all <- function(x) {#
-  deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")#
-  vapply(x, deparse2, FUN.VALUE = character(1))#
-}
-set_(DT, "v3",0)
-set_(DT, "v2_new",sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-#
-  if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-    }#
-    fun <- substitute(function(x){y}, list(y = f))#
-    call <- substitute(dt[i, (new) := lapply(.SD, fun), by = (by), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set_(DT, "v2_new",sd, "v2")
-debug(set_)
-set_(DT, "v2_new",sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-#
-  if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-    }#
-    fun <- substitute(function(x){y}, list(y = f))#
-    call <- substitute(dt[i, (new) := lapply(.SD, fun), by = (by), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set_(DT, "v2_new",sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-#
-  if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-    }#
-    fun <- substitute(function(x){y}, list(y = f))#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set_(DT, "v2_new",sd, "v2")
-debug(set_)
-set_(DT, "v2_new",sd, "v2")
-call
-f
-is.function(sd)
-f=substitute(sd)
-is.call(f)
-f=quote(sd)
-is.call(f)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    ff = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-  if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-    } #
-    fun <- substitute(function(x){y}, list(y = f))#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set_(DT, "v2_new",sd, "v2")
-debug(set_)
-set_(DT, "v2_new",sd, "v2")
-call
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set_(DT, "v2_new",sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_new",as.character, "v2")
-DT
-glimpse(DT)
-debug(set_)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_new",as.character, "v2")
-call
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}#
-set_(DT, "v2_new",as.character, "v2")#
-set_(DT, "v2_new",sd, "v2")
-glimpse(DT)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}#
-set_(DT, "v2_new", as.character, "v2")#
-set_(DT, "v2_new", sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}#
-set_(DT, "v2_new", as.character, "v2")
-glimpse(DT)
-data.table
-?data.table
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}#
-set_(DT, "v2_new", as.character, "v2")
-DT
-DT[, "v2_new":= lapply(.SD, as.character), .SDcols = "v2"]
-DT
-glimpse(DT)
-?data.table
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' @export#
-set_ = function(x, new = names(x) , f, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (length(byvars)){#
-        call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-#
-    } else{#
-        call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_new", as.character, "v2")#
-set_(DT, "v2_new", sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_new", as.character, "v2")
-glimpse(DT)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_sd", sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2", sd)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2", sd, i = quote(is.na(v1)))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' @export#
-set_ = function(x, new = NULL , f = NULL, v = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(v)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), v))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (length(byvars)){#
-        call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-#
-    } else{#
-        call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_new", as.character, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_sd", sd, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2", sd)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (length(byvars)){#
-        call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-#
-    } else{#
-        call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-    }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2", sd)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    if (is.null(f)) &  (!is.null(new)) & is.null(old)){#
-        setnames(x,old,new)#
-    } else{#
-        f = substitute(f)#
-        byvars <- names(select_vars_(names(x), by))#
-        if (!length(by)){#
-            by <- NULL#
-        }#
-        if (is.call(f)){#
-          f <- interp(f, .values = list(. = as.name("x")))#
-          fun <- substitute(function(x){y}, list(y = f))#
-        } else{#
-            fun <- f#
-        }#
-        if (length(byvars)){#
-            call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-#
-        } else{#
-            call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-        }#
-        dt_env <- dt_env(x, parent.frame())#
-        eval(call, dt_env)#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    if (is.null(f) &  !is.null(new) & !is.null(old)){#
-        setnames(x,old,new)#
-    } else{#
-        f = substitute(f)#
-        byvars <- names(select_vars_(names(x), by))#
-        if (!length(by)){#
-            by <- NULL#
-        }#
-        if (is.call(f)){#
-          f <- interp(f, .values = list(. = as.name("x")))#
-          fun <- substitute(function(x){y}, list(y = f))#
-        } else{#
-            fun <- f#
-        }#
-        if (length(byvars)){#
-            call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-#
-        } else{#
-            call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-        }#
-        dt_env <- dt_env(x, parent.frame())#
-        eval(call, dt_env)#
-    }#
-}
-set_(DT, "v2_new", as.character, "v2")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_sd", sd, "v2")#
-set_(DT, "v2", sd)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2", "v1")
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2", NULL)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' @export#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, new := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        dt_env <- dt_env(x, parent.frame())#
-        eval(call, dt_env)#
-        }#
-    }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, new := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        dt_env <- dt_env(x, parent.frame())#
-        eval(call, dt_env)#
-        }#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_new", as.character, "v2")#
-set_(DT, "v2_sd", sd, "v2")#
-set_(DT, "v2", NULL)
-DT
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, new := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-set_(DT, "v2_new", as.character, "v2")#
-set_(DT, "v2_sd", sd, "v2")#
-set_(DT, "v2", NULL)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-#' @export#
-set = function(x, new = NULL, f = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), f = f, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    f = substitute(f)#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, new := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_(DT, "v2_new", as.character, "v2")
-setwd("/Users/Matthieu/Dropbox/Symlink")#
+y
 N=1e4; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+)
+N=1e4; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE)                         # int in range [1,5]#
+)
+setkey(DT,id)
+DT[J(id,v1)]
+DT1 <- DT[,list(id,v1)]
+DT[DT1]
+names(DT[J(id,v1)])
+names(DT[DT1])
+setkey(DT,id)#
+names(DT[DT[,list(id,v1)]])
+names(DT[list(id,v1)])
+library(data.table)
+library(dplyr)
+N=1e8; K=100#
+set.seed(1)#
+DF <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(round(runif(100,max=100),4), N, TRUE)                       #
+)
+rm(DF)
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+DT1 <- DT[,names(DT),with=FALSE]
+copy(DT,DT1)
+library(pryr)
+object_size(DT,DT1)
+DT1 <-DT[5*1e7]
+DT1 <-DT[1:(5*1e7)]
+object_size(DT,DT1)
+object_size(DT)
+object_size(DT,DT1)
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+library(data.table)
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+   id = 1:N,#
+   v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+library(plyr)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+library(pryr)
+object_size(DT,DT1)
+object_size(DT)
+object_size(DT,DT1)
+system.time(DT1 <- DT[,c("id")])
+object_size(DT,DT1)
+object_size(DT)
+system.time(DT1 <- DT[,c("id","v1")])
+object_size(DT,DT1)
+DT
+DT1
+system.time(DT1 <- DT[,c("id","v1"),with=FALSE])
+object_size(DT, DT1)
+system.time(DT1 <- setDT(setDF(DT)[,c("id","v1")]))
+object_size(DT, DT1)
+library(dplyr)#
+library(data.table)
+DT1 <- DT %>% mutate(y=mean(v1))
+N=1e8; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(round(runif(100,max=100),4), N, TRUE)                        #
+)
+DT1 <- DT %>% mutate(y=mean(v1))
+object_size(DT,DT1)
+library(pryr)
+object_size(DT,DT1)
+DT1 <- DT %>% select(v1)
+object_size(DT,DT1)
+DF1 <- DF %>% select(v1)#
+object_size(DF,DF1)
+library(pryr)
+library(dplyr)#
+library(data.table)#
+#
+N=1e8; K=100#
+set.seed(1)#
+DF <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(round(runif(100,max=100),4), N, TRUE)                       #
+)#
+object_size(DF)#
+1.2 GB#
+DF1 <- DF %>% mutate(y=mean(v1))#
+object_size(DF,DF1)#
+2 GB#
+DF1 <- DF %>% select(v1)#
+object_size(DF,DF1)#
+2 GB
+names(DF1)
+rm(ls())
+rm(list=ls())
+N=1e8; K=100#
+set.seed(1)#
+DF <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(round(runif(100,max=100),4), N, TRUE)                       #
+)#
+object_size(DF)
+DF1 <- DF %>% select(v1)
+object_size(DF,DF1)
+DT1<-DT[,list(id)]
+setDT(DT)
+setDT(DF)
+DF1<-DT[,list(id)]
+DF1<-DF[,list(id)]
+object_size(DF,DF1)
+object_size(DF)
+library(data.table)
+df1 <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame())}#
+f(df1)#
+df1[, temp := 1]
+df1
+df <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame())}#
+f(df)#
+df[, temp := 1]
+df
+df <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame()); df[, temp := 1]}
+f(df)
+df
+df1 <- data.frame(id = 1:10)#
+f <- function(df){eval(substitute(setDT(df)),parent.frame()); df[, temp := 1]}
+f(df1)
+df1
+df1 <- data.frame(id = 1:10)#
+f <- function(df){#
+      eval(substitute(setDT(df)),parent.frame())#
+      df[, temp := 1]#
+      }#
+f(df1)
+df1
+library(dplyr)#
+library(data.table)#
+as.data.table(mtcars) %>% mutate(mean(1))#
+mtcars %>% mutate(mean(1))
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+system.time( DT1 <- DT[,c("id","v1","v2"), with = FALSE] )#
+object_size(DT,DT1)#
+system.time( DT1 <- setDT(setDF(DT)[,c("id","v1","v2")]) ) #
+system.time( setDT(DT)  )#
+object_size(DT,DT1)
+library(data.table)#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+system.time( DT1 <- DT[,c("id","v1","v2"), with = FALSE] )#
+object_size(DT,DT1)#
+system.time( DT1 <- setDT(setDF(DT)[,c("id","v1","v2")]) ) #
+system.time( setDT(DT)  )#
+object_size(DT,DT1)
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+system.time( DT1 <- DT[,c("id","v1","v2"), with = FALSE] )#
+object_size(DT,DT1)#
+system.time( DT1 <- setDT(setDF(DT)[,c("id","v1","v2")]) ) #
+system.time( setDT(DT)  )#
+object_size(DT,DT1)
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
 set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
@@ -1391,1008 +223,1527 @@ DT <- data.table(#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
+object_size(DT[1:(.N-1)])
+object_size(DT[1:(.N-1)],DT)
+object_size(DT[1:.N/2],DT)
+object_size(DT)
+DT1 <- DT[1:.N/2]
+object_size(DT,DT1)
+N=1e7; K=100#
+set.seed(1)#
 DT <- data.table(#
-  id = sample(5, N, TRUE),#
+  id = 1:N,#
   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT1 <- DT[,c("id","v1","v2"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.N/2]#
+object_size(DT,DT1)#
+400 MB
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.N/2]#
+object_size(DT,DT1)
+DF1 <- DF[1:1e7/2]
+setDF(DT)#
+DT1 <- DT[,c("id","v1","v2")]) #
+DT1 <- DT[1:1e7/2]
+setDF(DT)#
+DT1 <- DT[,c("id","v1","v2")]#
+DT1 <- DT[1:1e7/2]
+DT1 <- DT[1:(1e7/2)]
+DT1 <- DT[1:(5e6)]
+DT1 <- DT[1:(5e6),]
+object_size(DT,DT1)
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[,c("id","v1","v2")]#
+object_size(DT,DT1)#
+DT1 <- DT[1:(5e6),]#
+object_size(DT,DT1)#
+#
+setDT(DT)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[,c("id","v1","v2")]#
+object_size(DT,DT1)#
+#> 200#
+DT1 <- DT[1:(5e6),]#
+object_size(DT,DT1)#
+#> 300#
+#
+setDT(DT)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+#> 400 MB#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)#
+#> 210 MB
+DT1 <- DT[1:.5e6,]
+object_size(DT,DT1)#
+210 MB
+library(data.table)#
+library(pryr)#
+#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[,c("id","v1","v2")]#
+object_size(DT,DT1)#
+#> 200 MB#
+DT1 <- DT[1:(5e6),]#
+object_size(DT,DT1)#
+#> 300 MB#
+#
+setDT(DT)#
+DT1 <- DT[,c("id","v1","v2","v3"), with = FALSE] #
+object_size(DT,DT1)#
+#> 400 MB#
+DT1 <- DT[1:.5e6]#
+object_size(DT,DT1)#
+#> 210 MB
+DT1
+DT1 <- DT[,list(id,v1,v2,v3)] #
+object_size(DT,DT1)
+library(dplyr)
+library(data.table)#
+library(pryr)#
+N = 1e7; K = 100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-set_(DT, "v2_new", as.character, "v2")
-set(DT, v2_new, as.character, v2)
-DT
-DT[, v2_new :=NULL]
-set(DT, v2_new, as.character, v2)
-set(x, !id)
-set(DT, !id)
-DT
-set(DT, -id)
-is.call(NULL)
-is.call(quote(NULL))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    f = substitute(f)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(f)){#
-      f <- interp(f, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = f))#
-    } else{#
-        fun <- f#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, new := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-debug(set_)
-set(DT, -id)
-fun
-substitute(NULL)
-f
-f <- NULL
-a <- f
-a
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, new := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, f = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), f = f, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , f = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-debug(set_)
-set(DT, -id)
-fun
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = f, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = f, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = f, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = fun, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-debug(set)
-set(DT, -id)
-s
-n
-fun
-f
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = fun, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-debug(set)
-set(DT, -id)
-fun
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+DT1 <- DT %>% filter(v1>=3)
+object_size(DT,DT1)
+object_size(DT)
+DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)]
+setDT(DT)
+DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)]
+system.time(DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)])
+system.time(lm(v3~v2,DT[v1==3]))
+system.time(DT[v1==3,lm(v3~v2,.SD),.SDcols=names(DT)])
+library(data.table)#
+library(pryr)#
+N = 1e7; K = 100#
+set.seed(1)#
+DT <- data.frame(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+DT1 <- DT[1:(5e6),]#
+object_size(DT, DT1)#
+#> 300 MB#
+#
+setDT(DT)#
+DT1 <- DT[1:.5e6]#
+object_size(DT ,DT1)#
+#> 210 MB
+DT1 <- DT[3:.5e6]
+object_size(DT,DT1)
+library(dplyr)
+?order_by
+?lag
+?lead
+?break
+break=function(x){x+2}
+break <- function(x){x+2}
+?separate
+?culster
+?cluster
+devtools::document("/Users/Matthieu/Dropbox/github/statar-package")
+#' lead and lag.#
+#'#
+#' lead and lag are useful for comparing values for date offset by a constant#
+#' @param x a vector of values#
+#' @param n a positive integer of length 1, giving the number of positions to lead or lag by#
+#' @param order_by override the default ordering to use another vector#
+#' @param along_with  compute lag with respect to this vector instead of previous row#
+#' @param units computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a date. #
+#' @param default value used for non-existant rows. Defaults to \code{NA}.#
+#' @examples#
+#' # Unbalanced panel#
+#' DT <- data.table(#
+#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
+#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#' )#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right#
+#
+#' # Units#
+#' DT[, date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "08/21/1992"), "%m/%d/%Y")]#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, units = "month", along_with = date)) #
+#' @name lead-lag#
+NULL#
 #
 #' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = eval(substitute(fun)), old = substitute(old), i = i, by = substitute(by))#
+#' @rdname lead-lag#
+lead <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lead(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+#
+  if (!is.null(along_with)) {#
+    index <- match(along_with - n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(x[-seq_len(n)], rep(default, n))#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
 }#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
+#' @export#
+#' @rdname lead-lag#
+lag.default <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lag, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lag(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+  if (!is.null(along_with)) {#
+    index <- match(along_with + n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(rep(default, n), x[seq_len(xlen - n)])#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+date <- as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "08/21/1992"), "%m/%d/%Y")
+date
+as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y")
+#' lead and lag.#
+#'#
+#' lead and lag are useful for comparing values for date offset by a constant#
+#' @param x a vector of values#
+#' @param n a positive integer of length 1, giving the number of positions to lead or lag by#
+#' @param order_by override the default ordering to use another vector#
+#' @param along_with  compute lag with respect to this vector instead of previous row#
+#' @param units computes lag in units of "day", "week", "month", "quarter" or "year" periods. Should be used when \code{along_with} is a date. #
+#' @param default value used for non-existant rows. Defaults to \code{NA}.#
+#' @examples#
+#' # along_with#
+#' DT <- data.table(#
+#'  id    = c(1, 1, 1, 1, 1, 2, 2),#
+#'  date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+#'  value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#' )#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, order_by = date)) # wrong#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date)) # right#
+#
+#' # units#
+#' value <- c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+#' date <- as.Date(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"), "%m/%d/%Y")#
+#' DT %>% group_by(id) %>% mutate(lag(value, 1, along_with = date, units = "month")) #
+#' @name lead-lag#
+NULL#
+#
+#' @export#
+#' @rdname lead-lag#
+lead <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lead, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with("0001-01-01")#
+    if (unitsc=="day"){#
+      return(lead(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lead(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+#
+  if (!is.null(along_with)) {#
+    index <- match(along_with - n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(x[-seq_len(n)], rep(default, n))#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}#
+#' @export#
+#' @rdname lead-lag#
+lag.default <- function(x, n = 1L, order_by, along_with, units = NULL, default = NA, ...) {#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+#
+  if (!is.null(order_by)) {#
+       if (!is.null(along_with) | !is.null(units)) stop("order_by cannot be used with along_with or units")#
+       return(dplyr::with_order(order_by, lag, x, n = n, default = default))#
+  }#
+  if (!is.null(units)) {#
+    if (is.null(along_with)) stop("units cannot be used without along_with")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    along_with_origin <- as.along_with("0001-01-01")#
+    if (unitsc=="day"){#
+      return(lag(x = x, n = n, default = default, along_with = along))#
+    }#
+    if (unitsc == "week"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% weeks(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "quarter"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% 3*months(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    } else if (unitsc == "year"){#
+      along_with_elapsed <- as.period(along_with-along_with_origin)  %/% years(1)#
+      return(lag(x = x, n = n, default = default, along_with = along_with_elapsed))#
+    }#
+  }#
+#
+  if (!is.null(along_with)) {#
+    index <- match(along_with + n, along_with, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+  } else{#
+    xlen <- length(x)#
+    n <- pmin(n, xlen)#
+    out <- c(rep(default, n), x[seq_len(xlen - n)])#
+  }#
+  attributes(out) <- attributes(x)#
+  out#
+}
+library(dplyr)
+library(data.table)
+df <- data.frame(#
+   date = 1:N,#
+   id =  sample(5, N, TRUE),   #
+   value =  sample(1e6, N, TRUE)                   #
+ )#
+# This solution#
+system.time(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id])#
+#> user  system elapsed #
+#> 0.186   0.007   0.157  #
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#> user  system elapsed #
+#> 0.186   0.007   0.200 #
+# pure data.table solution#
+setDF(df)#
+system.time(setkey(setDT(df), id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#> user  system elapsed #
+#> 0.113   0.023   0.147 #
+#
+# pure dplyr solution#
+setDF(df)#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#> user  system elapsed #
+#> 1.148   0.057   1.197
+N <- 2e6#
+df <- data.frame(#
+   date = 1:N,#
+   id =  sample(5, N, TRUE),   #
+   value =  sample(1e6, N, TRUE)                   #
+ )#
+# This solution#
+system.time(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id])#
+#> user  system elapsed #
+#> 0.186   0.007   0.157  #
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#> user  system elapsed #
+#> 0.186   0.007   0.200 #
+# pure data.table solution#
+setDF(df)#
+system.time(setkey(setDT(df), id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#> user  system elapsed #
+#> 0.113   0.023   0.147 #
+#
+# pure dplyr solution#
+setDF(df)#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#> user  system elapsed #
+#> 1.148   0.057   1.197
+library(microbenchmark)
+microbenchmark(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id],times=10L)
+N <- 2e6#
+    df <- data.frame(#
+       date = 1:N,#
+       id =  sample(5, N, TRUE),   #
+       value =  sample(1e6, N, TRUE)                   #
+     )#
+    # This solution#
+    microbenchmark(setDT(df)[, lag_value := lag(value, 1, along_with = date), by = id])#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.157  #
+    microbenchmark(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.200 #
+    # pure data.table solution#
+    setDF(df)#
+    microbenchmark(setkey(setDT(df), id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+    #> user  system elapsed #
+    #> 0.113   0.023   0.147 #
+#
+    # pure dplyr solution#
+    setDF(df)#
+    microbenchmark(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+    #> user  system elapsed #
+    #> 1.148   0.057   1.197
+# This solution#
+    setDT(df)#
+    microbenchmark(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.157  #
+    setDF(df)#
+    microbenchmark(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+    #> user  system elapsed #
+    #> 0.186   0.007   0.200 #
+    # pure data.table solution#
+    setDT(df)#
+    microbenchmark(setkey(df, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+    #> user  system elapsed #
+    #> 0.113   0.023   0.147 #
+#
+    # pure dplyr solution#
+    setDF(df)#
+    microbenchmark(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+    #> user  system elapsed #
+    #> 1.148   0.057   1.197
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+   }#
+# This solution against pure data.table#
+setDT(df)#
+microbenchmark(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>      min       lq   median       uq      max neval#
+#> 39.23331 45.63224 48.26503 51.30011 88.56598   100 #
+microbenchmark(setkey(df, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>      min       lq   median       uq      max neval#
+#> 162.0913 179.7229 191.2539 230.4258 1663.312   100
+setDF(df)#
+    microbenchmark(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+    #>      min       lq   median       uq      max neval#
+    #> 97.22887 111.8242 121.0254 141.8194 1090.357   100#
+#
+    microbenchmark(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))
+df
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>     min       lq   median       uq      max neval#
+#> 98.4322 105.3136 110.1891 116.5764 320.0336   100#
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>      min       lq   median       uq      max neval#
+#> 135.2102 145.7594 161.0235 188.1168 390.2336   100#
+#
+# This solution against pure dplyr#
+setDF(df)#
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#>      min       lq   median       uq      max neval#
+#> 92.40668 95.37822 99.20339 103.0889 140.8624   100#
+#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#>      min       lq   median       uq      max neval#
+#> 2.422102 3.071185 3.281669 3.631934 4.818416   100
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>   user  system elapsed #
+#>  0.201   0.026   0.228 #
+#
+# This solution against pure dplyr#
+setDF(df)#
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#>   user  system elapsed #
+#>  0.156   0.028   0.186 #
+#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#>   user  system elapsed #
+#>  3.301   0.086   3.363
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ]))
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+setDT(df)
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>   user  system elapsed #
+#>  0.201   0.026   0.228 #
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)#
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])#
+#>   user  system elapsed #
+#>  0.201   0.026   0.228
+all.equal(df[, lag_value := lag(value, 1, along_with = date), by = id],setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+all.equal(setkey(df),df1)
+all.equal(setkey(df,id,date),df1)
+all.equal(setkey(df[, lag_value := lag(value, 1, along_with = date), by = id],id,date),setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+df1<- setkey(df[, lag_value := lag(value, 1, along_with = date), by = id],id,date)
+df2<- setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+df2<- setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ]
+df1
+df2
+dfdf1[!is.na(value_lagged)]
+df1[!is.na(value_lagged)]
+df[!is.na(value_lagged)]
+lag <- function(x, n = 1L, along_with){#
+ index <- match(along_with - n, along_with, incomparable = NA)#
+ out <- x[index]#
+ attributes(out) <- attributes(x)#
+ out#
+}
+N <- 2e6#
+df <- data.frame(#
+         date = 1:N,#
+           id = sample(100, N, TRUE),   #
+        value = sample(1e6, N, TRUE)                   #
+      )#
+# This solution against pure data.table#
+setDT(df)#
+system.time(df[, lag_value := lag(value, 1, along_with = date), by = id])#
+#>   user  system elapsed #
+#>  0.094   0.007   0.103 #
+df1 <- copy(df)
+system.time(setkey(df1, id, date)[J(id, date + 1, val = value), value_lagged := i.val, ][is.na(date), value_lagged := NA, ])
+setDF(df)#
+system.time(mutate(group_by(df, id), lag_value = lag(value, 1, along_with = date)))#
+#>   user  system elapsed #
+#>  0.156   0.028   0.186 #
+#
+system.time(left_join(df, mutate(filter(df, !is.na(date)),  date = date + 1, lagged_value = value, value = NULL)))#
+#>   user  system elapsed #
+#>  3.301   0.086   3.363
+?biglm
+library(biglm)
+install.packages("biglm")
+?biglm
+library(biglm)
+?biglm
+FALSE && NA
+true || NA
+TRUE || NA
+library(tidyr)
+library(statar)
+df <- data.frame (id=c(1,1), variable = c("v1","v1"), value = c(1,3))
+df
+spread(df, variable, value)
+dt <- as.data.table(df)
+dt <- data.table(df)
+library(data.table)
+dt <- as.data.table(df)
+spread(df, variable, value)
+spread(dt, variable, value)
+library(tidyr)
+?expand
+devtools::install_github("hadley/tidyr")
+f <-function(){#
+on.exit(print("salut"))#
+}
+f(1)
+f()
+library(tidyr)
+devtools::install_github("hadley/tidyr")
+library(tidyr)
+.bincode
+?.bincode
+devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
+install.packages(Hmisc)
+install.packages("Hmisc")
+devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
+install.packages("matrixStats")
+devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("hadley/devtools")
+devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
+library(devtools)
+release("/Users/Matthieu/Dropbox/Github/statar-package")
+library(appliedr)
+install_github("matthieugomez/appliedr")
+library(devtools)
+install_github("matthieugomez/appliedr")
+library(appliedr)
+N <- 100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE)#
+)#
+sum_up(DT)
+library(data.table)
+N <- 100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE)#
+)#
+sum_up(DT)
+setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Gives summary statistics (corresponds to Stata command summarize)#
+#' #
+#' @param x a data.table#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param w Weights. Default to NULL. #
+#' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.#
+#' @param d Should detailed summary statistics be printed?#
+#' @param na.rm A boolean. default to TRUE#
+#
+#' @examples#
+#' library(data.table)#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' sum_up(DT)#
+#' sum_up(DT, v2, d = T)#
+#' sum_up(DT, starts_with("v"), by = v1)#
+#' sum_up(DT, by = v1, graph = TRUE)#
+#' @export#
+sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {#
+  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by))#
+}#
+#' @export#
+#' @rdname sum_up#
+sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) {#
+  stopifnot(is.data.table(x))#
+  w <- names(select_vars_(names(x), w))#
+  if (!length(w)) w <- NULL#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars,w))#
+  }#
+  nums <- sapply(x, is.numeric)#
+  nums_name <- names(nums[nums==TRUE])#
+  vars=intersect(vars,nums_name)#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  if (!is.null(w)){#
+    w <- x[[which(names(x)== w)]]#
+  }#
+    if (!length(byvars)){#
+      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])#
     } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
+      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])#
     }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
+}#
+describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){#
+  # import 3 functions from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+    x.original <- x#
+    first.part <- ""#
+    if (is.na(x) | is.null(x)) {#
+      return("")#
     }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
+    if (simply.output == TRUE) {#
+      if (!is.numeric(x)) {#
+        return(.remove.special.chars(x))#
+      }#
     }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
+    if (x.original < 0) {#
+      x <- abs(x)#
+    }#
+    if (!is.na(decimal.places)) {#
+        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+            0)) {#
+            round.result <- round(x, digits = decimal.places)#
+        }#
+        else {#
+            temp.places <- decimal.places#
+            if (!.is.all.integers(x)) {#
+              while ((round(x, digits = temp.places) == 0) & #
+                (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                temp.places <- temp.places + 1#
+              }#
+            }#
+            round.result <- round(x, digits = temp.places)#
+            decimal.places <- temp.places#
+        }#
+        if ((round.up.positive == TRUE) & (round.result < #
+            x)) {#
+            if (x > (10^((-1) * (decimal.places + 1)))) {#
+              round.result <- round.result + 10^((-1) * decimal.places)#
+            }#
+            else {#
+              round.result <- 0#
             }#
         }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
+    }#
+    else {#
+        round.result <- x#
+    }#
+    round.result.char <- as.character(format(round.result, #
+        scientific = FALSE))#
+    split.round.result <- unlist(strsplit(round.result.char, #
+        "\\."))#
+    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+        if (.format.digit.separator.where[i] <= 0) {#
+            .format.digit.separator.where[i] <<- -1#
+        }#
+    }#
+    separator.count <- 1#
+    length.integer.part <- nchar(split.round.result[1])#
+    digits.in.separated.unit <- 0#
+    for (i in seq(from = length.integer.part, to = 1)) {#
+        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+            (substr(split.round.result[1], i, i) != "-")) {#
+            first.part <- paste(.format.digit.separator, #
+              first.part, sep = "")#
+            if (separator.count < length(.format.digit.separator.where)) {#
+              separator.count <- separator.count + 1#
+            }#
+            digits.in.separated.unit <- 0#
+        }#
+        first.part <- paste(substr(split.round.result[1], #
+            i, i), first.part, sep = "")#
+        digits.in.separated.unit <- digits.in.separated.unit + #
+            1#
+    }#
+    if (x.original < 0) {#
+        if (.format.dec.mark.align == TRUE) {#
+            first.part <- paste("-", first.part, sep = "")#
+        }#
+        else {#
+            first.part <- paste("$-$", first.part, sep = "")#
+        }#
+    }#
+    if (!is.na(decimal.places)) {#
+        if (decimal.places <= 0) {#
+            return(first.part)#
+        }#
+    }#
+    if (.format.initial.zero == FALSE) {#
+        if ((round.result >= 0) & (round.result < 1)) {#
+            first.part <- ""#
+        }#
+    }#
+    if (length(split.round.result) == 2) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+        if (nchar(split.round.result[2]) < decimal.places) {#
+            decimal.part <- split.round.result[2]#
+            for (i in seq(from = 1, to = (decimal.places - #
+              nchar(split.round.result[2])))) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+            }#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        else {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+    }#
+    else if (length(split.round.result) == 1) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        decimal.part <- ""#
+        for (i in seq(from = 1, to = decimal.places)) {#
+            decimal.part <- paste(decimal.part, "0", sep = "")#
+        }#
+        return(paste(first.part, .format.decimal.character, #
+            decimal.part, sep = ""))#
+    }#
+    else {#
+        return(NULL)#
+    }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+  if (d==FALSE) {#
+    if (!is.null(w)){#
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm, w = w)), Hmisc::wtd.quantile(x, c(0, 1), na.rm = na.rm, weights = w))}))#
+    }else{#
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 0.5, 1), type = 1, na.rm = na.rm, weights = w))}))#
+    }#
+    sum <- as.matrix(sum_mean)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min", "Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    f=function(x){#
+      if (!is.null(w)){#
+        m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)#
+        sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)#
+        sum_higher[1] <- sqrt(sum_higher[1])#
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+        sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1), na.rm=na.rm, weights = w)#
+      } else{#
+        m <-mean(x, na.rm = na.rm)#
+        sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
+        sum_higher[1] <- sqrt(sum_higher[1])#
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+        sum_quantile= quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type= 1, na.rm=na.rm, weights = w)#
+      }#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- as.data.frame(mclapply(M, f))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- str_replace(y,"000$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- str_replace(y,"\\.$","")#
+      y <- str_replace(y,"^-0$","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  if (!d){#
+    print(noquote(format(t(print),justify="right")),right=TRUE)#
+#
+  } else{#
+    print(noquote(format(print,justify="right")),right=TRUE)#
+  }#
+  cat("\n")#
 }
-set(DT, -id)
+sum_up(DT)
+library(dplyr)
+sum_up(DT)
 library(lazyeval)
-set(DT, -id)
-debug(set)
-set(DT, -id)
-s
-fun
-fun
-fun
-f
-fun
-is.null(fun)
+sum_up(DT)
+library(parallel)
+sum_up(DT)
+sum_up(DT, d = T)
+library(stringr)
+sum_up(DT, d = T)
+sum_up(DT)
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = fun, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x, new = substitute(new), fun = fun, old = substitute(old), i = i, by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    eval(substitute(set_(x, new = substitute(new), fun = fun, old = substitute(old), i = i, by = substitute(by)), list(i = substitute(i), fun = substitute(fun)))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    eval(substitute(set_(x, new = substitute(new), fun = fun, old = substitute(old), i = i, by = substitute(by)), list(i = substitute(i), fun = substitute(fun)))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Gives summary statistics (corresponds to Stata command summarize)#
+#' #
+#' @param x a data.table#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param w Weights. Default to NULL. #
+#' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.#
+#' @param d Should detailed summary statistics be printed?#
+#' @param na.rm A boolean. default to TRUE#
 #
+#' @examples#
+#' library(data.table)#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' sum_up(DT)#
+#' sum_up(DT, v2, d = T)#
+#' sum_up(DT, starts_with("v"), by = v1)#
+#' sum_up(DT, by = v1, graph = TRUE)#
 #' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    eval(substitute(set_(x, new = substitute(new), fun = fun, old = substitute(old), i = i, by = substitute(by)), list(i = substitute(i), fun = substitute(fun))))#
+sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {#
+  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by))#
 }#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' @export#
+#' @rdname sum_up#
+sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) {#
+  stopifnot(is.data.table(x))#
+  w <- names(select_vars_(names(x), w))#
+  if (!length(w)) w <- NULL#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars,w))#
+  }#
+  nums <- sapply(x, is.numeric)#
+  nums_name <- names(nums[nums==TRUE])#
+  vars=intersect(vars,nums_name)#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
 #
-#' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    eval(substitute(set_(x, new = new, fun = fun, old = old, i = i, by = by)#
+  if (!is.null(w)){#
+    w <- x[[which(names(x)== w)]]#
+  }#
+    if (!length(byvars)){#
+      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])#
+    } else{#
+      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])#
+    }#
 }#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
+describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){#
+  # import 3 functions from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+    x.original <- x#
+    first.part <- ""#
+    if (is.na(x) | is.null(x)) {#
+      return("")#
     }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
+    if (simply.output == TRUE) {#
+      if (!is.numeric(x)) {#
+        return(.remove.special.chars(x))#
+      }#
     }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
+    if (x.original < 0) {#
+      x <- abs(x)#
     }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
+    if (!is.na(decimal.places)) {#
+        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+            0)) {#
+            round.result <- round(x, digits = decimal.places)#
+        }#
+        else {#
+            temp.places <- decimal.places#
+            if (!.is.all.integers(x)) {#
+              while ((round(x, digits = temp.places) == 0) & #
+                (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                temp.places <- temp.places + 1#
+              }#
+            }#
+            round.result <- round(x, digits = temp.places)#
+            decimal.places <- temp.places#
+        }#
+        if ((round.up.positive == TRUE) & (round.result < #
+            x)) {#
+            if (x > (10^((-1) * (decimal.places + 1)))) {#
+              round.result <- round.result + 10^((-1) * decimal.places)#
+            }#
+            else {#
+              round.result <- 0#
             }#
         }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+    }#
+    else {#
+        round.result <- x#
+    }#
+    round.result.char <- as.character(format(round.result, #
+        scientific = FALSE))#
+    split.round.result <- unlist(strsplit(round.result.char, #
+        "\\."))#
+    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+        if (.format.digit.separator.where[i] <= 0) {#
+            .format.digit.separator.where[i] <<- -1#
+        }#
+    }#
+    separator.count <- 1#
+    length.integer.part <- nchar(split.round.result[1])#
+    digits.in.separated.unit <- 0#
+    for (i in seq(from = length.integer.part, to = 1)) {#
+        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+            (substr(split.round.result[1], i, i) != "-")) {#
+            first.part <- paste(.format.digit.separator, #
+              first.part, sep = "")#
+            if (separator.count < length(.format.digit.separator.where)) {#
+              separator.count <- separator.count + 1#
+            }#
+            digits.in.separated.unit <- 0#
+        }#
+        first.part <- paste(substr(split.round.result[1], #
+            i, i), first.part, sep = "")#
+        digits.in.separated.unit <- digits.in.separated.unit + #
+            1#
+    }#
+    if (x.original < 0) {#
+        if (.format.dec.mark.align == TRUE) {#
+            first.part <- paste("-", first.part, sep = "")#
+        }#
+        else {#
+            first.part <- paste("$-$", first.part, sep = "")#
+        }#
+    }#
+    if (!is.na(decimal.places)) {#
+        if (decimal.places <= 0) {#
+            return(first.part)#
+        }#
+    }#
+    if (.format.initial.zero == FALSE) {#
+        if ((round.result >= 0) & (round.result < 1)) {#
+            first.part <- ""#
+        }#
+    }#
+    if (length(split.round.result) == 2) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+        if (nchar(split.round.result[2]) < decimal.places) {#
+            decimal.part <- split.round.result[2]#
+            for (i in seq(from = 1, to = (decimal.places - #
+              nchar(split.round.result[2])))) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+            }#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        else {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+    }#
+    else if (length(split.round.result) == 1) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        decimal.part <- ""#
+        for (i in seq(from = 1, to = decimal.places)) {#
+            decimal.part <- paste(decimal.part, "0", sep = "")#
+        }#
+        return(paste(first.part, .format.decimal.character, #
+            decimal.part, sep = ""))#
+    }#
+    else {#
+        return(NULL)#
+    }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+  if (d==FALSE) {#
+    if (!is.null(w)){#
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm, w = w)), Hmisc::wtd.quantile(x, c(0, 1), na.rm = na.rm, weights = w))}))#
+    }else{#
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 0.5, 1), type = 1, na.rm = na.rm, weights = w))}))#
+    }#
+    sum <- as.matrix(sum_mean)#
+    print(sum)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min", "Max")#
 #
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    eval(substitute(set_(x, new = new, fun = fun, old = old, i = i, by = by)))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
+  } else {#
+    N <- nrow(M)#
+    f=function(x){#
+      if (!is.null(w)){#
+        m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)#
+        sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)#
+        sum_higher[1] <- sqrt(sum_higher[1])#
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+        sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1), na.rm=na.rm, weights = w)#
+      } else{#
+        m <-mean(x, na.rm = na.rm)#
+        sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
+        sum_higher[1] <- sqrt(sum_higher[1])#
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+        sum_quantile= quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type= 1, na.rm=na.rm, weights = w)#
+      }#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- as.data.frame(mclapply(M, f))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- str_replace(y,"000$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- str_replace(y,"\\.$","")#
+      y <- str_replace(y,"^-0$","0")#
     } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
+      y <- x#
     }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-debug(set)
-set(DT, -id)
-s
-new
-f
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+    y#
+  })#
+  if (!d){#
+    print(noquote(format(t(print),justify="right")),right=TRUE)#
 #
-#' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    eval(substitute(set_(x, new , fun , old , i , by )))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
+  } else{#
+    print(noquote(format(print,justify="right")),right=TRUE)#
+  }#
+  cat("\n")#
 }
-set(DT, -id)
-debug(set)
-set(DT, -id)
-s
-n
-f
-set(DT, -id)
-n
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    call <- substitute(set_(x, new , fun , old , i , by ))#
-    eval(call, parent.frame())#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x= substitute(x), new = substitute(new), fun = substitute(fun) , old = substitute(old), i = substitute(i), by = substitute(by)))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    set_(x= substitute(x), new = substitute(new), fun = substitute(fun) , old = substitute(old), i = substitute(i), by = substitute(by))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#
-#' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    call <- substitute(set_(x= substitute(x), new = substitute(new), fun = func , old = substitute(old), i = ic, by = substitute(by)), list(func = substitute(fun), ic = substitute(i))#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    call <- substitute(set_(x= substitute(x), new = substitute(new), fun = func , old = substitute(old), i = ic, by = substitute(by)), list(func = substitute(fun), ic = substitute(i)))#
-    eval(call, parent.frame())#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-debug(set)
-set(DT, -id)
-call
-s
-n
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    call <- substitute(set_(x= substitute(x), new = substitute(new), fun = func , old = substitute(old), i = ic, by = substitute(by)), list(func = substitute(fun), ic = substitute(i)))#
-    call#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    call <- substitute(set_(x= substitute(x), new = substitute(new), fun = func , old = substitute(old), i = ic, by = substitute(by)), list(func = substitute(fun), ic = substitute(i)))#
-    eval(call)#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (new) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set(DT, -id)
-set_(DT, quote(-id))
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    call <- substitute(set_(x= substitute(x), new = substitute(new), fun = func , old = substitute(old), i = ic, by = substitute(by)), list(func = substitute(fun), ic = substitute(i)))#
-    eval(call)#
-}#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
-    } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
-    }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
-    }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
-    }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (newvars) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            }#
-        }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
-}
-set_(DT, quote(-id))
-set(DT, -id)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-set(DT, -id)
-DT
-set(DT, id)
+sum_up(DT)
 traceback()
 setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
+#' Gives summary statistics (corresponds to Stata command summarize)#
+#' #
+#' @param x a data.table#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param w Weights. Default to NULL. #
+#' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.#
+#' @param d Should detailed summary statistics be printed?#
+#' @param na.rm A boolean. default to TRUE#
 #
+#' @examples#
+#' library(data.table)#
+#' N <- 100#
+#' DT <- data.table(#
+#'   id = 1:N,#
+#'   v1 = sample(5, N, TRUE),#
+#'   v2 = sample(1e6, N, TRUE)#
+#' )#
+#' sum_up(DT)#
+#' sum_up(DT, v2, d = T)#
+#' sum_up(DT, starts_with("v"), by = v1)#
+#' sum_up(DT, by = v1, graph = TRUE)#
 #' @export#
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    call <- substitute(set_(x, new = substitute(new), fun = func , old = substitute(old), i = ic, by = substitute(by)), list(func = substitute(fun), ic = substitute(i)))#
-    eval(call)#
+sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {#
+  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by))#
 }#
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){#
-    i = substitute(i)#
-    fun = substitute(fun)#
-    if (is.null(old)){#
-        newvars <- names(select_vars_(names(x), new))#
-        vvars <- newvars#
+#' @export#
+#' @rdname sum_up#
+sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) {#
+  stopifnot(is.data.table(x))#
+  w <- names(select_vars_(names(x), w))#
+  if (!length(w)) w <- NULL#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = byvars))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars,w))#
+  }#
+  nums <- sapply(x, is.numeric)#
+  nums_name <- names(nums[nums==TRUE])#
+  vars=intersect(vars,nums_name)#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  if (!is.null(w)){#
+    w <- x[[which(names(x)== w)]]#
+  }#
+    if (!length(byvars)){#
+      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])#
     } else{#
-        newvars <- new#
-        vvars <- names(select_vars_(names(x), old))#
+      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])#
     }#
-    byvars <- names(select_vars_(names(x), by))#
-    if (!length(by)){#
-        by <- NULL#
+}#
+describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){#
+  # import 3 functions from stargazer#
+  .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, #
+      simply.output = FALSE,  .format.digit.separator = ",") {#
+    .format.initial.zero <- TRUE#
+    .format.until.nonzero.digit <- TRUE#
+    .format.max.extra.digits <- 2#
+    .format.digit.separator.where <- c(3)#
+    .format.ci.separator <- ", "#
+    .format.round.digits <- 3#
+    .format.decimal.character <- "."#
+    .format.dec.mark.align <- FALSE#
+    .format.dec.mark.align <- TRUE#
+    x.original <- x#
+    first.part <- ""#
+    if (is.na(x) | is.null(x)) {#
+      return("")#
     }#
-    if (is.call(fun)){#
-      fun <- interp(fun, .values = list(. = as.name("x")))#
-      fun <- substitute(function(x){y}, list(y = fun))#
+    if (simply.output == TRUE) {#
+      if (!is.numeric(x)) {#
+        return(.remove.special.chars(x))#
+      }#
     }#
-    if (is.null(fun)){#
-        call <- substitute(dt[, (newvars) := NULL])#
-    } else{#
-            if (length(byvars)){#
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
-            } else{#
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))#
+    if (x.original < 0) {#
+      x <- abs(x)#
+    }#
+    if (!is.na(decimal.places)) {#
+        if ((.format.until.nonzero.digit == FALSE) | (decimal.places <= #
+            0)) {#
+            round.result <- round(x, digits = decimal.places)#
+        }#
+        else {#
+            temp.places <- decimal.places#
+            if (!.is.all.integers(x)) {#
+              while ((round(x, digits = temp.places) == 0) & #
+                (temp.places < (decimal.places + .format.max.extra.digits))) {#
+                temp.places <- temp.places + 1#
+              }#
+            }#
+            round.result <- round(x, digits = temp.places)#
+            decimal.places <- temp.places#
+        }#
+        if ((round.up.positive == TRUE) & (round.result < #
+            x)) {#
+            if (x > (10^((-1) * (decimal.places + 1)))) {#
+              round.result <- round.result + 10^((-1) * decimal.places)#
+            }#
+            else {#
+              round.result <- 0#
             }#
         }#
-    dt_env <- dt_env(x, parent.frame())#
-    eval(call, dt_env)#
+    }#
+    else {#
+        round.result <- x#
+    }#
+    round.result.char <- as.character(format(round.result, #
+        scientific = FALSE))#
+    split.round.result <- unlist(strsplit(round.result.char, #
+        "\\."))#
+    for (i in seq(from = 1, to = length(.format.digit.separator.where))) {#
+        if (.format.digit.separator.where[i] <= 0) {#
+            .format.digit.separator.where[i] <<- -1#
+        }#
+    }#
+    separator.count <- 1#
+    length.integer.part <- nchar(split.round.result[1])#
+    digits.in.separated.unit <- 0#
+    for (i in seq(from = length.integer.part, to = 1)) {#
+        if ((digits.in.separated.unit == .format.digit.separator.where[separator.count]) & #
+            (substr(split.round.result[1], i, i) != "-")) {#
+            first.part <- paste(.format.digit.separator, #
+              first.part, sep = "")#
+            if (separator.count < length(.format.digit.separator.where)) {#
+              separator.count <- separator.count + 1#
+            }#
+            digits.in.separated.unit <- 0#
+        }#
+        first.part <- paste(substr(split.round.result[1], #
+            i, i), first.part, sep = "")#
+        digits.in.separated.unit <- digits.in.separated.unit + #
+            1#
+    }#
+    if (x.original < 0) {#
+        if (.format.dec.mark.align == TRUE) {#
+            first.part <- paste("-", first.part, sep = "")#
+        }#
+        else {#
+            first.part <- paste("$-$", first.part, sep = "")#
+        }#
+    }#
+    if (!is.na(decimal.places)) {#
+        if (decimal.places <= 0) {#
+            return(first.part)#
+        }#
+    }#
+    if (.format.initial.zero == FALSE) {#
+        if ((round.result >= 0) & (round.result < 1)) {#
+            first.part <- ""#
+        }#
+    }#
+    if (length(split.round.result) == 2) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+        if (nchar(split.round.result[2]) < decimal.places) {#
+            decimal.part <- split.round.result[2]#
+            for (i in seq(from = 1, to = (decimal.places - #
+              nchar(split.round.result[2])))) {#
+              decimal.part <- paste(decimal.part, "0", sep = "")#
+            }#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        else {#
+            return(paste(first.part, .format.decimal.character, #
+              split.round.result[2], sep = ""))#
+        }#
+    }#
+    else if (length(split.round.result) == 1) {#
+        if (is.na(decimal.places)) {#
+            return(paste(first.part, .format.decimal.character, #
+              decimal.part, sep = ""))#
+        }#
+        decimal.part <- ""#
+        for (i in seq(from = 1, to = decimal.places)) {#
+            decimal.part <- paste(decimal.part, "0", sep = "")#
+        }#
+        return(paste(first.part, .format.decimal.character, #
+            decimal.part, sep = ""))#
+    }#
+    else {#
+        return(NULL)#
+    }#
+  }#
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - #
+      round(x)) < tol#
+  .is.all.integers <- function(x) {#
+      if (!is.numeric(x)) {#
+          return(FALSE)#
+      }#
+      if (length(x[!is.na(x)]) == length(is.wholenumber(x)[(!is.na(x)) & #
+          (is.wholenumber(x) == TRUE)])) {#
+          return(TRUE)#
+      }#
+      else {#
+          return(FALSE)#
+      }#
+  }#
+  # Now starts the code #
+  if (d==FALSE) {#
+    if (!is.null(w)){#
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm, w = w)), Hmisc::wtd.quantile(x, c(0, 1), na.rm = na.rm, weights = w))}))#
+    }else{#
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 1), type = 1, na.rm = na.rm, weights = w))}))#
+    }#
+    sum <- as.matrix(sum_mean)#
+    print(sum)#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Min", "Max")#
+#
+  } else {#
+    N <- nrow(M)#
+    f=function(x){#
+      if (!is.null(w)){#
+        m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)#
+        sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)#
+        sum_higher[1] <- sqrt(sum_higher[1])#
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+        sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1), na.rm=na.rm, weights = w)#
+      } else{#
+        m <-mean(x, na.rm = na.rm)#
+        sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)#
+        sum_higher[1] <- sqrt(sum_higher[1])#
+        sum_higher[2] <- sum_higher[2]/sum_higher[1]^3#
+        sum_higher[3] <- sum_higher[3]/sum_higher[1]^4#
+        sum_quantile= quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type= 1, na.rm=na.rm, weights = w)#
+      }#
+      n_NA <- sum(is.na(x))#
+      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)#
+    }#
+    sum <- as.data.frame(mclapply(M, f))#
+    rownames(sum) <-  c("N","NA","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+    # rownames(sum) <- c("Rows","N","Mean","Sd","Skewness","Kurtosis","Min","1%","5%","10%","25%","50%","75%","90%","95%","99%","Max")#
+  }#
+  print <- apply(sum,c(1,2),#
+    function(x){#
+    if (is.numeric(x)){#
+      y <- .iround(x,decimal.places=3)#
+      y <- str_replace(y,"000$","")#
+      if (y==""){#
+        y <- "0"#
+      }#
+      y <- str_replace(y,"\\.$","")#
+      y <- str_replace(y,"^-0$","0")#
+    } else{#
+      y <- x#
+    }#
+    y#
+  })#
+  if (!d){#
+    print(noquote(format(t(print),justify="right")),right=TRUE)#
+#
+  } else{#
+    print(noquote(format(print,justify="right")),right=TRUE)#
+  }#
+  cat("\n")#
 }
-set(DT, id)
+sum_up(DT)
+sum_up(DT)

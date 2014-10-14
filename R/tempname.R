@@ -5,10 +5,9 @@
 #' @param inherits  Should the name unique also in the enclosing frames of the environment?
 #' @examples
 #' tempname(c("temp","temp1"))
+#' temp <- tempname(globalenv())
 #' tempname(globalenv())
-#' tempname(globalenv())
-#' tempname(data.table(temp = 1))
-
+#' tempname(data.frame(temp = 1))
 #' @export
 tempname=function(where = globalenv() , prefix = "temp", inherits=TRUE) {
     i <- 0L

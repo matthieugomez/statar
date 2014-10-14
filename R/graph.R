@@ -34,8 +34,8 @@ graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE
 #' @export
 #' @rdname graph
 graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){
-  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))
   stopifnot(is.data.table(x))
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))
   w <- names(select_vars_(names(x),w))
   along_with <- names(select_vars_(names(x), along_with))
   byvars <- names(select_vars_(names(x), by))
@@ -98,7 +98,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     if (!length(w)){
       ww <- NULL
     }
-    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, gather_cols = vars)))
+    x <-  suppressWarnings(suppressMessages(melt(x, measure.vars = vars, variable.name = variable, value.name = value)))
     evaldt(x[, .variable := as.factor(.variable)])
     if (length(byvars)){
       print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))
@@ -179,7 +179,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
                 evaldt(ans2[, .group:= as.factor(.group)])
                 g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)
               } else{
-                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = method) + facet_grid(as.formula(paste0(group, "~.")))
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))
               }
             } 
         } else{

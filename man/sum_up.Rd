@@ -26,15 +26,15 @@ Gives summary statistics (corresponds to Stata command summarize)
 }
 \examples{
 library(data.table)
-N <- 1000; K <- 10
+N <- 100
 DT <- data.table(
   id = 1:N,
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
 )
 sum_up(DT)
-sum_up(DT, v2, d = T)
+sum_up(DT, v2, d = TRUE)
 sum_up(DT, starts_with("v"), by = v1)
-sum_up(DT, by = v1, graph = TRUE)
+sum_up(DT, by = v1)
 }
 

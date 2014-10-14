@@ -18,7 +18,7 @@ duplicates_(x, ..., .dots, by = NULL, gen = "N")
 \item{gen}{A character that specifies  the name of a new variable with the number of duplicates. Default to "N".}
 }
 \value{
-a data.table with rows in groups that have duplicates.
+a data.table with groups that have duplicates.
 }
 \description{
 returns duplicated rows

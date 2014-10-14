@@ -18,7 +18,7 @@ Statistical mode
 }
 \examples{
 sample_mode(c(1, 2, 2))
-sample_mode(c(1, 2,))
+sample_mode(c(1, 2))
 sample_mode(c(NA,NA,1))
 sample_mode(c(NA,NA,1), na.rm = TRUE)
 }

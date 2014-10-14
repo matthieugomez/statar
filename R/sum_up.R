@@ -9,19 +9,19 @@
 
 #' @examples
 #' library(data.table)
-#' N <- 1000; K <- 10
+#' N <- 100
 #' DT <- data.table(
 #'   id = 1:N,
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
 #' )
 #' sum_up(DT)
-#' sum_up(DT, v2, d = T)
+#' sum_up(DT, v2, d = TRUE)
 #' sum_up(DT, starts_with("v"), by = v1)
-#' sum_up(DT, by = v1, graph = TRUE)
+#' sum_up(DT, by = v1)
 #' @export
 sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL) {
-  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by), graph = graph, minimal = minimal)
+  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by))
 }
 
 
@@ -214,9 +214,10 @@ describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOp
     if (!is.null(w)){
       sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm, w = w)), Hmisc::wtd.quantile(x, c(0, 1), na.rm = na.rm, weights = w))}))
     }else{
-      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 0.5, 1), type = 1, na.rm = na.rm, weights = w))}))
+      sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 1), type = 1, na.rm = na.rm, weights = w))}))
     }
     sum <- as.matrix(sum_mean)
+    print(sum)
     rownames(sum) <-  c("N","NA","Mean","Sd","Min", "Max")
 
   } else {
