@@ -13,17 +13,7 @@ The package should be loaded after `dplyr`  and `lubridate` since it overwrites 
 # vector functions
 The package adds the following vector functions
 ````R
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)
-year <- c(1992, 1989, 1991)
-value <- c(4.1, 4.5, 3.3)
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
-lag(value, 1, along_with = year) #  returns value in year - 1
 
-library(lubridate)
-date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
-datem <- floor_date(date, "month")
-value <- c(4.1, 4.5, 3.3, 5.3)
-lag(value, units = "month", along_with = datem) 
 
 # sample_mode returns the statistical mode
 sample_mode(c(1, 2, 2))
@@ -78,9 +68,23 @@ duplicates(DT, by = list(a,b))
 ````
 
 ## Panel Data
+The package allows to lag variable, fills gaps, and replaces NA along a time variable within groups.
 
 ````R
-# fill_gap fills in gaps in a time variable (corresponds to Stata tsfill)
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)
+year <- c(1992, 1989, 1991)
+value <- c(4.1, 4.5, 3.3)
+lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
+lag(value, 1, along_with = year) #  returns value in year - 1
+
+library(lubridate)
+date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
+datem <- floor_date(date, "month")
+value <- c(4.1, 4.5, 3.3, 5.3)
+lag(value, units = "month", along_with = datem) 
+
+
+# fill_gap fills in gaps in a data.table time variable (corresponds to Stata tsfill)
 DT <- data.table(
     id    = c(1, 1, 1, 2, 2),
     year  = c(1992, 1989, 1991, 1992, 1991),
@@ -139,7 +143,7 @@ join(x, y, type = "left", check = m~1, inplace = TRUE)
 ````
 
 
-## Graphs
+## Graph
 `graph` is a wrapper for `ggplot2` functionalities, useful for interactive exploration of datasets
 
 ````R
