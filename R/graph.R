@@ -126,7 +126,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]
             N <- ans[, sum(get(w))]
             ans2 <- copy(ans)
-            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = c(bin)]
             g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)
             }
         } else{
@@ -134,7 +134,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
         dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])
           if (dummy) {
             if (reorder){ 
-              ans[, (count) := .N, by = (v)]
+              ans[, (count) := .N, by = c(v)]
               setkeyv(ans,c(count, v))
               ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]
             } else{
@@ -144,7 +144,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
           } else{ 
             ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]
             N <- ans[, sum(get(w))]
-            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = c(bin)]
             # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")
              g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)
           }

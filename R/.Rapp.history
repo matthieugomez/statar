@@ -1,3 +1,349 @@
+devtools::install_github("matthieugomez/statar")
+lag
+?lag
+?lead
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("tidyr"))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("data.table"))#
+suppressMessages(library(lazyeval))#
+suppressMessages(library("dplyr"))#
+suppressMessages(library("reshape2"))#
+suppressMessages(library("ggplot2"))#
+suppressMessages(library("stringr"))#
+suppressMessages(library("lubridate"))#
+suppressMessages(library("pryr"))#
+suppressMessages(library("lfe"))#
+library(biglm)#
+suppressMessages(library("foreign"))#
+suppressMessages(library("stargazer"))#
+suppressMessages(library("parallel"))#
+suppressMessages(library("statar"))
+?lag
+?lead
+?expand
+?xtile
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+library(statar)
+?sum_up
+library(statar)
+?sum_up
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+lead_along <- function(x, n = 1L, units = NULL, date, default = NA) {#
+  if (!is.null(units)) {#
+    if (is.null(date)) stop("units cannot be used without order_by")#
+    unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+    date_origin <- as.Date('0001-01-01')#
+    if (unitsc=="day"){#
+      return(lead_along(x = x, n = n, default = default, date = along))#
+    }#
+    if (unitsc == "week"){#
+      date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }  #
+    else if (unitsc == "month"){#
+      date_elapsed <- as.period(date-date_origin)  %/% months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "quarter"){#
+      date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    } else if (unitsc == "year"){#
+      date_elapsed <- as.period(date-date_origin)  %/% years(1)#
+      return(lead_along(x = x, n = n, default = default, date = date_elapsed))#
+    }#
+  }#
+#
+  if (n == 0) return(x)#
+  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+  index <- match(date + n, date, incomparable = NA)#
+  out <- x[index]#
+  if (!is.na(default)) out[which(is.na(index))] <- default#
+  attributes(out) <- attributes(x)#
+  out#
+}
+lag_along <- function(x, n = 1L,  units = NULL, date = NULL, default = NA) {#
+    if (!is.null(units)) {#
+      if (is.null(date)) stop("units cannot be used without order_by")#
+      unitsc <-match.arg(units,c("day","week","month","quarter","year"))#
+      date_origin <- as.Date('0001-01-01')#
+      if (unitsc=="day"){#
+        return(lag_along(x = x, n = n, default = default, date = along))#
+      }#
+      if (unitsc == "week"){#
+        date_elapsed <- as.period(date-date_origin)  %/% weeks(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      }  #
+      else if (unitsc == "month"){#
+        date_elapsed <- as.period(date-date_origin)  %/% months(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      } else if (unitsc == "quarter"){#
+        date_elapsed <- as.period(date-date_origin)  %/% 3*months(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      } else if (unitsc == "year"){#
+        date_elapsed <- as.period(date-date_origin)  %/% years(1)#
+        return(lag_along(x = x, n = n, default = default, date = date_elapsed))#
+      }#
+    }#
+#
+    if (n == 0) return(x)#
+    if (n < 0 || length(n) > 1) stop("n must be a single positive integer")#
+    index <- match(date - n, date, incomparable = NA)#
+    out <- x[index]#
+    if (!is.na(default)) out[which(is.na(index))] <- default#
+    attributes(out) <- attributes(x)#
+    out#
+  }
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+date := as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
+date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
+date+1
+date
+date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%y")
+date
+?as.Date
+date = as.Date(c("01/03/1992", "03/04/1992", "05/05/1992", "21/08/1992"), "%m/%d/%Y")
+date
+devtools::install_github("matthieugomez/tidyr")#
+devtools::install_github("matthieugomez/lazyeval")#
+devtools::install_github("matthieugomez/dplyr")#
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+library(dplyr)#
+library(data.table)#
+library(statar)#
+#
+# partition creates quantile categories (corresponds to Stata xtile)#
+v2 <-   sample(1e6, 1e6, TRUE)                   #
+v2_categorized <- partition(v2, nq = 3) # 3 groups based on terciles#
+v2_categorized <- partition(v2, cutpoints = c(1e5, 5e5)) # 3 groups based on two cutpoints#
+# lag/lead create lag/lead variables (corresponds to Stata L. F.)#
+## unbalanced panel#
+DT <- data.frame(#
+ date  = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+ value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% mutate(lag(value, 1, order_by = date)) # wrong#
+DT %>% mutate(lag(value, 1, along_with = date)) # right#
+#
+## periods can be used instead of integers#
+library(lubridate)#
+df <- data.frame(     #
+   id = c("id1", "id1", "id1", "id1"),#
+   date = mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992")),#
+   value = c(4.1, 4.5, 3.3, 5.3)#
+)#
+df <- df %>% mutate(date = floor_date(date, "month"))#
+df %>% group_by(id) %>% mutate(lag(value, months(1), along_with = date))
+?data.table::lag
+?lag
+library(data.table)
+library(dplyr)
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
+#
+DT <- data.table(#
+   id = c(1, 1, 1, 1, 1, 2, 2),#
+   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+#
+R> DT#
+   id date value#
+1:  1 1992   4.1#
+2:  1 1989   4.5#
+3:  1 1991   3.3#
+4:  1 1990   5.3#
+5:  1 1994   3.0#
+6:  2 1992   3.2#
+7:  2 1991   5.2#
+R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
+Source: local data table [7 x 4]#
+Groups: id#
+#
+  id date value lead_lag(value, 1)#
+1  1 1992   4.1                4.5#
+2  1 1989   4.5                4.5#
+3  1 1991   3.3                4.5#
+4  1 1990   5.3                4.5#
+5  1 1994   3.0                4.5#
+6  2 1992   3.2                5.2#
+7  2 1991   5.2                5.2#
+R>
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
+#
+DT <- data.table(#
+   id = c(1, 1, 1, 1, 1, 2, 2),#
+   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+#
+DT#
+   id date value#
+1:  1 1992   4.1#
+2:  1 1989   4.5#
+3:  1 1991   3.3#
+4:  1 1990   5.3#
+5:  1 1994   3.0#
+6:  2 1992   3.2#
+7:  2 1991   5.2#
+DT %>% group_by(id) %>% mutate( lead_lag(value,1) )#
+Source: local data table [7 x 4]#
+Groups: id#
+#
+  id date value lead_lag(value, 1)#
+1  1 1992   4.1                4.5#
+2  1 1989   4.5                4.5#
+3  1 1991   3.3                4.5#
+4  1 1990   5.3                4.5#
+5  1 1994   3.0                4.5#
+6  2 1992   3.2                5.2#
+7  2 1991   5.2                5.2#
+R>
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }#
+#
+DT <- data.table(#
+   id = c(1, 1, 1, 1, 1, 2, 2),#
+   date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+   value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)
+R> DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
+debug(lead_lag)
+DT %>% group_by(id) %>% mutate( lead_lag(value,1,order_by(date)) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1)) )
+DT %>% group_by(id) %>% mutate( lead_lag(value,1))
+s
+n
+s
+debug(lead_lag)
+lead_lag(DT$value,1)
+s
+f
+lead_lag(value,1)
+s
+f
+undebug(lead_lag)
+lead_lag <- function(x, k=0){ ifelse( k<0, lag(x, -k), lead(x, k) ) }
+lead_lag(c(1,2),k=1)
+lag(c(1,2),n=1)
+sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}
+sign(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
+lead_lag(k) <- function{if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
+lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}else{function(x){lead(x,k)}}
+lead_lag(k) <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}
+}
+lead_lag <- function(k){if (k>0){function(x){lag(x,k)}}else{function(x){lead(x,k)}}}
+lea_lag(3)(c(1,2)
+_
+lea_lag(3)(c(1,2))
+lead_lag(3)(c(1,2))
+lead_lag(1)(c(1,2))
+?ifelse
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
+  )#
+#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+library(statar)
+N=1e6; K=100#
+DT <- data.table(#
+  id = 1:N,#
+  v1 = sample(5, N, TRUE),#
+  v2 = sample(1e6, N, TRUE),#
+  v3 = sample(round(runif(100,max=100), 4), N, TRUE)#
+  )#
+#
+# colorder (= Stata order)#
+DT  %>% colorder(starts_with("v"))#
+DT  %>% colorder(starts_with("v"), inplace = TRUE)#
+#
+# sum_up (= Stata summarize)#
+DT  %>% sum_up#
+DT  %>% sum_up(v3, d=T)#
+DT  %>% filter(v1==1) %>% sum_up(starts_with("v"))
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+suppressMessages(library("data.table"))#
+suppressMessages(library("biglm"))#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT[, condition := id>100]#
+system.time(DT[ id >100, coefficients(biglm(v3 ~ v2 + v1, .SD)), .SDcols = c("v1","v2","v3")])#
+system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = "condition", .SDcols = c("v1","v2","v3")])#
+system.time(coefficients(biglm(v3 ~ v2 + v1, DT[id>100, c("v1","v2","v3"), with = FALSE])
+)
+suppressMessages(library("data.table"))#
+suppressMessages(library("biglm"))#
+N=1e7; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+DT[, condition := id>100]
+system.time(DT[, coefficients(biglm(v3 ~ v2 + v1, .SD)), by = condition, .SDcols = c("v1", "v2", "v3")])
+library(Matrix)
+?expand
+isS4(expand)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+?expand
+DT <- data.table(#
+    id = c(1, 1, 1, 1, 1, 2, 2),#
+    date = c(1992, 1989, 1991, 1990, 1994, 1992, 1991),#
+    value = c(4.1, 4.5, 3.3, 5.3, 3.0, 3.2, 5.2)#
+)#
+DT %>% expand(date)
+library(dpryr)
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+devtools::install_github("matthieugomez/statar")
+?lag
+lag
+devtools::install_github("smbache/magrittr")
+library(magrittr)
+rnorm(100) %T>%#
+  plot(type = "l", col = "firebrick") %>%#
+  abs %>%#
+  sum
+tmp :=#
+  subset(Species == "setosa") %>%#
+  set_names(LETTERS[1:5])
+install.packages("colorout")
 download.file("http://www.lepem.ufc.br/jaa/colorout_1.0-3.tar.gz", destfile = "colorout_1.0-3.tar.gz")#
 install.packages("colorout_1.0-3.tar.gz", type = "source", repos = NULL)
 savehistory
@@ -927,232 +1273,2513 @@ devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
 library(statar)
 ?graph
 devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-DT
-dt
-DT[,lapply(.sd, function(x){DT$weight*x})]
-DT
-?median
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-library(data.table)
-DT[, {p50 = median(v1), v1[is.na(v1)]<- p50}, by = id]
-DT[, {p50 = median(v1); v1[is.na(v1)]<- p50}, by = id]
-library(data.table)
-DT[, {p50 = median(v1), v1[is.na(v1)]<- p50}, by = id]
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-DT[, {p50 = median(v1), v1[is.na(v1)]<- p50}, by = id]
-DT[, {p50 = median(v1); v1[is.na(v1)]<- p50}, by = id]
-DT[, {max = max(v1); v1[v1 == max] <- 10}, by = id]
-DT[, {max = max(v1); v1[v1 == max] <- 10}, by = id]
-DT[, {max = max(v1); v1[v1 == max] <- 10; v1}, by = id]
-DT
-DT[, v2:={max = max(v1); v1[v1 == max] <- 10; v1}, by = id]
-DT[, new :={max = max(v1); v1[v1 == max] <- 10; v1}, by = id]
-DT
-DT[, new := {max = max(v1); out = rep(0, .N) ; out[v1 == max] <- 1}, by = id]
-DT
-DT[, new := {out <- rep(0, .N);  max <- max(v1); out[v1 == max] <- 1}, by = id]
-DT
-DT[, new := NULL]
-DT[, new := {out <- rep(0, .N);  max <- max(v1); out[v1 == max] <- 1}, by = id]
-DT
-DT[, new := NULL]
-DT[, new := {out <- rep(0, .N); out[v1 == max(v1)] <- 1}, by = id]
-DT
-DT[, new := {out <- rep(0, .N); out[v1 == max(v1)] <- 1}, by = id]
-DT[, new := NULL]
-DT[, new := {out <- rep(0, .N); out[v1 == max(v1)] <- 1; out}, by = id]
-DT
-DT[, tag := function(x){out <- rep(0, length(x)); out[x == max(x)] <- 1; out}(v1), by = id]
-f <- function(x){#
-		out <- rep(0, length(x))#
-		out[x == max(x)] <- 1; out#
-	}#
-	DT[, tag := f(v1) , by = id]
-DT
-DT[, tag := {v1 == max(v1)}, by = id]
-DT
-DT[, tag1 := {v1 == max(v1)}, by = id]
-DT
-f <- function(x){v3, x}#
-DT[, f(v2)]
-f <- function(x){v3*x}#
-DT[, f(v2)]
-DT[, w := {v2*v1}]
-DT
-DT <- data.table(#
-     w  = sample(5, N, TRUE), #
-     v1 = sample(5, N, TRUE),                          #
-     v2 = sample(round(runif(100, max = 100), 4), N, TRUE) #
-    )#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = w)]#
-    DT[, lapply(.SD, function(x){{weighted.mean(x, weight = DT$w)]
-DT <- data.table(#
-     w  = sample(5, N, TRUE), #
-     v1 = sample(5, N, TRUE),                          #
-     v2 = sample(round(runif(100, max = 100), 4), N, TRUE) #
-    )#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = w)}]#
-    DT[, lapply(.SD, function(x){{weighted.mean(x, weight = DT$w)}]
-DT <- data.table(#
-     w  = sample(5, N, TRUE), #
-     v1 = sample(5, N, TRUE),                          #
-     v2 = sample(round(runif(100, max = 100), 4), N, TRUE) #
-    )#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = w)})]#
-    DT[, lapply(.SD, function(x){{weighted.mean(x, weight = DT$w)})]
-DT <- data.table(#
-     w  = sample(5, N, TRUE), #
-     v1 = sample(5, N, TRUE),                          #
-     v2 = sample(round(runif(100, max = 100), 4), N, TRUE) #
-    )#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = w)})]#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = DT$w)})]
-w
-DT <- data.table(#
-     w  = sample(5, N, TRUE), #
-     v1 = sample(5, N, TRUE),                          #
-     v2 = sample(round(runif(100, max = 100), 4), N, TRUE) #
-    )#
-    DT[, lapply(.SD, function(x){x*w)})]#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = DT$w)})]
-DT <- data.table(#
-     w  = sample(5, N, TRUE), #
-     v1 = sample(5, N, TRUE),                          #
-     v2 = sample(round(runif(100, max = 100), 4), N, TRUE) #
-    )#
-    DT[, lapply(.SD, function(x){x*w})]#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = DT$w)})]
-q
-w
-w
-DT <- data.table(#
-     w  = sample(5, N, TRUE), #
-     v1 = sample(5, N, TRUE),                          #
-     v2 = sample(round(runif(100, max = 100), 4), N, TRUE) #
-    )#
-    DT[, lapply(.SD, function(x){x*w})]#
-    DT[, lapply(.SD, function(x){weighted.mean(x, weight = DT$w)})]
-DT[, lapply(.SD, function(x){x*w})]
-DT[, names(DT) := lapply(.SD, function(x){x*w})]
-DT
-DT[, names(DT) := lapply(.SD, function(x){x*w}), .SDcols = names(DT)]
-DT
-N=1e2; K=100#
-DT <- data.table(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-f <- function(x){v3*x}
-DT[, f(v1)]
-DT[, lapply(.SD,v1)]
-DT[, lapply(.SD,f)]
-DT[, lapply(.SD,function(x){v3*x})]
-DT[, lapply(.SD,function(x){v3*x})]
-setwd("/Users/Matthieu/Dropbox/Github/statar-package/R")#
-#' Bin a numeric vector and return integer codes for the binning (corresponds to Stata command xtile)#
-#'#
-#' @param x A vector#
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. #
-#' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)#
-#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints#
-#' @param w A variable specifying weight in case the option n_quantiles is specified.#
-#' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.#
-#' @examples #
-#' v <- c(NA, 1:10)                   #
-#' partition(v, n_quantiles = 3) # 3 groups based on terciles#
-#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles#
-#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints#
+?bin
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
 #' @export#
-partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL, w = NULL){#
-  if (!is.null(n_quantiles)){#
-  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
-      if (is.null(w)){#
-        cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
       } else{#
-        cutpoints <- tail(head(wtd.quantile(x, seq(0, 1, length = n_quantiles + 1), type ="i/n", na.rm = TRUE, w = w), -1),-1)#
+        group <- byvars#
       }#
-  } else if (!is.null(probs)){#
-	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")#
-	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)#
-	}#
-  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)#
-  if (anyDuplicated(breaks)) warning("Cutpoints are not unique", call. = FALSE)#
-  .bincode(x, breaks = breaks , include.lowest=TRUE)#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)])#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w)], with = FALSE)#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)])#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))])#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))])#
+            if (!facet){#
+              evaldt(ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
 }
-partition(v, cutpoints = c(2, 3))
-v <- c(NA, 1:10)
-partition(v, cutpoints = c(2, 3))
-partition(v, probs = c(0.3, 0.7))
-partition(v, n_quantiles = 3)
-partition(v, n_quantiles = 3, w = seq.length(v))
-partition(v, n_quantiles = 3, w = seq(1, length(v)))
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-?melt.data.table
-Sys.which("pdflatex")
-Sys.setenv(PATH=paste(Sys.getenv("PATH"),"/usr/texbin",sep=":"))
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-stargazer
-library(stargazer)
-library(stargazer)
-stagazer
-stargazer
-.stargazer.wrap
-stargazer:::.stargazer.wrap
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::build_win("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::build_win("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::add_build_ignore("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-library(devtools)
-?add_build_ignore
-use_build_ignore(files, escape = TRUE, pkg = "/Users/Matthieu/Dropbox/Github/statar-package")
-use_build_ignore("^\., escape = FALSE, pkg = "/Users/Matthieu/Dropbox/Github/statar-package")
-use_build_ignore("^\.", escape = FALSE, pkg = "/Users/Matthieu/Dropbox/Github/statar-package")
-use_build_ignore("^\\.", escape = FALSE, pkg = "/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
-devtools::release("/Users/Matthieu/Dropbox/Github/statar-package")
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w)], with = FALSE)#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)])#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))])#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))])#
+            if (!facet){#
+              evaldt(ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w)], with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)])#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))])#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))])#
+            if (!facet){#
+              evaldt(ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w), with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)])#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))])#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))])#
+            if (!facet){#
+              evaldt(ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w), with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)]#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))])#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))])#
+            if (!facet){#
+              evaldt(ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w), with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)]#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))]#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))])#
+            if (!facet){#
+              evaldt(ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w), with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)]#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))]#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))]#
+            if (!facet){#
+              evaldt(ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      evaldt(x[, .group := 1])#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w), with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)]#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))]#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                evaldt(ans[, (group):= as.factor(get(group))])#
+                evaldt(ans2[, (group):= as.factor(get(group))])#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))]#
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))]#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      x[, (group) := 1]#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w), with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)]#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))]#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                ans[, (group):= as.factor(get(group))]#
+                ans2[, (group):= as.factor(get(group))]#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))]#
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))]#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))])#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+setwd("/Users/Matthieu/Dropbox/Github/appliedr/R")#
+#' Experimental function to graph a dataset#
+#' #
+#' @param x A data.table.#
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.#
+#' @param by Groups within which variables should be ploted.#
+#' @param type type of graph among "density", "boxplot", "line", "lm", "loess"#
+#' @param along_with A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".#
+#' @param winsorize Should variables winsorized?#
+#' @param reorder Should the category with the most count be printed first?#
+#' @param facet Should different groups graphed in different windows?#
+#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?#
+#' @param .dots Used to work around non-standard evaluation.#
+#' @examples#
+#' library(data.table)#
+#' N <- 10000#
+#' DT <- data.table(#
+#'   id = sample(c("id1","id2","id3"), N, TRUE),#
+#'   v1 = sample(c(1:5), N, TRUE),#
+#'   v2 = rnorm(N, sd = 20),#
+#'   v3 = sample(runif(100, max=100), N, TRUE)#
+#' )#
+#' DT[, v4 := v3 + rnorm(N, sd = 20)]#
+#' graph(DT)#
+#' graph(DT, by = id)#
+#' graph(DT, by = id, facet = TRUE)#
+#' graph(DT, by = id, type = "boxplot")#
+#' graph(DT, v3, v4, along_with = v2)#
+#' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")#
+#' @export#
+graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {#
+  graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type)#
+}#
+#
+#' @export#
+#' @rdname graph#
+graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE , facet = FALSE, verbose = FALSE, type = if (is.null(along_with)){ "density"} else {"lm"}){#
+  stopifnot(is.data.table(x))#
+  type <- match.arg(type, c("density", "boxplot", "line", "lm", "loess"))#
+  w <- names(select_vars_(names(x),w))#
+  along_with <- names(select_vars_(names(x), along_with))#
+  byvars <- names(select_vars_(names(x), by))#
+  dots <- all_dots(.dots, ...)#
+  vars <- names(select_vars_(names(x), dots, exclude = c(byvars,w,along_with)))#
+  if (length(vars) == 0) {#
+     vars <- setdiff(names(x), c(byvars, along_with, w))#
+  }#
+  if (length(along_with) | type == "boxplot"){#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    vars = intersect(vars,nums_name)#
+  }#
+#
+  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+#
+  assign_var(x, bin, group, count,  variable, value)#
+  x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+#
+  if (!length(w)){#
+    assign_var(x, w)#
+    x[, (w) := 1]#
+    ww <- NULL#
+  } else{#
+    ww <- as.name(paste0(w,"/sum(",w,")"))#
+  }#
+#
+  if (winsorize){#
+    v <-  c(vars, along_with, w)#
+    nums <- sapply(x, is.numeric)#
+    nums_name <- names(nums[nums==TRUE])#
+    v = intersect(v,nums_name)#
+    x[, (v) := lapply(.SD,function(x){winsorize(x, verbose = verbose)}), .SDcols = v]#
+  }#
+#
+  if (type == "boxplot"){#
+    old = theme_get()#
+    on.exit(theme_set(old))#
+    theme = theme_set(theme_minimal())#
+    theme = theme_update(legend.position="top", legend.title=element_blank(), panel.grid.major.x=element_blank())#
+    theme = theme_update(axis.text.x=element_blank(), axis.ticks.x = element_blank(), axis.line.x = element_blank(), axis.title.x=element_blank())#
+    theme = theme_update(axis.line.y = element_blank(), axis.title.y=element_blank(), axis.text.y = element_text(colour="grey"), axis.ticks.y= element_line(colour="grey"))#
+    if (length(byvars)){#
+      if (length(byvars)>1){#
+          setkeyv(x, byvars)#
+          x[, (group) := 0]#
+          x[unique(x), (group) := 1]#
+          x[, (group):= cumsum(get(group))]#
+      } else{#
+        group <- byvars#
+      }#
+      x[, (group) := as.factor(get(group))]#
+    } else{#
+      group <- factor(0)#
+      x[, (group) := 1]#
+    }#
+    if (!length(w)){#
+      ww <- NULL#
+    }#
+    x <-  suppressWarnings(suppressMessages(gather_(x, variable, value, vars)))#
+    x[, (variable) := as.factor(get(variable))]#
+    if (length(byvars)){#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE,  aes_string(colour = group, fill = group))+  stat_summary(geom = "crossbar", width=0.65, fatten=0, fill = "white", aes_string(colour = group), fun.data =  mean_cl_boot, alpha = 0.5)  + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0)) #+ stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    } else{#
+      print(ggplot(x, aes_string(y = value, x = group , weight = ww)) + geom_boxplot(outlier.colour = NULL, outlier.size = 1, notch = TRUE, colour = hcl(h=15,l=65,c=100), fill = hcl(h=15,l=65,c=100), width = 0.5)+  stat_summary(geom = "crossbar", width=0.65/2, fatten=0, color = hcl(h=15,l=65,c=100), fill = "white", fun.data =  mean_cl_boot, alpha = 0.5) + facet_wrap(facets = as.formula(paste0("~",variable)), scales = "free") + expand_limits(y = 0))  #+stat_summary(geom = "crossbar", width=0.65, fatten=0, color = "white", fun.data =  function(x){m <- median(x, na.rm = TRUE); c(ymin = m, ymax = m, y = m)}, alpha = 0.7))#
+    }#
+  } else{#
+    x <- x[, c(byvars, vars, along_with, w), with = FALSE]#
+  if (!length(byvars)){#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        i <- i+1#
+        if (length(along_with)){#
+          ans <- x[, c(along_with, v, w), with = FALSE]#
+          nums <- sapply(x, is.numeric)#
+          nums_name <- names(nums[nums==TRUE])#
+          vars=intersect(vars,nums_name)#
+          if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)#
+            if (type == "line"){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_line() #
+            } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with, v) := list(mean(get(along_with)), weighted.mean(get(v), .w, na.rm = TRUE)), by = (bin)]#
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + geom_point(data=ans2, aes_string(x = along_with, y = v)) + expand_limits(y = 0)#
+            }#
+        } else{#
+        ans <- x[, c(v, w), with = FALSE]#
+        dummy <- is.integer(ans[,get(v)]) + is.character(ans[,get(v)])#
+          if (dummy) {#
+            if (reorder){ #
+              ans[, (count) := .N, by = (v)]#
+              setkeyv(ans,c(count, v))#
+              ans[, (v) := factor(get(v), levels = unique(get(v)), ordered = TRUE)]#
+            } else{#
+              ans[, (v) := as.factor(get(v))]#
+            }#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)#
+          } else{ #
+            ans[, (bin) := .bincode(get(v), breaks = seq(min(get(v), na.rm = TRUE), max(get(v), na.rm = TRUE), length = 100))]#
+            N <- ans[, sum(get(w))]#
+            ans[, c(v, count) := list(mean(get(v), na.rm = TRUE), sum(get(w) / N, na.rm = TRUE)), by = (bin)]#
+            # g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line")#
+             g[[i]] <-  ggplot(ans, aes_string(x = v, y= "count")) + geom_point() + expand_limits(y = 0)#
+          }#
+        }#
+      } #
+  } else{#
+    if (length(byvars)>1){#
+      setkeyv(x, byvars)#
+      x[, (group) := 0]#
+      x[unique(x), (group) := 1]#
+      x[, (group):= cumsum(get(group))]#
+    } else{#
+      group <- byvars#
+    }#
+    g <- NULL#
+    i <- 0#
+      for (v in vars){#
+        ans <- x[, c(group, v, w, along_with), with = FALSE]#
+        i <- i+1#
+        if (length(along_with)){#
+          if (type == "line"){#
+            if (!facet){#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, colour = group)) + geom_line() #
+            } else{#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + facet_grid(as.formula(paste0(group, "~.")))#
+            }#
+          } else{#
+            ans[, (bin) := .bincode(get(along_with), breaks = seq(min(get(along_with), na.rm = TRUE), max(get(along_with), na.rm = TRUE), length = 20))]#
+            N <- ans[, sum(get(w))]#
+            ans2 <- copy(ans)#
+            ans2[, c(along_with,v) := list(mean(get(along_with)), weighted.mean(get(v),  get(w), na.rm = TRUE)), by = c(group, bin)]#
+              if (!facet){#
+                ans[, (group):= as.factor(get(group))]#
+                ans2[, (group):= as.factor(get(group))]#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(data = ans2, aes_string(x = along_with, y = v, color = group), alpha = 0.6) + stat_smooth(method = type)#
+              } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = along_with, y = v)) + geom_point(data = ans2, aes_string(weight = ww, x = along_with, y = v)) + stat_smooth(method = type) + facet_grid(as.formula(paste0(group, "~.")))#
+              }#
+            } #
+        } else{#
+          dummy <- is.integer(ans[,get(v)])+ is.character(ans[,get(v)])#
+          if (dummy) {#
+            # same order across groups#
+            setkeyv(ans, c(v, group))#
+            ans[, (v) := as.factor(get(v))]#
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))]#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, fill = group)) + geom_bar(width = 0.5, position = "dodge")+ coord_flip() + expand_limits(y=0)#
+            } else{#
+                g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + geom_point(stat="bin") + coord_flip() + expand_limits(y = 0)+ facet_grid(as.formula(paste0(group,"~.")))#
+            }#
+          } else{ #
+            if (!facet){#
+              ans[, (group):= as.factor(get(group))]#
+              g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v, color = group)) + stat_density(geom = "line", position = "identity") + expand_limits(y=0)#
+            } else{            #
+            g[[i]] <-  ggplot(ans, aes_string(weight = ww, x = v)) + stat_density(geom = "line") + facet_grid(as.formula(paste0(group, "~."))) + expand_limits(y=0)#
+            }#
+          }#
+        }#
+      } #
+  }#
+    if (length(g)==1){#
+      if (verbose){#
+        print(g[[1]])#
+      } else{#
+        suppressWarnings(suppressMessages(print(g[[1]])))#
+      }#
+    } else{#
+      if (verbose){#
+        do.call(multiplot, g)#
+      }#
+      suppressWarnings(suppressMessages(do.call(multiplot, g)))#
+    }#
+  }#
+}#
+# from http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)#
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {#
+  # Make a list from the ... arguments and plotlist#
+  plots <- c(list(...), plotlist)#
+  numPlots = length(plots)#
+  # If layout is NULL, then use 'cols' to determine layout#
+  if (is.null(layout)) {#
+    # Make the panel#
+    # ncol: Number of columns of plots#
+    # nrow: Number of rows needed, calculated from # of cols#
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),#
+                    ncol = cols, nrow = ceiling(numPlots/cols))#
+  }#
+ if (numPlots==1) {#
+    print(plots[[1]])#
+#
+  } else {#
+    # Set up the page#
+    grid.newpage()#
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))#
+#
+    # Make each plot, in the correct location#
+    for (i in 1:numPlots) {#
+      # Get the i,j matrix positions of the regions that contain this subplot#
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))#
+#
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,#
+                                      layout.pos.col = matchidx$col))#
+    }#
+  }#
+}
+N <- 10000#
+DT <- data.table(#
+  id = sample(c("id1","id2","id3"), N, TRUE),#
+  v1 = sample(c(1:5), N, TRUE),#
+  v2 = rnorm(N, sd = 20),#
+  v3 = sample(runif(100, max=100), N, TRUE)#
+)#
+DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]#
+graph(DT)
