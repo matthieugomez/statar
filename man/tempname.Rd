@@ -3,10 +3,12 @@
 \alias{tempname}
 \title{Create unique names within a list, a data.frame, or an environment}
 \usage{
-tempname(where = globalenv(), prefix = "temp", inherits = TRUE)
+tempname(where = globalenv(), n = 1, prefix = "temp", inherits = TRUE)
 }
 \arguments{
 \item{where}{A chracter vector, list or an environment}
+
+\item{n}{An integar that specifies length of the output}
 
 \item{prefix}{A character vector that specifies prefix for new name}
 
