@@ -51,11 +51,12 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
 
-  bin <- tempname(x)
-  group <- tempname(x)
-  count <- tempname(x)
-  variable <- tempname(x)
-  value <- tempname(x)
+  tempname <- tempname(x, n = 5)
+  group <- tempname[1]
+  count <- tempname[2]
+  variable <- tempname[3]
+  value <- tempname[4]
+  bin <- tempname[5]
   x <- x[, c(byvars, vars, along_with, w), with = FALSE]
 
   if (!length(w)){

@@ -9,21 +9,26 @@
 #' tempname(globalenv())
 #' tempname(data.frame(temp = 1))
 #' @export
-tempname=function(where = globalenv() , prefix = "temp", inherits=TRUE) {
+tempname=function(where = globalenv() , n = 1, prefix = "temp", inherits=TRUE) {
+    all_names <- NULL
     i <- 0L
     name <- prefix
-    if (is.character(where)){
-        while (name %in% where) {
-            i <- i + 1L
-            name <- paste0(prefix, as.character(i))
+    while (n>0){
+        i <- i + 1L
+        if (is.character(where)){
+            while (name %in% where) {
+                name <- paste0(prefix, as.character(i))
+            }
+        } else{
+        	while (exists(name, where = where, inherits = inherits)){
+        	   name <- paste0(prefix, as.character(i))
+    	   }
         }
-    } else{
-    	while (exists(name, where = where, inherits = inherits)){
-            i <- i + 1L
-    	   name <- paste0(prefix, as.character(i))
-	   }
+        all_names <- c(all_names, name)
+        name <- paste0(prefix, as.character(i))
+        n <- n-1
     }
-    name
+    all_names
 }
 
 

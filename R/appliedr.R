@@ -31,5 +31,6 @@
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_detect
 #' @importFrom tidyr gather_
+#' @importFrom tidyr spread_
 NULL
 

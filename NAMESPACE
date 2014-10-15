@@ -2,7 +2,6 @@
 
 S3method(lag,default)
 S3method(spread_,data.table)
-S3method(spread_,grouped_dt)
 S3method(spread_,tbl_dt)
 export(duplicates)
 export(duplicates_)
@@ -53,3 +52,4 @@ importFrom(stats,lag)
 importFrom(stringr,str_detect)
 importFrom(stringr,str_replace)
 importFrom(tidyr,gather_)
+importFrom(tidyr,spread_)
