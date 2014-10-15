@@ -1,9 +1,9 @@
 Package: appliedr
-Title: A R package for applied data analysis
+Title: Applied analysis of data.tables
 Version: 0.1
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
-Description: A set of useful commands for applied data analysis. The package
+Description: A set of useful commands for applied analysis of data.tables. The package
     requires tidyr, which can be installed on github at
     https://github.com/hadley/tidyr.
 License: GPL-2

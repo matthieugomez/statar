@@ -125,4 +125,14 @@ set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){
 
 
 
+`[[.data.table` <- function(x,i){
+    isub <- substitute(i)
+    if (isub==quote(.N)){
+        i <- length(x)
+    }
+    `[[.data.frame`(x,i)
+}
+
+
+
 

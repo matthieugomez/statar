@@ -38,7 +38,7 @@ Experimental function to graph a dataset
 }
 \examples{
 library(data.table)
-N <- 10000
+N <- 10
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
   v1 = sample(c(1:5), N, TRUE),

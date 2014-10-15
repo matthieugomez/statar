@@ -12,7 +12,7 @@
 #' @param .dots Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
-#' N <- 10000
+#' N <- 10
 #' DT <- data.table(
 #'   id = sample(c("id1","id2","id3"), N, TRUE),
 #'   v1 = sample(c(1:5), N, TRUE),
@@ -49,16 +49,17 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
     nums_name <- names(nums[nums==TRUE])
     vars = intersect(vars,nums_name)
   }
-
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
 
-  assign_var(x, bin, group, count,  variable, value)
-
-
+  bin <- tempname(x)
+  group <- tempname(x)
+  count <- tempname(x)
+  variable <- tempname(x)
+  value <- tempname(x)
   x <- x[, c(byvars, vars, along_with, w), with = FALSE]
 
   if (!length(w)){
-    assign_var(x, w)
+    w <- tempname(x)
     x[, (w) := 1]
     ww <- NULL
   } else{

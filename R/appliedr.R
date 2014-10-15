@@ -30,7 +30,6 @@
 #' @importFrom stats lag
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_detect
-#' @importFrom tidyr spread_
 #' @importFrom tidyr gather_
 NULL
 
