@@ -21,6 +21,8 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{by}{Groups within which variables should be ploted.}
 
+\item{w}{Weights (experimental)}
+
 \item{reorder}{Should the category with the most count be printed first?}
 
 \item{winsorize}{Should variables winsorized?}
@@ -38,7 +40,7 @@ Experimental function to graph a dataset
 }
 \examples{
 library(data.table)
-N <- 10
+N <- 100
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
   v1 = sample(c(1:5), N, TRUE),
@@ -46,11 +48,9 @@ DT <- data.table(
   v3 = sample(runif(100, max=100), N, TRUE)
 )
 DT[, v4 := v3 + rnorm(N, sd = 20)]
-graph(DT)
 graph(DT, by = id)
 graph(DT, by = id, facet = TRUE)
 graph(DT, by = id, type = "boxplot")
-graph(DT, v3, v4, along_with = v2)
 graph(DT, v3, v4, along_with = v2, by = id, type = "loess")
 }
 

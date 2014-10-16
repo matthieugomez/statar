@@ -8,11 +8,11 @@
 #' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
 #' @examples 
 #' v <- c(NA, 1:10)                   
-#' partition(v, n_quantiles = 3) # 3 groups based on terciles
-#' partition(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
-#' partition(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+#' bin(v, n_quantiles = 3) # 3 groups based on terciles
+#' bin(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
+#' bin(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 #' @export
-partition <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL, w = NULL){
+bin <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL, w = NULL){
   if (!is.null(n_quantiles)){
   if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")
       if (is.null(w)){

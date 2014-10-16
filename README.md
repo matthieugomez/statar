@@ -1,4 +1,4 @@
-appliedr
+statar
 ======
 
 A set of R commands for data analysis built on data.table, dplyr and ggplot2.
@@ -8,7 +8,7 @@ A set of R commands for data analysis built on data.table, dplyr and ggplot2.
 
 - The github version of this package can be installed via `devtools`
 ````R
-devtools::install_github("matthieugomez/appliedr")
+devtools::install_github("matthieugomez/statar")
 ````
 
 

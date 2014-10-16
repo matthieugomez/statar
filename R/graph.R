@@ -10,9 +10,10 @@
 #' @param facet Should different groups graphed in different windows?
 #' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
 #' @param .dots Used to work around non-standard evaluation.
+#' @param w Weights (experimental)
 #' @examples
 #' library(data.table)
-#' N <- 10
+#' N <- 100
 #' DT <- data.table(
 #'   id = sample(c("id1","id2","id3"), N, TRUE),
 #'   v1 = sample(c(1:5), N, TRUE),
@@ -20,11 +21,9 @@
 #'   v3 = sample(runif(100, max=100), N, TRUE)
 #' )
 #' DT[, v4 := v3 + rnorm(N, sd = 20)]
-#' graph(DT)
 #' graph(DT, by = id)
 #' graph(DT, by = id, facet = TRUE)
 #' graph(DT, by = id, type = "boxplot")
-#' graph(DT, v3, v4, along_with = v2)
 #' graph(DT, v3, v4, along_with = v2, by = id, type = "loess")
 #' @export
 graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {"lm"}) {
