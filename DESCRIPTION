@@ -1,12 +1,12 @@
 Package: statar
-Title: A set of useful commands to clean and manipulate datasets.
+Title: Tools Inspired by Stata to Clean, Explore and Join Datasets
 Version: 0.1
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
-Description: Operations on vectors: mode, bin, winsorize. Operations on
-    data.tables: summarize (in tables or graphs), panel structure (lag, fill in
-    gaps, fill in missing values), SQL-type joins. Most commands are inspired
-    by Stata.
+Description: statar includes a set of functions for vectors: mode, tag, bin and
+    winsorize. statar includes a set of functions for data.tables: summarize
+    (in tables or graphs), panel data operations (lag, fill in gaps, fill in
+    missing values) and SQL-type joins.
 License: GPL-2
 URL: https://github.com/matthieugomez/statar
 BugReports: https://github.com/matthieugomez/statar/issues
