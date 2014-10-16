@@ -10,7 +10,7 @@ vignette: >
 ---
 
 # Vector functions
-The package adds the following verbs for vectors
+The package adds the following vector functions
 
 ````R
 # sample_mode returns the statistical mode
