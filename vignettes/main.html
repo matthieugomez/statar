@@ -10,7 +10,7 @@
 
 <meta name="author" content="Matthieu Gomez" />
 
-<meta name="date" content="2014-10-16" />
+<meta name="date" content="2014-10-18" />
 
 <title>statar</title>
 
@@ -54,13 +54,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">statar</h1>
 <h4 class="author"><em>Matthieu Gomez</em></h4>
-<h4 class="date"><em>2014-10-16</em></h4>
+<h4 class="date"><em>2014-10-18</em></h4>
 </div>
 
 
 <div id="vector-functions" class="section level1">
 <h1>Vector functions</h1>
-<p>The package adds the following verbs for vectors</p>
+<p>The package adds the following vector functions</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sample_mode returns the statistical mode</span>
 <span class="kw">sample_mode</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>))
 <span class="kw">sample_mode</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
@@ -78,7 +78,12 @@ v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</sp
 <span class="kw">winsorize</span>(v)
 <span class="kw">winsorize</span>(v, <span class="dt">replace =</span> <span class="ot">NA</span>)
 <span class="kw">winsorize</span>(v, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>))
-<span class="kw">winsorize</span>(v, <span class="dt">cutpoints =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">50</span>))</code></pre>
+<span class="kw">winsorize</span>(v, <span class="dt">cutpoints =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">50</span>))
+
+<span class="co"># demean on multiple groups (ie multiple fixed effects)</span>
+<span class="kw">demean</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">fe=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))  
+<span class="kw">demean</span>(<span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">2</span>), <span class="dt">fe =</span><span class="kw">list</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)))               
+<span class="kw">demean</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">fe =</span><span class="kw">list</span>(<span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)))</code></pre>
 </div>
 <div id="data.table-functions" class="section level1">
 <h1>data.table functions</h1>
@@ -201,12 +206,7 @@ y &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="
 </div>
 <div id="others" class="section level1">
 <h1>Others</h1>
-<p>This package also adds</p>
-<ul>
-<li>A data.table method for the generic <code>tidyr::spread</code> that relies on <code>dcast.data.table</code> (much faster).</li>
-<li><code>floor_date</code>, originally from the package <code>lubridate</code>, now accepts “quarter” as an argument</li>
-<li><code>tempname</code> returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.</li>
-</ul>
+<p>This package also adds - A data.table method for the generic <code>tidyr::spread</code> that relies on <code>dcast.data.table</code> (much faster). - <code>floor_date</code>, originally from the package <code>lubridate</code>, now accepts “quarter” as an argument - <code>tempname</code> returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tempname</span>(<span class="kw">c</span>(<span class="st">&quot;temp1&quot;</span>, <span class="st">&quot;temp3&quot;</span>), <span class="dv">4</span>)
 <span class="kw">tempname</span>(<span class="kw">globalenv</span>())
 <span class="kw">tempname</span>(<span class="kw">data.frame</span>(<span class="dt">temp =</span> <span class="dv">1</span>), <span class="dt">n =</span> <span class="dv">3</span>)</code></pre>
