@@ -1,3 +1,260 @@
+felm(v3 ~ 1|0|(v2~v1), DT)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+n
+f
+felm(v3 ~ 1|0|(v2~v1), DT)
+pform
+parseformula(formula,data)
+knownargs
+sc
+sc <- names(sys.call())[-1]
+sc
+named <- knownargs[pmatch(sc, knownargs)]
+formula
+f
+felm::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
+lfe:::parseformula(v3 ~ 1 | 0 | v2 ~ v1, DT)
+felm = function (formula, data, iv = NULL, clustervar = NULL, exactDOF = FALSE, #
+    subset, na.action, contrasts = NULL, ...) #
+{#
+    knownargs <- c("iv", "clustervar", "cmethod")#
+    sc <- names(sys.call())[-1]#
+    named <- knownargs[pmatch(sc, knownargs)]#
+    for (arg in c("iv", "clustervar")) {#
+        if (!is.null(eval(as.name(arg))) && !(arg %in% named)) {#
+            warning("Please specify the '", arg, "' argument by name, or use a multi part formula. Its position in the argument list will change in a later version")#
+        }#
+    }#
+    mf <- match.call(expand.dots = FALSE)#
+    cmethod <- "cgm"#
+    args <- list(...)#
+    ka <- knownargs[pmatch(names(args), knownargs, duplicates.ok = FALSE)]#
+    names(args)[!is.na(ka)] <- ka[!is.na(ka)]#
+    env <- environment()#
+    lapply(intersect(knownargs, ka), function(arg) assign(arg, #
+        args[[arg]], pos = env))#
+    if (!(cmethod %in% c("cgm", "gaure"))) #
+        stop("Unknown cmethod: ", cmethod)#
+    unk <- setdiff(names(args), knownargs)#
+    if (length(unk) > 0) #
+        stop("unknown arguments ", paste(unk, collapse = " "))#
+    if (missing(data)) #
+        data <- environment(formula)#
+    pf <- parent.frame()#
+    pform <- parseformula(formula, data)#
+    print(formula)#
+    print(pform)#
+}
+felm(v3 ~ 1|0|v2~v1, DT)
+parseformula <- function (form, data) #
+{#
+    f <- as.Formula(form)#
+    len <- length(f)[[2]]#
+    if (len == 1) #
+        return(oldparseformula(form, data))#
+    opart <- formula(f, lhs = 1, rhs = 1)#
+    if (len == 1) #
+        return(list(formula = opart, gpart = ~0, ivpart = ~0, #
+            cpart = ~0))#
+    gpart <- formula(f, lhs = 0, rhs = 2)#
+    if (!nopart(gpart)) {#
+        tm <- terms(gpart, keep.order = TRUE)#
+        parts <- attr(tm, "term.labels")#
+        parts <- parts[parts != "0"]#
+        nm <- parts#
+        glist <- lapply(paste(".G(", parts, ")", sep = ""), function(e) parse(text = e))#
+        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
+            factor(f)#
+        else f#
+        Ginfunc <- function(x, f) {#
+            if (is.factor(x)) {#
+                structure(interaction(factor(f), factor(x), drop = TRUE), #
+                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
+            }#
+            else {#
+                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
+                  fnam = deparse(substitute(f)))#
+            }#
+        }#
+        if (is.environment(data)) {#
+            fl <- lapply(glist, eval, list(.G = Gfunc, `:` = Ginfunc), #
+                data)#
+        }#
+        else {#
+            fl <- lapply(glist, eval, data, as.environment(list(.G = Gfunc, #
+                `:` = Ginfunc)))#
+        }#
+        names(fl) <- nm#
+    }#
+    else {#
+        fl <- NULL#
+    }#
+    if (len == 2) #
+        return(list(formula = opart, fl = fl, gpart = gpart, #
+            ivpart = ~0, cpart = ~0))#
+    ivparts <- formula(f, lhs = 0, rhs = 3, drop = TRUE)#
+    if (!nopart(ivparts) && length(ivparts[[2]]) > 1 && ivparts[[2]][[1]] == #
+        "(") {#
+        ivspec <- as.Formula(ivparts[[2]][[2]])#
+        lhs <- formula(ivspec, rhs = 0)#
+        ivpart <- lapply(seq_along(all.vars(lhs)), function(i) formula(ivspec, #
+            lhs = i))#
+    }#
+    else {#
+        ivpart <- NULL#
+    }#
+    if (len == 3 && !is.null(ivpart)) #
+        return(list(formula = opart, fl = fl, iv = ivpart, gpart = gpart, #
+            ivpart = ivparts, cpart = ~0))#
+    if (len == 3 && is.null(ivpart)) {#
+        cpart <- ivparts#
+        ivparts <- NULL#
+    }#
+    else {#
+        cpart <- formula(f, lhs = 0, rhs = 4, drop = TRUE)#
+    }#
+    if (!nopart(cpart)) {#
+        tm <- terms(cpart, keep.order = TRUE)#
+        nm <- parts <- attr(tm, "term.labels")#
+        clist <- lapply(paste("factor(", parts, ")", sep = ""), #
+            function(e) parse(text = e))#
+        cluster <- lapply(clist, eval, data)#
+        names(cluster) <- nm#
+    }#
+    else {#
+        cluster <- NULL#
+    }#
+    list(formula = opart, fl = fl, iv = ivpart, cluster = cluster, #
+        gpart = gpart, ivpart = ivparts, cpart = cpart)#
+}
+felm(v3 ~ 1|0|v2~v1, DT)
+library(Formula)
+felm(v3 ~ 1|0|v2~v1, DT)
+oldparseformula = function (formula, data) #
+{#
+    trm <- terms(formula, specials = c("G"))#
+    feidx <- attr(trm, "specials")$G + 1#
+    va <- attr(trm, "variables")#
+    festr <- paste(sapply(feidx, function(i) deparse(va[[i]])), #
+        collapse = "+")#
+    if (festr != "") {#
+        formula <- update(formula, paste(". ~ . -(", festr, ") - 1"))#
+        felist <- parse(text = paste("list(", gsub("+", ",", #
+            festr, fixed = TRUE), ")", sep = ""))#
+        nm <- eval(felist, list(G = function(arg) deparse(substitute(arg))))#
+        Gfunc <- function(f) if (is.null(attr(f, "xnam"))) #
+            factor(f)#
+        else f#
+        Ginfunc <- function(x, f) {#
+            if (is.factor(x)) {#
+                structure(interaction(factor(f), factor(x), drop = TRUE), #
+                  xnam = deparse(substitute(x)), fnam = deparse(substitute(f)))#
+            }#
+            else {#
+                structure(factor(f), x = x, xnam = deparse(substitute(x)), #
+                  fnam = deparse(substitute(f)))#
+            }#
+        }#
+        if (is.environment(data)) {#
+            fl <- eval(felist, list(G = Gfunc, `:` = Ginfunc), #
+                data)#
+        }#
+        else {#
+            fl <- local({#
+                eval(felist, data)#
+            }, list(G = Gfunc, `:` = Ginfunc))#
+        }#
+        names(fl) <- nm#
+        gpart <- eval(parse(text = paste("~", paste(nm, collapse = "+"))))#
+        if (is.null(names(fl))) #
+            names(fl) <- paste("fe", 1:length(fl), sep = "")#
+    }#
+    else {#
+        fl <- NULL#
+        gpart <- ~0#
+    }#
+    return(list(formula = formula, fl = fl, gpart = gpart, ivpart = ~0, #
+        cpart = ~0))#
+}
+felm(v3 ~ 1|0|v2~v1, DT)
+library(lfe)
+suppressMessages(library("data.table"))
+N <- 1e3#
+DT <- data.table(#
+  id = 1:N,#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
+  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)
+felm(v3 ~ 1|0|v2~v1, DT)
+DT
+felm(v3 ~ 1|0|v2~v1, DT)
+DT
+felm(v3 ~ 1|0|(v2~v1), DT)
+debug(felm)
+felm(v3 ~ 1|0|(v2~v1), DT)
+formula
+pform
+f <- as.Formula(formula)
+f
+felm(v3 ~ 1|0|(v2~v1), DT)
+s
+n
+formula
+data
+p <- as.Formula(formula)
+p
+length(f)[[2]]
+length(p)[[2]]
+length(p)[[1]]
+names(length(p))
+length(p)
+p
+length(formula)
+length(formula)[[2]]
+gpart <-  formula(p, lhs = 0, rhs = 2)
+nopart(gpart)
+ivparts <- formula(p, lhs = 0, rhs = 3, drop = TRUE)
+ivparts
+f
+as.list(body(felm))
+trace(felm, print(mf), at = 40)
+trace(felm, quote(print(mf)), at = 40)
+felm(v3 ~ 1|0|(v2~v1), DT)
+g=function(formula,env){eval(formula,env)}
+f=function(x){assign("t1",1:10,envir = parent.frame()); g(y~t1, parent.frame())}
+f=function(x){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+f(1:10)
+g=function(formula,env){stats::model.frame(formula,env)}
+f(1:10)
+f=function(){assign("t1",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+x <- 1:10
+f(1:10)
+f()
+ls()
+ls(parent.env())
+?ls
+g=function(formula,env){eval(formula,env)}
+g=function(formula,env){stats::model.frame(formula,env)}
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+f()
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~t1, parent.frame())}
+f()
+f=function(){assign("v2(fit)",1:10,envir = parent.frame()); g(x~`v2(fit)`, parent.frame())}
+f()
+lfe::project
+library(data.table)
+last(c(1,2))
+library(statar)
+?setcols
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package/R/statar.R")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar-package")
+?saveRDS
+x <- data.table(a = rep(1:2, each = 3), b=1:6) y <- data.table(a = 0:1, bb = 10:11)
+x <- data.table(a = rep(1:2, each = 3), b=1:6) ; y <- data.table(a = 0:1, bb = 10:11)
 library(data.table)
 x <- data.table(a = rep(1:2, each = 3), b=1:6) ; y <- data.table(a = 0:1, bb = 10:11)
 join(x, y, type = "inner", check = 1~m)
@@ -438,432 +695,6 @@ install.packages("Rz")
 ?substitute
 NA + 3
 setwd("/Users/Matthieu/Dropbox/Symlink")#
-devtools::install_github("matthieugomez/statar")#
-#
-suppressMessages(library("data.table"))#
-suppressMessages(library("tidyr"))#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("lazyeval"))#
-suppressMessages(library("devtools"))#
-#
-suppressMessages(library("dplyr"))#
-suppressMessages(library("reshape2"))#
-suppressMessages(library("ggplot2"))#
-suppressMessages(library("stringr"))#
-suppressMessages(library("lubridate"))#
-suppressMessages(library("pryr"))#
-suppressMessages(library("lfe"))#
-suppressMessages(library("biglm"))#
-suppressMessages(library("foreign"))#
-suppressMessages(library("stargazer"))#
-suppressMessages(library("parallel"))#
-suppressMessages(library("statar"))#
-assignInNamespace("cedta.override",#
-                  c(data.table:::cedta.override,"IRkernel"),#
-                  "data.table")
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)
-?trans
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)
-lm(v2~v3+as.factor(id)+as.factor(v1), DT)
-result_felm <- felm(v2~v3|id, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)
-result_felm(as.factor(v1))
-tidy(lm(v2~v3+0+as.factor(id),DT))
-result_felm <- felm(v2~v3|id, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE, N = 1000)
-2*(1-pnorm(-1.838666))
-?btrap
-?getfe
-2*(1-pnorm(abs(1.838666)))
-2*(1-pt(abs(1.838666)))
-2*(1-pt(abs(1.838666), df = 1000))
-2*(1-pt(abs(1.838666), df = 100))
-x$n
-x
-result_felm <- felm(v2~v3|id, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE, N = 1000)
--1725.855/(938.6454/sqrt(100))
--1725.855/(938.6454/sqrt(1000))
--1725.855/(938.6454/sqrt(10000))
--1725.855/(938.6454/sqrt(10))
--1725.855/(938.6454)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-tidy(lm(v2~v3+as.factor(id)+0, DT))
-?getfe
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)#
-tidy(lm(v2~v3+as.factor(id)+0, DT))
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")#
-N=1e2; K=100#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE), # numeric e.g. 23.5749#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id, DT)#
-tidy(result_felm)#
-tidy(result_felm, fe = TRUE)#
-tidy(result_felm, fe = TRUE, conf.int = TRUE)#
-tidy(lm(v2~v3+as.factor(id)+0, DT))
-x <- result_felm
-ret_fe <- getfe(x, se = TRUE, bN = 1000) %>%#
-                  select(effect, se, obs, comp) %>%#
-                  fix_data_frame(nn) %>%#
-                  mutate(statistic = estimate/stderror) %>%#
-                  mutate(p.value = 2*(1-pt(statistic, df = N)))
-nn <- c("estimate", "stderror", "N", "comp")#
-        ret_fe <- getfe(x, se = TRUE, bN = 1000) %>%#
-                  select(effect, se, obs, comp) %>%#
-                  fix_data_frame(nn) %>%#
-                  mutate(statistic = estimate/stderror) %>%#
-                  mutate(p.value = 2*(1-pt(statistic, df = N)))
-ret_fe
-nn <- c("estimate", "stderror", "N", "comp")#
-        ret_fe <- getfe(x, se = TRUE, bN = 1000, robust = TRUE) %>%#
-                  select(effect, se, obs, comp) %>%#
-                  fix_data_frame(nn) %>%#
-                  mutate(statistic = estimate/stderror) %>%#
-                  mutate(p.value = 2*(1-pt(statistic, df = N)))
-getfe(x, se = TRUE, bN = 1000, robust = TRUE)
-getfe
-?felm
-?trans
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-?tidy.felm
-?felm_tiders
-?tidy
-?lem4_tiders
-?lme4_tiders
-?lme4_tidiers
-?felm_tidiers
-?felm_tidiers
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-?felm_tiders
-?felm_tydiers
-?lem4_tydiers
-?lme4_tydiers
-?lme4_tidiers
-?felm_tidiers
-devtools::document("/Users/Matthieu/Dropbox/Github/broom")
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-?felm_tidiers
-devtools::document("/Users/Matthieu/Dropbox/Github/broom")
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-?felm_tidiers
-?lm_tidiers
-?felm_tidiers
-devtools::document("/Users/Matthieu/Dropbox/Github/broom")
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-?felm_tidiers
-?lm_tidiers
-?felm_tidiers
-?lm_tidiers
-?felm_tidiers
-?felm_tidiers
-devtools::document("/Users/Matthieu/Dropbox/Github/broom")
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-N=1e2#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          #
-  v2 =  sample(1e6, N, TRUE),                        #
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE),#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) #
-)#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm, fe = TRUE)#
-augment(result_felm)#
-v1<-DT$v1#
-v2 <- DT$v2#
-v3 <- DT$v3#
-id <- DT$id#
-result_felm <- felm(v2~v3|id+v1)#
-tidy(result_felm)#
-augment(result_felm)#
-glance(result_felm)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-N=1e2#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          #
-  v2 =  sample(1e6, N, TRUE),                        #
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE),#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) #
-)#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm, fe = TRUE)#
-augment(result_felm)#
-v1<-DT$v1#
-v2 <- DT$v2#
-v3 <- DT$v3#
-id <- DT$id#
-result_felm <- felm(v2~v3|id+v1)#
-tidy(result_felm)#
-augment(result_felm)#
-glance(result_felm)
-result_felm$r2
-result_felm
-summary(result_felm)$r2
-summary(result_felm)$r2adh
-summary(result_felm)$r2adj
-summary(result_felm)$fstat
-summary(result_felm)$pval
-summary(result_felm)$df
-summary(result_felm)$df.residual
-summary(result_felm)$rdf
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-load_all("/Users/Matthieu/Dropbox/Github/broom")
-N=1e2#
-DT <- data.frame(#
-  id = sample(5, N, TRUE),#
-  v1 =  sample(5, N, TRUE),                          #
-  v2 =  sample(1e6, N, TRUE),                        #
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE),#
-  v4 =  sample(round(runif(100,max=100),4), N, TRUE) #
-)#
-result_felm <- felm(v2~v3, DT)#
-tidy(result_felm)#
-augment(result_felm)#
-result_felm <- felm(v2~v3|id+v1, DT)#
-tidy(result_felm, fe = TRUE)#
-augment(result_felm)#
-v1<-DT$v1#
-v2 <- DT$v2#
-v3 <- DT$v3#
-id <- DT$id#
-result_felm <- felm(v2~v3|id+v1)#
-tidy(result_felm)#
-augment(result_felm)#
-glance(result_felm)
-devtools::document("/Users/Matthieu/Dropbox/Github/broom")
-?stargazer
-?merge
-# test it more:#
-    d1 <- data.table(a=rep(1:2,each=3), b=1:6, key="a,b")#
-    d2 <- data.table(a=0:1, bb=10:11, key="a")#
-    d3 <- data.table(a=0:1, key="a")#
-    d4 <- data.table(a=0:1, b=0:1, key="a,b")
-?erge
-?nerge
-?merge
-merge(dt1,dt2)
-dt1
-merge(d1,d2)
-sekey(d1,d2, by = "a")
-merge(d1,d2, by = "a")
-merge(d1,d2, by = "bb")
-key(d1)
-# test it more:#
-    d1 <- data.table(a=rep(1:2,each=3), b=1:6)#
-    d2 <- data.table(a=0:1, bb=10:11)#
-    d3 <- data.table(a=0:1)#
-    d4 <- data.table(a=0:1, b=0:1)
-d1
-merge(d1,d2)
-setkey(d1, "a")
-merge(d1,d2)
-intersect("a", key(d2)
-)
-intersect("a", "b")
-sekey(d1, a)
-sekey(d2,bb)
-setkey(d1, a)
-setkey(d2,bb)
-merge(d1,d2)
-?merge
-d1 <- data.table(a=rep(1:2,each=3), b=1:6, key = "a")#
- d2 <- data.table(a=0:1, bb=10:11, key = "bb")#
-merge(d1,d2)
-d1 <- data.table(a=rep(1:2,each=3), b=1:6, key = "a")#
- d2 <- data.table(a=0:1, bb=10:11, key = "bb")#
-merge(d1,d2)
-?merge
-d1 <- data.table(a=rep(1:2,each=3), b=1:6, key = "a")#
- d2 <- data.table(a=0:1, bb=10:11, key = "bb")#
-merge(d1,d2)
-?merge
-d1[d2]
-?merge
-?merge
-by <- intersect(key(d1), key(d3))
-by
-by <- intersect(key(d1), key(d2))
-by
-by <- intersect(key(d1), key(d2))
-byn <- intersect(key(d1), key(d3))
-byn
-length(byn)
-by == character(0)
-is.character(by)
-is.character(NULL)
-if (is.null(by)) {        #
-         by <- intersect(key(x), key(y))               #
-         if (is.character(by) && !length(by)) stop("x and y don't share keys with common names. Please rename columns of y or use x[y]")  #
-     }
-DT
-demanlist(DT[,list(v2,v3)], as.factor(DT$id))
-demeanlist(DT[,list(v2,v3)], as.factor(DT$id))
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N <- 2e6#
-DT <- data.table(#
-         date = sample(10, N, TRUE),#
-           id = sample(1e5, N, TRUE),   #
-        value = sample(c(NA,1:5), N, TRUE)                   #
-      )
-setwd("/Users/Matthieu/Dropbox/Symlink")#
 N=1e4; K=100#
 set.seed(1)#
 DT <- data.table(#
@@ -872,545 +703,1847 @@ DT <- data.table(#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-demeanlist(DT[,list(v2,v3)], as.factor(DT$id))
-demeanlist(as.matrix(DT[,list(v2,v3)]), as.factor(DT$id))
-T[,list(v2,v3)]
-DT[,list(v2,v3)]
-DT$id
-demeanlist(as.matrix(DT[,list(v2,v3)]), list(as.factor(DT$id)))
-demeanlist(as.matrix(DT[,list(v2,v3)]), list(as.factor(DT$v1)))
 setwd("/Users/Matthieu/Dropbox/Symlink")#
-DT[, c("v2_m","v3_m":=list(mean(v2), mean(v3)), by = v1]#
-DT[, c("v2_m","v3_m":=list(v2-v2_m, v3-v3_m), by = v1]
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-demeanlist(as.matrix(DT[,list(v2,v3)]), list(as.factor(DT$v1)))#
-DT[, c("v2_m","v3_m"):=list(mean(v2), mean(v3)), by = v1]#
-DT[, c("v2_m","v3_m"):=list(v2-v2_m, v3-v3_m), by = v1]
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e6; K=100#
+library(data.table)#
+N=1e4; K=100#
 set.seed(1)#
 DT <- data.table(#
   id = 1:N,#
   v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
   v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
   v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-demeanlist(as.matrix(DT[,list(v2,v3)]), list(as.factor(DT$v1)))#
-DT[, c("v2_m","v3_m"):=list(mean(v2), mean(v3)), by = v1]#
-DT[, c("v2_m","v3_m"):=list(v2-v2_m, v3-v3_m), by = v1]
-system.time( M<- demeanlist(as.matrix(DT[,list(v2,v3)]), list(as.factor(DT$v1))))#
-system.time(DT[, c("v2_m","v3_m"):=list(mean(v2), mean(v3)), by = v1][, c("v2_m","v3_m"):=list(v2-v2_m, v3-v3_m)])
-N=1e6; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = sample(5, N/K, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)#
-system.time( M<- demeanlist(as.matrix(DT[,list(v2,v3)]), list(as.factor(DT$v1))))#
-system.time(DT[, c("v2_m","v3_m"):=list(mean(v2), mean(v3)), by = v1][, c("v2_m","v3_m"):=list(v2-v2_m, v3-v3_m)])
-system.time( M<- demeanlist(as.matrix(DT[,list(v2,v3)]), list(as.factor(DT$id))))#
-system.time(DT[, c("v2_m","v3_m"):=list(mean(v2), mean(v3)), by = id][, c("v2_m","v3_m"):=list(v2-v2_m, v3-v3_m)])
+)
 setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-#' Demean a vector#
-#' #
-#' @param n An integer (size of output)#
-#' @param fromLast Should 1 be at the end?#
-#' @return A vector of zeros except one subscript equal to one.#
-#' @examples                        #
-#' tag(2)#
-#' tag(2, fromLast = TRUE)#
-#' @export#
 demean <- function(x, ...){#
-	demeanlist(as.matrix(x), lapply(list(...),as.factor))#
-}
-demean(DT$v1,DT$id)
-demeanlist(DT$v2, as.factor(DT$v1))
-demeanlist(as.matrix(DT$v2), as.factor(DT$v1))
-demean <- function(..., by){#
-	print(as.matrix(...)#
-}
-demean <- function(..., by){#
-	print(as.matrix(...))#
-}
-demeanlist(DT$v2, as.factor(DT$v1))
-demean <- function(..., by){#
-	print(as.matrix(...))#
-}
-as.matrix(c(1,2)
-)
-as.matrix(c(1,2,3)
-)
-demeanlist(DT$v2)
-demean(DT$v2)
-demean(DT$v2, DT$id)
-setwd("/Users/Matthieu/Dropbox/Symlink")#
-N=1e2; K=100#
-set.seed(1)#
-DT <- data.table(#
-  id = sample(5, N/K, TRUE),#
-  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
-  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
-  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
-)
-demean <- function(..., by){#
-	print(as.matrix(...))#
-}
-demean(DT$id,DT$v1)
-demean <- function(..., by){#
-	print(do.call(cbind,list(...))#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(..., by){#
-	print(do.call(cbind,list(...)))#
-}
-demean(DT$id,DT$v1)
-demean <- function(..., by){#
-	M <- do.call(cbind,list(...)))#
-	demeanlist(M, lapply(by,as.factor))#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(..., by){#
-	M <- do.call(cbind,list(...))#
-	demeanlist(M, lapply(by,as.factor))#
-}
-demean(DT$v2,DT$v3, by =list(DT$v1))
-demeanlist(DT$v2, by= as.factor(DT$v1))
-demeanlist(DT$v2,  as.factor(DT$v1))
-demeanlist(DT$v2,  list(as.factor(DT$v1)))
-demeanlist(as.matrix(DT$v2),  list(as.factor(DT$v1)))
-demeanlist(as.matrix(DT$v2),  list(as.factor(DT$v1)))
-demean <- function(..., fe){#
-	M <- do.call(cbind,list(...))#
-	demeanlist(M, lapply(by,as.factor))#
-}
-DT[, demean(v2,v3, fe= list(v1, id))]
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(..., fe){#
-	M <- do.call(cbind,list(...))#
-	as.list(demeanlist(M, lapply(by,as.factor)))#
-}
-DT[, demean(v2,v3, fe= list(v1, id))]
-demean <- function(..., fe){#
-	M <- do.call(cbind,list(...))#
-	as.data.frame(demeanlist(M, lapply(by,as.factor)))#
-}
-DT[, demean(v2,v3, fe= list(v1, id))]
-DT[,c("v2_demean","v3_demean") := demean(v2,v3, fe= list(v1, id))]
-DT
-demean <- function(..., fe){#
-	M <- do.call(cbind,list(...))#
-	as.data.frame(demeanlist(M, lapply(fe,as.factor)))#
-}
-demean <- function(..., fe){#
-	M <- do.call(cbind,list(...))#
-	as.data.frame(demeanlist(M, lapply(fe,as.factor)))#
-}
-DT[,c("v2_demean","v3_demean") := demean(v2,v3, fe= list(v1, id))]
-DT
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	as.data.frame(demeanlist(x, lapply(fe,as.factor)))#
-}
-DT[,c("v2_demean") := demean(v2, fe= list(v1, id))]
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	x <- as.matrix(x)#
-	as.data.frame(demeanlist(x, lapply(fe,as.factor)))#
-}
-DT[,c("v2_demean") := demean(v2, fe= list(v1, id))]
-as.matrix(DT$v2)
-traceback
-DT[,c("v2_demean") := demean(v2, fe= list(v1, id))]
-traceback()
-demeanlist(DT$v2, as.factor(DT$v1))
-demeanlist(DT$v2, list(as.factor(DT$v1)))
-demeanlist(cbind(DT$v2,DT$v3), list(as.factor(DT$v1)))
-demeanlist(cbind(DT$v2), list(as.factor(DT$v1)))
-demeanlist(DT$v2, list(as.factor(DT$v1)))
-traceback()
-demeanlist
-demeanlist(list(DT$v2), list(as.factor(DT$v1)))
-is.list(rbind(DT$v2,DT$v3))
-demeanlist(list(DT$v2, DT$v3), list(as.factor(DT$v1)))
-demeanlist(list(rbind(DT$v2, DT$v3)), list(as.factor(DT$v1)))
-demeanlist(rbind(DT$v2, DT$v3), list(as.factor(DT$v1)))
-demeanlist(cbind(DT$v2, DT$v3), list(as.factor(DT$v1)))
-demeanlist(list(cbind(DT$v2, DT$v3)), list(as.factor(DT$v1)))
-demeanlist
-# tempname#
-tempname=function(where = globalenv() , n = 1, prefix = "temp") {#
-    all_names <- NULL#
-    i <- 0L#
-    name <- prefix#
-    while (n>0){#
-        i <- i + 1L#
-        while (exists(name, where = where, inherits = inherits)){#
-        name <- paste0(prefix, as.character(i))#
-        i <- i + 1L#
-       }#
-       all_names <- c(all_names, name)#
-            name <- paste0(prefix, as.character(i))#
-            n <- n-1#
-        }#
-    }#
-    all_names#
-}#
-#
-# then write the mean function#
-f <- function(DT, cols, by = bycols){#
-  c <- tempname(DT, length(cols))#
-  newnames <- c(bycols, tempname)#
-  setnames(DT[, lapply(.SD,mean), by = c(bycols), .SD = cols), newnames)#
-}
-tempname=function(where = globalenv() , n = 1, prefix = "temp") {#
-    all_names <- NULL#
-    i <- 0L#
-    name <- prefix#
-    while (n>0){#
-        i <- i + 1L#
-        while (exists(name, where = where, inherits = inherits)){#
-            name <- paste0(prefix, as.character(i))#
-            i <- i + 1L#
-       }#
-      all_names <- c(all_names, name)#
-      name <- paste0(prefix, as.character(i))#
-      n <- n-1#
-   }#
-all_names#
-}#
-#
-# then write the mean function#
-f <- function(DT, cols, by = bycols){#
-  c <- tempname(DT, length(cols))#
-  newnames <- c(bycols, tempname)#
-  setnames(DT[, lapply(.SD,mean), by = c(bycols), .SD = cols), newnames)#
-}
-f <- function(DT, cols, bycols){#
-  c <- tempname(DT, length(cols))#
-  newnames <- c(bycols, tempname)#
-  setnames(DT[, lapply(.SD,mean), by = c(bycols), .SD = cols), newnames)#
-}
-tempname=function(where = globalenv() , n = 1, prefix = "temp") {#
-    all_names <- NULL#
-    i <- 0L#
-    name <- prefix#
-    while (n>0){#
-        i <- i + 1L#
-        while (exists(name, where = where, inherits = inherits)){#
-            name <- paste0(prefix, as.character(i))#
-            i <- i + 1L#
-       }#
-      all_names <- c(all_names, name)#
-      name <- paste0(prefix, as.character(i))#
-      n <- n-1#
-   }#
-all_names#
-}
-f <- function(DT, cols, bycols){#
-  c <- tempname(DT, length(cols))#
-  newnames <- c(bycols, tempname)#
-  setnames(DT[, lapply(.SD,mean), by = c(bycols), .SD = cols), newnames)#
-}
-f <- function(DT, cols, bycols){#
-  c <- tempname(DT, length(cols))#
-  newnames <- c(bycols, tempname)#
-  setnames(DT[, lapply(.SD,mean), by = c(bycols), .SD = c(cols))], newnames)#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-#
-f <- function(DT, cols, bycols){#
-  c <- tempname(DT, length(cols))#
-  newnames <- c(bycols, tempname)#
-  setnames(DT[, lapply(.SD,mean), by = c(bycols), .SD = c(cols)], newnames)#
-}
-DT$tempname
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT,1)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], newnames)#
- ans <- as.vector(DT[, tempname, with = FALSE])#
-DT[ans]#
-}
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], newnames)#
- ans <- as.vector(DT[, tempname, with = FALSE])#
-DT[ans]#
-}
-DT
-f(DT, "v2", "id")
-tempname=function(where = globalenv() , n = 1, prefix = "temp") {#
-    all_names <- NULL#
-    i <- 0L#
-    name <- prefix#
-    while (n>0){#
-        i <- i + 1L#
-        while (exists(name, where = where)){#
-            name <- paste0(prefix, as.character(i))#
-            i <- i + 1L#
-       }#
-      all_names <- c(all_names, name)#
-      name <- paste0(prefix, as.character(i))#
-      n <- n-1#
-   }#
-all_names#
-}
-f(DT, "v2", "id")
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], c(bycols,tempname))#
- ans <- as.vector(DT[, tempname, with = FALSE])#
-DT[ans]#
-}
-f(DT, "v2", "id")
-?data.table
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], c(bycols,tempname))#
- ans <- as.vector(ans[, tempname, with = FALSE])#
-DT[ans]#
-}
-f(DT, "v2", "id")
-DT[, "v2", with = FALSE]
-as.vector(DT[, "v2", with = FALSE])
-is.data.table(DT[, "v2", with = FALSE])
-as.vector(DT[, "v2", with = FALSE])
-is.data.table(as.vector(DT[, "v2", with = FALSE]))
-is.data.table(as.atomic(DT[, "v2", with = FALSE]))
-as.matrix(DT[, "v2", with = FALSE])
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], c(bycols,tempname))#
- ans <- as.matrix(ans[, tempname, with = FALSE])#
-DT[ans]#
-}
-f(DT, "v2", "id")
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], c(bycols,tempname))#
- ans <- as.vector(as.matrix(ans[, tempname, with = FALSE]))#
-DT[ans]#
-}
-f(DT, "v2", "id")
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], c(bycols,tempname))#
- ans <- as.vector(as.matrix(ans[, tempname, with = FALSE]))#
-print(ans)#
-DT[ans]#
-}
-f(DT, "v2", "id")
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[max(get(col))], by = c(bycols)], c(bycols,tempname))#
-print(ans)#
- ans <- as.vector(as.matrix(ans[, tempname, with = FALSE]))#
-print(ans)#
-DT[ans]#
-}
-f(DT, "v2", "id")
-f(DT, "v2", "v2")
-f(DT, "v2", "v1")
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I(max(get(col))), by = c(bycols)], c(bycols,tempname))#
-print(ans)#
- ans <- as.vector(as.matrix(ans[, tempname, with = FALSE]))#
-print(ans)#
-DT[ans]#
-}
-f(DT, "v2", "v1")
-f <- function(DT, col, bycols){#
-  tempname <- tempname(DT)#
-  ans <- setnames(DT[, .I[get(col)==max(get(col))], by = c(bycols)], c(bycols,tempname))#
-print(ans)#
- ans <- as.vector(as.matrix(ans[, tempname, with = FALSE]))#
-print(ans)#
-DT[ans]#
-}
-f(DT, "v2", "v1")
-evaldt(DT[, list(.v3 = weighted.mean(.v1, w = .v2)])))
-evaldt(DT[, list(.v3 = weighted.mean(.v1, w = .v2))]))
-evaldt(DT[, list(.v3 = weighted.mean(.v1, w = .v2))])
-eval(substitute(DT[, .v3 = weighted.mean(.v1, w = .v2)]), list(.v3 = as.name(v3), .v2 = as.name(v2), .v1 = as.name(v1))
-)
-?weighted.mean
-demeanlist(c(1,2), as.factor(c(1,1))
-)
-demeanlist(c(1,2), list(as.factor(c(1,1))))
-demeanlist(DT$v2, list(as.factor(DT$v1)))
-v <- DT$v2
-demeanlist(v, list(as.factor(DT$v1)))
-demeanlist(vdemean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	eval(substitute(demeanlist(x, lapply(fe,as.factor))))#
-}#
-, list(as.factor(DT$v1)))
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	eval(substitute(demeanlist(x, lapply(fe,as.factor))))#
-}
-demean(DT$v2,DT$v1)
-demeanlist(c(1,2), as.factor(c(1,1)))
-demeanlist(c(1,2), list(as.factor(c(1,1))))
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	fe <-  lapply(fe,as.factor)#
-	demeanlist(x,fe))#
-}
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	fe <-  lapply(fe,as.factor)#
-	demeanlist(x,fe)#
-}
-demeanlist(c(1,2), list(as.factor(c(1,1))))
-demean(DT$v2,DT$v1)
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	fe <-  lapply(fe, as.factor)#
-	print(fe)#
-	demeanlist(x,fe)#
-}
-demean(DT$v2,DT$v1)
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	fe <-  apply(fe, 1, as.factor)#
-	print(fe)#
-	demeanlist(x,fe)#
-}
-demean(DT$v2,DT$v1)
-ncols(c(1,2))
-nrow(c(1,2))
-length(c(1,2))
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
+	dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	fe <- do.call(c, dots)#
 	if (is.atomic(fe)){#
-		fe <- as.factor(fe)#
+		fe <- list(as.factor(fe[!is.na(x)]))#
 	} else{#
-		fe <-  lapply(fe, as.factor)#
+		fe <-  lapply(fe, function(z){as.factor(z[!is.na(x)])})#
 	}#
-	print(fe)#
-	demeanlist(x,fe)#
-}
-demean(DT$v2,DT$v1)
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	if (is.atomic(fe)){#
-		fe <- as.factor(fe)#
-	} else{#
-		fe <-  lapply(fe, as.factor)#
+	if (is.integer(x)){#
+		x <- as.double(x)#
 	}#
-	fe <- as.list(fe)#
-	demeanlist(x,fe)#
+	x[!is.na(x)]<- demeanlist(x[!is.na(x)], fe)#
+	x#
 }
-demean(DT$v2,DT$v1)
+demean(DT[, v2,v3], DT$v1)
+library(lfe)
+demean(DT[, v2,v3], DT$v1)
+demean(DT[, list(v2,v3)], DT$v1)
+DT[, list(v2,v3)]
+demean(as.matrix(DT[, list(v2,v3)]), DT$v1)
+demean(as.matrix(DT[, list(v2,v3)]), as.factor(as.matrix(DT[,list(id, v1)])))
+demean(as.matrix(DT[, list(v2,v3)]), as.factor(DT[,list(id, v1)]))
 demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	if (is.atomic(fe)){#
-		fe <- as.factor(fe)#
-	} else{#
-		fe <-  lapply(fe, as.factor)#
-	}#
-	call <- as.call(list(quote(list), fe))#
-	eval(substitute(demeanlist(x,call)))#
-}
-demean(DT$v2,DT$v1)
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	if (is.atomic(fe)){#
-		fe <- as.factor(fe)#
-	} else{#
-		fe <-  lapply(fe, as.factor)#
-	}#
-	call <- as.call(list(quote(list), fe))#
-	print(call)#
-	eval(substitute(demeanlist(x,call)))#
-}
-demean(DT$v2,DT$v1)
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	if (is.atomic(fe)){#
-		fe <- as.factor(fe)#
-	} else{#
-		fe <-  lapply(fe, as.factor)#
-	}#
-	call <- as.call(list(quote(list), quote(fe)))#
-	print(call)#
-	eval(substitute(demeanlist(x,call)))#
-}
-demean(DT$v2,DT$v1)
-setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
-	if (is.atomic(fe)){#
-		fe <- as.factor(fe)#
-	} else{#
-		fe <-  lapply(fe, as.factor)#
-	}#
-	demeanlist(x, list(fe))#
-}
-demean(DT$v2,DT$v1)
-demeanlist(c(1,2), list(as.factor(c(1,1))))
-v <- as.factor(c(1,1))
-demeanlist(c(1,2), v)
-demeanlist(c(1,2), v)
-v
-demeanlist(c(1,2), v)
-demeanlist
-demeanlist(c(1,2), list(as.factor(c(1,1))))
-v <- list(as.factor(c(1,1)))
-demeanlist(c(1,2), v)
-v <- list(as.factor(c(1,1)), as.factor(c(1,2)))
-demeanlist(c(1,2), v)
-demean <- function(x, fe){#
-	#M <- do.call(cbind,list(...))#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
 	if (is.atomic(fe)){#
 		fe <- list(as.factor(fe))#
 	} else{#
-		fe <-  lapply(fe, as.factor)#
+		fe <-  as.factor(as.matrix(fe))#
 	}#
-	demeanlist(x, fe)#
+	if (is.integer(x)){#
+		x <- as.double(x)#
+	}#
+	x[!is.na(x)]<- demeanlist(x[!is.na(x)], fe)#
+	x#
 }
-demeanlist(c(1,2), v)
-demean(DT$v2,DT$v1)
 demean(c(1,2),c(1,1))
-DT$v2
-demean(c(1,2,3),c(1,1,5))
-DT$v1
 demeanlist(c(1,2),c(1,1))
-demeanlist(c(1,2),list(c(1,1))(
+demeanlist(c(1,2),list(c(1,1)))
+demeanlist(c(1,2),as.factor(c(1,1))))
+demeanlist(c(1,2),as.factor(c(1,1)))
+demeanlist
+all <- c(list(c(1,2)),list(c(1,NA)))
+na.omit(all)
+is.na(all)
+na.omit(all)
+all
+is.data.frame(all)
+na.omit
+?na.omit
+DT
+setDF(DT)
+DT[,1:2]
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- na.omit(as.data.frame(c(x,fe)))#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])), all[,i] <- as.double(all[,i])#
+	}#
+	demeanlist(all[,1:l], all[,(l+1),length(all)])#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- na.omit(as.data.frame(c(x,fe)))#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	demeanlist(all[,1:l], all[,(l+1),length(all)])#
+}
+demean(c(1,2),c(1,1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- na.omit(as.data.frame(c(x,fe)))#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in 1:l){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+#
+	demeanlist(all[,1:l], all[,(l+1),length(all)])#
+}
+demean(c(1,2),c(1,1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- na.omit(as.data.frame(c(x,fe)))#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+#
+	demeanlist(all[,1:l], all[,(l+1),length(all)])#
+}
+demean(c(1,2),c(1,1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- na.omit(as.data.frame(c(x,fe)))#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	demeanlist(all[,1:l], all[,(l+1):length(all)])#
+}
+demean(c(1,2),c(1,1))
+debug(demean)
+demean(c(1,2),c(1,1))
+all
+f
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- na.omit(as.data.frame(c(x,fe)))#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+}
+demean(c(1,2),c(1,1))
+?na.omit
+na.pass(list(c(1,2),c(1,1)))
+na.pass(list(c(1,nA),c(1,1)))
+na.pass(list(c(1,NA),c(1,1)))
+which(c1 = c(1,2,3,NA)#
+c2 = c(3,1,NA,3)#
+c3 = c(2,1,3,1)#
+#
+df = data.frame(c1,c2,c3)
+c1 = c(1,2,3,NA)#
+c2 = c(3,1,NA,3)#
+c3 = c(2,1,3,1)
+df = data.frame(c1,c2,c3)
+which(is.na(df))
+is.na(df)
+rowMeans(is.na(df))
+rowSum(is.na(df))
+rowSums(is.na(df))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- row.Sums(is.na(all))#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+}
+rowSums(is.na(df))
+df = data.frame(c1,c2,c3)
+df
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))>0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))>0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))>0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x[rows,] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))>0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	print(x)#
+	print(rows)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	print(x)#
+	print(rows)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+as.data.frame(c(1,2),c(1,3))
+data.frame(c(1,2),c(1,3))
+as.data.frame(list(c(1,2)),list(c(1,3)))
+as.data.frame
+is.na(list(c(1,2)),list(c(1,3))
 )
+is.na(list(c(1,2),c(1,3)))
+is.na(list(c(1,NA),c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x <- as.matrix(x)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+}
+is.na(list(c(1,NA),c(1,3)))
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#' @export#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x <- as.matrix(x)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x <- as.matrix(x)#
+	print(x)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	print(x)#
+	x <- as.matrix(x)#
+	print(x)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	print(all)#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	print(x)#
+	x <- as.matrix(x)#
+	print(x)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x <- matrix(unlist(x))#
+	print(x)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	#dots <- lapply(list(...),function(x){if (is.atomic(x)) list(x) else x})#
+	#fe <- do.call(c, dots)#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	all <- as.data.frame(c(x,fe))#
+	rows <- rowSums(is.na(all))==0#
+	l <- length(x)#
+	for (i in 1:l){#
+		if (!is.double(all[,i])) all[,i] <- as.double(all[,i])#
+	}#
+	for (i in (l+1):length(all)){#
+		if (!is.factor(all[,i])) all[,i] <- as.factor(all[,i])#
+	}#
+	x <- matrix(unlist(x))#
+	print(x)#
+	x[rows] <- demeanlist(all[,1:l, drop = FALSE], all[,(l+1):length(all), drop = FALSE])#
+	x#
+}
+demean(list(c1,c2),c3)
+x = c("ok","ok1")
+condition <- collapse(sapply(c(vars,fe), function(x){paste("is.na(",x,")")}, sep = "&")
 )
-DT$v1
-is.integer(DT$v1)
-demean(c(353198,270261), list(as.factor(c(2,3))))
-demean(c(353198,270261), list(as.factor(c(2,2))))
-demeanlist(c(353198,270261), list(as.factor(c(2,2))))
-demeanlist(c(353198,270261), as.factor(c(2,2)))
-demeanlist(c(353198,270261), list(as.factor(c(2,2))))
-demean(DT$v2,DT$v1)
-is.atomic(DT$v1)
-fe <- list(as.factor(DT$v1))
-demeanlist(DT$v2,fe)
-demeanlist(rep(1,100),fe)
-demeanlist(rep(1.5,100),fe)
-DT$v2
-is.numeric(DT$v2(
+condition <- paste(sapply(c(vars,fe), function(x){paste("is.na(",x,")")}, collapse = "&")
 )
+condition <- paste(sapply(c(vars,fe), function(x){paste("is.na(",x,")")}), collapse = "&")
+vars <- c("ok","ok1")
+condition <- paste(sapply(c(vars,fe), function(x){paste("is.na(",x,")")}), collapse = "&")
+fe <- x
+condition <- paste(sapply(c(vars,fe), function(x){paste("is.na(",x,")")}), collapse = "&")
+condition
+as.name(condition)
+is.na(DT)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#
+demean_ <- function(x, vars, fe){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe)]#
+	rows <- rowSums(is.na(ans))==0#
+	for (v in vars){#
+		if (!is.double(ans[,v, with = FALSE])) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!is.factor(ans[,v, with = FALSE])) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	ans <- x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+demean
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-is.numeric(DT$v2)
-demeanlist(as.double(DT$v2),fe)
-demeanlist(c(1L,2L), list(c(1L,1L))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+demean(list(v2,v3), list(id,v1))
+traceback()
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, vars, fe){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe))#
+	}#
+#
+demean_ <- function(x, vars, fe){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe)]#
+	rows <- rowSums(is.na(ans))==0#
+	for (v in vars){#
+		if (!is.double(ans[,v, with = FALSE])) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!is.factor(ans[,v, with = FALSE])) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	ans <- x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
 )
-demeanlist(c(1L,2L), list(as.factor(c(1L,1L)))
-)
-demeanlist(c(1,2), list(as.factor(c(1L,1L)))
-)
-demeanlist(c(1,2), list(c(1L,1L))
-)
+DT
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+library(dplyr)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+?is.na
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, vars, fe){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe))#
+	}#
+#
+demean_ <- function(x, vars, fe){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe)]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!is.double(ans[,v, with = FALSE])) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!is.factor(ans[,v, with = FALSE])) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	ans <- x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#
+demean_ <- function(x, vars, fe){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe)]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	ans <- x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean_ <- function(x, vars, fe){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe)]#
+	print(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	ans <- x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean_ <- function(x, vars, fe){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	print(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	ans <- x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	print(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	ans <- x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	print(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+setdemean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+setdemean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	print(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean(DT, list(v2,v3), list(id,v1))
+DT
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+setdemean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#' Demean a vector#
+#' #
+#' @param x List of variables to demean#
+#' @param fe List of groups to use#
+#' @return data.table with demeaned variables, with suffix "_demean"#
+#' @details This function calls felm::demeanlist after checking for missing values and converting group variables into factors#
+#' @examples                        #
+#' setdemean(#
+#
+#' @export#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x <- copy(x)#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#' Demean a vector#
+#' #
+#' @param x List of variables to demean#
+#' @param fe List of groups to use#
+#' @return data.table with demeaned variables, with suffix "_demean"#
+#' @details This function calls felm::demeanlist after checking for missing values and converting group variables into factors#
+#' @examples                        #
+#' setdemean(#
+#
+#' @export#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x <- copy(x)#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+	x#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#' Demean a vector#
+#' #
+#' @param x List of variables to demean#
+#' @param fe List of groups to use#
+#' @return data.table with demeaned variables, with suffix "_demean"#
+#' @details This function calls felm::demeanlist after checking for missing values and converting group variables into factors#
+#' @examples                        #
+#' setdemean(#
+#
+#' @export#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x <- copy(x)#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+	x#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#' Demean a vector#
+#' #
+#' @param x List of variables to demean#
+#' @param fe List of groups to use#
+#' @return data.table with demeaned variables, with suffix "_demean"#
+#' @details This function calls felm::demeanlist after checking for missing values and converting group variables into factors#
+#' @examples                        #
+#' setdemean(#
+#
+#' @export#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x <- copy(x)#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+	x#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+#
+demean(DT, list(v2,v3), list(id,v1))
+DT
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x <- copy(x)#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+	print(x)#
+}#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+demean(DT, list(v2,v3), list(id,v1))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, vars, fe, suffix = "_demean", inplace = FALSE){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean", inplace = FALSE){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	if (!inplace){#
+		x <- copy(x)#
+	}#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, vars, fe, suffix = "_demean"){#
+	  demean_(x, vars = substitute(vars), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, vars, fe, suffix = "_demean"){#
+	stopifnot(is.data.table(x))#
+	vars <- names(select_vars_(names(x), vars))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x <- copy(x)#
+	x[, paste(vars,suffix,sep ="_") := as.list(m)]#
+	print(x)#
+}#
+N=1e6; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          # int in range [1,5]#
+  v2 =  sample(1e6, N, TRUE),                        # int in range [1,1e6]#
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) # numeric e.g. 23.5749#
+)#
+demean(DT, list(v2,v3), list(id,v1))
+devtools::document("/Users/Matthieu/Dropbox/Github/statar")
+devtools::document("/Users/Matthieu/Dropbox/Github/statar")
+is.na("")
+c(c(1, 2), c(3, 4))
+library(pryr)#
+	N <- 1e3#
+	DF <- data.frame(#
+	  id = sample(c("id01","id02","id03"), N, TRUE),     #
+	  v1 = sample(5, N, TRUE),                          #
+	  v2 =  sample(round(runif(100, max = 100),4), N, TRUE) #
+	  )#
+	DF1 <- DF$v1#
+	DF2 <- DF[1:(5e2),]#
+	object_size(DF, DF1)#
+	#> 17.4 kB#
+	object_size(DF, DF2)#
+	#> 25.9 kB#
+	object_size(DF,DF2, merge(DF,DF2))#
+	#> 40.1 kB#
+	object_size(DF,DF2, rbind(DF,DF2))#
+	#> 40.1 kB
+l <- c("col1", NA, "col3")#
+l[l == "col1"] <- "col1"
+l
+seq(1,1000, by = 2)#
+2*(1:500)-1#
+2* seq_length(500)-1#
+seq(1,999, length.out = 500)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, ..., fe, suffix = "_demean", inplace = FALSE){#
+	  demean_(x, .dots = lazy_dots(...), fe = substitute(fe), suffix = suffix)#
+	}#
+#
+demean_ <- function(x, ..., .dots, fe, suffix = "_demean", inplace = FALSE){#
+	stopifnot(is.data.table(x))#
+	dots <- all_dots(.dots, ...)#
+	vars <- names(select_vars_(names(x), dots))#
+	fe <- names(select_vars_(names(x), fe))#
+	ans <- x[, c(vars, fe), with = FALSE]#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	if (!inplace){#
+		x <- copy(x)#
+	}#
+	x[rows, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+N=1e3; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          #
+  v2 =  sample(1e6, N, TRUE),                        #
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) #
+)#
+demean(DT, list(v2,v3), fe = list(id,v1))
+library(dplyr)
+library(lazyeval)
+N=1e3; K=100#
+set.seed(1)#
+DT <- data.table(#
+  id = sample(5, N, TRUE),#
+  v1 =  sample(5, N, TRUE),                          #
+  v2 =  sample(1e6, N, TRUE),                        #
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) #
+)#
+demean(DT, list(v2,v3), fe = list(id,v1))
+DT
+devtools::document("/Users/Matthieu/Dropbox/Github/statar")
+?mutate_
+mutate_
+mutate_.data.table
+mutate_.tbl
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	ans <- as.data.table(x, fe)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+data.table(c(1,2), list(c(1,2), c(1,3)))
+data.table(c(1,2), unlist(list(c(1,2), c(1,3))))
+data.table(c(1,2), list(c(1,2), c(1,3)))
+cbind(c(1,2), list(c(1,2), c(1,3)))
+c(c(1,2), list(c(1,2), c(1,3)))
+c(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	ans <- c(x, fe)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in vars){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+#' @export#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- setDT(c(x, fe))#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- setDT(c(x, fe))#
+	print(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in fe){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- setDT(c(x, fe))#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in names(ans)[-1]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	for (v in names(ans)[-1]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[-1]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	print(ans)#
+	for (v in names(ans)[-1]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, vars, with = FALSE], ans[, fe, with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	print(ans)#
+	for (v in names(ans)[-1]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (i in names(ans)[1:length(x)]){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+#
+	for (v in names(ans)[(length(x)+1):length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x <- as.data.table(x)#
+	x[rows, paste(vars,suffix,sep ="_") := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	if (is.atomic(x)){#
+		x <- list(x)#
+	}#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (i in names(ans)[1:length(x)]){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+#
+	for (v in names(ans)[(length(x)+1):length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x <- as.data.table(x)#
+	x[rows, names(x) := as.list(m)]#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(!is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (i in names(ans)[1:length(x)]){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+#
+	for (v in names(ans)[(length(x)+1):length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x <- as.data.table(x)#
+	x[rows, names(x) := as.list(m)]#
+}
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(!is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (i in names(ans)[1:length(x)]){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in names(ans)[(length(x)+1):length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x[rows] <- m#
+}
+demean
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (i in names(ans)[1:length(x)]){#
+		if (!ans[,is.double(get(v))]) ans[, (v) := as.double(get(v))]#
+	}#
+	for (v in names(ans)[(length(x)+1):length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x[rows] <- m#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x[rows] <- m#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+x
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	print(m)#
+	x[rows] <- m#
+	x#
+}
+x
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	print(m)#
+	x <- unlist(x)#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x <- unlist(x)#
+	print(x)#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x<- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x <- unlist(x)#
+	print(x)#
+	print(m)#
+	print(rows)#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x <- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE])#
+	x <- unlist(x)#
+	print(x)#
+	print("M")#
+	print(m)#
+	print("rows")#
+	print(rows)#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x <- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	x <- unlist(x)#
+	print(x)#
+	print("M")#
+	print(m)#
+	print("rows")#
+	print(rows)#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x <- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(as.matrix(is.na(ans)))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	x <- unlist(x)#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+na.omit(DT)
+is.na(DT)
+rowSums(is.na(DT))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	x <- list(x)#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(x, fe)#
+	setDT(ans)#
+	rows <- rowSums(is.na(ans))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	x <- unlist(x)#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(list(x), fe)#
+	setDT(ans)#
+	rows <- rowSums(is.na(ans))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(1,2), c(1,3)))
+demean(c(NA,2), list(c(1,2), c(1,3)))
+demean(c(1,2), list(c(NA,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(list(x), fe)#
+	setDT(ans)#
+	print(ans)#
+	rows <- rowSums(is.na(ans))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(NA,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(list(x), fe)#
+	setDT(ans)#
+	print(ans)#
+	rows <- rowSums(is.na(ans))==0#
+	ans <- ans[rows]#
+	print(ans)#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	x[rows] <- m#
+	x#
+}
+demean(c(1,2), list(c(NA,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	ans <- c(list(x), fe)#
+	setDT(ans)#
+	print(ans)#
+	rows <- rowSums(is.na(ans))==0#
+	ans <- ans[rows]#
+	print(ans)#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	out <- rep(NA, length(x))#
+	out[rows] <- m#
+	out#
+}
+demean(c(1,2), list(c(NA,2), c(1,3)))
+demean(c(1,2), c(1,1))  #
+demean(c(NA), list(c(1,2), c(1,3)))           #
+demean(c(1,2), list(c(NA,2), c(1,3)))
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	ans <- c(list(x), fe)#
+	setDT(ans)#
+	rows <- rowSums(is.na(ans))==0#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	out <- rep(NA, length(x))#
+	out[rows] <- m#
+	out#
+}
+demean(c(1,2), c(1,1))  #
+demean(c(NA), list(c(1,2), c(1,3)))           #
+demean(c(1,2), list(c(NA,2), c(1,3)))
+demean(c(NA,2), list(c(1,2), c(1,3)))
+devtools::document("/Users/Matthieu/Dropbox/Github/statar")
+rows <- -data.table:::is_na(DT)
+rows
+rows <- data.table:::is_na(DT)
+data.table:::is_na(DT)
+-data.table:::is_na(DT)
+!data.table:::is_na(DT)
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	ans <- c(list(x), fe)#
+	setDT(ans)#
+	rows <- !data.table:::is_na(ans)#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	out <- rep(NA, length(x))#
+	out[rows] <- m#
+	out#
+}
+data.table:::is_na(DT)
+setwd("/Users/Matthieu/Dropbox/Github/statar/R")#
+demean <- function(x, fe){#
+	stopifnot(is.atomic(x))#
+	if (is.double(x)){#
+		x <- as.double(x)#
+	}#
+	if (is.atomic(fe)){#
+		fe <- list(fe)#
+	}#
+	ans <- c(list(x), fe)#
+	setDT(ans)#
+	rows <- !data.table:::is_na(ans)#
+	ans <- ans[rows]#
+	for (v in names(ans)[2:length(ans)]){#
+		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]#
+	}#
+	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))#
+	out <- rep(NA, length(x))#
+	out[rows] <- m#
+	out#
+}
+data.table:::is_na(DT)
