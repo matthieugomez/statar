@@ -38,7 +38,6 @@ tempname=function(where = globalenv() , n = 1, prefix = "temp", inherits=TRUE) {
 
 
 
-
 #get("id", pos = DT)
 
 #Using data.table x inside a program can be cumbersom, the following steps are needed :
