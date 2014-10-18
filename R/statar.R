@@ -18,6 +18,7 @@
 #' @importFrom Hmisc wtd.mean
 #' @importFrom Hmisc wtd.var
 #' @importFrom Hmisc wtd.quantile
+#' @importFrom lfe demeanlist
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval all_dots
 #' @importFrom lazyeval common_env

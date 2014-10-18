@@ -180,10 +180,19 @@ join(x, y, type = "outer", gen = "_merge")
 join(x, y, type = "left", check = m~1, inplace = TRUE)
 ````
 
+## Demean (multiple fixed effects)
+N=1e3; K=100
+set.seed(1)
+DT <- data.table(
+  id = sample(5, N, TRUE),
+  v1 =  sample(5, N, TRUE),                          
+  v2 =  sample(1e6, N, TRUE),                        
+  v3 =  sample(round(runif(100,max=100),4), N, TRUE) 
+)
+demean(DT, list(v2,v3), list(id,v1))
 
 # Others
 This package also adds
-
 - A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
