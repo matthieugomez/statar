@@ -1,1 +1,5 @@
 inst/doc
+.Rapp.history
+.Rhistory
+R/.Rapp.history
+vignettes/.Rhistory
