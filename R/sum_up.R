@@ -46,19 +46,16 @@ sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) 
     w <- x[[which(names(x)== w)]]
   }
     if (!length(byvars)){
-      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])
+      invisible(x[, describe(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars])
     } else{
-      invisible(x[, describe_matrix(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])
+      invisible(x[, describe(.SD,d = d, w = w, na.rm = na.rm ), .SDcols = vars, by = byvars])
     }
   
 }
 
 
 
-describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){
-
-
-
+describe <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOption("mc.cores", 2L)){
   # import 3 functions from stargazer
   .iround <- function(x, decimal.places = 0, round.up.positive = FALSE, 
       simply.output = FALSE,  .format.digit.separator = ",") {
@@ -212,7 +209,6 @@ describe_matrix <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores=getOp
       sum_mean <-as.data.frame(mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 1), type = 1, na.rm = na.rm, weights = w))}))
     }
     sum <- as.matrix(sum_mean)
-    print(sum)
     rownames(sum) <-  c("N","NA","Mean","Sd","Min", "Max")
 
   } else {
