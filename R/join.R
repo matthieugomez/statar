@@ -19,6 +19,9 @@
 #' join(x, y, type = "inner", check = m~1)
 #' join(x, y, type = "semi")
 #' join(x, y, type = "anti")
+#' setnames(y, "bb", "b")
+#' join(x, y, on = "a")
+#' join(x, y, on = "a", suffixes = c("",".i"))
 #' join(x, y, type = "left", check = m~1, inplace = TRUE)
 #' @export
 join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffixes = c(".x",".y"), check = m~m,  gen = FALSE, inplace = FALSE){
