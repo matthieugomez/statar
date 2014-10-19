@@ -4,10 +4,11 @@
 #' @param y The using data.table
 #' @param on Character vectors specifying variables to match on. Default to common names between x and y. 
 #' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".
+#' @param suffixes A character vector of length 2 to apply to overlapping columns. Defaut to ".x" and ".y".
 #' @param check A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @param inplace A boolean. In case "type"= "left" and RHS of check is 1, the merge can be one in-place. 
-#' @return A data.table that joins rows in master and using datases. In order to avoid duplicates, identical variable names not joined are renamed with .x and .y suffixes. Importantly, if x or y are not keyed, the join may change their row orders.
+#' @return A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
 #' library(data.table)
 #' x <- data.table(a = rep(1:2, each = 3), b=1:6)
@@ -20,7 +21,7 @@
 #' join(x, y, type = "anti")
 #' join(x, y, type = "left", check = m~1, inplace = TRUE)
 #' @export
-join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check = m~m,  gen = FALSE, inplace = FALSE){
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffixes = c(".x",".y"), check = m~m,  gen = FALSE, inplace = FALSE){
 
   #type
   type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
@@ -47,23 +48,22 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
         DT_output <- setkey(x[,c(k=1, .SD)],k)[y[, c(k = 1,.SD)], allow.cartesian = TRUE][,k := NULL]
         return(DT_output)
   } else {
+
     # find names and  check no common names
     vars <- on
     message(paste0("Join based on : ", paste(vars, collapse = " ")))
 
-
     common_names <- setdiff(intersect(names(x),names(y)), vars)
-    if (length(intersect(paste0(common_names, ".x"), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix .x in", common_names,"would create duplicates names in x"), call. = FALSE)
-    if (length(intersect(paste0(common_names, ".y"), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix .y in", common_names,"would create duplicates names in y"), call. = FALSE)
+    if (length(intersect(paste0(common_names, suffixes[1]), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix",suffixes[1],"in", common_names,"would create duplicates names in x"), call. = FALSE)
+    if (length(intersect(paste0(common_names, suffixes[2]), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix",suffixes[2],"in", common_names,"would create duplicates names in y"), call. = FALSE)
     if (length(common_names)>0){
-      setnames(x, common_names, paste0(common_names, ".x"))
-      setnames(y, common_names, paste0(common_names, ".y"))
-      on.exit(setnames(y, paste0(common_names, ".y"), common_names))
+      setnames(x, common_names, paste0(common_names, suffixes[1]))
+      setnames(y, common_names, paste0(common_names, suffixes[2]))
+      on.exit(setnames(y, paste0(common_names, suffixes[2]), common_names))
       if (!inplace){
-        on.exit(setnames(x, paste0(common_names, ".x"), common_names), add = TRUE)
+        on.exit(setnames(x, paste0(common_names, suffixes[1]), common_names), add = TRUE)
       }
     }
-
 
     # set keys and check duplicates
     key_x <- key(x)
@@ -105,7 +105,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , check
         lhs = setdiff(names(y), vars)
         v<- lapply(paste0("i.",lhs), as.name)
         call <- as.call(c(quote(list), v)) 
-        call <- substitute(x[y,(lhs) :=v], list(v = call))
+        call <- substitute(x[y,(lhs) := v], list(v = call))
         eval(call)
         if (!gen == FALSE){
           x[, c(gen) := 3L]

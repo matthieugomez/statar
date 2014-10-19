@@ -37,11 +37,11 @@ sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL) 
   if (length(vars) == 0) {
      vars <- setdiff(names(x), c(byvars,w))
   }
+
   nums <- sapply(x, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-
   if (!is.null(w)){
     w <- x[[which(names(x)== w)]]
   }
