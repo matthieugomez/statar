@@ -55,5 +55,6 @@ setna_ <- function(x, ..., .dots, along_with = NULL, by = NULL, roll = TRUE,  ro
   for (col in vars){
     eval(substitute(x[, (col) := x[!is.na(t), c(byvars,along_with, col), with = FALSE ][x, value, roll = roll, rollends = rollends]], list(t = as.name(col))))
   }
+  x[]
 }
 

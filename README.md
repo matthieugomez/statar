@@ -8,7 +8,7 @@ You can install
 ````R
 install.packages("statar")
 ````
--  The latest development version from [github](https://github.com/matthieugomez/statar) with  
+-  The current version from [github](https://github.com/matthieugomez/statar) with  
 ````R
 devtools::install_github("matthieugomez/statar")
 ````
