@@ -26,6 +26,7 @@ setcols_ <- function(x, ..., .dots){
 	if (!length(vars)) stop("No variable selected")
 	drop <- setdiff(names(x), vars)
 	x[, (drop) := NULL]
+	x[]
 }
 
 

@@ -20,16 +20,17 @@ duplicates <- function(x, ..., by = NULL, gen = "N"){
 #' @rdname duplicates
 duplicates_ <- function(x, ..., .dots, by = NULL, gen = "N"){
   stopifnot(is.data.table(x))
-  if (gen %in% names(x))   stop(paste("A variable named", gen, "already exists."))
-  if (anyDuplicated(names(x)))  stop("x has duplicate column names")
+  names <- names(x)
+  if (gen %in% names)   stop(paste("A variable named", gen, "already exists."))
+  if (anyDuplicated(names))  stop("x has duplicate column names")
   dots <- lazyeval::all_dots(.dots, ...)
-  byvars <- names(select_vars_(names(x), by))
+  byvars <- names(select_vars_(names, by))
   if (length(byvars)==0){
-    byvars <- copy(names(x))
+    byvars <- copy(names)
   }
-  vars <- names(select_vars_(names(x), dots, exclude = byvars))
+  vars <- names(select_vars_(names, dots, exclude = byvars))
+  x <- data.table:::shallow(x)
   x[, (gen) := .N-1,  by = c(byvars)]
-  on.exit(x[, (gen) :=NULL])
   ans <- eval(substitute(x[NN>0, c(gen, byvars, vars), with = FALSE], list(NN = as.name(gen))))
   length <- nrow(ans)
   if (length >0){
