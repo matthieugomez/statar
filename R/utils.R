@@ -1,6 +1,8 @@
-dt_env <- function(dt, env) {
+dt_env <- function(dt, env, byvars) {
   env <- new.env(parent = env, size = 2L)
   env$dt <- dt
+  env$byvars <- byvars
+
   env
 }
 
@@ -81,47 +83,49 @@ evaldt <- function(x, env = parent.frame()){
                 names(x) <- names
             }
         }
-        x
     }
     call <- replace_name(x, as.list(L), env = env)
     eval(call, env)
 }
 
-set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){
-    call <- substitute(set_(x, new = substitute(new), fun = func , old = substitute(old), i = ic, by = substitute(by)), list(func = substitute(fun), ic = substitute(i)))
-    eval(call)
-}
+#set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){
+#    call <- substitute(set_(x, new = substitute(new), fun = func , old = substitute(old), i = ic, by =# substitute(by)), list(func = substitute(fun), ic = substitute(i)))
+#    eval(call)
+#}
+#
+#set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){
+#    i = substitute(i)
+#    fun = substitute(fun)
+#    if (is.null(old)){
+#        newvars <- names(select_vars_(names(x), new))
+#        vvars <- newvars
+#    } else{
+#        newvars <- new
+#        vvars <- names(select_vars_(names(x), old))
+#    }
+#    byvars <- names(select_vars_(names(x), by))
+#    if (!length(by)){
+#        by <- NULL
+#    }
+#    if (is.call(fun)){
+#      fun <- interp(fun, .values = list(. = as.name("x")))
+#      fun <- substitute(function(x){y}, list(y = fun))
+#    }
+#    if (is.null(fun)){
+#        call <- substitute(dt[, (newvars) := NULL])
+#    } else{
+#            if (length(byvars)){
+#                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, #fun = fun, v = vvars, by = byvars, new = newvars))
+#            } else{
+#                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, #v = vvars, by = byvars, new = newvars))
+#            }
+#        }
+#    dt_env <- dt_env(x, parent.frame())
+#    eval(call, dt_env)
+#}
 
-set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){
-    i = substitute(i)
-    fun = substitute(fun)
-    if (is.null(old)){
-        newvars <- names(select_vars_(names(x), new))
-        vvars <- newvars
-    } else{
-        newvars <- new
-        vvars <- names(select_vars_(names(x), old))
-    }
-    byvars <- names(select_vars_(names(x), by))
-    if (!length(by)){
-        by <- NULL
-    }
-    if (is.call(fun)){
-      fun <- interp(fun, .values = list(. = as.name("x")))
-      fun <- substitute(function(x){y}, list(y = fun))
-    }
-    if (is.null(fun)){
-        call <- substitute(dt[, (newvars) := NULL])
-    } else{
-            if (length(byvars)){
-                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))
-            } else{
-                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, v = vvars, by = byvars, new = newvars))
-            }
-        }
-    dt_env <- dt_env(x, parent.frame())
-    eval(call, dt_env)
-}
+
+
 
 
 
