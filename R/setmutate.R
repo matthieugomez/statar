@@ -13,16 +13,16 @@
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
 #' )
-#' set_mutate(DT, mean(v2), by = v1)
-#' set_mutate_(DT, setNames("mean(v2)", "v3"), by = "v1")
-#' set_mutate_(DT, setNames("mean(v2)", "v3"), i = "id==1", by = "v1")
+#' setmutate(DT, mean(v2), by = v1)
+#' setmutate_(DT, setNames("mean(v2)", "v3"), by = "v1")
+#' setmutate_(DT, setNames("mean(v2)", "v3"), i = "id==1", by = "v1")
 #' @export
-set_mutate <- function(x, ..., i = NULL, by = NULL){
-    set_mutate_(x, .dots = lazy_dots(...), i = substitute(i), by = substitute(by))
+setmutate <- function(x, ..., i = NULL, by = NULL){
+    setmutate_(x, .dots = lazy_dots(...), i = substitute(i), by = substitute(by))
 }
-#' @rdname set_mutate_
+#' @rdname setmutate_
 #' @export
-set_mutate_ <- function(x, .dots, i = NULL, by = NULL){
+setmutate_ <- function(x, .dots, i = NULL, by = NULL){
     byvars <- names(select_vars_(names(x), by))
     if (!length(by)){
         byvars <- NULL
@@ -68,15 +68,15 @@ set_mutate_ <- function(x, .dots, i = NULL, by = NULL){
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
 #' )
-#' set_mutate_each(DT, funs(mean, mean_na = mean(., na.rm = TRUE)), v2, i = id ==1, by = v1)
-#' set_mutate_each(DT, funs(as.character), replace = TRUE)
+#' setmutate_each(DT, funs(mean, mean_na = mean(., na.rm = TRUE)), v2, i = id ==1, by = v1)
+#' setmutate_each(DT, funs(as.character), replace = TRUE)
 #' @export
-set_mutate_each <- function(x, funs, ..., i = NULL, by = NULL, replace = FALSE){
-    set_mutate_each_(x, funs, .dots = lazy_dots(...), i = substitute(i), by = substitute(by), replace = replace)
+setmutate_each <- function(x, funs, ..., i = NULL, by = NULL, replace = FALSE){
+    setmutate_each_(x, funs, .dots = lazy_dots(...), i = substitute(i), by = substitute(by), replace = replace)
 }
-#' @rdname set_mutate_each
+#' @rdname setmutate_each
 #' @export
-set_mutate_each_ <- function(x, funs, .dots, i = NULL, by = NULL, replace = FALSE){
+setmutate_each_ <- function(x, funs, .dots, i = NULL, by = NULL, replace = FALSE){
     if (anyDuplicated(names(funs))){
       stop("Multiple functions are specified with the same name", call. = FALSE)
     }
@@ -88,7 +88,7 @@ set_mutate_each_ <- function(x, funs, .dots, i = NULL, by = NULL, replace = FALS
         byvars <- NULL
     }
     .dots <- colwise_(x, funs_(funs), .dots, byvars = byvars, replace = replace)
-    set_mutate_(x, .dots, i, by)
+    setmutate_(x, .dots, i, by)
 }
 
 
