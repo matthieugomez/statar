@@ -14,5 +14,5 @@ devtools::install_github("matthieugomez/statar")
 ````
 
 
-Additionally, [vignette](vignettes/main.Rmd) is available.
+Additionally, a [vignette](vignettes/main.Rmd) is available.
 
