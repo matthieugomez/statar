@@ -14,5 +14,5 @@ devtools::install_github("matthieugomez/statar")
 ````
 
 
-Additionally, I have written a  [package vignette](vignettes/main.Rmd), and a [companion guide to R for Stata users](http://www.princeton.edu/~mattg/statar/)
+Additionally, [package vignette](vignettes/main.Rmd) is available.
 
