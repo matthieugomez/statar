@@ -1,6 +1,6 @@
 #' @export
 #' @export
-spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FALSE) {
+spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE ) {
   id <- setdiff(names(data), c(key_col, value_col))
   length_lhs <- length(id)
   if (!length_lhs) {
@@ -18,7 +18,7 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
              call. = FALSE)
   }
   formula <- reformulate(termlabels = key_col , response = id)
-  data2 <- dcast.data.table(data, formula, value.var = value_col, fill = fill)
+  data2 <- dcast.data.table(data, formula, value.var = value_col, fill = fill, drop = drop)
   if (!length_lhs) {
     data2[, (id) := NULL]
   }
