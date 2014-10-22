@@ -20,6 +20,7 @@
 setmutate <- function(x, ..., i = NULL, by = NULL){
     setmutate_(x, .dots = lazy_dots(...), i = substitute(i), by = substitute(by))
 }
+
 #' @rdname setmutate_
 #' @export
 setmutate_ <- function(x, .dots, i = NULL, by = NULL){
