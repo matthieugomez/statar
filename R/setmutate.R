@@ -21,8 +21,8 @@ setmutate <- function(x, ..., i = NULL, by = NULL){
     setmutate_(x, .dots = lazy_dots(...), i = substitute(i), by = substitute(by))
 }
 
-#' @rdname setmutate_
 #' @export
+#' @rdname setmutate
 setmutate_ <- function(x, .dots, i = NULL, by = NULL){
     byvars <- names(select_vars_(names(x), by))
     if (!length(by)){
@@ -72,11 +72,13 @@ setmutate_ <- function(x, .dots, i = NULL, by = NULL){
 #' setmutate_each(DT, funs(mean, mean_na = mean(., na.rm = TRUE)), v2, i = id ==1, by = v1)
 #' setmutate_each(DT, funs(as.character), replace = TRUE)
 #' @export
+#' @export
 setmutate_each <- function(x, funs, ..., i = NULL, by = NULL, replace = FALSE){
     setmutate_each_(x, funs, .dots = lazy_dots(...), i = substitute(i), by = substitute(by), replace = replace)
 }
-#' @rdname setmutate_each
+
 #' @export
+#' @rdname setmutate_each
 setmutate_each_ <- function(x, funs, .dots, i = NULL, by = NULL, replace = FALSE){
     if (anyDuplicated(names(funs))){
       stop("Multiple functions are specified with the same name", call. = FALSE)
