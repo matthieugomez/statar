@@ -26,8 +26,8 @@ setkeep <- function(x, ...,i = NULL, by = NULL){
 #' @export
 #' @rdname setkeep
 setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
-	env_x <- as.lazy(x)$env
-	name_x <- as.character(as.lazy(x)$expression)
+	env_x <- as.lazy(lazy(x))$env
+	name_x <- as.character(as.lazy(lazy(x))$expression)
 	stopifnot(is.data.table(x))
 	byvars <- names(select_vars_(names(x), by))
 	if (!length(by)){
