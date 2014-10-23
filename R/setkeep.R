@@ -31,7 +31,7 @@ setkeep_ <- function(x, ..., .dots){
 	}
 }
 
-#' Create new data.table with columns or rows
+#' Create new data.table by keeping only certain columns or rows
 #'
 #' @param x a data.table 
 #' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
