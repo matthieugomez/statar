@@ -1,5 +1,4 @@
 #' @export
-#' @export
 spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE ) {
   id <- setdiff(names(data), c(key_col, value_col))
   length_lhs <- length(id)

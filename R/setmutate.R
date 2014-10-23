@@ -73,7 +73,6 @@ setmutate_ <- function(x, .dots, i = NULL, by = NULL){
 #' setmutate_each(DT, funs(mean, mean_na = mean(., na.rm = TRUE)), v2, i = id ==1, by = v1)
 #' setmutate_each(DT, funs(as.character), replace = TRUE)
 #' @export
-#' @export
 setmutate_each <- function(x, funs, ..., i = NULL, by = NULL, replace = FALSE){
     setmutate_each_(x, funs, .dots = lazy_dots(...), i = substitute(i), by = substitute(by), replace = replace)
 }
