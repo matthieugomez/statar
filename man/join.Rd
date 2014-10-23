@@ -4,7 +4,8 @@
 \title{Join two data.tables together}
 \usage{
 join(x, y, on = intersect(names(x), names(y)), type = "outer",
-  suffixes = c(".x", ".y"), check = m ~ m, gen = FALSE, inplace = FALSE)
+  suffixes = c(".x", ".y"), check = m ~ m, gen = FALSE, inplace = FALSE,
+  update = FALSE)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -22,6 +23,8 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 \item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 
 \item{inplace}{A boolean. In case "type"= "left" and RHS of check is 1, the merge can be one in-place.}
+
+\item{update}{A boolean.}
 }
 \value{
 A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
@@ -42,6 +45,10 @@ join(x, y, type = "anti")
 setnames(y, "bb", "b")
 join(x, y, on = "a")
 join(x, y, on = "a", suffixes = c("",".i"))
+y <- data.table(a = 0:1, bb = 10:11)
 join(x, y, type = "left", check = m~1, inplace = TRUE)
+x <- data.table(a = rep(1:2, each = 3), b=c(NA, 2:6))
+y <- data.table(a = 1, b = 10:11)
+join(x, y, type = "left", on = "a",  update = TRUE)
 }
 

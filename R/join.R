@@ -3,11 +3,12 @@
 #' @param x The master data.table
 #' @param y The using data.table
 #' @param on Character vectors specifying variables to match on. Default to common names between x and y. 
-#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".
+#' @param type The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross". 
 #' @param suffixes A character vector of length 2 to apply to overlapping columns. Defaut to ".x" and ".y".
 #' @param check A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @param inplace A boolean. In case "type"= "left" and RHS of check is 1, the merge can be one in-place. 
+#' @param update A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y. 
 #' @return A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
 #' library(data.table)
@@ -22,9 +23,13 @@
 #' setnames(y, "bb", "b")
 #' join(x, y, on = "a")
 #' join(x, y, on = "a", suffixes = c("",".i"))
+#' y <- data.table(a = 0:1, bb = 10:11)
 #' join(x, y, type = "left", check = m~1, inplace = TRUE)
+#' x <- data.table(a = rep(1:2, each = 3), b=c(NA, 2:6))
+#' y <- data.table(a = 1, b = 10:11)
+#' join(x, y, type = "left", on = "a",  update = TRUE)
 #' @export
-join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffixes = c(".x",".y"), check = m~m,  gen = FALSE, inplace = FALSE){
+join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffixes = c(".x",".y"), check = m~m,  gen = FALSE, inplace = FALSE, update = FALSE){
 
   #type
   type <- match.arg(type, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
@@ -55,6 +60,8 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffi
     # find names and  check no common names
     vars <- on
     message(paste0("Join based on : ", paste(vars, collapse = " ")))
+
+    if (!length(setdiff(names(y), vars))) stop("No column in y beyond the one used in the merge")
 
     common_names <- setdiff(intersect(names(x),names(y)), vars)
     if (length(intersect(paste0(common_names, suffixes[1]), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix",suffixes[1],"in", common_names,"would create duplicates names in x"), call. = FALSE)
@@ -106,7 +113,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffi
 
       if (inplace){
         lhs = setdiff(names(y), vars)
-        v<- lapply(paste0("i.",lhs), as.name)
+        v <- lapply(paste0("i.",lhs), as.name)
         call <- as.call(c(quote(list), v)) 
         call <- substitute(x[y,(lhs) := v], list(v = call))
         eval(call)
@@ -115,7 +122,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffi
           eval(substitute(x[is.na(v), c(gen) := 1L], list(v = as.name(idu))))
           x[, c(idu) := NULL]
         }
-        return(x)
+        DT_output <- x
       } else{
         all.x <- FALSE
         all.y <- FALSE
@@ -133,8 +140,20 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffi
           DT_output[, c(idm) := NULL]
           DT_output[, c(idu) := NULL]
         }
-        return(DT_output)
       }
+      if (update){
+        for (v in common_names){
+          newvx <- paste0(v,suffixes[1])
+          newvy <- paste0(v,suffixes[2])
+          condition <- DT_output[is.na(get(newvx)) & !is.na(get(newvy)), which = TRUE]
+          message(paste("Update of", v, ":", length(condition), "rows are updated"))
+          DT_output[condition, (newvx) := get(newvy)]
+          DT_output[, (newvy) := NULL]
+        }
+        setnames(DT_output, paste0(common_names, suffixes[1]), common_names)
+      }
+      DT_output[]
+      return(DT_output)
     } else if (type == "semi"){
         w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
         w <- w[!is.na(w)]
