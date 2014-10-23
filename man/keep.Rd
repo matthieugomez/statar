@@ -6,7 +6,7 @@
 \usage{
 keep(x, ..., i = NULL, by = NULL)
 
-keep_(x, ..., i = NULL, by = NULL)
+keep_(x, ..., .dots, i = NULL, by = NULL)
 }
 \arguments{
 \item{x}{a data.table}
@@ -29,9 +29,6 @@ DT <- data.table(
   v1 = c(1,1),
   v2 = c(2,1)
 )
-keep(DT, i = id==1)
-keep(DT, id, v2)
-keep(DT, -id)
 keep(DT, i = id==1)
 keep(DT, id, v2)
 keep(DT, -id)

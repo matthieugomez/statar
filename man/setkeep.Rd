@@ -4,18 +4,14 @@
 \alias{setkeep_}
 \title{Drop columns or rows in place}
 \usage{
-setkeep(x, ..., i = NULL, by = NULL)
+setkeep(x, ..., L)
 
-setkeep_(x, ..., .dots, i = NULL, by = NULL)
+setkeep_(x, ..., .dots)
 }
 \arguments{
 \item{x}{a data.table}
 
 \item{...}{Variables to keep. Default to all. See the \link[dplyr]{select} documentation.}
-
-\item{i}{Condition within groups}
-
-\item{by}{Groups by which condition should be evaluated}
 
 \item{.dots}{Used to work around non-standard evaluation.}
 }
@@ -29,10 +25,6 @@ DT <- data.table(
   v1 = c(1,1),
   v2 = c(2,1)
 )
-setkeep(DT, i = id==1)
-setkeep(DT, id, v2)
-setkeep(DT, -id)
-setkeep(DT, i = id==1)
 setkeep(DT, id, v2)
 setkeep(DT, -id)
 }
