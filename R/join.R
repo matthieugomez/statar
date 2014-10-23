@@ -25,9 +25,11 @@
 #' join(x, y, on = "a", suffixes = c("",".i"))
 #' y <- data.table(a = 0:1, bb = 10:11)
 #' join(x, y, type = "left", check = m~1, inplace = TRUE)
-#' x <- data.table(a = rep(1:2, each = 3), b=c(NA, 2:6))
-#' y <- data.table(a = 1, b = 10:11)
+#' x <- data.table(a = c(1,2), b=c(NA, 2))
+#' y <- data.table(a = c(1,2), b = 10:11)
 #' join(x, y, type = "left", on = "a",  update = TRUE)
+#' join(x, y, type = "left", on = "a", chec = m~1, inplace = TRUE,  update = TRUE)
+
 #' @export
 join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffixes = c(".x",".y"), check = m~m,  gen = FALSE, inplace = FALSE, update = FALSE){
 
@@ -146,7 +148,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), type = "outer" , suffi
           newvx <- paste0(v,suffixes[1])
           newvy <- paste0(v,suffixes[2])
           condition <- DT_output[is.na(get(newvx)) & !is.na(get(newvy)), which = TRUE]
-          message(paste("Update of", v, ":", length(condition), "rows are updated"))
+          message(paste("Update of", v, ":", length(condition), "row(s) are updated"))
           DT_output[condition, (newvx) := get(newvy)]
           DT_output[, (newvy) := NULL]
         }
