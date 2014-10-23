@@ -1,4 +1,4 @@
-#' Drop columns or rows in place 
+#' Keep only certain columns in place 
 #'
 #' @param x a data.table 
 #' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.

@@ -2,7 +2,7 @@
 \name{setmutate}
 \alias{setmutate}
 \alias{setmutate_}
-\title{Version of mutate that (i) acts in place (ii) allows by, i condition}
+\title{Version of mutate that (i) transforms data.table in place (ii) allows by, i condition}
 \usage{
 setmutate(x, ..., i = NULL, by = NULL)
 
@@ -20,7 +20,7 @@ setmutate_(x, .dots, i = NULL, by = NULL)
 \item{replace}{If replace = TRUE, variables are replaced.}
 }
 \description{
-Version of mutate that (i) acts in place (ii) allows by, i condition
+Version of mutate that (i) transforms data.table in place (ii) allows by, i condition
 }
 \examples{
 library(data.table)

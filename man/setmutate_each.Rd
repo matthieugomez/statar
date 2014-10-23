@@ -2,7 +2,7 @@
 \name{setmutate_each}
 \alias{setmutate_each}
 \alias{setmutate_each_}
-\title{Version of mutate_each that (i) acts in place (ii) allows by, i condition (iii) always create new names when only one fun, except when replace = TRUE}
+\title{Version of mutate_each that (i) transforms data.table in place (ii) allows by, i condition (iii) when only when fun, creates new variables - except when replace = TRUE}
 \usage{
 setmutate_each(x, funs, ..., i = NULL, by = NULL, replace = FALSE)
 
@@ -19,10 +19,10 @@ setmutate_each_(x, funs, .dots, i = NULL, by = NULL, replace = FALSE)
 
 \item{by}{Groups within which the function should be applied}
 
-\item{replace}{If replace = TRUE, variables are replaced.}
+\item{replace}{If replace = TRUE, variables are replaced. Default to FALSE (new variable are created)}
 }
 \description{
-Version of mutate_each that (i) acts in place (ii) allows by, i condition (iii) always create new names when only one fun, except when replace = TRUE
+Version of mutate_each that (i) transforms data.table in place (ii) allows by, i condition (iii) when only when fun, creates new variables - except when replace = TRUE
 }
 \examples{
 library(data.table)

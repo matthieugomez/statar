@@ -2,7 +2,7 @@
 \name{setkeep}
 \alias{setkeep}
 \alias{setkeep_}
-\title{Drop columns or rows in place}
+\title{Keep only certain columns in place}
 \usage{
 setkeep(x, ..., L)
 
@@ -16,7 +16,7 @@ setkeep_(x, ..., .dots)
 \item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{
-Drop columns or rows in place
+Keep only certain columns in place
 }
 \examples{
 library(data.table)

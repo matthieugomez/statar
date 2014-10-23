@@ -2,7 +2,7 @@
 \name{keep}
 \alias{keep}
 \alias{keep_}
-\title{Create new data.table with columns or rows}
+\title{Create new data.table by keeping only certain columns or rows}
 \usage{
 keep(x, ..., i = NULL, by = NULL)
 
@@ -20,7 +20,7 @@ keep_(x, ..., .dots, i = NULL, by = NULL)
 \item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{
-Create new data.table with columns or rows
+Create new data.table by keeping only certain columns or rows
 }
 \examples{
 library(data.table)
