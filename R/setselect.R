@@ -24,9 +24,11 @@ setkeep <- function(x, ...,i = NULL, by = NULL){
 setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
 	if (is.name(x)){
 		env <- parent.frame(2)
+		true_x <- as.character(x)
 		x <- eval(x, parent.frame())
 	} else{
 		env <- parent.frame()
+		true_x <- as.character(substitute(x))
 	}
 	stopifnot(is.data.table(x))
 	xsub <- substitute(x)
@@ -39,14 +41,14 @@ setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
 	if (!length(vars))  vars <- names(x)
 	if (!is.null(i)){
 		if (is.null(by)){
-			eval(substitute(x) <- filter_(x, i), env)
+			assign(true_x, filter_(x, i), env)
 		} else{
 			expr <- lapply(dots, `[[`, "expr")
 			call <- substitute(dt[, .I[expr], by = vars], list(expr = dplyr:::and_expr(expr)))
 			env <- dt_env(x, lazyeval::common_env(dots), by = byvars)
 			ans <- eval(call, env)
 			indices <- ans[[length(ans)]]
-			eval(substitute(x) <- x[indices[!is.na(indices)]], env)
+			assign(true_x, x[indices[!is.na(indices)]], env)
 		}
 	}
 	drop <- setdiff(copy(names(x)), vars)
