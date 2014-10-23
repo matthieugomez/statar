@@ -38,14 +38,14 @@ setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
 	if (!length(vars))  vars <- names(x)
 	if (!is.null(i)){
 		if (is.null(by)){
-			assign(name_x, filter_(x, i), env)
+			assign(name_x, filter_(x, i), env_x)
 		} else{
 			expr <- lapply(dots, `[[`, "expr")
 			call <- substitute(dt[, .I[expr], by = vars], list(expr = dplyr:::and_expr(expr)))
 			env <- dt_env(x, lazyeval::common_env(dots), by = byvars)
 			ans <- eval(call, env)
 			indices <- ans[[length(ans)]]
-			assign(name_x, x[indices[!is.na(indices)]], env)
+			assign(name_x, x[indices[!is.na(indices)]], env_x)
 		}
 	}
 	drop <- setdiff(copy(names(x)), vars)
