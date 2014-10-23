@@ -10,6 +10,7 @@
 #'   v1 = c(1,1),
 #'   v2 = c(2,1)
 #' )
+#' setkeep(DT, i = id==1)
 #' setkeep(DT, id, v2)
 #' setkeep(DT, -id)
 #' @export
@@ -27,7 +28,7 @@ setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
 	}
 	dots <- lazyeval::all_dots(.dots, ...)
 	vars <- names(select_vars_(names(x), dots))
-	if (!length(vars)) stop("No variable selected")
+	if (!length(vars))  vars <- names(x)
 	if (!is.null(i)){
 		if (is.null(by)){
 			x <- filter_(x, i)
