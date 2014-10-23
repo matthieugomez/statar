@@ -78,8 +78,9 @@ keep_ <- function(x, ..., .dots, i = NULL, by = NULL){
 		}
 		drop <- setdiff(copy(names(x)), vars)
 		if (length(drop)>0){
-			x <- select(x, .dots= vars)
+			x <- select_(x, .dots = vars)
 		}
+	x
 	}
 
 
