@@ -18,7 +18,6 @@
 #' setkeep(DT, i = id==1)
 #' setkeep(DT, id, v2)
 #' setkeep(DT, -id)
-
 #' @export
 setkeep <- function(x, ...,i = NULL, by = NULL){
 	setkeep_(x = x, .dots = lazyeval::lazy_dots(...), i = substitute(i), by = substitute(by))
