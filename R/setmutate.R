@@ -24,6 +24,7 @@ setmutate <- function(x, ..., i = NULL, by = NULL){
 #' @export
 #' @rdname setmutate
 setmutate_ <- function(x, .dots, i = NULL, by = NULL){
+    stopifnot(is.data.table(x))
     byvars <- names(select_vars_(names(x), by))
     if (!length(by)){
         byvars <- NULL
