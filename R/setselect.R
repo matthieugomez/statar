@@ -22,7 +22,7 @@ setkeep <- function(x, ...,i = NULL, by = NULL){
 #' @export
 #' @rdname setkeep
 setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
-	if (is.call(x)){
+	if (is.name(x)){
 		env <- parent.frame(2)
 		x <- eval(x, parent.frame())
 	} else{
