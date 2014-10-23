@@ -71,13 +71,12 @@ setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
 #'   v1 = c(1,1),
 #'   v2 = c(2,1)
 #' )
-#' setkeep(DT, i = id==1)
-#' setkeep(DT, id, v2)
-#' setkeep(DT, -id)
-#' setkeep(DT, i = id==1)
-#' setkeep(DT, id, v2)
-#' setkeep(DT, -id)
-
+#' keep(DT, i = id==1)
+#' keep(DT, id, v2)
+#' keep(DT, -id)
+#' keep(DT, i = id==1)
+#' keep(DT, id, v2)
+#' keep(DT, -id)
 #' @export
 keep <- function(x, ...,i = NULL, by = NULL){
 	keep_(x = x, .dots = lazyeval::lazy_dots(...), i = substitute(i), by = substitute(by))
@@ -113,7 +112,6 @@ keep_ <- function(x, ...,i = NULL, by = NULL){
 	}
 
 
-
 and_expr <- function(exprs) {
   assert_that(is.list(exprs))
   if (length(exprs) == 0) return(TRUE)
@@ -124,10 +122,4 @@ and_expr <- function(exprs) {
     left <- substitute(left & right, list(left = left, right = exprs[[i]]))
   }
   left
-}
-
-
-f <- function(x){
-	d <- "v1"
-	x[, c(d) := NULL]
 }

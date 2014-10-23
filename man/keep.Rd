@@ -29,11 +29,11 @@ DT <- data.table(
   v1 = c(1,1),
   v2 = c(2,1)
 )
-setkeep(DT, i = id==1)
-setkeep(DT, id, v2)
-setkeep(DT, -id)
-setkeep(DT, i = id==1)
-setkeep(DT, id, v2)
-setkeep(DT, -id)
+keep(DT, i = id==1)
+keep(DT, id, v2)
+keep(DT, -id)
+keep(DT, i = id==1)
+keep(DT, id, v2)
+keep(DT, -id)
 }
 
