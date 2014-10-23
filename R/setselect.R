@@ -15,13 +15,21 @@
 #' setkeep(DT, -id)
 #' @export
 setkeep <- function(x, ...,i = NULL, by = NULL){
+	x <- substitute(x)
 	setkeep_(x = x, .dots = lazyeval::lazy_dots(...), i = substitute(i), by = substitute(by))
 }
 
 #' @export
 #' @rdname setkeep
 setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
+	if (is.call(x)){
+		env <- parent.frame(2)
+		x <- eval(x, parent.frame())
+	} else{
+		env <- parent.frame()
+	}
 	stopifnot(is.data.table(x))
+	xsub <- substitute(x)
 	byvars <- names(select_vars_(names(x), by))
 	if (!length(by)){
 	    byvars <- NULL
@@ -31,14 +39,14 @@ setkeep_ <- function(x, ..., .dots, i = NULL, by = NULL){
 	if (!length(vars))  vars <- names(x)
 	if (!is.null(i)){
 		if (is.null(by)){
-			eval(substitute(x) <- filter_(x, i), lazyeval::common_env(dots))
+			eval(substitute(x) <- filter_(x, i), env)
 		} else{
 			expr <- lapply(dots, `[[`, "expr")
 			call <- substitute(dt[, .I[expr], by = vars], list(expr = dplyr:::and_expr(expr)))
 			env <- dt_env(x, lazyeval::common_env(dots), by = byvars)
 			ans <- eval(call, env)
 			indices <- ans[[length(ans)]]
-			eval(substitute(x) <- x[indices[!is.na(indices)]], lazyeval::common_env(dots))
+			eval(substitute(x) <- x[indices[!is.na(indices)]], env)
 		}
 	}
 	drop <- setdiff(copy(names(x)), vars)
