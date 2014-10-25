@@ -24,7 +24,7 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 
 \item{inplace}{A boolean. In case "type"= "left" and RHS of check is 1, the merge can be one in-place.}
 
-\item{update}{A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y.}
+\item{update}{A boolean.}
 }
 \value{
 A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
@@ -47,9 +47,8 @@ join(x, y, on = "a")
 join(x, y, on = "a", suffixes = c("",".i"))
 y <- data.table(a = 0:1, bb = 10:11)
 join(x, y, type = "left", check = m~1, inplace = TRUE)
-x <- data.table(a = c(1,2), b=c(NA, 2))
-y <- data.table(a = c(1,2), b = 10:11)
+x <- data.table(a = rep(1:2, each = 3), b=c(NA, 2:6))
+y <- data.table(a = 1, b = 10:11)
 join(x, y, type = "left", on = "a",  update = TRUE)
-join(x, y, type = "left", on = "a", chec = m~1, inplace = TRUE,  update = TRUE)
 }
 
