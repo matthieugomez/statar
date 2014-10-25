@@ -19,24 +19,24 @@ as.weekly(date)
 Elapsed dates (weekly, monthly, quarterly)
 }
 \details{
-Weekly, monthly and quarterly dates are stored as the number of elapsed calendar periods since 01/01/1970. This allows to use arithmetic on dates other than daily. Moreover, these dates are printed in a way that fits their frequency  (\code{yyyy}q\code{q}, \code{yyyy}m\code{MM}, \code{yyyy}m\code{WW}).
+Weekly, monthly and quarterly dates are stored as the number of elapsed calendar periods since 01/01/1970. This allows to use arithmetic on dates other than daily. Moreover, these dates are printed in a way that fits their frequency  (\code{YYY}q\code{q}, \code{YYY}m\code{MM}, \code{YYY}w\code{WW}).
 
 Methods to convert from and to Dates or POSIXlt are provided. In particular, you may use lubridate \code{\link{week}} \code{\link{month}} and \code{\link{year}} to extract informations from elapsed dates.
 }
 \examples{
 date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
 datem <-  as.monthly(date)
-# Print depends on period
+# Display format depends on period
 datem
 as.character(datem)
-# Internally stocked as inter, which allows things like:
-datem+1
+# Internally stocked as inter, which allows things such as:
+datem + 1
 lag(c(1, 2, 3), n = 1, along_with = datem)
-# Behaves as a date for lubridate operation
-week(datem)
 # Convert to usual date format if needed
+as.Date(datem)
 as.POSIXlt(datem)
 as.POSIXct(datem)
-as.Date(datem)
+# Behaves as a date for period extractions:
+week(datem)
 }
 
