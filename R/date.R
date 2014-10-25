@@ -15,8 +15,8 @@
 #' as.POSIXlt(datem)
 #' as.POSIXct(datem)
 #' as.Date(datem)
-#' @details Weekly, monthly and quarterly dates are stored as the number of elapsed calendar periods since January 01 1970.
-#'  This allows to use methods defined on numeric on quarterly date (for instance lag wrt one period). Moreover, these classes are printed in a way that fits their frequency YYYYqQ, YYYYmMM, YYYYmWW.  
+#' @details Weekly, monthly and quarterly dates are stored as the number of elapsed calendar periods since 01/01/1970.
+#'  This allows to print these dates in a way that fits their frequency  (YYYYqQ, YYYYmMM, YYYYmWW). Moreover, this allows to use methods defined on numeric on quarterly date (for instance lag wrt one period). 
 #'
 #' Methods to convert from and to Dates or POSIXlt are provided. In particular, you may use lubridate \code{\link{week}} \code{\link{month}} and \code{\link{year}} to extract informations from elapsed dates.
 #' @name elapsed
