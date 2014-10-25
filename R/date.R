@@ -13,7 +13,6 @@
 #' l %>% mutate_each(funs(week))
 #' l %>% mutate_each(funs(lag(c(1,2,3), along_with = .)))
 #' @details Weekly, monthly and quarterly dates are dates stored as the number of elapsed calendar periods since January 01 1970. This is helpful for two reasons. First, it allows to use methods defined on numeric on quarterly date (for instance lag wrt one period). Moreover, these classes are printed in a way that fits their frequency YYYYqQ, YYYYmMM, YYYYmWW.  Methods to convert from and to Dates or POSIXlt are provided.
-#' @export
 #' @name elapsed
 #' @aliases quarterly, monthly, weekly
 NULL
