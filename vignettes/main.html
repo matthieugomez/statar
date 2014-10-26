@@ -10,7 +10,7 @@
 
 <meta name="author" content="Matthieu Gomez" />
 
-<meta name="date" content="2014-10-25" />
+<meta name="date" content="2014-10-26" />
 
 <title>statar</title>
 
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">statar</h1>
 <h4 class="author"><em>Matthieu Gomez</em></h4>
-<h4 class="date"><em>2014-10-25</em></h4>
+<h4 class="date"><em>2014-10-26</em></h4>
 </div>
 
 
@@ -164,12 +164,13 @@ y &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="
 </div>
 <div id="panel-data" class="section level2">
 <h2>Panel Data</h2>
-<p>The package adds support for panel data</p>
+<p>The package adds support for panel data.</p>
+<p>The classes “weekly”, “monthly”, “quarterly” are stored as elapsed periods since 1970/01/0 (resp in week, months, quarters). However, they print as dates and are compatible with usual time extraction (ie <code>month</code>, <code>year</code>, etc)</p>
 <pre class="sourceCode R"><code class="sourceCode r"> <span class="co"># elapsed dates</span>
  <span class="kw">library</span>(lubridate)
  date &lt;-<span class="st"> </span><span class="kw">mdy</span>(<span class="kw">c</span>(<span class="st">&quot;04/03/1992&quot;</span>, <span class="st">&quot;01/04/1992&quot;</span>, <span class="st">&quot;03/15/1992&quot;</span>))  
  datem &lt;-<span class="st"> </span><span class="kw">as.monthly</span>(date)
- <span class="co"># display as a period</span>
+ <span class="co"># displays as a period</span>
  datem
  <span class="co">#&gt; [1] &quot;1992m04&quot; &quot;1992m01&quot; &quot;1992m03&quot;</span>
  <span class="co"># behaves as an integer for numerical operations:</span>
@@ -177,9 +178,9 @@ y &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="
  <span class="co">#&gt; [1] &quot;1992m05&quot; &quot;1992m02&quot; &quot;1992m04&quot;</span>
  <span class="co"># behaves as a date for period extractions:</span>
  <span class="kw">year</span>(datem)
- <span class="co">#&gt; [1] 1992 1992 1992</span>
-
-<span class="co"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
+ <span class="co">#&gt; [1] 1992 1992 1992</span></code></pre>
+<p>The package also includes three functions can then be used on daily dates, these elapsed periods, or years.</p>
+<pre class="sourceCode R"><code class="sourceCode r"><span class="co"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
 year &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1992</span>, <span class="dv">1989</span>, <span class="dv">1991</span>)
 value &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">4.1</span>, <span class="fl">4.5</span>, <span class="fl">3.3</span>)
 <span class="kw">lag</span>(value, <span class="dv">1</span>, <span class="dt">order_by =</span> year) <span class="co"># returns value in previous year, like  dplyr::lag</span>
@@ -220,7 +221,12 @@ DT3 &lt;-<span class="st"> </span><span class="kw">copy</span>(DT1)
 </div>
 <div id="others" class="section level1">
 <h1>Others</h1>
-<p>This package also adds - A data.table method for the generic <code>tidyr::spread</code> that relies on <code>dcast.data.table</code> (much faster). - <code>floor_date</code>, originally from the package <code>lubridate</code>, now accepts “quarter” as an argument - <code>tempname</code> returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.</p>
+<p>This package also adds</p>
+<ul>
+<li>A data.table method for the generic <code>tidyr::spread</code> that relies on <code>dcast.data.table</code> (much faster).</li>
+<li><code>floor_date</code>, originally from the package <code>lubridate</code>, now accepts “quarter” as an argument</li>
+<li><code>tempname</code> returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.</li>
+</ul>
 <pre class="sourceCode R"><code class="sourceCode r"><span class="kw">tempname</span>(<span class="kw">c</span>(<span class="st">&quot;temp1&quot;</span>, <span class="st">&quot;temp3&quot;</span>), <span class="dv">4</span>)
 <span class="kw">tempname</span>(<span class="kw">globalenv</span>())
 <span class="kw">tempname</span>(<span class="kw">data.frame</span>(<span class="dt">temp =</span> <span class="dv">1</span>), <span class="dt">n =</span> <span class="dv">3</span>)</code></pre>

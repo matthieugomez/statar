@@ -12,7 +12,7 @@ vignette: >
 # Vector functions
 The package adds the following vector functions
 
-````R
+```R
 # sample_mode returns the statistical mode
 sample_mode(c(1, 2, 2))
 sample_mode(c(1, 2))
@@ -36,12 +36,12 @@ winsorize(v, cutpoints = c(1, 50))
 demean(c(1,2), fe = c(1,1))  
 demean(c(NA,2), fe = list(c(1,2), c(1,3)))               
 demean(c(1,2), fe = list(c(NA,2), c(1,3)))
-````
+```
 
 # data.table functions
 The package adds the following verbs for data.tables
 
-````R
+```R
 #setkeep keeps certain columns inplace
 DT <- data.table(
   id = c(1,2),
@@ -50,14 +50,14 @@ DT <- data.table(
 )
 setkeep(DT, list(id, v2))
 setkeep(DT, -id)
-````
+```
 
 
 
 
 ## Exploration
 
-````R
+```R
 # sum_up prints detailed summary statistics (corresponds to Stata summarize)
 N <- 100
 DT <- data.table(
@@ -73,13 +73,13 @@ sum_up(DT, starts_with("v"), by = v1)
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = a)
 duplicates(DT, by = list(a,b))
-````
+```
 
 ### Visual exploration
 
 `graph` is a wrapper for `ggplot2` functionalities, useful for interactive exploration of datasets
 
-````R
+```R
 N <- 10000
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
@@ -89,27 +89,27 @@ DT <- data.table(
 )
 DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
 graph(DT)
-````
+```
 <img src="output_2_0.png" height = "400">
 
-````R
+```R
 graph(DT, by = id)
-````
+```
 <img src="output_3_0.png" height = "400">
 
-````R
+```R
 graph(DT, by = id, type = "boxplot")
-````
+```
 <img src="box.png" height = "400">
 
-````R
+```R
 graph(DT, list(v3, v4), along_with = v2)
-````
+```
 <img src="v2.png" height = "400">
 
-````R
+```R
 graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
-````
+```
 <img src="v2by.png" height = "400">
 
 
@@ -126,7 +126,7 @@ graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
 - The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
 - The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
 
-````R
+```R
 x <- data.table(a = rep(1:2, each = 3), b = 1:6)
 y <- data.table(a = 0:1, bb = 10:11)
 # outer corresponds to Stata joinby keep(master matched using)
@@ -143,11 +143,14 @@ join(x, y, type = "anti")
 join(x, y, type = "outer", check = 1~m)
 join(x, y, type = "outer", gen = "_merge")
 join(x, y, type = "left", check = m~1, inplace = TRUE)
-````
+```
 
 ## Panel Data
-The package adds support for panel data
-````R
+The package adds support for panel data. 
+
+The classes "weekly", "monthly", "quarterly"  are stored as elapsed periods since 1970/01/0 (resp in week, months, quarters). However, they print as dates and are compatible with usual time extraction (ie `month`, `year`, etc)
+
+```R
  # elapsed dates
  library(lubridate)
  date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  
@@ -161,7 +164,11 @@ The package adds support for panel data
  # behaves as a date for period extractions:
  year(datem)
  #> [1] 1992 1992 1992
+```
 
+The package also includes three functions can then be used on daily dates, these elapsed periods, or years.
+
+```R
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
 year <- c(1992, 1989, 1991)
 value <- c(4.1, 4.5, 3.3)
@@ -199,19 +206,20 @@ setna(DT, value, along_with = date, by = id)
 setna(DT1)
 setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
-````
+```
 
 # Others
 This package also adds
+
 - A data.table method for the generic `tidyr::spread` that relies on `dcast.data.table` (much faster).
 - `floor_date`, originally from the package `lubridate`, now accepts "quarter" as an argument 
 - `tempname` returns a character that corresponds to a name not assigned in the environment (or list, or character vector) specified by the first variable.
 
-````R
+```R
 tempname(c("temp1", "temp3"), 4)
 tempname(globalenv())
 tempname(data.frame(temp = 1), n = 3)
-````
+```
 
 
 
@@ -221,9 +229,9 @@ Function selects variables similarly to `dplyr` syntax. Each function has a vers
 
 
 
-````R
+```R
 # NSE version
 sum_up(DT, list(v2, v3), by = list(id,v1))
 # SE version
 sum_up_(DT, c("v2","v3"), by = c("id","v1"))
-````
+```
