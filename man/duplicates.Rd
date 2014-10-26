@@ -6,7 +6,7 @@
 \usage{
 duplicates(x, ..., by = NULL, gen = "N")
 
-duplicates_(x, ..., .dots, by = NULL, gen = "N")
+duplicates_(x, vars, by = NULL, gen = "N")
 }
 \arguments{
 \item{x}{a data.table}
@@ -17,7 +17,7 @@ duplicates_(x, ..., .dots, by = NULL, gen = "N")
 
 \item{gen}{A character that specifies  the name of a new variable with the number of duplicates. Default to "N".}
 
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{vars}{Used to work around non-standard evaluation.}
 }
 \value{
 a data.table with groups that have duplicates.

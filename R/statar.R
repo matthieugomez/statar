@@ -4,11 +4,12 @@
 #' @name statar
 #' @import data.table 
 #' @import ggplot2
-#' @importFrom dplyr with_order
+#' @importFrom dplyr funs_
 #' @importFrom dplyr with_order
 #' @importFrom dplyr select_vars_
 #' @importFrom dplyr select_
 #' @importFrom dplyr tbl_vars
+#' @importFrom dplyr filter_
 #' @importFrom dplyr group_by
 #' @importFrom dplyr sample_n
 #' @importFrom grid grid.layout
@@ -19,12 +20,16 @@
 #' @importFrom Hmisc wtd.var
 #' @importFrom Hmisc wtd.quantile
 #' @importFrom lfe demeanlist
+#' @importFrom lazyeval as.lazy
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval all_dots
 #' @importFrom lazyeval common_env
 #' @importFrom lazyeval interp
 #' @importFrom lubridate period
 #' @importFrom lubridate second
+#' @importFrom lubridate weeks
+#' @importFrom lubridate mdy
+#' @importFrom lubridate years
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap

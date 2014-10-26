@@ -4,7 +4,7 @@
 #' @param ... Variables to keep (beyond the by variable). Default to all variables. See the \link[dplyr]{select} documentation.
 #' @param by Variable to group by. Default is the key, or everything is the data.table is not keyed.
 #' @param gen A character that specifies  the name of a new variable with the number of duplicates. Default to "N".
-#' @param .dots Used to work around non-standard evaluation.
+#' @param vars Used to work around non-standard evaluation.
 #' @return a data.table with groups that have duplicates. 
 #' @examples
 #' library(data.table)
@@ -13,17 +13,17 @@
 #' duplicates(DT, by = list(a,b))
 #' @export
 duplicates <- function(x, ..., by = NULL, gen = "N"){
-  duplicates_(x, .dots = lazyeval::lazy_dots(...), by = substitute(by), gen = gen)
+  duplicates_(x, vars = lazyeval::lazy_dots(...), by = substitute(by), gen = gen)
 }
 
 #' @export
 #' @rdname duplicates
-duplicates_ <- function(x, ..., .dots, by = NULL, gen = "N"){
+duplicates_ <- function(x, vars, by = NULL, gen = "N"){
   stopifnot(is.data.table(x))
   names <- names(x)
   if (gen %in% names)   stop(paste("A variable named", gen, "already exists."))
   if (anyDuplicated(names))  stop("x has duplicate column names")
-  dots <- lazyeval::all_dots(.dots, ...)
+  dots <- lazyeval::all_dots(vars)
   byvars <- names(select_vars_(names, by))
   if (length(byvars)==0){
     byvars <- copy(names)

@@ -19,6 +19,7 @@ Imports:
     grid,
     Hmisc,
     lazyeval,
+    lfe,
     lubridate,
     matrixStats,
     stringr,

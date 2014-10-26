@@ -7,7 +7,7 @@
 sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
   digits = 3)
 
-sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
+sum_up_(x, vars, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
   digits = 3)
 }
 \arguments{
@@ -25,7 +25,7 @@ sum_up_(x, ..., .dots, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
 
 \item{digits}{Number of significant decimal digits. Default to 3}
 
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
 Gives summary statistics (corresponds to Stata command summarize)

@@ -7,7 +7,7 @@
 #' @param d Should detailed summary statistics be printed?
 #' @param na.rm A boolean. default to TRUE
 #' @param digits Number of significant decimal digits. Default to 3
-#' @param .dots Used to work around non-standard evaluation.
+#' @param vars Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
 #' N <- 100
@@ -22,18 +22,18 @@
 #' sum_up(DT, by = v1)
 #' @export
 sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL, digits = 3) {
-  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by), digits = digits)
+  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by), digits = digits)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, digits = 3) {
+sum_up_<- function(x, vars, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, digits = 3) {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
   if (!length(w)) w <- NULL
   byvars <- names(select_vars_(names(x), by))
-  dots <- all_dots(.dots, ...)
+  dots <- all_dots(vars)
   vars <- names(select_vars_(names(x), dots, exclude = byvars))
   if (length(vars) == 0) {
      vars <- setdiff(names(x), c(byvars,w))

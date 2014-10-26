@@ -4,9 +4,10 @@
 #' @param ... Variables to include. Defaults to all non-grouping variables. 
 #' @param i a condition that restricts the set of row on which to apply the function
 #' @param by Groups within which the function should be applied
-#' @param replace If replace = TRUE, variables are replaced.
+#' @param vars Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
+#' library(dplyr)
 #' N <- 100
 #' DT <- data.table(
 #'   id = sample(5, N, TRUE),
@@ -18,12 +19,12 @@
 #' setmutate_(DT, setNames("mean(v2)", "v3"), i = "id==1", by = "v1")
 #' @export
 setmutate <- function(x, ..., i = NULL, by = NULL){
-    setmutate_(x, .dots = lazy_dots(...), i = substitute(i), by = substitute(by))
+    setmutate_(x, vars = lazy_dots(...), i = substitute(i), by = substitute(by))
 }
 
 #' @export
 #' @rdname setmutate
-setmutate_ <- function(x, .dots, i = NULL, by = NULL){
+setmutate_ <- function(x, vars, i = NULL, by = NULL){
     stopifnot(is.data.table(x))
     byvars <- names(select_vars_(names(x), by))
     if (!length(by)){
@@ -32,7 +33,7 @@ setmutate_ <- function(x, .dots, i = NULL, by = NULL){
     if (!is.null(i)){
       i <- as.lazy(i)$expr
     }
-    dots <- lazyeval::all_dots(.dots, all_named = TRUE)
+    dots <- lazyeval::all_dots(vars, all_named = TRUE)
     env <- dt_env(x, lazyeval::common_env(dots), byvars)
      # For each new variable, generate a call of the form df[, new := expr]
      for(col in names(dots)) {
@@ -62,8 +63,10 @@ setmutate_ <- function(x, .dots, i = NULL, by = NULL){
 #' @param i a condition that restricts the set of row on which to apply the function
 #' @param by Groups within which the function should be applied
 #' @param replace If replace = TRUE, variables are replaced. Default to FALSE (new variable are created)
+#' @param vars Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
+#' library(dplyr)
 #' N <- 100
 #' DT <- data.table(
 #'   id = sample(5, N, TRUE),
@@ -74,12 +77,12 @@ setmutate_ <- function(x, .dots, i = NULL, by = NULL){
 #' setmutate_each(DT, funs(as.character), replace = TRUE)
 #' @export
 setmutate_each <- function(x, funs, ..., i = NULL, by = NULL, replace = FALSE){
-    setmutate_each_(x, funs, .dots = lazy_dots(...), i = substitute(i), by = substitute(by), replace = replace)
+    setmutate_each_(x, funs, vars = lazy_dots(...), i = substitute(i), by = substitute(by), replace = replace)
 }
 
 #' @export
 #' @rdname setmutate_each
-setmutate_each_ <- function(x, funs, .dots, i = NULL, by = NULL, replace = FALSE){
+setmutate_each_ <- function(x, funs, vars, i = NULL, by = NULL, replace = FALSE){
   stopifnot(is.data.table(x))
     if (anyDuplicated(names(funs))){
       stop("Multiple functions are specified with the same name", call. = FALSE)
@@ -91,18 +94,18 @@ setmutate_each_ <- function(x, funs, .dots, i = NULL, by = NULL, replace = FALSE
     if (!length(by)){
         byvars <- NULL
     }
-    .dots <- colwise_(x, funs_(funs), .dots, byvars = byvars, replace = replace)
-    setmutate_(x, .dots, i, by)
+    vars <- lazyeval::all_dots(vars)
+    vars <- colwise_(x, funs_(funs), vars, byvars = byvars, replace = replace)
+    setmutate_(x, vars, i, by)
 }
 
 
 
 colwise_ <- function(tbl, calls, vars, byvars = NULL, replace = FALSE) {
-  stopifnot(dplyr:::is.fun_list(calls))
-  if (length(vars) == 0) {
-    vars <- lazyeval::lazy_dots(everything())
-  }
   vars <- select_vars_(tbl_vars(tbl), vars, exclude = byvars)
+  if (!length(vars)){
+    vars <- setdiff(names(tbl), byvars)
+  }
   out <- vector("list", length(vars) * length(calls))
   dim(out) <- c(length(vars), length(calls))
   for (i in seq_along(vars)) {

@@ -6,7 +6,7 @@
 \usage{
 setmutate(x, ..., i = NULL, by = NULL)
 
-setmutate_(x, .dots, i = NULL, by = NULL)
+setmutate_(x, vars, i = NULL, by = NULL)
 }
 \arguments{
 \item{x}{a data.table}
@@ -17,13 +17,14 @@ setmutate_(x, .dots, i = NULL, by = NULL)
 
 \item{by}{Groups within which the function should be applied}
 
-\item{replace}{If replace = TRUE, variables are replaced.}
+\item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
 Version of mutate that (i) transforms data.table in place (ii) allows by, i condition
 }
 \examples{
 library(data.table)
+library(dplyr)
 N <- 100
 DT <- data.table(
   id = sample(5, N, TRUE),

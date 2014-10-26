@@ -8,7 +8,7 @@ setna(x, ..., along_with = NULL, by = NULL, roll = TRUE, rollends = if
   (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else
   c(TRUE, FALSE))
 
-setna_(x, ..., .dots, along_with = NULL, by = NULL, roll = TRUE,
+setna_(x, ..., vars, along_with = NULL, by = NULL, roll = TRUE,
   rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
   TRUE) else c(TRUE, FALSE))
 }
@@ -25,7 +25,7 @@ setna_(x, ..., .dots, along_with = NULL, by = NULL, roll = TRUE,
 
 \item{rollends}{A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end}
 
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
 fill NA in place based on non missing observations

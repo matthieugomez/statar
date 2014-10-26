@@ -6,7 +6,7 @@
 \usage{
 keep(x, ..., i = NULL, by = NULL)
 
-keep_(x, ..., .dots, i = NULL, by = NULL)
+keep_(x, vars, i = NULL, by = NULL)
 }
 \arguments{
 \item{x}{a data.table}
@@ -17,7 +17,7 @@ keep_(x, ..., .dots, i = NULL, by = NULL)
 
 \item{by}{Groups by which condition should be evaluated}
 
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
 Create new data.table by keeping only certain columns or rows

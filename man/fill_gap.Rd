@@ -4,13 +4,13 @@
 \alias{fill_gap_}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
-fill_gap(x, ..., along_with = NULL, units = NULL, by = NULL,
-  full = FALSE, roll = FALSE, rollends = if (roll == "nearest") c(TRUE,
-  TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
+fill_gap(x, ..., along_with = NULL, by = NULL, full = FALSE,
+  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
+  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE), units = NULL)
 
-fill_gap_(x, ..., .dots, along_with = NULL, units = NULL, by = NULL,
-  full = FALSE, roll = FALSE, rollends = if (roll == "nearest") c(TRUE,
-  TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE))
+fill_gap_(x, vars, along_with = NULL, by = NULL, full = FALSE,
+  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
+  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE), units = NULL)
 }
 \arguments{
 \item{x}{A data.table}
@@ -18,8 +18,6 @@ fill_gap_(x, ..., .dots, along_with = NULL, units = NULL, by = NULL,
 \item{...}{Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.}
 
 \item{along_with}{Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.}
-
-\item{units}{A character when along_with is a date( one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").}
 
 \item{by}{Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.}
 
@@ -29,7 +27,9 @@ fill_gap_(x, ..., .dots, along_with = NULL, units = NULL, by = NULL,
 
 \item{rollends}{A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end}
 
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{units}{Dreprecated}
+
+\item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
 Add rows corresponding to gaps in some variable
@@ -44,7 +44,7 @@ DT <- data.table(
 fill_gap(DT, value, along_with = year, by = id)
 library(lubridate)
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))]
-DT[, datem :=  floor_date(date, "month")]
-fill_gap(DT, value, along_with = datem , units = "month", by = id)
+DT[, datem :=  as.monthly(date)]
+fill_gap(DT, value, along_with = datem , by = id)
 }
 

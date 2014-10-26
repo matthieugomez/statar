@@ -4,16 +4,16 @@
 \alias{setkeep_}
 \title{Keep only certain columns in place}
 \usage{
-setkeep(x, ..., L)
+setkeep(x, ...)
 
-setkeep_(x, ..., .dots)
+setkeep_(x, vars)
 }
 \arguments{
 \item{x}{a data.table}
 
 \item{...}{Variables to keep. Default to all. See the \link[dplyr]{select} documentation.}
 
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
 Keep only certain columns in place
