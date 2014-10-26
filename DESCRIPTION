@@ -1,6 +1,6 @@
 Package: statar
 Title: Tools Inspired by Stata to Clean, Explore and Join Datasets
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
 Description: statar makes it easier to work with tabular datasets. statar
