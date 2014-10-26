@@ -3,7 +3,7 @@ Title: Tools Inspired by Stata to Clean, Explore and Join Datasets
 Version: 0.1.2
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
-Description: statar makes it easier to work with tabular datasets. statar
+Description: statar makes it easier to work with tabular datasets. The package
     includes a set of functions to clean and summarize variables, to join
     datasets with an SQL-syntax, and to manipulate datasets with a panel
     structure (elapsed dates, lead/lag, fill rows for missing dates, fill in
