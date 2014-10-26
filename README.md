@@ -1,8 +1,12 @@
 statar
 ======
 
-A set of R commands for data analysis built on data.table, dplyr and ggplot2.
+statar makes it easier to work with tabular datasets. statar
+    includes a set of functions to clean and summarize variables, to join
+    datasets with an SQL-syntax, and to manipulate datasets with a panel
+    structure. statar is based on the data.table package and is inspired by Stata.
 
+A [vignette](vignettes/main.Rmd) is available.
 
 You can install 
 
@@ -17,5 +21,4 @@ You can install
 	devtools::install_github("matthieugomez/statar")
 	```
 
-Additionally, a [vignette](vignettes/main.Rmd) is available.
 
