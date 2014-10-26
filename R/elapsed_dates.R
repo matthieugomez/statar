@@ -4,6 +4,7 @@
 #' library(lubridate)
 #' date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  
 #' datem <- as.monthly(date)
+#' is.monthly(datem)
 #' as.weekly(date)
 #' as.quarterly(date)
 #' as.character(datem)
@@ -132,6 +133,23 @@ seq.weekly <- function(from,...){
 }
 
 
+#' @export
+#' @rdname elapsed 
+is.quarterly <- function(x){
+  is(x, "quarterly")
+}
+
+#' @export
+#' @rdname elapsed 
+is.monthly <- function(x){
+  is(x, "monthly")
+}
+
+#' @export
+#' @rdname elapsed 
+is.weekly <- function(x){
+  is(x, "weekly")
+}
 
 
 

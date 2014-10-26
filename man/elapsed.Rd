@@ -4,6 +4,9 @@
 \alias{as.quarterly}
 \alias{as.weekly}
 \alias{elapsed}
+\alias{is.monthly}
+\alias{is.quarterly}
+\alias{is.weekly}
 \alias{monthly,}
 \alias{quarterly,}
 \alias{weekly}
@@ -14,6 +17,12 @@ as.quarterly(x)
 as.monthly(x)
 
 as.weekly(x)
+
+is.quarterly(x)
+
+is.monthly(x)
+
+is.weekly(x)
 }
 \arguments{
 \item{x}{a vector}
@@ -30,6 +39,7 @@ Methods to convert from and to Dates or POSIXlt are provided. In particular, you
 library(lubridate)
 date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
 datem <- as.monthly(date)
+is.monthly(datem)
 as.weekly(date)
 as.quarterly(date)
 as.character(datem)

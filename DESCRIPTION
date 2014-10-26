@@ -3,10 +3,12 @@ Title: Tools Inspired by Stata to Clean, Explore and Join Datasets
 Version: 0.1.1
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
-Description: statar includes a set of functions for vectors: mode, tag, bin and
-    winsorize. statar includes a set of functions for data.tables: summarize
-    (in tables or graphs), panel data operations (lag, fill in gaps, fill in
-    missing values) and SQL-type joins.
+Description: statar makes it easier to work with tabular datasets. statar
+    includes a set of functions to clean and summarize variables, to join
+    datasets with an SQL-syntax, and to manipulate datasets with a panel
+    structure (elapsed dates, lead/lag, fill rows for missing dates, fill in
+    missing values). statar is based on the data.table package and is inspired
+    by Stata.
 License: GPL-2
 URL: https://github.com/matthieugomez/statar
 BugReports: https://github.com/matthieugomez/statar/issues
