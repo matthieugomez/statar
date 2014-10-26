@@ -24,35 +24,50 @@ NULL
 
 #' @export
 #' @rdname elapsed 
-as.quarterly <- function(x){
+as.quarterly <- function(x) {
+  if (length(class(x))==1 && class(x) == "numeric"){
+    out <- x
+    } else if (length(class(x))==1 && class(x) == "character"){
+    date <- str_match(x,"(.*)q(.*)")
+    out <- 4L*(as.integer(date[,2])-70) + (as.integer(date[,3]) -1)
+  } else{
     date <- as.POSIXlt(x)
-    date_origin <- as.POSIXlt(mdy("01/01/1970"))
-    out <- 4L*(date$year-date_origin$year) + (date$mon-date_origin$mon) %/% 3
-    class(out) <-  "quarterly"
-    out
-   
+    out <- 4L*(date$year-70) + date$mon %/% 3
+  }
+  class(out) <-  "quarterly"
+  out
 }
 
 #' @export
 #' @rdname elapsed 
-as.monthly <- function(x){
+as.monthly <- function(x) {
+  if (length(class(x))==1 && class(x) == "numeric"){
+    out <- x
+  } else if (length(class(x))==1 && class(x) == "character"){
+   date <- str_match(x,"(.*)m(.*)")
+   out <- 12L*(as.integer(date[,2])-70) + (as.integer(date[,3]) -1)
+  } else{
     date <- as.POSIXlt(x)
-    date_origin <- as.POSIXlt(mdy("01/01/1970"))
-    out <- 12L*(date$year-date_origin$year) + (date$mon-date_origin$mon)
-    attributes(out) <- NULL
-    class(out) <-  "monthly"
-    out
+    out <- 12L*(date$year-70) + (date$mon)
+  } 
+  class(out) <-  "monthly"
+  out
 }
 
 #' @export
 #' @rdname elapsed 
-as.weekly <- function(x){
-    date <- as.POSIXlt(x)
-    date_origin <- as.POSIXlt(mdy("01/01/1970"))
-    out <- 53L*(date$year-date_origin$year) + ((date$yday)%/%7 - date_origin$yday)
-    attributes(out) <- NULL
-    class(out) <-  "weekly"
-    out
+as.weekly <- function(x) {
+  if (length(class(x))==1 && class(x) == "numeric"){
+    out <- x
+    } else if (length(class(x))==1 && class(x) == "character"){
+    date <- str_match(x,"(.*)w(.*)")
+    out <- 53L*(as.integer(date[,2])-1970) + (as.integer(date[, 3])-1)
+    } else{
+      date <- as.POSIXlt(x)
+      out <- 53L*(date$year-70) + (date$yday)%/%7
+    }
+  class(out) <-  "weekly"
+  out
 }
 
 
@@ -154,27 +169,6 @@ is.weekly <- function(x){
 
 
 # Stupid
-#' @export
-`[.quarterly` <- function(x,..., drop = TRUE){
-  out <- NextMethod("[")
-  setattr(out, "class", "quarterly")
-  out
-}
-
-#' @export
-`[.monthly` <- function(x,..., drop = TRUE){
-  out <- NextMethod("[")
-  setattr(out, "class", "monthly")
-  out
-}
-
-
-#' @export
-`[.weekly` <- function(x,..., drop = TRUE){
-  out <- NextMethod("[")
-  setattr(out, "class", "weekly")
-  out
-}
 
 
 #' @export
@@ -240,6 +234,28 @@ print.weekly <- function(x, ...){
 
 # stupid stuff
 #' @export
+`[.quarterly` <- function(x,..., drop = TRUE){
+  out <- NextMethod("[")
+  setattr(out, "class", "quarterly")
+  out
+}
+
+#' @export
+`[.monthly` <- function(x,..., drop = TRUE){
+  out <- NextMethod("[")
+  setattr(out, "class", "monthly")
+  out
+}
+
+
+#' @export
+`[.weekly` <- function(x,..., drop = TRUE){
+  out <- NextMethod("[")
+  setattr(out, "class", "weekly")
+  out
+}
+
+#' @export
 as.data.frame.monthly <- function(...){
     as.data.frame.vector(...)
 }
@@ -252,6 +268,22 @@ as.data.frame.quarterly <- function(...){
 #' @export
 as.data.frame.weekly <- function(...){
     as.data.frame.vector(...)
+}
+
+
+#' @export
+as.list.monthly <- function(...){
+    as.list.vector(...)
+}
+
+#' @export
+as.list.quarterly <- function(...){
+    as.list.vector(...)
+}
+
+#' @export
+as.list.weekly <- function(...){
+    as.list.vector(...)
 }
 
 

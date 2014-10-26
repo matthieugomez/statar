@@ -35,6 +35,7 @@
 #' @importFrom parallel mcMap
 #' @importFrom stats lag
 #' @importFrom stringr str_replace
+#' @importFrom stringr str_match
 #' @importFrom stringr str_detect
 #' @importFrom tidyr gather_
 #' @importFrom tidyr spread_

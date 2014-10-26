@@ -148,19 +148,19 @@ join(x, y, type = "left", check = m~1, inplace = TRUE)
 ## Panel Data
 The package adds support for panel data
 ````R
-# elapsed dates
-library(lubridate)
-date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  
-datem <- as.monthly(date)
-# display as a period
-datem
-as.weekly(date)
-as.quarterly(date)
-# behaves as an integer for numerical operations:
-datem + 1
-# behaves as a date for period extractions:
-year(datem)
-week(datem)
+ # elapsed dates
+ library(lubridate)
+ date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  
+ datem <- as.monthly(date)
+ # displays as a period
+ datem
+ #> [1] "1992m04" "1992m01" "1992m03"
+ # behaves as an integer for numerical operations:
+ datem + 1
+ #> [1] "1992m05" "1992m02" "1992m04"
+ # behaves as a date for period extractions:
+ year(datem)
+ #> [1] 1992 1992 1992
 
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
 year <- c(1992, 1989, 1991)

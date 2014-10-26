@@ -165,19 +165,19 @@ y &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="
 <div id="panel-data" class="section level2">
 <h2>Panel Data</h2>
 <p>The package adds support for panel data</p>
-<pre class="sourceCode R"><code class="sourceCode r"><span class="co"># elapsed dates</span>
-<span class="kw">library</span>(lubridate)
-date &lt;-<span class="st"> </span><span class="kw">mdy</span>(<span class="kw">c</span>(<span class="st">&quot;04/03/1992&quot;</span>, <span class="st">&quot;01/04/1992&quot;</span>, <span class="st">&quot;03/15/1992&quot;</span>))  
-datem &lt;-<span class="st"> </span><span class="kw">as.monthly</span>(date)
-<span class="co"># print method depends on period</span>
-datem
-<span class="kw">as.weekly</span>(date)
-<span class="kw">as.quarterly</span>(date)
-<span class="co"># behaves as an integer for numerical operations</span>
-datem +<span class="st"> </span><span class="dv">1</span>
-<span class="co"># behaves as a date for period extractions:</span>
-<span class="kw">year</span>(datem)
-<span class="kw">week</span>(datem)
+<pre class="sourceCode R"><code class="sourceCode r"> <span class="co"># elapsed dates</span>
+ <span class="kw">library</span>(lubridate)
+ date &lt;-<span class="st"> </span><span class="kw">mdy</span>(<span class="kw">c</span>(<span class="st">&quot;04/03/1992&quot;</span>, <span class="st">&quot;01/04/1992&quot;</span>, <span class="st">&quot;03/15/1992&quot;</span>))  
+ datem &lt;-<span class="st"> </span><span class="kw">as.monthly</span>(date)
+ <span class="co"># display as a period</span>
+ datem
+ <span class="co">#&gt; [1] &quot;1992m04&quot; &quot;1992m01&quot; &quot;1992m03&quot;</span>
+ <span class="co"># behaves as an integer for numerical operations:</span>
+ datem +<span class="st"> </span><span class="dv">1</span>
+ <span class="co">#&gt; [1] &quot;1992m05&quot; &quot;1992m02&quot; &quot;1992m04&quot;</span>
+ <span class="co"># behaves as a date for period extractions:</span>
+ <span class="kw">year</span>(datem)
+ <span class="co">#&gt; [1] 1992 1992 1992</span>
 
 <span class="co"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
 year &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1992</span>, <span class="dv">1989</span>, <span class="dv">1991</span>)
