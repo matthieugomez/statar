@@ -29,8 +29,8 @@ duplicates_ <- function(x, vars, by = NULL, gen = "N"){
     byvars <- copy(names)
   }
   vars <- names(select_vars_(names, dots, exclude = byvars))
-  x <- data.table:::shallow(x)
   x[, (gen) := .N-1,  by = c(byvars)]
+  on.exit(x[, (gen) := NULL])
   ans <- eval(substitute(x[NN>0, c(gen, byvars, vars), with = FALSE], list(NN = as.name(gen))))
   length <- nrow(ans)
   if (length >0){

@@ -173,7 +173,7 @@ datem &lt;-<span class="st"> </span><span class="kw">as.monthly</span>(date)
 datem
 <span class="kw">as.weekly</span>(date)
 <span class="kw">as.quarterly</span>(date)
-<span class="co"># add one period</span>
+<span class="co"># behaves as an integer for numerical operations</span>
 datem +<span class="st"> </span><span class="dv">1</span>
 <span class="co"># behaves as a date for period extractions:</span>
 <span class="kw">year</span>(datem)
@@ -231,7 +231,7 @@ DT3 &lt;-<span class="st"> </span><span class="kw">copy</span>(DT1)
 <pre class="sourceCode R"><code class="sourceCode r"><span class="co"># NSE version</span>
 <span class="kw">sum_up</span>(DT, <span class="kw">list</span>(v2, v3), <span class="dt">by =</span> <span class="kw">list</span>(id,v1))
 <span class="co"># SE version</span>
-<span class="kw">sum_up_</span>(DT, <span class="dt">.dots =</span> <span class="kw">c</span>(<span class="st">&quot;v2&quot;</span>,<span class="st">&quot;v3&quot;</span>), <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>,<span class="st">&quot;v1&quot;</span>))</code></pre>
+<span class="kw">sum_up_</span>(DT, <span class="kw">c</span>(<span class="st">&quot;v2&quot;</span>,<span class="st">&quot;v3&quot;</span>), <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>,<span class="st">&quot;v1&quot;</span>))</code></pre>
 </div>
 
 

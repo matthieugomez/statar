@@ -152,11 +152,11 @@ The package adds support for panel data
 library(lubridate)
 date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  
 datem <- as.monthly(date)
-# print method depends on period
+# display as a period
 datem
 as.weekly(date)
 as.quarterly(date)
-# add one period
+# behaves as an integer for numerical operations:
 datem + 1
 # behaves as a date for period extractions:
 year(datem)

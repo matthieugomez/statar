@@ -237,18 +237,5 @@ as.data.frame.weekly <- function(...){
 }
 
 
-#' @export
-as.matrix.monthly <- function(...){
-    as.matrix.vector(...)
-}
 
-#' @export
-as.matrix.quarterly <- function(...){
-    as.matrix.vector(...)
-}
-
-#' @export
-as.matrix.weekly <- function(...){
-    as.matrix.vector(...)
-}
 

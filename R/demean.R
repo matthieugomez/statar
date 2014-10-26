@@ -19,7 +19,7 @@ demean <- function(x, fe){
 	}
 	ans <- c(list(x), fe)
 	setDT(ans)
-	rows <- !data.table:::is_na(ans)
+	rows <- complete.cases(ans)
 	ans <- ans[rows]
 	for (v in names(ans)[2:length(ans)]){
 		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]
