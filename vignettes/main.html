@@ -10,7 +10,7 @@
 
 <meta name="author" content="Matthieu Gomez" />
 
-<meta name="date" content="2014-10-26" />
+<meta name="date" content="2014-10-27" />
 
 <title>statar</title>
 
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">statar</h1>
 <h4 class="author"><em>Matthieu Gomez</em></h4>
-<h4 class="date"><em>2014-10-26</em></h4>
+<h4 class="date"><em>2014-10-27</em></h4>
 </div>
 
 
@@ -87,15 +87,6 @@ v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</sp
 </div>
 <div id="data.table-functions" class="section level1">
 <h1>data.table functions</h1>
-<p>The package adds the following verbs for data.tables</p>
-<pre class="sourceCode R"><code class="sourceCode r"><span class="co">#setkeep keeps certain columns inplace</span>
-DT &lt;-<span class="st"> </span><span class="kw">data.table</span>(
-  <span class="dt">id =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),
-  <span class="dt">v1 =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
-  <span class="dt">v2 =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)
-)
-<span class="kw">setkeep</span>(DT, <span class="kw">list</span>(id, v2))
-<span class="kw">setkeep</span>(DT, -id)</code></pre>
 <div id="exploration" class="section level2">
 <h2>Exploration</h2>
 <pre class="sourceCode R"><code class="sourceCode r"><span class="co"># sum_up prints detailed summary statistics (corresponds to Stata summarize)</span>
@@ -108,6 +99,19 @@ DT &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 <span class="kw">sum_up</span>(DT)
 <span class="kw">sum_up</span>(DT, v2, <span class="dt">d =</span> <span class="ot">TRUE</span>)
 <span class="kw">sum_up</span>(DT, <span class="kw">starts_with</span>(<span class="st">&quot;v&quot;</span>), <span class="dt">by =</span> v1)
+
+<span class="co"># tab returns cross tabulation table (faster than tabulate)</span>
+<span class="kw">tab</span>(DT, id)
+<span class="kw">tab</span>(DT, id, v1, <span class="dt">w =</span> v2)
+
+<span class="co"># setkeep keeps certain columns inplace</span>
+DT &lt;-<span class="st"> </span><span class="kw">data.table</span>(
+  <span class="dt">id =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),
+  <span class="dt">v1 =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+  <span class="dt">v2 =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)
+)
+<span class="kw">setkeep</span>(DT, <span class="kw">list</span>(id, v2))
+<span class="kw">setkeep</span>(DT, -id)
 
 <span class="co"># duplicates returns duplicated rows</span>
 DT &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">a =</span> <span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">2</span>, <span class="dt">each =</span> <span class="dv">3</span>), <span class="dt">b =</span> <span class="dv">1</span>:<span class="dv">6</span>)

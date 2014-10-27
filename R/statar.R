@@ -38,6 +38,8 @@
 #' @importFrom stringr str_match
 #' @importFrom stringr str_detect
 #' @importFrom tidyr gather_
+#' @importFrom tidyr spread
 #' @importFrom tidyr spread_
+#' @importFrom ggcomp compute_count_vec
 NULL
 

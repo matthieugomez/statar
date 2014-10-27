@@ -271,20 +271,6 @@ as.data.frame.weekly <- function(...){
 }
 
 
-#' @export
-as.list.monthly <- function(...){
-    as.list.vector(...)
-}
-
-#' @export
-as.list.quarterly <- function(...){
-    as.list.vector(...)
-}
-
-#' @export
-as.list.weekly <- function(...){
-    as.list.vector(...)
-}
 
 
 

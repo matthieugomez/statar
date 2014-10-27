@@ -23,69 +23,6 @@ assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
     }
 }
 
-evaldt <- function(x, env = parent.frame()){
-    x <- substitute(x)
-    names <- ls(all.names = TRUE, envir = env)
-    L <- NULL
-    names_l <- NULL
-    for (name in names){
-        if (exists(name, envir = env, inherits = FALSE, mode = "character")){
-            get_name <- get(name, envir = env)
-            # suppress NULL but also character vector because I'm not sure how to replace list(a,.x) when length(.x) is >1
-            if (length(get_name)==1){
-                L <- c(L, as.name(get_name))
-                names_l <- c(names_l, name)
-            }
-        }
-    }
-    names(L) <- names_l
-    # replace names, even in LHS of list
-    replace_name <- function(x, lenv, env){
-        i <- 0
-        if (is.atomic(x) | is.symbol(x)){
-            if (str_detect(as.character(x),"*\\.")){
-                xx <- str_replace(as.character(x),".","")
-                if (exists(xx, envir = env, inherits = FALSE, mode = "character")){
-                    get_name <- get(xx, envir = env)
-                    if (length(get_name)==1){
-                      return(as.name(get_name))
-                    }
-                } else{
-                  return(x)
-                }
-            } else{
-                return(x)
-            }
-        }
-        else{
-            out <- NULL
-            for (i in 1:length(x)){
-                if (!is.null(x[[i]])){
-                    x[[i]] <- replace_name(x[[i]], lenv, env)
-                }
-            }
-            names <- NULL
-            if (x[[1]] == quote(list)){
-                for (name in names(x)){
-                    if (str_detect(name,"\\.")) {
-                        namename <- str_replace(as.character(name),".","")
-                        if (exists(namename, envir = env, inherits = FALSE, mode = "character")){
-                            names <- c(names, get(namename, envir = env))
-                        } else{
-                            names <- c(names, name)
-                        }
-                    } 
-                    else{
-                        names <- c(names, name)
-                    }
-                }
-                names(x) <- names
-            }
-        }
-    }
-    call <- replace_name(x, as.list(L), env = env)
-    eval(call, env)
-}
 
 #set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){
 #    call <- substitute(set_(x, new = substitute(new), fun = func , old = substitute(old), i = ic, by =# substitute(by)), list(func = substitute(fun), ic = substitute(i)))
@@ -122,7 +59,6 @@ evaldt <- function(x, env = parent.frame()){
 #    dt_env <- dt_env(x, parent.frame())
 #    eval(call, dt_env)
 #}
-
 
 
 

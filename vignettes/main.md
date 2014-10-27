@@ -1,7 +1,7 @@
 ---
 title: "statar"
 author: "Matthieu Gomez"
-date: "`r Sys.Date()`"
+date: "2014-10-27"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}

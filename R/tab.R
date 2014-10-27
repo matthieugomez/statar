@@ -3,10 +3,11 @@
 #' @param x a data.table
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param w Weights. Default to NULL. 
+#' @param i Condition to apply function on certain rows only
 #' @param vars Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
-#' N <- 1e8 ; K = 10
+#' N <- 1e2 ; K = 10
 #' DT <- data.table(
 #'   id = sample(c(NA,1:5), N/K, TRUE),
 #'   v1 =  sample(c(NA,1:5), N, TRUE),
@@ -14,11 +15,14 @@
 #' )
 #' tab(DT, id)
 #' tab(DT, id, v1, w = v2)
-#' @returns a data.table with cross tabulation. NA are values like others (always displayed if present)
+#' @return a data.table with cross tabulation. NA are values like others (always displayed if present)
+#' @export
 tab <- function(x, ..., i = NULL, w = NULL){
   tab_(x, vars = lazy_dots(...) , i = substitute(i), w = substitute(w))
 }
 
+#' @export
+#' @rdname tab
 tab_ <- function(x, vars, i = NULL, w = NULL){
   wvar <- names(select_vars_(names(x), w))
   if (!length(wvar)){
@@ -42,7 +46,7 @@ tab_ <- function(x, vars, i = NULL, w = NULL){
     } else{
       x <- x[, compute_count_vec(get(vars[2]), w = get(wvar)), by = c(vars[1])]
     }
-    x <- spread(x, x_, count_, fill = 0) 
+    x <- spread_(x, "x_", "count_", fill = 0) 
     setDT(x)
     setnames(x, vars[1], paste0(vars, collapse = "\\"))
   }
