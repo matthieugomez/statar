@@ -4,9 +4,8 @@
 \alias{quotem}
 \title{String and expression interpolation}
 \usage{
-evalm(x, env = parent.frame(), inherits = FALSE, pattern = "$")
-
-quotem(x, env = parent.frame(), inherits = FALSE, pattern = "$")
+quotem(x, env = parent.frame(), inherits = FALSE, pattern = "$",
+  parenthesis.only = FALSE)
 }
 \arguments{
 \item{x}{any syntactically valid R expression}
@@ -18,23 +17,23 @@ quotem(x, env = parent.frame(), inherits = FALSE, pattern = "$")
 \item{pattern}{pattern to use. Default to \code{$}}
 }
 \value{
-\cite{quotem} captures the (unevaluated) expression given as an argument and returns it after replacing any expression starting with \code{$} by its evaluated expression.
-
-\cite{evalm} is a wrapper for \cite{eval(quotem(exp))}
+The functions \code{quotem} implements expression and string interpolations, similarly to Stata and Julia. \code{quotem} captures the (unevaluated) expression given as an argument and returns the expression obtained by evaluating any expression starting with \code{pattern}. The function \code{evalm} is a wrapper for \code{eval(quotem())} (and therefore corresponds to Julia macro \code{eval})
 }
 \description{
 String and expression interpolation
 }
+\details{
+The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated.
+}
 \examples{
-name="Bob"
-height=72
-weight=230
-quotem("My record indicates you are $height inches tall and weight $weight pounds")
+name <- "Bob"
+height <- 72
+units <- "inches"
+weight <- 230
+quotem("My record indicates you are $height $(units).")
 quotem("Your body mass index is $(round(703*weight/height^2,1))")
-quotem("Your body mass index is #(round(703*weight/height^2,1))", pattern = "#")
-newvar <- "temp"
-within <- "var"
-quotem("my new variable is $(new$within)")
+a <- "ght"
+quotem("My record indicates you are $(hei$a) inches tall")
 library(data.table)
 N <- 100
 DT <- data.table(
@@ -42,9 +41,12 @@ DT <- data.table(
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
 )
+newvar <- "temp"
 myvar <- "v1"
 byvar <- "id"
 quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+quotem("My record indicates you are #height inches tall", pattern = "#")
+quotem("You are .(height) inches tall.", pattern = ".", parenthesis.only = TRUE)
 evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 }
 

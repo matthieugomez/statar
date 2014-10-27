@@ -3,19 +3,17 @@
 #' @param env environment in which to evalute the expressions enclosed in patterns
 #' @param inherits Default to FALSE
 #' @param pattern pattern to use. Default to \code{$}
-#' @return \cite{quotem} captures the (unevaluated) expression given as an argument and returns it after replacing any expression starting with \code{$} by its evaluated expression.
-#' 
-#' \cite{evalm} is a wrapper for \cite{eval(quotem(exp))}
+#' @return The functions \code{quotem} implements expression and string interpolations, similarly to Stata and Julia. \code{quotem} captures the (unevaluated) expression given as an argument and returns the expression obtained by evaluating any expression starting with \code{pattern}. The function \code{evalm} is a wrapper for \code{eval(quotem())} (and therefore corresponds to Julia macro \code{eval})
+#' @details The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated.
 #' @examples
-#' name="Bob"
-#' height=72
-#' weight=230
-#' quotem("My record indicates you are $height inches tall and weight $weight pounds")
+#' name <- "Bob"
+#' height <- 72
+#' units <- "inches"
+#' weight <- 230
+#' quotem("My record indicates you are $height $(units).")
 #' quotem("Your body mass index is $(round(703*weight/height^2,1))")
-#' quotem("Your body mass index is #(round(703*weight/height^2,1))", pattern = "#")
-#' newvar <- "temp"
-#' within <- "var"
-#' quotem("my new variable is $(new$within)")
+#' a <- "ght"
+#' quotem("My record indicates you are $(hei$a) inches tall")
 #' library(data.table)
 #' N <- 100
 #' DT <- data.table(
@@ -23,10 +21,16 @@
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
 #' )
+#' newvar <- "temp"
 #' myvar <- "v1"
 #' byvar <- "id"
 #' quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+#' quotem("My record indicates you are #height inches tall", pattern = "#")
+#' quotem("You are .(height) inches tall.", pattern = ".", parenthesis.only = TRUE)
 #' evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+#' @name evalm
+NULL
+
 #' @export
 evalm <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$"){
   call <- substitute(x)
@@ -37,57 +41,87 @@ evalm <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$"){
 
 #' @export
 #' @rdname evalm
-quotem <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$"){
-  quotem_(substitute(x), env = env, inherits = inherits, pattern = pattern)
+quotem <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$", parenthesis.only = FALSE){
+  quotem_(substitute(x), env = env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)
 }
 
 
-quotem_ <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$"){
+quotem_ <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$", parenthesis.only = FALSE){
     if (x ==""){
       return(x)
     }
     if (is.name(x) | is.symbol(x)){
-       return(as.name(substitutem_character(as.character(x), env = env, inherits = inherits, pattern = pattern)))
+       return(as.name(substitutem_character(as.character(x), env = env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)))
     } else if (is.character(x)){
-        return(substitutem_character(x, env, inherits = inherits, pattern = pattern))
+        return(substitutem_character(x, env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only))
     } else{
         out <- NULL
         for (i in 1:length(x)){
             if (!is.null(x[[i]]) & length(x[[i]])){
-                x[[i]] <- quotem_(x[[i]], env, inherits = inherits, pattern = pattern)
+                x[[i]] <- quotem_(x[[i]], env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)
             }
         }
         names <- NULL
         if (x[[1]] == quote(list) | x[[1]] == quote(c)){
-            names(x) <- sapply(names(x), function(x){substitutem_character(x, env, inherits = inherits, pattern = pattern)}, USE.NAMES = FALSE)
+            names(x) <- sapply(names(x), function(x){substitutem_character(x, env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)}, USE.NAMES = FALSE)
         }
         return(x)
     }
 }
 
 
-substitutem_character <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$"){
+substitutem_character <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$", parenthesis.only = FALSE){
   if (!x==""){
-    while (regexpr(pattern, x, fixed = TRUE)>0){
-      location <- regexpr(pattern, x, fixed = TRUE) 
-      x_after <- substring(x, location + 1, nchar(x))
-      if (substring(x, location + 1, location + 1)=="("){
-          cut <- c(location-1, location + 2, location + find_closing(x_after) -1, location + find_closing(x_after)+1)
-        } else{
-          ans <- regexpr("^[a-zA-Z]*", x_after)
-          cut <- c(location -1, location + 1, location + attr(ans, "match.length"), location + attr(ans, "match.length") + 1)
-        }
-        y <- substitutem_character(substring(x, cut[2], cut[3]), env = env)
-        if (!inherits){
-          y <- as.character(eval(parse(text = y)[[1]], envir = env, enclos = env))
-        } else{
-          y <- as.character(eval(parse(text = y)[[1]], envir = env))
-        }        
-      x <- paste0(substring(x, 1, cut[1]), y, substring(x, cut[4], nchar(x)))
+    if (!parenthesis.only){
+      while (regexpr(pattern, x, fixed = TRUE)>0){
+        location <- regexpr(pattern, x, fixed = TRUE) 
+        x_after <- substring(x, location + 1, nchar(x))
+        if (substring(x, location + 1, location + 1)=="("){
+            cut <- c(location-1, location + 2, location + find_closing(x_after) -1, location + find_closing(x_after)+1)
+          } else{
+            ans <- regexpr("^[a-zA-Z]*", x_after)
+            cut <- c(location -1, location + 1, location + attr(ans, "match.length"), location + attr(ans, "match.length") + 1)
+          }
+          y <- substitutem_character(substring(x, cut[2], cut[3]), env = env)
+          y <- eval_character(y, env = env, inherits = inherits)
+          x <- paste0(substring(x, 1, cut[1]), y, substring(x, cut[4], nchar(x)))
+      }
+    } else{
+      while (regexpr(paste0(pattern,"("), x, fixed = TRUE)>0){
+        location <- regexpr(paste0(pattern,"("), x, fixed = TRUE)
+        x_after <- substring(x, location + 1, nchar(x))
+        cut <- c(location-1, location + 2, location + find_closing(x_after) -1, location + find_closing(x_after)+1)
+          y <- substitutem_character(substring(x, cut[2], cut[3]), env = env)
+          y <- eval_character(y, env = env, inherits = inherits)
+        x <- paste0(substring(x, 1, cut[1]), y, substring(x, cut[4], nchar(x)))
+      }
     }
   }
   x
 }
+
+eval_character <- function(x, env = parent.frame(), inherits = FALSE){
+  x_expr <- parse(text = x)[[1]]
+  if (typeof(x_expr) == "name" |typeof(x_expr) == "symbol" ){
+    if (exists(x, env, inherits = inherits, mode = "numeric") | exists(x, env, inherits = inherits, mode = "logical") | exists(x, env, inherits = inherits, mode = "character")){
+        if (inherits){
+          return(eval(x_expr, env = env,))
+        } else{
+          return(eval(x_expr, env = env, enclos = env))
+        }
+    } else {
+      return("")
+    }
+  } else if (typeof(x_expr)== "language"){
+      if (inherits){
+        return(eval(x_expr, env = env))
+      } else{
+        return(eval(x_expr, env = env, enclos = env))
+      }
+  } else {
+    return("")
+  }
+} 
 
 
 find_closing <- function(x){
