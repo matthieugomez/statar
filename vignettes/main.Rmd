@@ -139,10 +139,12 @@ With the pattern `$`, names need to be backquoted so that R accepts these expres
 quotem("My record indicates you are #height inches tall", pattern = "#")
 #> [1] "My record indicates you are 72 inches tall"
 ```
-If the pattern is common, you can use the option `parenthesis.only = TRUE` to replace only expressions following the pattern enclosed in parenthesis. Note the second dot is not replaced in the following string:
+If the pattern is common, you can use the option `parenthesis.only = TRUE` to replace expressions enclosed in parenthesis only. Note the second dot is not replaced in the following string:
 ```R
-quotem("You are .(height) inches tall.", pattern = ".", parenthesis.only = TRUE)
-#> [1] "My record indicates you are 72 inches tall."
+quotem("You are .(height) inches tall.This is below average", pattern = ".")
+#> [1] "You are 72 inches tall is below average"
+quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
+#> [1] "You are 72 inches tall.This is below average."
 ```
 
 The function `evalm` is a wrapper for `eval(quotem())` (and therefore corresponds to Julia `@eval`)
