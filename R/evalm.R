@@ -24,10 +24,7 @@
 #' byvar <- "id"
 #' quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 #' evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-
-
 #' @export
-#' @rdname evalm
 evalm <- function(x, env = parent.frame(), inherits = FALSE){
   call <- substitute(x)
   call <- quotem_(call, env = env, inherits = inherits)
