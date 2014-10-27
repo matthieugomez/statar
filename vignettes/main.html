@@ -908,7 +908,7 @@ quotem<span class="p">(</span><span class="s">"My record indicates you are $(hei
 <span class="c1">#&gt; [1] "My record indicates you are 72 inches tall"</span>
 </pre></div>
 
-<p>The function <code>quotem</code> also subsitute expressions.</p>
+<p>The function <code>quotem</code> also substitute expressions.</p>
 
 <div class="highlight highlight-R"><pre><span class="kn">library</span><span class="p">(</span>data.table<span class="p">)</span>
 N <span class="o">&lt;-</span> <span class="m">100</span>
@@ -930,10 +930,12 @@ quotem<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list<
 <span class="c1">#&gt; [1] "My record indicates you are 72 inches tall"</span>
 </pre></div>
 
-<p>If the pattern is common, you can use the option <code>parenthesis.only = TRUE</code> to replace only expressions following the pattern enclosed in parenthesis. Note the second dot is not replaced in the following string:</p>
+<p>If the pattern is common, you can use the option <code>parenthesis.only = TRUE</code> to replace expressions enclosed in parenthesis only. Note the second dot is not replaced in the following string:</p>
 
-<div class="highlight highlight-R"><pre>quotem<span class="p">(</span><span class="s">"You are .(height) inches tall."</span><span class="p">,</span> pattern <span class="o">=</span> <span class="s">"."</span><span class="p">,</span> parenthesis.only <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-<span class="c1">#&gt; [1] "My record indicates you are 72 inches tall."</span>
+<div class="highlight highlight-R"><pre>quotem<span class="p">(</span><span class="s">"You are .(height) inches tall.This is below average"</span><span class="p">,</span> pattern <span class="o">=</span> <span class="s">"."</span><span class="p">)</span>
+<span class="c1">#&gt; [1] "You are 72 inches tall is below average"</span>
+quotem<span class="p">(</span><span class="s">"You are .(height) inches tall.This is below average"</span><span class="p">,</span> pattern <span class="o">=</span> <span class="s">"."</span><span class="p">,</span> parenthesis.only <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1">#&gt; [1] "You are 72 inches tall.This is below average."</span>
 </pre></div>
 
 <p>The function <code>evalm</code> is a wrapper for <code>eval(quotem())</code> (and therefore corresponds to Julia <code>@eval</code>)</p>
