@@ -4,16 +4,18 @@
 \alias{quotem}
 \title{String and expression interpolation}
 \usage{
-evalm(x, env = parent.frame(), inherits = FALSE)
+evalm(x, env = parent.frame(), inherits = FALSE, pattern = "$")
 
-quotem(x, env = parent.frame(), inherits = FALSE)
+quotem(x, env = parent.frame(), inherits = FALSE, pattern = "$")
 }
 \arguments{
 \item{x}{any syntactically valid R expression}
 
-\item{env}{environment in which to evalute the expressions enclosed in \code{$}}
+\item{env}{environment in which to evalute the expressions enclosed in patterns}
 
 \item{inherits}{Default to FALSE}
+
+\item{pattern}{pattern to use. Default to \code{$}}
 }
 \value{
 \cite{quotem} captures the (unevaluated) expression given as an argument and returns it after replacing any expression starting with \code{$} by its evaluated expression.
@@ -29,6 +31,7 @@ height=72
 weight=230
 quotem("My record indicates you are $height inches tall and weight $weight pounds")
 quotem("Your body mass index is $(round(703*weight/height^2,1))")
+quotem("Your body mass index is #(round(703*weight/height^2,1))", pattern = "#")
 newvar <- "temp"
 within <- "var"
 quotem("my new variable is $(new$within)")
