@@ -19,7 +19,7 @@ substitutem(x, env = parent.frame(), inherits = FALSE)
 \item{inherits}{Default to FALSE}
 }
 \value{
-evalm returns the expression given as an argument, after replacing any expression enclosed in m() by the name of its evaluation in env.
+evalm evaluates the expression given as an argument, after replacing any expression enclosed in m() by its evaluated result in env.
 }
 \description{
 Substituting expressions enclosed in m() by the symbol of the character they refer to.
