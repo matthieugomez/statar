@@ -118,7 +118,7 @@ quotem("My record indicates you are $(hei$a) inches tall")
 #> [1] "My record indicates you are 72 inches tall"
 ```
 
-The function `quotem` also subsitute expressions.
+The function `quotem` also substitute expressions.
 
 ```R
 library(data.table)
@@ -134,12 +134,12 @@ byvar <- "id"
 quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 #> DT[, list(temp = mean(v1)), by = id]
 ```
-Note that, with the pattern "$", names need to be backquoted so that R accepts these expressions as valid names.  The option pattern allows to use a different pattern. 
+With the pattern `$`, names need to be backquoted so that R accepts these expressions as valid names.  The option pattern allows to use a different pattern. 
 ```R
 quotem("My record indicates you are #height inches tall", pattern = "#")
 #> [1] "My record indicates you are 72 inches tall"
 ```
-If the pattern is common, you can use the option `parenthesis.only = TRUE` to replace only expressions following the pattern enclosed in parenthesis.
+If the pattern is common, you can use the option `parenthesis.only = TRUE` to replace only expressions following the pattern enclosed in parenthesis. Note the second dot is not replaced in the following string:
 ```R
 quotem("You are .(height) inches tall.", pattern = ".", parenthesis.only = TRUE)
 #> [1] "My record indicates you are 72 inches tall."

@@ -829,6 +829,124 @@ demean<span class="p">(</span><span class="kt">c</span><span class="p">(</span><
 demean<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> fe <span class="o">=</span> <span class="kt">list</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">3</span><span class="p">)))</span>
 </pre></div>
 
+<h1>Dates and Panel Data</h1>
+
+<p>The package adds support for panel data. </p>
+
+<p>The classes "weekly", "monthly", "quarterly"  are stored as elapsed periods since 1970/01/0 (resp in week, months, quarters). However, they print as dates and are compatible with usual time extraction (ie <code>month</code>, <code>year</code>, etc)</p>
+
+<div class="highlight highlight-R"><pre> <span class="c1"># elapsed dates</span>
+ <span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
+ date <span class="o">&lt;-</span> mdy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"04/03/1992"</span><span class="p">,</span> <span class="s">"01/04/1992"</span><span class="p">,</span> <span class="s">"03/15/1992"</span><span class="p">))</span>  
+ datem <span class="o">&lt;-</span> as.monthly<span class="p">(</span><span class="kp">date</span><span class="p">)</span>
+ <span class="c1"># displays as a period</span>
+ datem
+ <span class="c1">#&gt; [1] "1992m04" "1992m01" "1992m03"</span>
+ <span class="c1"># behaves as an integer for numerical operations:</span>
+ datem <span class="o">+</span> <span class="m">1</span>
+ <span class="c1">#&gt; [1] "1992m05" "1992m02" "1992m04"</span>
+ <span class="c1"># behaves as a date for period extractions:</span>
+ year<span class="p">(</span>datem<span class="p">)</span>
+ <span class="c1">#&gt; [1] 1992 1992 1992</span>
+</pre></div>
+
+<p>The package also includes three functions can then be used on daily dates, these elapsed periods, or years.</p>
+
+<div class="highlight highlight-R"><pre><span class="c1"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
+year <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">)</span>
+value <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">)</span>
+lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> order_by <span class="o">=</span> year<span class="p">)</span> <span class="c1"># returns value in previous year, like  dplyr::lag</span>
+lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> along_with <span class="o">=</span> year<span class="p">)</span> <span class="c1">#  returns value in year - 1</span>
+<span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
+date <span class="o">&lt;-</span> mdy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"04/03/1992"</span><span class="p">,</span> <span class="s">"01/04/1992"</span><span class="p">,</span> <span class="s">"03/15/1992"</span><span class="p">))</span>
+datem <span class="o">&lt;-</span> as.monthly<span class="p">(</span><span class="kp">date</span><span class="p">)</span>
+value <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">,</span> <span class="m">5.3</span><span class="p">)</span>
+lag<span class="p">(</span>value<span class="p">,</span> along_with <span class="o">=</span> datem<span class="p">)</span> 
+
+<span class="c1"># fill_gap fills in gaps in a data.table time variable (corresponds to Stata tsfill)</span>
+DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+    id    <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
+    year  <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1992</span><span class="p">,</span> <span class="m">1991</span><span class="p">),</span>
+    value <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">,</span> <span class="m">3.2</span><span class="p">,</span> <span class="m">5.2</span><span class="p">)</span>
+<span class="p">)</span>
+fill_gap<span class="p">(</span>DT<span class="p">,</span> value<span class="p">,</span> along_with <span class="o">=</span> year<span class="p">,</span> by <span class="o">=</span> id<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
+DT<span class="p">[,</span> <span class="kp">date</span><span class="o">:=</span> mdy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"03/01/1992"</span><span class="p">,</span> <span class="s">"04/03/1992"</span><span class="p">,</span> <span class="s">"07/15/1992"</span><span class="p">,</span> <span class="s">"08/21/1992"</span><span class="p">,</span> <span class="s">"10/03/1992"</span><span class="p">))]</span>
+DT<span class="p">[,</span> datem <span class="o">:=</span>  as.monthly<span class="p">(</span><span class="kp">date</span><span class="p">)]</span>
+fill_gap<span class="p">(</span>DT<span class="p">,</span> value<span class="p">,</span> along_with <span class="o">=</span> datem<span class="p">,</span> by <span class="o">=</span> id<span class="p">)</span>
+
+<span class="c1"># setna fills in missing values along a time variable</span>
+DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+ id    <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
+ date  <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1993</span><span class="p">,</span> <span class="m">1992</span><span class="p">,</span> <span class="m">1991</span><span class="p">),</span>
+ value <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span> <span class="kc">NA</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="kc">NA</span><span class="p">,</span> <span class="m">3.2</span><span class="p">,</span> <span class="m">5.2</span><span class="p">)</span>
+<span class="p">)</span>
+DT1 <span class="o">&lt;-</span> copy<span class="p">(</span>DT<span class="p">)</span>
+setkey<span class="p">(</span>DT1<span class="p">,</span> id<span class="p">,</span> <span class="kp">date</span><span class="p">)</span>
+DT2 <span class="o">&lt;-</span> copy<span class="p">(</span>DT1<span class="p">)</span>
+DT3 <span class="o">&lt;-</span> copy<span class="p">(</span>DT1<span class="p">)</span>
+setna<span class="p">(</span>DT<span class="p">,</span> value<span class="p">,</span> along_with <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> by <span class="o">=</span> id<span class="p">)</span>
+setna<span class="p">(</span>DT1<span class="p">)</span>
+setna<span class="p">(</span>DT2<span class="p">,</span> value<span class="p">,</span> rollends <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+setna<span class="p">(</span>DT3<span class="p">,</span> value<span class="p">,</span> roll <span class="o">=</span> <span class="s">"nearest"</span><span class="p">)</span>
+</pre></div>
+
+<h1>Expression and string interpolation</h1>
+
+<p>The functions <code>quotem</code> implements expression and string interpolations, similarly to Stata and Julia. </p>
+
+<div class="highlight highlight-R"><pre>name <span class="o">&lt;-</span> <span class="s">"Bob"</span>
+height <span class="o">&lt;-</span> <span class="m">72</span>
+units <span class="o">&lt;-</span> <span class="s">"inches"</span>
+weight <span class="o">&lt;-</span> <span class="m">230</span>
+quotem<span class="p">(</span><span class="s">"My record indicates your height is $height $(units)."</span><span class="p">)</span>
+<span class="c1">#&gt; [1] "My record indicates your height is 72 inches"</span>
+quotem<span class="p">(</span><span class="s">"Your body mass index is $(round(703*weight/height^2,1))"</span><span class="p">)</span>
+<span class="c1">#&gt; [1] [1] "Your body mass index is 31.2"</span>
+a <span class="o">&lt;-</span> <span class="s">"ght"</span>
+quotem<span class="p">(</span><span class="s">"My record indicates you are $(hei$a) inches tall"</span><span class="p">)</span>
+<span class="c1">#&gt; [1] "My record indicates you are 72 inches tall"</span>
+</pre></div>
+
+<p>The function <code>quotem</code> also subsitute expressions.</p>
+
+<div class="highlight highlight-R"><pre><span class="kn">library</span><span class="p">(</span>data.table<span class="p">)</span>
+N <span class="o">&lt;-</span> <span class="m">100</span>
+DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+  id <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">),</span>
+  v1 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">),</span>
+  v2 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1e6</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="p">)</span>
+newvar <span class="o">&lt;-</span> <span class="s">"temp"</span>
+myvar <span class="o">&lt;-</span> <span class="s">"v1"</span>
+byvar <span class="o">&lt;-</span> <span class="s">"id"</span>
+quotem<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list</span><span class="p">(</span><span class="sb">`$newvar`</span> <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="sb">`$myvar`</span><span class="p">)),</span> by <span class="o">=</span> <span class="sb">`$byvar`</span><span class="p">])</span>
+<span class="c1">#&gt; DT[, list(temp = mean(v1)), by = id]</span>
+</pre></div>
+
+<p>With the pattern <code>$</code>, names need to be backquoted so that R accepts these expressions as valid names.  The option pattern allows to use a different pattern. </p>
+
+<div class="highlight highlight-R"><pre>quotem<span class="p">(</span><span class="s">"My record indicates you are #height inches tall"</span><span class="p">,</span> pattern <span class="o">=</span> <span class="s">"#"</span><span class="p">)</span>
+<span class="c1">#&gt; [1] "My record indicates you are 72 inches tall"</span>
+</pre></div>
+
+<p>If the pattern is common, you can use the option <code>parenthesis.only = TRUE</code> to replace only expressions following the pattern enclosed in parenthesis. Note the second dot is not replaced in the following string:</p>
+
+<div class="highlight highlight-R"><pre>quotem<span class="p">(</span><span class="s">"You are .(height) inches tall."</span><span class="p">,</span> pattern <span class="o">=</span> <span class="s">"."</span><span class="p">,</span> parenthesis.only <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1">#&gt; [1] "My record indicates you are 72 inches tall."</span>
+</pre></div>
+
+<p>The function <code>evalm</code> is a wrapper for <code>eval(quotem())</code> (and therefore corresponds to Julia <code>@eval</code>)</p>
+
+<div class="highlight highlight-R"><pre>evalm<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list</span><span class="p">(</span><span class="sb">`$newvar`</span> <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="sb">`$myvar`</span><span class="p">)),</span> by <span class="o">=</span> <span class="sb">`$byvar`</span><span class="p">])</span>
+<span class="c1">#&gt;    id     temp</span>
+<span class="c1">#&gt; 1:  1 3.055556</span>
+<span class="c1">#&gt; 2:  2 3.100000</span>
+<span class="c1">#&gt; 3:  4 3.000000</span>
+<span class="c1">#&gt; 4:  5 2.842105</span>
+<span class="c1">#&gt; 5:  3 3.428571</span>
+</pre></div>
+
 <h1>data.table functions</h1>
 
 <h2>Exploration</h2>
@@ -929,106 +1047,15 @@ join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> 
 join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"left"</span><span class="p">,</span> check <span class="o">=</span> m<span class="o">~</span><span class="m">1</span><span class="p">,</span> inplace <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 </pre></div>
 
-<h2>Panel Data</h2>
+<h2>Syntax</h2>
 
-<p>The package adds support for panel data. </p>
+<p>Functions with the prefix <code>set</code> modify the input data.table in place.<br>
+Function selects variables similarly to <code>dplyr</code> syntax. Each function has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the <a href="https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd">dplyr vignette</a> for more details). For instance, the SE version of <code>sum_up</code> is <code>sum_up_</code>.</p>
 
-<p>The classes "weekly", "monthly", "quarterly"  are stored as elapsed periods since 1970/01/0 (resp in week, months, quarters). However, they print as dates and are compatible with usual time extraction (ie <code>month</code>, <code>year</code>, etc)</p>
-
-<div class="highlight highlight-R"><pre> <span class="c1"># elapsed dates</span>
- <span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
- date <span class="o">&lt;-</span> mdy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"04/03/1992"</span><span class="p">,</span> <span class="s">"01/04/1992"</span><span class="p">,</span> <span class="s">"03/15/1992"</span><span class="p">))</span>  
- datem <span class="o">&lt;-</span> as.monthly<span class="p">(</span><span class="kp">date</span><span class="p">)</span>
- <span class="c1"># displays as a period</span>
- datem
- <span class="c1">#&gt; [1] "1992m04" "1992m01" "1992m03"</span>
- <span class="c1"># behaves as an integer for numerical operations:</span>
- datem <span class="o">+</span> <span class="m">1</span>
- <span class="c1">#&gt; [1] "1992m05" "1992m02" "1992m04"</span>
- <span class="c1"># behaves as a date for period extractions:</span>
- year<span class="p">(</span>datem<span class="p">)</span>
- <span class="c1">#&gt; [1] 1992 1992 1992</span>
-</pre></div>
-
-<p>The package also includes three functions can then be used on daily dates, these elapsed periods, or years.</p>
-
-<div class="highlight highlight-R"><pre><span class="c1"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
-year <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">)</span>
-value <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">)</span>
-lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> order_by <span class="o">=</span> year<span class="p">)</span> <span class="c1"># returns value in previous year, like  dplyr::lag</span>
-lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> along_with <span class="o">=</span> year<span class="p">)</span> <span class="c1">#  returns value in year - 1</span>
-<span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
-date <span class="o">&lt;-</span> mdy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"04/03/1992"</span><span class="p">,</span> <span class="s">"01/04/1992"</span><span class="p">,</span> <span class="s">"03/15/1992"</span><span class="p">))</span>
-datem <span class="o">&lt;-</span> as.monthly<span class="p">(</span><span class="kp">date</span><span class="p">)</span>
-value <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">,</span> <span class="m">5.3</span><span class="p">)</span>
-lag<span class="p">(</span>value<span class="p">,</span> along_with <span class="o">=</span> datem<span class="p">)</span> 
-
-<span class="c1"># fill_gap fills in gaps in a data.table time variable (corresponds to Stata tsfill)</span>
-DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
-    id    <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
-    year  <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1992</span><span class="p">,</span> <span class="m">1991</span><span class="p">),</span>
-    value <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">,</span> <span class="m">3.2</span><span class="p">,</span> <span class="m">5.2</span><span class="p">)</span>
-<span class="p">)</span>
-fill_gap<span class="p">(</span>DT<span class="p">,</span> value<span class="p">,</span> along_with <span class="o">=</span> year<span class="p">,</span> by <span class="o">=</span> id<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
-DT<span class="p">[,</span> <span class="kp">date</span><span class="o">:=</span> mdy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"03/01/1992"</span><span class="p">,</span> <span class="s">"04/03/1992"</span><span class="p">,</span> <span class="s">"07/15/1992"</span><span class="p">,</span> <span class="s">"08/21/1992"</span><span class="p">,</span> <span class="s">"10/03/1992"</span><span class="p">))]</span>
-DT<span class="p">[,</span> datem <span class="o">:=</span>  as.monthly<span class="p">(</span><span class="kp">date</span><span class="p">)]</span>
-fill_gap<span class="p">(</span>DT<span class="p">,</span> value<span class="p">,</span> along_with <span class="o">=</span> datem<span class="p">,</span> by <span class="o">=</span> id<span class="p">)</span>
-
-<span class="c1"># setna fills in missing values along a time variable</span>
-DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
- id    <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
- date  <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1993</span><span class="p">,</span> <span class="m">1992</span><span class="p">,</span> <span class="m">1991</span><span class="p">),</span>
- value <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span> <span class="kc">NA</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="kc">NA</span><span class="p">,</span> <span class="m">3.2</span><span class="p">,</span> <span class="m">5.2</span><span class="p">)</span>
-<span class="p">)</span>
-DT1 <span class="o">&lt;-</span> copy<span class="p">(</span>DT<span class="p">)</span>
-setkey<span class="p">(</span>DT1<span class="p">,</span> id<span class="p">,</span> <span class="kp">date</span><span class="p">)</span>
-DT2 <span class="o">&lt;-</span> copy<span class="p">(</span>DT1<span class="p">)</span>
-DT3 <span class="o">&lt;-</span> copy<span class="p">(</span>DT1<span class="p">)</span>
-setna<span class="p">(</span>DT<span class="p">,</span> value<span class="p">,</span> along_with <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> by <span class="o">=</span> id<span class="p">)</span>
-setna<span class="p">(</span>DT1<span class="p">)</span>
-setna<span class="p">(</span>DT2<span class="p">,</span> value<span class="p">,</span> rollends <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-setna<span class="p">(</span>DT3<span class="p">,</span> value<span class="p">,</span> roll <span class="o">=</span> <span class="s">"nearest"</span><span class="p">)</span>
-</pre></div>
-
-<h1>Expression (ans string) interpolation</h1>
-
-<p>The functions <code>quotem</code> implements expression and string interpolations, similarly to Stata and Julia. </p>
-
-<div class="highlight highlight-R"><pre>name<span class="o">=</span><span class="s">"Bob"</span>
-height<span class="o">=</span><span class="m">72</span>
-weight<span class="o">=</span><span class="m">230</span>
-quotem<span class="p">(</span><span class="s">"My record indicates you are $height inches tall and weight $weight pounds"</span><span class="p">)</span>
-<span class="c1">#&gt; [1] "My record indicates you are 72 inches tall and weight 230 pounds"</span>
-quotem<span class="p">(</span><span class="s">"Your body mass index is $(round(703*weight/height^2,1))"</span><span class="p">)</span>
-<span class="c1">#&gt; [1] [1] "Your body mass index is 31.2"</span>
-quotem<span class="p">(</span><span class="s">"Your body mass index is #(round(703*weight/height^2,1))"</span><span class="p">,</span> pattern <span class="o">=</span> <span class="s">"#"</span><span class="p">)</span>
-<span class="c1">#&gt; [1] "Your body mass index is 31.2"</span>
-a <span class="o">&lt;-</span> <span class="s">"ght"</span>
-quotem<span class="p">(</span><span class="s">"My record indicates you are $(hei$a) inches tall"</span><span class="p">)</span>
-<span class="c1">#&gt; [1] "My record indicates you are 72 inches tall"</span>
-<span class="kn">library</span><span class="p">(</span>data.table<span class="p">)</span>
-N <span class="o">&lt;-</span> <span class="m">100</span>
-DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
-  id <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">),</span>
-  v1 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">),</span>
-  v2 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1e6</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">)</span>
-<span class="p">)</span>
-myvar <span class="o">&lt;-</span> <span class="s">"v1"</span>
-byvar <span class="o">&lt;-</span> <span class="s">"id"</span>
-quotem<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list</span><span class="p">(</span><span class="sb">`$newvar`</span> <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="sb">`$myvar`</span><span class="p">)),</span> by <span class="o">=</span> <span class="sb">`$byvar`</span><span class="p">])</span>
-<span class="c1">#&gt; DT[, list(temp = mean(v1)), by = id]</span>
-</pre></div>
-
-<p>The function <code>evalm</code> is a wrapper for <code>eval(quotem())</code> (and therefore similarl to Juli <code>@eval</code>)</p>
-
-<div class="highlight highlight-R"><pre>evalm<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list</span><span class="p">(</span><span class="sb">`$newvar`</span> <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="sb">`$myvar`</span><span class="p">)),</span> by <span class="o">=</span> <span class="sb">`$byvar`</span><span class="p">])</span>
-<span class="c1">#&gt;    id     temp</span>
-<span class="c1">#&gt; 1:  1 3.055556</span>
-<span class="c1">#&gt; 2:  2 3.100000</span>
-<span class="c1">#&gt; 3:  4 3.000000</span>
-<span class="c1">#&gt; 4:  5 2.842105</span>
-<span class="c1">#&gt; 5:  3 3.428571</span>
+<div class="highlight highlight-R"><pre><span class="c1"># NSE version</span>
+sum_up<span class="p">(</span>DT<span class="p">,</span> <span class="kt">list</span><span class="p">(</span>v2<span class="p">,</span> v3<span class="p">),</span> by <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>id<span class="p">,</span>v1<span class="p">))</span>
+<span class="c1"># SE version</span>
+sum_up_<span class="p">(</span>DT<span class="p">,</span> <span class="kt">c</span><span class="p">(</span><span class="s">"v2"</span><span class="p">,</span><span class="s">"v3"</span><span class="p">),</span> by <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span><span class="s">"v1"</span><span class="p">))</span>
 </pre></div>
 
 <h1>Others</h1>
@@ -1046,15 +1073,4 @@ quotem<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list<
 <div class="highlight highlight-R"><pre>tempname<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"temp1"</span><span class="p">,</span> <span class="s">"temp3"</span><span class="p">),</span> <span class="m">4</span><span class="p">)</span>
 tempname<span class="p">(</span><span class="kp">globalenv</span><span class="p">())</span>
 tempname<span class="p">(</span><span class="kt">data.frame</span><span class="p">(</span>temp <span class="o">=</span> <span class="m">1</span><span class="p">),</span> n <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
-</pre></div>
-
-<h1>Syntax</h1>
-
-<p>Functions with the prefix <code>set</code> modify the input data.table in place.<br>
-Function selects variables similarly to <code>dplyr</code> syntax. Each function has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the <a href="https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd">dplyr vignette</a> for more details). For instance, the SE version of <code>sum_up</code> is <code>sum_up_</code>.</p>
-
-<div class="highlight highlight-R"><pre><span class="c1"># NSE version</span>
-sum_up<span class="p">(</span>DT<span class="p">,</span> <span class="kt">list</span><span class="p">(</span>v2<span class="p">,</span> v3<span class="p">),</span> by <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>id<span class="p">,</span>v1<span class="p">))</span>
-<span class="c1"># SE version</span>
-sum_up_<span class="p">(</span>DT<span class="p">,</span> <span class="kt">c</span><span class="p">(</span><span class="s">"v2"</span><span class="p">,</span><span class="s">"v3"</span><span class="p">),</span> by <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span><span class="s">"v1"</span><span class="p">))</span>
 </pre></div></article></body></html>
