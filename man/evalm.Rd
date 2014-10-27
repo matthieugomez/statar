@@ -32,8 +32,10 @@ units <- "inches"
 weight <- 230
 quotem("My record indicates you are $height $(units).")
 quotem("Your body mass index is $(round(703*weight/height^2,1))")
-a <- "ght"
 quotem("My record indicates you are $(hei$a) inches tall")
+quotem("You are .(height) inches tall.This is below average", pattern = ".")
+quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.#' only = TRUE)
+a <- "ght"
 library(data.table)
 N <- 100
 DT <- data.table(
@@ -45,8 +47,6 @@ newvar <- "temp"
 myvar <- "v1"
 byvar <- "id"
 quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-quotem("My record indicates you are #height inches tall", pattern = "#")
-quotem("You are .(height) inches tall.", pattern = ".", parenthesis.only = TRUE)
 evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 }
 
