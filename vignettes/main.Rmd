@@ -69,6 +69,13 @@ sum_up(DT)
 sum_up(DT, v2, d = TRUE)
 sum_up(DT, starts_with("v"), by = v1)
 
+# tab prints cross tabulation table (faster than tabulate)
+
+ tab(DT, id)
+ tab(DT, id, v1, w = v2)
+
+
+
 # duplicates returns duplicated rows
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 duplicates(DT, by = a)
