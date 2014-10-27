@@ -2,7 +2,7 @@
 \name{evalm}
 \alias{evalm}
 \alias{quotem}
-\title{String and expression interpolation in R}
+\title{String and expression interpolation}
 \usage{
 evalm(x, env = parent.frame(), inherits = FALSE)
 
@@ -11,16 +11,17 @@ quotem(x, env = parent.frame(), inherits = FALSE)
 \arguments{
 \item{x}{any syntactically valid R expression}
 
-\item{env}{environment in which to evalute the expression enclosed in m()}
+\item{env}{environment in which to evalute the expressions enclosed in \code{$}}
 
 \item{inherits}{Default to FALSE}
 }
 \value{
-quotem captures the (unevaluated) expression given as an argument and replaces any expression starting with \code{$} by the name of its evaluation in env.
-evalm is a wrapper for eval(quotem(exp))
+\cite{quotem} captures the (unevaluated) expression given as an argument and returns it after replacing any expression starting with \code{$} by its evaluated expression.
+
+\cite{evalm} is a wrapper for \cite{eval(quotem(exp))}
 }
 \description{
-String and expression interpolation in R
+String and expression interpolation
 }
 \examples{
 name="Bob"

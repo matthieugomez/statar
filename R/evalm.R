@@ -1,9 +1,10 @@
-#' String and expression interpolation in R
+#' String and expression interpolation
 #' @param x any syntactically valid R expression
-#' @param env environment in which to evalute the expression enclosed in m()
+#' @param env environment in which to evalute the expressions enclosed in \code{$}
 #' @param inherits Default to FALSE
-#' @return quotem captures the (unevaluated) expression given as an argument and replaces any expression starting with \code{$} by the name of its evaluation in env. 
-#' evalm is a wrapper for eval(quotem(exp))
+#' @return \cite{quotem} captures the (unevaluated) expression given as an argument and returns it after replacing any expression starting with \code{$} by its evaluated expression.
+#' 
+#' \cite{evalm} is a wrapper for \cite{eval(quotem(exp))}
 #' @examples
 #' name="Bob"
 #' height=72
