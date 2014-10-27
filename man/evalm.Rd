@@ -10,7 +10,7 @@ quotem(x, env = parent.frame(), inherits = FALSE, pattern = "$",
 \arguments{
 \item{x}{any syntactically valid R expression}
 
-\item{env}{environment in which to evalute the expressions enclosed in patterns}
+\item{env}{environment in which to evalute the expressions enclosed in patterns. Default to current environement}
 
 \item{inherits}{Default to FALSE}
 
@@ -23,7 +23,7 @@ The functions \code{quotem} implements expression and string interpolations, sim
 String and expression interpolation
 }
 \details{
-The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated.
+The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated in the environment specified by env, or in its environment if the expression is a formula).
 }
 \examples{
 name <- "Bob"
@@ -34,7 +34,7 @@ quotem("My record indicates you are $height $(units).")
 quotem("Your body mass index is $(round(703*weight/height^2,1))")
 quotem("My record indicates you are $(hei$a) inches tall")
 quotem("You are .(height) inches tall.This is below average", pattern = ".")
-quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.#' only = TRUE)
+quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
 a <- "ght"
 library(data.table)
 N <- 100

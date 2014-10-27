@@ -1,10 +1,10 @@
 #' String and expression interpolation
 #' @param x any syntactically valid R expression
-#' @param env environment in which to evalute the expressions enclosed in patterns
+#' @param env environment in which to evalute the expressions enclosed in patterns. Default to current environement
 #' @param inherits Default to FALSE
 #' @param pattern pattern to use. Default to \code{$}
 #' @return The functions \code{quotem} implements expression and string interpolations, similarly to Stata and Julia. \code{quotem} captures the (unevaluated) expression given as an argument and returns the expression obtained by evaluating any expression starting with \code{pattern}. The function \code{evalm} is a wrapper for \code{eval(quotem())} (and therefore corresponds to Julia macro \code{eval})
-#' @details The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated.
+#' @details The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated in the environment specified by env, or in its environment if the expression is a formula).
 #' @examples
 #' name <- "Bob"
 #' height <- 72
@@ -14,7 +14,7 @@
 #' quotem("Your body mass index is $(round(703*weight/height^2,1))")
 #' quotem("My record indicates you are $(hei$a) inches tall")
 #' quotem("You are .(height) inches tall.This is below average", pattern = ".")
-#' quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.#' only = TRUE)
+#' quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
 #' a <- "ght"
 #' library(data.table)
 #' N <- 100
@@ -105,7 +105,7 @@ eval_character <- function(x, env = parent.frame(), inherits = FALSE){
   if (typeof(x_expr) == "name" |typeof(x_expr) == "symbol" ){
     if (exists(x, env, inherits = inherits, mode = "numeric") | exists(x, env, inherits = inherits, mode = "logical") | exists(x, env, inherits = inherits, mode = "character")){
         if (inherits){
-          return(eval(x_expr, env = env,))
+          return(eval(x_expr, env = env))
         } else{
           return(eval(x_expr, env = env, enclos = env))
         }
@@ -113,10 +113,16 @@ eval_character <- function(x, env = parent.frame(), inherits = FALSE){
       return("")
     }
   } else if (typeof(x_expr)== "language"){
-      if (inherits){
-        return(eval(x_expr, env = env))
-      } else{
-        return(eval(x_expr, env = env, enclos = env))
+    # formula
+      if (!is.null(environment(x_expr))){
+        eval(x_expr, env = environment(x_expr))
+      }
+      else{
+        if (inherits){
+          return(eval(x_expr, env = env))
+        } else{
+          return(eval(x_expr, env = env, enclos = env))
+        }
       }
   } else {
     return("")
