@@ -1,17 +1,18 @@
-#' Substituting expressions enclosed in m() by the symbol of the character they refer to.
+#' String and expression interpolation in R
 #' @param x any syntactically valid R expression
 #' @param env environment in which to evalute the expression enclosed in m()
 #' @param inherits Default to FALSE
-#' @return evalm returns the expression given as an argument, after replacing any expression enclosed in m() by the name of its evaluation in env.
+#' @return quotem captures the (unevaluated) expression given as an argument and replaces any expression starting with \code{$} by the name of its evaluation in env. 
+#' evalm is a wrapper for eval(quotem(exp))
 #' @examples
 #' name="Bob"
 #' height=72
 #' weight=230
-#' evalm("My record indicates you are m(height) inches tall and weigh m(weight) pounds")
-#' evalm("Your body mass index is m(round(703*weight/height^2,1))")
+#' quotem("My record indicates you are $height inches tall and weight $weight pounds")
+#' quotem("Your body mass index is $(round(703*weight/height^2,1))")
 #' newvar <- "temp"
 #' within <- "var"
-#' evalm("my new variable is m(newm(within))")
+#' quotem("my new variable is $(new$within)")
 #' library(data.table)
 #' N <- 100
 #' DT <- data.table(
@@ -21,39 +22,43 @@
 #' )
 #' myvar <- "v1"
 #' byvar <- "id"
-#' evalm(DT[, list(`m(newvar)` = mean(m(myvar))), by = m(byvar)])
+#' quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+#' evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 
-#' @export
-evalm <- function(x, env = parent.frame(), inherits = FALSE){
-  call <- substitute(x)
-  call <- substitutem_(call, env = env, inherits = inherits)
-  eval(call, parent.frame())
-}
 
 #' @export
 #' @rdname evalm
-substitutem_ <- function(x, env = parent.frame(), inherits = FALSE){
-    i <- 0
+evalm <- function(x, env = parent.frame(), inherits = FALSE){
+  call <- substitute(x)
+  call <- quotem_(call, env = env, inherits = inherits)
+  eval(call, parent.frame())
+}
+
+
+#' @export
+#' @rdname evalm
+quotem <- function(x, env = parent.frame(), inherits = FALSE){
+  quotem_(substitute(x), env = env, inherits = inherits)
+}
+
+
+quotem_ <- function(x, env = parent.frame(), inherits = FALSE){
+    if (x ==""){
+      return(x)
+    }
     if (is.name(x) | is.symbol(x)){
-       return(x)
-    } else if (is.call(x) && x[[1]]==quote(m)){
-      if (exists(as.character(x[[2]]), envir = env, inherits = inherits)){
-        get_name <- eval(x[[2]], envir = env, enclos = env)
-        return(as.name(get_name))
-      } else{
-        return("")
-      }
+       return(as.name(substitutem_character(as.character(x))))
     } else if (is.character(x)){
         return(substitutem_character(x, env, inherits = inherits))
     } else{
         out <- NULL
         for (i in 1:length(x)){
             if (!is.null(x[[i]]) & length(x[[i]])){
-                x[[i]] <- substitutem_(x[[i]], env)
+                x[[i]] <- quotem_(x[[i]], env)
             }
         }
         names <- NULL
-        if (x[[1]] == quote(list)){
+        if (x[[1]] == quote(list) | x[[1]] == quote(c)){
             names(x) <- sapply(names(x), function(x){substitutem_character(x, env, inherits = inherits)}, USE.NAMES = FALSE)
         }
         return(x)
@@ -61,25 +66,24 @@ substitutem_ <- function(x, env = parent.frame(), inherits = FALSE){
 }
 
 
-#' @export
-#' @rdname evalm
-substitutem <- function(x, env = parent.frame(), inherits = FALSE){
-  substitutem_(substitute(x), env = env, inherits = inherits)
-}
-
 substitutem_character <- function(x, env = parent.frame(), inherits = FALSE){
   if (!x==""){
-    while (regexpr("m\\(",x)>0){
-      open <- regexpr("m\\(",x)
-      boundary <- find_closing(substring(x, open+1, nchar(x)))+open
-      subx <- substring(x, boundary[1]+1, boundary[2]-1)
-      y <- substitutem_character(subx, env = env)
-      if (!inherits){
-        y <- as.character(eval(parse(text = y)[[1]], envir = env, enclos = env))
-      } else{
-        y <- as.character(eval(parse(text = y)[[1]], envir = env))
-      }
-      x <- paste0(substring(x, 1, open-1), y, substring(x, boundary[2]+1, nchar(x)))
+    while (regexpr("\\$",x)>0){
+      location <- regexpr("\\$",x) 
+      x_after <- substring(x, location + 1, nchar(x))
+      if (substring(x, location + 1, location + 1)=="("){
+          cut <- c(location-1, location + 2, location + find_closing(x_after) -1, location + find_closing(x_after)+1)
+        } else{
+          ans <- regexpr("^[a-zA-Z]*", x_after)
+          cut <- c(location -1, location + 1, location + attr(ans, "match.length"), location + attr(ans, "match.length") + 1)
+        }
+        y <- substitutem_character(substring(x, cut[2], cut[3]), env = env)
+        if (!inherits){
+          y <- as.character(eval(parse(text = y)[[1]], envir = env, enclos = env))
+        } else{
+          y <- as.character(eval(parse(text = y)[[1]], envir = env))
+        }        
+      x <- paste0(substring(x, 1, cut[1]), y, substring(x, cut[4], nchar(x)))
     }
   }
   x
@@ -95,5 +99,9 @@ find_closing <- function(x){
   new[close] <- -1
   new_sum <- cumsum(new)
   last <- which(new_sum==0 & new_sum < c(NA, head(new_sum, -1)))[[1]]
-  c(first, last)
+  last
 }
+
+
+
+
