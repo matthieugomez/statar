@@ -50,11 +50,12 @@ DT <- data.table(
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
 )
-newvar <- "temp"
-myvar <- "v1"
-byvar <- "id"
+newvar <- quote(temp)
+myvar <- quote(v1)
+byvar <- c("id", "v1")
 quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-#> DT[, list(temp = mean(v1)), by = id]
+evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+#> DT[, list(temp = mean(v1)), by = c("id", "v1")]
 ```
 
 The function `evalm` is a wrapper for `eval(quotem())` (and therefore corresponds to Julia `@eval` and to Stata natural macros)

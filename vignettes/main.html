@@ -838,11 +838,12 @@ DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
   v1 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">),</span>
   v2 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1e6</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">)</span>
 <span class="p">)</span>
-newvar <span class="o">&lt;-</span> <span class="s">"temp"</span>
-myvar <span class="o">&lt;-</span> <span class="s">"v1"</span>
-byvar <span class="o">&lt;-</span> <span class="s">"id"</span>
+newvar <span class="o">&lt;-</span> <span class="kp">quote</span><span class="p">(</span>temp<span class="p">)</span>
+myvar <span class="o">&lt;-</span> <span class="kp">quote</span><span class="p">(</span>v1<span class="p">)</span>
+byvar <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"v1"</span><span class="p">)</span>
 quotem<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list</span><span class="p">(</span><span class="sb">`$newvar`</span> <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="sb">`$myvar`</span><span class="p">)),</span> by <span class="o">=</span> <span class="sb">`$byvar`</span><span class="p">])</span>
-<span class="c1">#&gt; DT[, list(temp = mean(v1)), by = id]</span>
+evalm<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list</span><span class="p">(</span><span class="sb">`$newvar`</span> <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="sb">`$myvar`</span><span class="p">)),</span> by <span class="o">=</span> <span class="sb">`$byvar`</span><span class="p">])</span>
+<span class="c1">#&gt; DT[, list(temp = mean(v1)), by = c("id", "v1")]</span>
 </pre></div>
 
 <p>The function <code>evalm</code> is a wrapper for <code>eval(quotem())</code> (and therefore corresponds to Julia <code>@eval</code> and to Stata natural macros)</p>
