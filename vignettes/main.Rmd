@@ -12,7 +12,7 @@ vignette: >
 
 
 # String and expression interpolation
-- The functions `pastem` implements string interpolations, similarly to Stata macros and Julia.
+- The functions `pastem`, which corresponds to R `paste`, implements string interpolations similarly to Stata and Julia.
 
   ```R
   name <- "Bob"
@@ -57,7 +57,7 @@ vignette: >
   #> DT[, list(temp = mean(v1)), by = c("id", "v1")]
   ```
 
-  The function `evalm` is a wrapper for `eval(quotem())` (and therefore corresponds to Julia `@eval` and to Stata natural macros)
+  The function `evalm` is a wrapper for `eval(quotem())`. The function corresponds to Julia `@eval` and to Stata natural macros.
 
   ```R
   evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
