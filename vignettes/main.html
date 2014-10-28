@@ -802,7 +802,7 @@ vignette: &gt;<br>
 
 <h1>Expression and string interpolation</h1>
 
-<p>The functions <code>quotem</code> implements expression and string interpolations, similarly to Julia and to Stata macros.</p>
+<p>The functions <code>quotem</code> implements string interpolations, similarly to Stata macros and Julia.</p>
 
 <div class="highlight highlight-R"><pre>name <span class="o">&lt;-</span> <span class="s">"Bob"</span>
 height <span class="o">&lt;-</span> <span class="m">72</span>
@@ -823,13 +823,13 @@ quotem<span class="p">(</span><span class="s">"My record indicates you are $(hei
 <span class="c1">#&gt; [1] "My record indicates you are 72 inches tall"</span>
 </pre></div>
 
-<p>If you choose a common pattern, you can use the option <code>parenthesis.only = TRUE</code> to replace expressions enclosed in parenthesis only. Note that only the first dot is replaced in the following string:</p>
+<p>If you choose a common pattern, the option <code>parenthesis.only = TRUE</code> allows to replace only expressions enclosed in parenthesis. Note that only the first dot is replaced in the following string:</p>
 
 <div class="highlight highlight-R"><pre>quotem<span class="p">(</span><span class="s">"You are .(height) inches tall.This is below average"</span><span class="p">,</span> pattern <span class="o">=</span> <span class="s">"."</span><span class="p">,</span> parenthesis.only <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 <span class="c1">#&gt; [1] "You are 72 inches tall.This is below average."</span>
 </pre></div>
 
-<p>The function <code>quotem</code> also works with expressions. Note that, with the pattern <code>$</code>, names need to be backquoted so that R accepts these expressions as valid names. </p>
+<p>The function <code>quotem</code> can also be applied to expressions. Note that expressions starting with the pattern <code>$</code>  must be backquoted to be considered valid names in R.</p>
 
 <div class="highlight highlight-R"><pre><span class="kn">library</span><span class="p">(</span>data.table<span class="p">)</span>
 N <span class="o">&lt;-</span> <span class="m">100</span>
@@ -885,11 +885,72 @@ demean<span class="p">(</span><span class="kt">c</span><span class="p">(</span><
 demean<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> fe <span class="o">=</span> <span class="kt">list</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">3</span><span class="p">)))</span>
 </pre></div>
 
-<h1>Dates and Panel Data</h1>
+<h1>data.table functions</h1>
 
-<p>The package makes working with panel data easier in R. </p>
+<h2>Summary</h2>
 
-<p>The classes "weekly", "monthly", "quarterly"  are stored as elapsed periods since 1970/01/0 (resp in week, months, quarters). However, they print as dates and are compatible with usual time extraction (ie <code>month</code>, <code>year</code>, etc)</p>
+<div class="highlight highlight-R"><pre><span class="c1"># setkeep keeps certain columns inplace</span>
+DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+  id <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span>
+  v1 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
+  v2 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+<span class="p">)</span>
+setkeep<span class="p">(</span>DT<span class="p">,</span> <span class="kt">list</span><span class="p">(</span>id<span class="p">,</span> v2<span class="p">))</span>
+setkeep<span class="p">(</span>DT<span class="p">,</span> <span class="o">-</span>id<span class="p">)</span>
+
+<span class="c1"># sum_up prints detailed summary statistics (corresponds to Stata summarize)</span>
+N <span class="o">&lt;-</span> <span class="m">100</span>
+DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+  id <span class="o">=</span> <span class="m">1</span><span class="o">:</span>N<span class="p">,</span>
+  v1 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">),</span>
+  v2 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1e6</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="p">)</span>
+sum_up<span class="p">(</span>DT<span class="p">)</span>
+sum_up<span class="p">(</span>DT<span class="p">,</span> v2<span class="p">,</span> d <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+sum_up<span class="p">(</span>DT<span class="p">,</span> starts_with<span class="p">(</span><span class="s">"v"</span><span class="p">),</span> by <span class="o">=</span> v1<span class="p">)</span>
+
+<span class="c1"># tab returns cross tabulation table (faster than tabulate)</span>
+tab<span class="p">(</span>DT<span class="p">,</span> id<span class="p">)</span>
+tab<span class="p">(</span>DT<span class="p">,</span> id<span class="p">,</span> v1<span class="p">,</span> w <span class="o">=</span> v2<span class="p">)</span>
+
+<span class="c1"># duplicates returns duplicated rows</span>
+DT <span class="o">&lt;-</span> data.table<span class="p">(</span>a <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">,</span> each <span class="o">=</span> <span class="m">3</span><span class="p">),</span> b <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">)</span>
+duplicates<span class="p">(</span>DT<span class="p">,</span> by <span class="o">=</span> a<span class="p">)</span>
+duplicates<span class="p">(</span>DT<span class="p">,</span> by <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>a<span class="p">,</span>b<span class="p">))</span>
+</pre></div>
+
+<h2>Join</h2>
+
+<p><code>join</code> is a wrapper for data.table merge functionalities.</p>
+
+<ul class="task-list">
+<li>The option "kind" specifies the kind of join based on SQL syntax. Possible kinds are : left, right, inner, outer, semi, anti and cross.</li>
+<li>The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).</li>
+<li>The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).</li>
+<li>The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).</li>
+</ul>
+
+<div class="highlight highlight-R"><pre>x <span class="o">&lt;-</span> data.table<span class="p">(</span>a <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">,</span> each <span class="o">=</span> <span class="m">3</span><span class="p">),</span> b <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">)</span>
+y <span class="o">&lt;-</span> data.table<span class="p">(</span>a <span class="o">=</span> <span class="m">0</span><span class="o">:</span><span class="m">1</span><span class="p">,</span> bb <span class="o">=</span> <span class="m">10</span><span class="o">:</span><span class="m">11</span><span class="p">)</span>
+<span class="c1"># outer corresponds to Stata joinby keep(master matched using)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"outer"</span><span class="p">)</span>
+<span class="c1"># left corresponds to Stata joinby keep(master matched)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"left"</span><span class="p">)</span>
+<span class="c1"># right corresponds to Stata joinby keep(mached using)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"right"</span><span class="p">)</span>
+<span class="c1"># inner corresponds to Stata joinby keep(matched)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"inner"</span><span class="p">)</span>
+
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"semi"</span><span class="p">)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"anti"</span><span class="p">)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"outer"</span><span class="p">,</span> check <span class="o">=</span> <span class="m">1</span><span class="o">~</span>m<span class="p">)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"outer"</span><span class="p">,</span> gen <span class="o">=</span> <span class="s">"_merge"</span><span class="p">)</span>
+join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> kind <span class="o">=</span> <span class="s">"left"</span><span class="p">,</span> check <span class="o">=</span> m<span class="o">~</span><span class="m">1</span><span class="p">,</span> inplace <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+
+<h2>Panel data</h2>
+
+<p>The classes "weekly", "monthly", "quarterly"  print as dates and are compatible with usual time extraction (ie <code>month</code>, <code>year</code>, etc). Yet, they are stored as integers representing the number of elapsed periods since 1970/01/0 (resp in week, months, quarters). This is particularly handy for simple algebra:</p>
 
 <div class="highlight highlight-R"><pre> <span class="c1"># elapsed dates</span>
  <span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
@@ -904,11 +965,13 @@ demean<span class="p">(</span><span class="kt">c</span><span class="p">(</span><
  <span class="c1"># behaves as a date for period extractions:</span>
  year<span class="p">(</span>datem<span class="p">)</span>
  <span class="c1">#&gt; [1] 1992 1992 1992</span>
-</pre></div>
+<span class="sb">``</span>`z
 
-<p>The package also includes three functions can then be used on daily dates, these elapsed periods, or years.</p>
 
-<div class="highlight highlight-R"><pre><span class="c1"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
+The package also includes three functions can then be used on daily dates<span class="p">,</span>  years<span class="p">,</span> or elapsed dates <span class="p">(</span>see <span class="o">?</span>elapsed<span class="p">)</span>
+
+<span class="sb">``</span>`R
+<span class="c1"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
 year <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">)</span>
 value <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">)</span>
 lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> order_by <span class="o">=</span> year<span class="p">)</span> <span class="c1"># returns value in previous year, like  dplyr::lag</span>
@@ -945,40 +1008,6 @@ setna<span class="p">(</span>DT<span class="p">,</span> value<span class="p">,</
 setna<span class="p">(</span>DT1<span class="p">)</span>
 setna<span class="p">(</span>DT2<span class="p">,</span> value<span class="p">,</span> rollends <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 setna<span class="p">(</span>DT3<span class="p">,</span> value<span class="p">,</span> roll <span class="o">=</span> <span class="s">"nearest"</span><span class="p">)</span>
-</pre></div>
-
-<h1>data.table functions</h1>
-
-<h2>Exploration</h2>
-
-<div class="highlight highlight-R"><pre><span class="c1"># setkeep keeps certain columns inplace</span>
-DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
-  id <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span>
-  v1 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
-  v2 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
-<span class="p">)</span>
-setkeep<span class="p">(</span>DT<span class="p">,</span> <span class="kt">list</span><span class="p">(</span>id<span class="p">,</span> v2<span class="p">))</span>
-setkeep<span class="p">(</span>DT<span class="p">,</span> <span class="o">-</span>id<span class="p">)</span>
-
-<span class="c1"># sum_up prints detailed summary statistics (corresponds to Stata summarize)</span>
-N <span class="o">&lt;-</span> <span class="m">100</span>
-DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
-  id <span class="o">=</span> <span class="m">1</span><span class="o">:</span>N<span class="p">,</span>
-  v1 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">),</span>
-  v2 <span class="o">=</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1e6</span><span class="p">,</span> N<span class="p">,</span> <span class="kc">TRUE</span><span class="p">)</span>
-<span class="p">)</span>
-sum_up<span class="p">(</span>DT<span class="p">)</span>
-sum_up<span class="p">(</span>DT<span class="p">,</span> v2<span class="p">,</span> d <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-sum_up<span class="p">(</span>DT<span class="p">,</span> starts_with<span class="p">(</span><span class="s">"v"</span><span class="p">),</span> by <span class="o">=</span> v1<span class="p">)</span>
-
-<span class="c1"># tab returns cross tabulation table (faster than tabulate)</span>
-tab<span class="p">(</span>DT<span class="p">,</span> id<span class="p">)</span>
-tab<span class="p">(</span>DT<span class="p">,</span> id<span class="p">,</span> v1<span class="p">,</span> w <span class="o">=</span> v2<span class="p">)</span>
-
-<span class="c1"># duplicates returns duplicated rows</span>
-DT <span class="o">&lt;-</span> data.table<span class="p">(</span>a <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">,</span> each <span class="o">=</span> <span class="m">3</span><span class="p">),</span> b <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">)</span>
-duplicates<span class="p">(</span>DT<span class="p">,</span> by <span class="o">=</span> a<span class="p">)</span>
-duplicates<span class="p">(</span>DT<span class="p">,</span> by <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>a<span class="p">,</span>b<span class="p">))</span>
 </pre></div>
 
 <h2>Visual exploration</h2>
@@ -1018,35 +1047,6 @@ graph<span class="p">(</span>DT<span class="p">)</span>
 
 <p><a href="/Users/Matthieu/Dropbox/Github/statar/vignettes/v2by.png" target="_blank"><img src="/Users/Matthieu/Dropbox/Github/statar/vignettes/v2by.png" height="400" style="max-width:100%;"></a></p>
 
-<h2>Join</h2>
-
-<p><code>join</code> is a wrapper for data.table merge functionalities.</p>
-
-<ul class="task-list">
-<li>The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.</li>
-<li>The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).</li>
-<li>The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).</li>
-<li>The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).</li>
-</ul>
-
-<div class="highlight highlight-R"><pre>x <span class="o">&lt;-</span> data.table<span class="p">(</span>a <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">,</span> each <span class="o">=</span> <span class="m">3</span><span class="p">),</span> b <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">)</span>
-y <span class="o">&lt;-</span> data.table<span class="p">(</span>a <span class="o">=</span> <span class="m">0</span><span class="o">:</span><span class="m">1</span><span class="p">,</span> bb <span class="o">=</span> <span class="m">10</span><span class="o">:</span><span class="m">11</span><span class="p">)</span>
-<span class="c1"># outer corresponds to Stata joinby keep(master matched using)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"outer"</span><span class="p">)</span>
-<span class="c1"># left corresponds to Stata joinby keep(master matched)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"left"</span><span class="p">)</span>
-<span class="c1"># right corresponds to Stata joinby keep(mached using)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"right"</span><span class="p">)</span>
-<span class="c1"># inner corresponds to Stata joinby keep(matched)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"inner"</span><span class="p">)</span>
-
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"semi"</span><span class="p">)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"anti"</span><span class="p">)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"outer"</span><span class="p">,</span> check <span class="o">=</span> <span class="m">1</span><span class="o">~</span>m<span class="p">)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"outer"</span><span class="p">,</span> gen <span class="o">=</span> <span class="s">"_merge"</span><span class="p">)</span>
-join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> type <span class="o">=</span> <span class="s">"left"</span><span class="p">,</span> check <span class="o">=</span> m<span class="o">~</span><span class="m">1</span><span class="p">,</span> inplace <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
-</pre></div>
-
 <h2>Syntax</h2>
 
 <p>Functions with the prefix <code>set</code> modify the input data.table in place.<br>
@@ -1072,5 +1072,7 @@ sum_up_<span class="p">(</span>DT<span class="p">,</span> <span class="kt">c</sp
 
 <div class="highlight highlight-R"><pre>tempname<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"temp1"</span><span class="p">,</span> <span class="s">"temp3"</span><span class="p">),</span> <span class="m">4</span><span class="p">)</span>
 tempname<span class="p">(</span><span class="kp">globalenv</span><span class="p">())</span>
-tempname<span class="p">(</span><span class="kt">data.frame</span><span class="p">(</span>temp <span class="o">=</span> <span class="m">1</span><span class="p">),</span> n <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+temp <span class="o">&lt;-</span> tempname<span class="p">(</span><span class="kt">data.frame</span><span class="p">(</span>temp <span class="o">=</span> <span class="m">1</span><span class="p">))</span>
+<span class="kn">library</span><span class="p">(</span>dplyr<span class="p">)</span>
+df <span class="o">%&gt;%</span> mutate<span class="p">(</span><span class="sb">`$temp`</span><span class="o">=</span><span class="kp">mean</span><span class="p">(</span>temp<span class="p">))</span>
 </pre></div></article></body></html>

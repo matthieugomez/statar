@@ -9,6 +9,12 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
+
+
+
+
+
+
 # Vector functions
 The package adds the following vector functions
 
@@ -38,10 +44,10 @@ demean(c(NA,2), fe = list(c(1,2), c(1,3)))
 demean(c(1,2), fe = list(c(NA,2), c(1,3)))
 ```
 
-# Dates and Panel Data
-The package adds support for panel data. 
 
-The classes "weekly", "monthly", "quarterly"  are stored as elapsed periods since 1970/01/0 (resp in week, months, quarters). However, they print as dates and are compatible with usual time extraction (ie `month`, `year`, etc)
+
+# Elapsed dates
+The classes "weekly", "monthly", "quarterly"  print as dates and are compatible with usual time extraction (ie `month`, `year`, etc). Yet, they are stored as integers, which represents the number of elapsed periods since 1970/01/0 (resp in week, months, quarters). This is particularly handy for simple algebra
 
 ```R
  # elapsed dates
@@ -59,7 +65,128 @@ The classes "weekly", "monthly", "quarterly"  are stored as elapsed periods sinc
  #> [1] 1992 1992 1992
 ```
 
-The package also includes three functions can then be used on daily dates, these elapsed periods, or years.
+# Expression and string interpolation
+The functions `quotem` implements expression and string interpolations, similarly to Stata macros and Julia.
+
+```R
+name <- "Bob"
+height <- 72
+units <- "inches"
+weight <- 230
+quotem("My record indicates your height is $height $(units).")
+#> [1] "My record indicates your height is 72 inches"
+quotem("Your body mass index is $(round(703*weight/height^2,1))")
+#> [1] [1] "Your body mass index is 31.2"
+a <- "ght"
+quotem("My record indicates you are $(hei$a) inches tall")
+#> [1] "My record indicates you are 72 inches tall"
+```
+The option pattern allows to use a different pattern. 
+```R
+quotem("My record indicates you are #height inches tall", pattern = "#")
+#> [1] "My record indicates you are 72 inches tall"
+```
+If you choose a common pattern, you can use the option `parenthesis.only = TRUE` to replace expressions enclosed in parenthesis only. Note that only the first dot is replaced in the following string:
+
+```R
+quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
+#> [1] "You are 72 inches tall.This is below average."
+```
+
+The function `quotem` also works when the argument is an expression. Note that, with the pattern `$`, names need to be backquoted to be considered valid by R.
+
+```R
+library(data.table)
+N <- 100
+DT <- data.table(
+  id = sample(5, N, TRUE),
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+)
+newvar <- "temp"
+myvar <- "v1"
+byvar <- "id"
+quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+#> DT[, list(temp = mean(v1)), by = id]
+```
+
+The function `evalm` is a wrapper for `eval(quotem())` (and therefore corresponds to Julia `@eval` and to Stata natural macros)
+
+```R
+evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+#>    id     temp
+#> 1:  1 3.055556
+#> 2:  2 3.100000
+#> 3:  4 3.000000
+#> 4:  5 2.842105
+#> 5:  3 3.428571
+```
+
+# data.table functions
+## Summary
+```R
+# setkeep keeps certain columns inplace
+DT <- data.table(
+  id = c(1,2),
+  v1 = c(1,1),
+  v2 = c(2,1)
+)
+setkeep(DT, list(id, v2))
+setkeep(DT, -id)
+
+# sum_up prints detailed summary statistics (corresponds to Stata summarize)
+N <- 100
+DT <- data.table(
+  id = 1:N,
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+)
+sum_up(DT)
+sum_up(DT, v2, d = TRUE)
+sum_up(DT, starts_with("v"), by = v1)
+
+# tab returns cross tabulation table (faster than tabulate)
+tab(DT, id)
+tab(DT, id, v1, w = v2)
+
+# duplicates returns duplicated rows
+DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
+duplicates(DT, by = a)
+duplicates(DT, by = list(a,b))
+```
+
+
+
+## Join
+`join` is a wrapper for data.table merge functionalities.
+
+- The option "kind" specifies the kind of join based on SQL syntax. Possible kinds are : left, right, inner, outer, semi, anti and cross.
+- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
+- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
+- The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
+
+```R
+x <- data.table(a = rep(1:2, each = 3), b = 1:6)
+y <- data.table(a = 0:1, bb = 10:11)
+# outer corresponds to Stata joinby keep(master matched using)
+join(x, y, kind = "outer")
+# left corresponds to Stata joinby keep(master matched)
+join(x, y, kind = "left")
+# right corresponds to Stata joinby keep(mached using)
+join(x, y, kind = "right")
+# inner corresponds to Stata joinby keep(matched)
+join(x, y, kind = "inner")
+
+join(x, y, kind = "semi")
+join(x, y, kind = "anti")
+join(x, y, kind = "outer", check = 1~m)
+join(x, y, kind = "outer", gen = "_merge")
+join(x, y, kind = "left", check = m~1, inplace = TRUE)
+```
+
+
+## Panel data
+The package also includes three functions can then be used on daily dates,  years, or elapsed dates (see below)
 
 ```R
 # lag/lead create lag/lead variables (corresponds to Stata L. F.)
@@ -101,104 +228,9 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ```
 
-# Expression and string interpolation
-The functions `quotem` implements expression and string interpolations, similarly to Stata and Julia. 
-
-```R
-name <- "Bob"
-height <- 72
-units <- "inches"
-weight <- 230
-quotem("My record indicates your height is $height $(units).")
-#> [1] "My record indicates your height is 72 inches"
-quotem("Your body mass index is $(round(703*weight/height^2,1))")
-#> [1] [1] "Your body mass index is 31.2"
-a <- "ght"
-quotem("My record indicates you are $(hei$a) inches tall")
-#> [1] "My record indicates you are 72 inches tall"
-```
-
-The function `quotem` also substitute expressions. Note that, with the pattern `$`, names need to be backquoted so that R accepts these expressions as valid names. 
-
-```R
-library(data.table)
-N <- 100
-DT <- data.table(
-  id = sample(5, N, TRUE),
-  v1 = sample(5, N, TRUE),
-  v2 = sample(1e6, N, TRUE)
-)
-newvar <- "temp"
-myvar <- "v1"
-byvar <- "id"
-quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-#> DT[, list(temp = mean(v1)), by = id]
-```
-
-The option pattern allows to use a different pattern. 
-```R
-quotem("My record indicates you are #height inches tall", pattern = "#")
-#> [1] "My record indicates you are 72 inches tall"
-```
-If the pattern is common, you can use the option `parenthesis.only = TRUE` to replace expressions enclosed in parenthesis only. Note the second dot is not replaced in the following string:
-```R
-quotem("You are .(height) inches tall.This is below average", pattern = ".")
-#> [1] "You are 72 inches tall is below average"
-quotem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
-#> [1] "You are 72 inches tall.This is below average."
-```
-
-The function `evalm` is a wrapper for `eval(quotem())` (and therefore corresponds to Julia `@eval`)
-
-```R
-evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-#>    id     temp
-#> 1:  1 3.055556
-#> 2:  2 3.100000
-#> 3:  4 3.000000
-#> 4:  5 2.842105
-#> 5:  3 3.428571
-```
 
 
-
-# data.table functions
-
-
-## Exploration
-
-```R
-# sum_up prints detailed summary statistics (corresponds to Stata summarize)
-N <- 100
-DT <- data.table(
-  id = 1:N,
-  v1 = sample(5, N, TRUE),
-  v2 = sample(1e6, N, TRUE)
-)
-sum_up(DT)
-sum_up(DT, v2, d = TRUE)
-sum_up(DT, starts_with("v"), by = v1)
-
-# tab returns cross tabulation table (faster than tabulate)
-tab(DT, id)
-tab(DT, id, v1, w = v2)
-
-# setkeep keeps certain columns inplace
-DT <- data.table(
-  id = c(1,2),
-  v1 = c(1,1),
-  v2 = c(2,1)
-)
-setkeep(DT, list(id, v2))
-setkeep(DT, -id)
-
-# duplicates returns duplicated rows
-DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-duplicates(DT, by = a)
-duplicates(DT, by = list(a,b))
-```
-
-### Visual exploration
+## Visual exploration
 
 `graph` is a wrapper for `ggplot2` functionalities, useful for interactive exploration of datasets
 
@@ -237,35 +269,6 @@ graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
 
 
 
-
-## Join
-`join` is a wrapper for data.table merge functionalities.
-
-- The option "type" specifies the type of join based on SQL syntax. Possible types are : left, right, inner, outer, semi, anti and cross.
-- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
-- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
-- The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
-
-```R
-x <- data.table(a = rep(1:2, each = 3), b = 1:6)
-y <- data.table(a = 0:1, bb = 10:11)
-# outer corresponds to Stata joinby keep(master matched using)
-join(x, y, type = "outer")
-# left corresponds to Stata joinby keep(master matched)
-join(x, y, type = "left")
-# right corresponds to Stata joinby keep(mached using)
-join(x, y, type = "right")
-# inner corresponds to Stata joinby keep(matched)
-join(x, y, type = "inner")
-
-join(x, y, type = "semi")
-join(x, y, type = "anti")
-join(x, y, type = "outer", check = 1~m)
-join(x, y, type = "outer", gen = "_merge")
-join(x, y, type = "left", check = m~1, inplace = TRUE)
-```
-
-
 ## Syntax
 Functions with the prefix `set` modify the input data.table in place.
 Function selects variables similarly to `dplyr` syntax. Each function has a version that accepts strings, formulas or quoted expressions : its name is the original function's name with the suffix _ (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). For instance, the SE version of `sum_up` is `sum_up_`.
@@ -289,7 +292,9 @@ This package also adds
 ```R
 tempname(c("temp1", "temp3"), 4)
 tempname(globalenv())
-tempname(data.frame(temp = 1), n = 3)
+temp <- tempname(data.frame(temp = 1))
+library(dplyr)
+df %>% mutate(`$temp`=mean(temp))
 ```
 
 

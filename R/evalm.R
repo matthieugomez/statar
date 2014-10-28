@@ -49,7 +49,9 @@ quotem_ <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$", pa
       return(x)
     }
     if (is.name(x) | is.symbol(x)){
-       return(as.name(substitutem_character(as.character(x), env = env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)))
+       y <- substitutem_character(as.character(x), env = env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)
+      if (length(y) >= 2) warnings("A name was bound to a character vector. Only the first character vector if used")
+      return(as.name(y))
     } else if (is.character(x)){
         return(substitutem_character(x, env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only))
     } else{
@@ -104,7 +106,6 @@ eval_character <- function(x, env = parent.frame(), inherits = FALSE){
     } else {
       return("")
     }
-
     if (exists(x, env, inherits = inherits)){
       return(get(x, env = env, inherits = inherits))
     } else {
