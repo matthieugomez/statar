@@ -3,9 +3,9 @@
 \alias{join}
 \title{Join two data.tables together}
 \usage{
-join(x, y, on = intersect(names(x), names(y)), type = "outer",
+join(x, y, on = intersect(names(x), names(y)), kind = "outer",
   suffixes = c(".x", ".y"), check = m ~ m, gen = FALSE, inplace = FALSE,
-  update = FALSE)
+  update = FALSE, type)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -14,7 +14,7 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 
 \item{on}{Character vectors specifying variables to match on. Default to common names between x and y.}
 
-\item{type}{The type of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".}
+\item{kind}{The kind of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".}
 
 \item{suffixes}{A character vector of length 2 to apply to overlapping columns. Defaut to ".x" and ".y".}
 
@@ -22,7 +22,7 @@ join(x, y, on = intersect(names(x), names(y)), type = "outer",
 
 \item{gen}{Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.}
 
-\item{inplace}{A boolean. In case "type"= "left" and RHS of check is 1, the merge can be one in-place.}
+\item{inplace}{A boolean. In case "kind"= "left" and RHS of check is 1, the merge can be one in-place.}
 
 \item{update}{A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y.}
 }
@@ -36,20 +36,20 @@ Join two data.tables together
 library(data.table)
 x <- data.table(a = rep(1:2, each = 3), b=1:6)
 y <- data.table(a = 0:1, bb = 10:11)
-join(x, y, type = "outer")
-join(x, y, type = "left", gen = "_merge")
-join(x, y, type = "right", gen = "_merge")
-join(x, y, type = "inner", check = m~1)
-join(x, y, type = "semi")
-join(x, y, type = "anti")
+join(x, y, kind = "outer")
+join(x, y, kind = "left", gen = "_merge")
+join(x, y, kind = "right", gen = "_merge")
+join(x, y, kind = "inner", check = m~1)
+join(x, y, kind = "semi")
+join(x, y, kind = "anti")
 setnames(y, "bb", "b")
 join(x, y, on = "a")
 join(x, y, on = "a", suffixes = c("",".i"))
 y <- data.table(a = 0:1, bb = 10:11)
-join(x, y, type = "left", check = m~1, inplace = TRUE)
+join(x, y, kind = "left", check = m~1, inplace = TRUE)
 x <- data.table(a = c(1,2), b=c(NA, 2))
 y <- data.table(a = c(1,2), b = 10:11)
-join(x, y, type = "left", on = "a",  update = TRUE)
-join(x, y, type = "left", on = "a", chec = m~1, inplace = TRUE,  update = TRUE)
+join(x, y, kind = "left", on = "a",  update = TRUE)
+join(x, y, kind = "left", on = "a", chec = m~1, inplace = TRUE,  update = TRUE)
 }
 
