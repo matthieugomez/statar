@@ -11,10 +11,10 @@ pastem(..., sep = " ", pattern = "$", parenthesis.only = FALSE,
 
 pastem0(..., pattern = "$")
 
-evalm(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
+quotem(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
   inherits = FALSE)
 
-quotem(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
+evalm(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
   inherits = FALSE)
 }
 \arguments{
@@ -27,12 +27,11 @@ quotem(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
 \item{x}{any syntactically valid R expression}
 }
 \value{
-T
-The functions \code{pastem} implements string interpolations, similarly to Stata and Julia.
-The functions \code{quotem} implements expression interpolations.
-The function \code{evalm} is a wapper for \code{eval(quotem))}.
+The functions \code{pastem} does string interpolations.
+The functions \code{quotem} does expression interpolations.
+The function \code{evalm} is a wapper for \code{eval(quotem()))}.
 
-Expressions following the pattern are evaluated in the environment specified by \code{env} (when they are the name of a non existent object, nothing is returned instead of an error). Note that in the expression \code{list(`$ok`="`$ok`")}, both names are substituted \code{ok}
+Expressions that follow the pattern are evaluated in the environment specified by \code{env} and substituted into the original object. When they are the name of a non existent object, nothing is returned. Note that in the expression \code{list(`$ok`="`$ok`")}, both occurences are substituted by the object to which \code{ok} refers to.
 }
 \description{
 String and expression interpolation

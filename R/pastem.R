@@ -3,12 +3,12 @@
 #' @param env environment in which to evalute the expressions enclosed in patterns. Default to current environement
 #' @param inherits Default to FALSE
 #' @param pattern pattern to use. Default to \code{$}
-#' @return T
-#' The functions \code{pastem} implements string interpolations, similarly to Stata and Julia. 
-#' The functions \code{quotem} implements expression interpolations. 
-#' The function \code{evalm} is a wapper for \code{eval(quotem))}.
+#' @return 
+#' The functions \code{pastem} does string interpolations.
+#' The functions \code{quotem} does expression interpolations. 
+#' The function \code{evalm} is a wapper for \code{eval(quotem()))}.
 #'
-#' Expressions following the pattern are evaluated in the environment specified by \code{env} (when they are the name of a non existent object, nothing is returned instead of an error). Note that in the expression \code{list(`$ok`="`$ok`")}, both names are substituted \code{ok}
+#' Expressions that follow the pattern are evaluated in the environment specified by \code{env} and substituted into the original object. When they are the name of a non existent object, nothing is returned. Note that in the expression \code{list(`$ok`="`$ok`")}, both occurences are substituted by the object to which \code{ok} refers to.
 #' @details The functions replaces expressions starting with the \code{pattern} by evaluating them in the environment specified by \code{env} (susbtituting by nothing if not found)
 #' @examples
 #' height <- 72
@@ -124,15 +124,16 @@ find_closing_parenthesis <- function(x){
 # Why strings are different from quotes ? because makes sure that byvars considered as a string and not byvars.
 #' @export
 #' @rdname pastem
-evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-  call <- expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
-  eval(call, parent.frame())
+quotem <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+  expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
 }
+
 
 #' @export
 #' @rdname pastem
-quotem <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-  expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+  call <- expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+  eval(call, parent.frame())
 }
 
 expression_interpolation  <- function(x = "", pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
