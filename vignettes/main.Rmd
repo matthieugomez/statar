@@ -148,7 +148,7 @@ duplicates(DT, by = list(a,b))
 - The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
 
 
-|Stata     | statar)      
+|Stata     | statar
 |:-----------|------------
 |merge v1, keep(master matched using)   | join(x, y, kind = "outer") 
 |merge v1, keep(master matched)  |  join(x, y, kind = "left")
