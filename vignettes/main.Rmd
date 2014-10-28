@@ -182,7 +182,7 @@ The classes "weekly", "monthly", "quarterly"  print as dates and are compatible 
  # behaves as a date for period extractions:
  year(datem)
  #> [1] 1992 1992 1992
-```z
+```
 
 
 The package also includes three functions can then be used on daily dates,  years, or elapsed dates (see ?elapsed)

@@ -800,7 +800,7 @@ vignette: &gt;<br>
 
 <h2>  %\usepackage[utf8]{inputenc}</h2>
 
-<h1>Expression and string interpolation</h1>
+<h1>String and expression interpolation</h1>
 
 <p>The functions <code>quotem</code> implements string interpolations, similarly to Stata macros and Julia.</p>
 
@@ -829,7 +829,7 @@ quotem<span class="p">(</span><span class="s">"My record indicates you are $(hei
 <span class="c1">#&gt; [1] "You are 72 inches tall.This is below average."</span>
 </pre></div>
 
-<p>The function <code>quotem</code> can also be applied to expressions. Note that expressions starting with the pattern <code>$</code>  must be backquoted to be considered valid names in R.</p>
+<p>The function <code>quotem</code> can also be applied to expressions. Note that names starting with the pattern <code>$</code>  must be enclosed in backquotes to be considered valid names in R.</p>
 
 <div class="highlight highlight-R"><pre><span class="kn">library</span><span class="p">(</span>data.table<span class="p">)</span>
 N <span class="o">&lt;-</span> <span class="m">100</span>
@@ -965,13 +965,11 @@ join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> 
  <span class="c1"># behaves as a date for period extractions:</span>
  year<span class="p">(</span>datem<span class="p">)</span>
  <span class="c1">#&gt; [1] 1992 1992 1992</span>
-<span class="sb">``</span>`z
+</pre></div>
 
+<p>The package also includes three functions can then be used on daily dates,  years, or elapsed dates (see ?elapsed)</p>
 
-The package also includes three functions can then be used on daily dates<span class="p">,</span>  years<span class="p">,</span> or elapsed dates <span class="p">(</span>see <span class="o">?</span>elapsed<span class="p">)</span>
-
-<span class="sb">``</span>`R
-<span class="c1"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
+<div class="highlight highlight-R"><pre><span class="c1"># lag/lead create lag/lead variables (corresponds to Stata L. F.)</span>
 year <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">)</span>
 value <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">)</span>
 lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> order_by <span class="o">=</span> year<span class="p">)</span> <span class="c1"># returns value in previous year, like  dplyr::lag</span>
