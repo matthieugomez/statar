@@ -4,6 +4,8 @@
 \alias{quotem}
 \title{String and expression interpolation}
 \usage{
+evalm(x, env = parent.frame(), inherits = FALSE, pattern = "$")
+
 quotem(x, env = parent.frame(), inherits = FALSE, pattern = "$",
   parenthesis.only = FALSE)
 }

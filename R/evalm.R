@@ -29,9 +29,6 @@
 #' byvar <- "id"
 #' quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 #' evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-#' @name evalm
-NULL
-
 #' @export
 evalm <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$"){
   call <- substitute(x)
@@ -76,7 +73,7 @@ substitutem_character <- function(x, env = parent.frame(), inherits = FALSE, pat
         location <- regexpr(pattern, x, fixed = TRUE) 
         x_after <- substring(x, location + 1, nchar(x))
         if (substring(x, location + 1, location + 1)=="("){
-            cut <- c(location-1, location + 2, location + find_closing(x_after) -1, location + find_closing(x_after)+1)
+            cut <- c(location-1, location + 2, location + find_closing_parenthesis(x_after) -1, location + find_closing_parenthesis(x_after)+1)
           } else{
             ans <- regexpr("^[a-zA-Z]*", x_after)
             cut <- c(location -1, location + 1, location + attr(ans, "match.length"), location + attr(ans, "match.length") + 1)
@@ -89,7 +86,7 @@ substitutem_character <- function(x, env = parent.frame(), inherits = FALSE, pat
       while (regexpr(paste0(pattern,"("), x, fixed = TRUE)>0){
         location <- regexpr(paste0(pattern,"("), x, fixed = TRUE)
         x_after <- substring(x, location + 1, nchar(x))
-        cut <- c(location-1, location + 2, location + find_closing(x_after) -1, location + find_closing(x_after)+1)
+        cut <- c(location-1, location + 2, location + find_closing_parenthesis(x_after) -1, location + find_closing_parenthesis(x_after)+1)
           y <- substitutem_character(substring(x, cut[2], cut[3]), env = env)
           y <- eval_character(y, env = env, inherits = inherits)
         x <- paste0(substring(x, 1, cut[1]), y, substring(x, cut[4], nchar(x)))
@@ -107,6 +104,12 @@ eval_character <- function(x, env = parent.frame(), inherits = FALSE){
     } else {
       return("")
     }
+
+    if (exists(x, env, inherits = inherits)){
+      return(get(x, env = env, inherits = inherits))
+    } else {
+      return("")
+    }
   } else if(typeof(x_expr)== "language"){
         if (inherits){
           return(eval(x_expr, env = env))
@@ -118,7 +121,7 @@ eval_character <- function(x, env = parent.frame(), inherits = FALSE){
   }
 } 
 
-find_closing <- function(x){
+find_closing_parenthesis <- function(x){
   open <- gregexpr("\\(", x)[[1]]
   close <- gregexpr("\\)", x)[[1]]
   first <- open[1]
