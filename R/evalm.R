@@ -12,7 +12,7 @@
 #' weight <- 230
 #' a <- "ght"
 #' pastem("My record indicates you are $height $(units).",
-#'          "Your body mass index is $(round(703*weight/height^2,1))",
+#'          "Your body mass index is $(round(703*weight/height^2))",
 #'          "My record indicates you are $(hei$a) inches tall")
 #' pastem("You are .(height) inches tall.This is below average", pattern = ".")
 #' pastem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
@@ -60,7 +60,7 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
             ans <- regexpr("^[a-zA-Z]*", x_after)
             cut <- c(location -1, location + 1, location + attr(ans, "match.length"), location + attr(ans, "match.length") + 1)
           }
-          y <- quotem_character(substring(z, cut[2], cut[3]), env = env)
+          y <- string_interpolation(substring(z, cut[2], cut[3]), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]]
           y <- eval_character(y, env = env, inherits = inherits)
           z <- paste0(substring(z, 1, cut[1]), y, substring(z, cut[4], nchar(z)))
       }
@@ -70,7 +70,7 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
         location <- regexpr(paste0(pattern,"("), z, fixed = TRUE)
         x_after <- substring(z, location + 1, nchar(z))
         cut <- c(location-1, location + 2, location + find_closing_parenthesis(x_after) -1, location + find_closing_parenthesis(x_after)+1)
-          y <- quotem_character(substring(z, cut[2], cut[3]), env = env)
+          y <- string_interpolation(substring(z, cut[2], cut[3]), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]]
           y <- eval_character(y, env = env, inherits = inherits)
           z <- paste0(substring(z, 1, cut[1]), y, substring(z, cut[4], nchar(z)))
       }
@@ -80,20 +80,25 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
 }
 
 eval_character <- function(x, env = parent.frame(), inherits = FALSE){
-  x_expr <- parse(text = paste0("`",x,"`"))[[1]]
-  if (typeof(x_expr) == "name" | typeof(x_expr) == "symbol"){
+  # as.name coerces everything as name
+  x_expr <- parse(text=x)[[1]]
+  if (is.name(x_expr)){
     if (exists(x, env, inherits = inherits)){
-      return(get(x, env = env, inherits = inherits))
-    } else {
+      if (class(x)=="lazy"){
+        return(lazy_eval(x_expr))
+      } else{
+        return(get(x, envir = env, inherits = inherits))
+      }
+    } else{
       return("")
-    }
-  } else if(typeof(x_expr)== "language"){
+    } 
+  } else if (typeof(x_expr)== "language"){
         if (inherits){
           return(eval(x_expr, env = env))
         } else{
           return(eval(x_expr, env = env, enclos = env))
         }
-  } else {
+  } else{
     return("")
   }
 } 

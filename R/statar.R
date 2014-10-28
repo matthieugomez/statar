@@ -22,6 +22,7 @@
 #' @importFrom lfe demeanlist
 #' @importFrom lazyeval as.lazy
 #' @importFrom lazyeval lazy_dots
+#' @importFrom lazyeval lazy_eval
 #' @importFrom lazyeval all_dots
 #' @importFrom lazyeval common_env
 #' @importFrom lazyeval interp
