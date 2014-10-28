@@ -57,16 +57,19 @@ vignette: >
   #> DT[, list(temp = mean(v1)), by = c("id", "v1")]
   ```
 
-  The function `evalm` is a wrapper for `eval(quotem())`. The function corresponds to Julia `@eval` and to Stata natural macros.
+  The function `evalm` is a wrapper for `eval(quotem())`. The function corresponds to Julia `@eval` and to Stata natural macros (although restricted to name or object substitutions).
 
   ```R
-  evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-  #>    id     temp
-  #> 1:  1 3.055556
-  #> 2:  2 3.100000
-  #> 3:  4 3.000000
-  #> 4:  5 2.842105
-  #> 5:  3 3.428571
+   evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+  #>    id v1 temp
+  #> 1:  2  4    4
+  #> 2:  5  5    5
+  #> 3:  4  5    5
+  #> 4:  1  3    3
+  #> 5:  5  2    2
+  #> 6:  3  4    4
+  #> 7:  3  5    5
+  #> 8:  3  1    1
   ```
 
 # Vector functions

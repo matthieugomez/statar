@@ -46,37 +46,37 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
   i <- 0
   location <- 0
   y <- NULL
+  z <- ""
   if (x!=""){
+    z <- x
     if (!parenthesis.only){
-      while ((regexpr(pattern, x, fixed = TRUE)>0) && (regexpr(pattern, x, fixed = TRUE) < nchar(x)) && (regexpr(paste0(pattern," "), x, fixed = TRUE) <0)){
+      while ((regexpr(pattern, z, fixed = TRUE)>0) && (regexpr(pattern, z, fixed = TRUE) < nchar(x)) && (regexpr(paste0(pattern," "), z, fixed = TRUE) <0)){
         i <- i +1        
-        location <- regexpr(pattern, x, fixed = TRUE) 
-        x_after <- substring(x, location + 1, nchar(x))
-        if (substring(x, location + 1, location + 1)=="("){
+        location <- regexpr(pattern, z, fixed = TRUE) 
+        x_after <- substring(z, location + 1, nchar(z))
+        if (substring(z, location + 1, location + 1)=="("){
             cut <- c(location-1, location + 2, location + find_closing_parenthesis(x_after) -1, location + find_closing_parenthesis(x_after)+1)
           } else{
             ans <- regexpr("^[a-zA-Z]*", x_after)
             cut <- c(location -1, location + 1, location + attr(ans, "match.length"), location + attr(ans, "match.length") + 1)
           }
-          y <- quotem_character(substring(x, cut[2], cut[3]), env = env)
+          y <- quotem_character(substring(z, cut[2], cut[3]), env = env)
           y <- eval_character(y, env = env, inherits = inherits)
-          type <- typeof(y)
-          x <- paste0(substring(x, 1, cut[1]), y, substring(x, cut[4], nchar(x)))
+          z <- paste0(substring(z, 1, cut[1]), y, substring(z, cut[4], nchar(z)))
       }
     } else{
-      while (regexpr(paste0(pattern,"("), x, fixed = TRUE)>0){
+      while (regexpr(paste0(pattern,"("), z, fixed = TRUE)>0){
         i <- i +1        
-        location <- regexpr(paste0(pattern,"("), x, fixed = TRUE)
-        x_after <- substring(x, location + 1, nchar(x))
+        location <- regexpr(paste0(pattern,"("), z, fixed = TRUE)
+        x_after <- substring(z, location + 1, nchar(z))
         cut <- c(location-1, location + 2, location + find_closing_parenthesis(x_after) -1, location + find_closing_parenthesis(x_after)+1)
-          y <- quotem_character(substring(x, cut[2], cut[3]), env = env)
+          y <- quotem_character(substring(z, cut[2], cut[3]), env = env)
           y <- eval_character(y, env = env, inherits = inherits)
-          type <- typeof(y)
-          x <- paste0(substring(x, 1, cut[1]), y, substring(x, cut[4], nchar(x)))
+          z <- paste0(substring(z, 1, cut[1]), y, substring(z, cut[4], nchar(z)))
       }
     }
   }
-  list(x, i, location, y)
+  list(z, i, location, y)
 }
 
 eval_character <- function(x, env = parent.frame(), inherits = FALSE){
@@ -114,7 +114,7 @@ find_closing_parenthesis <- function(x){
 # Why? because makes sure that byvars considered as a string and not byvars.
 #' @export
 evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-  call <- quotem_(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+  call <- expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
   eval(call, parent.frame())
 }
 
@@ -138,10 +138,7 @@ expression_interpolation  <- function(x = "", pattern = "$", parenthesis.only = 
         # case where the macro is one part of the symbol. then its type is coerced to expression
            return(as.name(out[[1]]))
         }
-    }  else if (is.character(x)){
-      return(string_interpolation(x_expr, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]])
-    }
-    else{
+    } else if (is.language(x)){
         out <- NULL
         for (i in 1:length(x)){
             if (!is.null(x[[i]]) & length(x[[i]])){
@@ -151,7 +148,12 @@ expression_interpolation  <- function(x = "", pattern = "$", parenthesis.only = 
         names <- NULL
         names(x) <- sapply(names(x), function(x){string_interpolation(remove_back_quotes(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env , inherits = inherits)[[1]]}, USE.NAMES = FALSE)
         return(x)    
-      }
+    #} else if (is.character(x)){   # Do I really want that?
+    #  return(sapply(x, function(x){string_interpolation(x, pattern = pattern, parenthesis#.only = parenthesis.only, env = env, inherits = inherits)[[1]]}, USE.NAMES = #FALSE))
+    } else{
+      # for instance 1
+        return(x)
+    }
 }
 
 
@@ -162,8 +164,5 @@ remove_back_quotes <- function(x){
   }
   x
 }
-
-
-
 
 
