@@ -132,15 +132,12 @@ expression_interpolation  <- function(x = "", pattern = "$", parenthesis.only = 
     } else if (is.name(x) | is.symbol(x)){
        out <- string_interpolation(remove_back_quotes(as.character(x)), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
        if (out[[2]]==1 && out[[3]]==1){
+        # case where the macro is the whole symbol. then the type is directly the type of the object it refers too
           return(out[[4]])
         } else{
+        # case where the macro is one part of the symbol. then its type is coerced to expression
            return(as.name(out[[1]]))
         }
-        #if (length(out)>1){
-        #  # as.name does not work with vector
-        #  return(parse(text = as.character(out))[[1]])
-        #} else{
-        #  return(as.name(out))
     }  else if (is.character(x)){
       return(string_interpolation(x_expr, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]])
     }
