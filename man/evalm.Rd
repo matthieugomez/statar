@@ -23,10 +23,11 @@ The functions \code{quotem} implements expression and string interpolations, sim
 String and expression interpolation
 }
 \details{
-The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated in the environment specified by env, or in its environment if the expression is a formula).
+The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or symbol, it is replaced by a symbol of the object it is bounded to in \code{env} (or removed if the name does not exists in \code{env}) If the expression is of not a name (like a call), the call is evaluated in the environment specified by \code{env}).
+
+Names in \code{...} are also substituted, ie \code{list(`$ok`="`$ok`")} will replace both \code{ok}.
 }
 \examples{
-name <- "Bob"
 height <- 72
 units <- "inches"
 weight <- 230

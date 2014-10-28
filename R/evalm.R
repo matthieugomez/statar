@@ -4,9 +4,10 @@
 #' @param inherits Default to FALSE
 #' @param pattern pattern to use. Default to \code{$}
 #' @return The functions \code{quotem} implements expression and string interpolations, similarly to Stata and Julia. \code{quotem} captures the (unevaluated) expression given as an argument and returns the expression obtained by evaluating any expression starting with \code{pattern}. The function \code{evalm} is a wrapper for \code{eval(quotem())} (and therefore corresponds to Julia macro \code{eval})
-#' @details The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or language, the expression is replaced by the symbol of the value to which it is bound. If it is not bound to any value, the expression is removed. If the expression is of type language (like a call), the call is evaluated in the environment specified by env, or in its environment if the expression is a formula).
+#' @details The algorithm that replaces expressions starting with the \code{pattern} is the following. If the expression is of type name or symbol, it is replaced by a symbol of the object it is bounded to in \code{env} (or removed if the name does not exists in \code{env}) If the expression is of not a name (like a call), the call is evaluated in the environment specified by \code{env}).
+#'
+#' Names in \code{...} are also substituted, ie \code{list(`$ok`="`$ok`")} will replace both \code{ok}.
 #' @examples
-#' name <- "Bob"
 #' height <- 72
 #' units <- "inches"
 #' weight <- 230
@@ -62,9 +63,7 @@ quotem_ <- function(x, env = parent.frame(), inherits = FALSE, pattern = "$", pa
             }
         }
         names <- NULL
-        if (x[[1]] == quote(list) | x[[1]] == quote(c)){
-            names(x) <- sapply(names(x), function(x){substitutem_character(x, env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)}, USE.NAMES = FALSE)
-        }
+        names(x) <- sapply(names(x), function(x){substitutem_character(x, env, inherits = inherits, pattern = pattern, parenthesis.only = parenthesis.only)}, USE.NAMES = FALSE)
         return(x)
     }
 }
@@ -102,33 +101,22 @@ substitutem_character <- function(x, env = parent.frame(), inherits = FALSE, pat
 
 eval_character <- function(x, env = parent.frame(), inherits = FALSE){
   x_expr <- parse(text = x)[[1]]
-  if (typeof(x_expr) == "name" |typeof(x_expr) == "symbol" ){
-    if (exists(x, env, inherits = inherits, mode = "numeric") | exists(x, env, inherits = inherits, mode = "logical") | exists(x, env, inherits = inherits, mode = "character")){
-        if (inherits){
-          return(eval(x_expr, env = env))
-        } else{
-          return(eval(x_expr, env = env, enclos = env))
-        }
+  if (typeof(x_expr) == "name" | typeof(x_expr) == "symbol"){
+    if (exists(x, env, inherits = inherits)){
+      return(get(x, env = env, inherits = inherits))
     } else {
       return("")
     }
-  } else if (typeof(x_expr)== "language"){
-    # formula
-      if (!is.null(environment(x_expr))){
-        eval(x_expr, env = environment(x_expr))
-      }
-      else{
+  } else if(typeof(x_expr)== "language"){
         if (inherits){
           return(eval(x_expr, env = env))
         } else{
           return(eval(x_expr, env = env, enclos = env))
         }
-      }
   } else {
     return("")
   }
 } 
-
 
 find_closing <- function(x){
   open <- gregexpr("\\(", x)[[1]]
