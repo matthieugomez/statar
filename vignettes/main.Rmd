@@ -147,24 +147,18 @@ duplicates(DT, by = list(a,b))
 - The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
 - The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
 
-```R
-x <- data.table(a = rep(1:2, each = 3), b = 1:6)
-y <- data.table(a = 0:1, bb = 10:11)
-# outer corresponds to Stata joinby keep(master matched using)
-join(x, y, kind = "outer")
-# left corresponds to Stata joinby keep(master matched)
-join(x, y, kind = "left")
-# right corresponds to Stata joinby keep(mached using)
-join(x, y, kind = "right")
-# inner corresponds to Stata joinby keep(matched)
-join(x, y, kind = "inner")
 
-join(x, y, kind = "semi")
-join(x, y, kind = "anti")
-join(x, y, kind = "outer", check = 1~m)
-join(x, y, kind = "outer", gen = "_merge")
-join(x, y, kind = "left", check = m~1, inplace = TRUE)
-```
+|Stata     | statar)      
+|:-----------|------------
+|merge v1, keep(master matched using)   | join(x, y, kind = "outer") 
+|merge v1, keep(master matched)  |  join(x, y, kind = "left")
+|merge v1, keep(matched using)  | join(x, y, kind = "right")
+|merge v1, keep(matched)| join(x, y, kind = "inner")
+|merge v1, keep(matched) keepusing(v1)| join(x, y, kind = "semi")
+|merge v1, keep(master) keepusing(v1)| join(x, y, kind = "anti")
+|crossby   | join(x, y, kind = "cross")
+
+
 
 
 ## Panel data
