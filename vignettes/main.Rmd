@@ -43,7 +43,7 @@ quotem("You are .(height) inches tall.This is below average", pattern = ".", par
 ```
 
 
-The function `quotem` also works with expressions.
+The function `quotem` also works with expressions. Note that, with the pattern `$`, names need to be backquoted so that R accepts these expressions as valid names. 
 
 ```R
 library(data.table)
@@ -59,7 +59,8 @@ byvar <- "id"
 quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 #> DT[, list(temp = mean(v1)), by = id]
 ```
-With the pattern `$`, names need to be backquoted to be accepted by R  as valid names. The function `evalm` is a wrapper for `eval(quotem())` (and therefore corresponds to Julia `@eval` and to Stata natural macros)
+
+The function `evalm` is a wrapper for `eval(quotem())` (and therefore corresponds to Julia `@eval` and to Stata natural macros)
 
 ```R
 evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])

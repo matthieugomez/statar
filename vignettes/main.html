@@ -829,7 +829,7 @@ quotem<span class="p">(</span><span class="s">"My record indicates you are $(hei
 <span class="c1">#&gt; [1] "You are 72 inches tall.This is below average."</span>
 </pre></div>
 
-<p>The function <code>quotem</code> also works with expressions.</p>
+<p>The function <code>quotem</code> also works with expressions. Note that, with the pattern <code>$</code>, names need to be backquoted so that R accepts these expressions as valid names. </p>
 
 <div class="highlight highlight-R"><pre><span class="kn">library</span><span class="p">(</span>data.table<span class="p">)</span>
 N <span class="o">&lt;-</span> <span class="m">100</span>
@@ -845,7 +845,7 @@ quotem<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list<
 <span class="c1">#&gt; DT[, list(temp = mean(v1)), by = id]</span>
 </pre></div>
 
-<p>With the pattern <code>$</code>, names need to be backquoted to be accepted by R  as valid names. The function <code>evalm</code> is a wrapper for <code>eval(quotem())</code> (and therefore corresponds to Julia <code>@eval</code> and to Stata natural macros)</p>
+<p>The function <code>evalm</code> is a wrapper for <code>eval(quotem())</code> (and therefore corresponds to Julia <code>@eval</code> and to Stata natural macros)</p>
 
 <div class="highlight highlight-R"><pre>evalm<span class="p">(</span>DT<span class="p">[,</span> <span class="kt">list</span><span class="p">(</span><span class="sb">`$newvar`</span> <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="sb">`$myvar`</span><span class="p">)),</span> by <span class="o">=</span> <span class="sb">`$byvar`</span><span class="p">])</span>
 <span class="c1">#&gt;    id     temp</span>

@@ -118,7 +118,7 @@ quotem("My record indicates you are $(hei$a) inches tall")
 #> [1] "My record indicates you are 72 inches tall"
 ```
 
-The function `quotem` also substitute expressions.
+The function `quotem` also substitute expressions. Note that, with the pattern `$`, names need to be backquoted so that R accepts these expressions as valid names. 
 
 ```R
 library(data.table)
@@ -134,7 +134,8 @@ byvar <- "id"
 quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 #> DT[, list(temp = mean(v1)), by = id]
 ```
-With the pattern `$`, names need to be backquoted so that R accepts these expressions as valid names.  The option pattern allows to use a different pattern. 
+
+The option pattern allows to use a different pattern. 
 ```R
 quotem("My record indicates you are #height inches tall", pattern = "#")
 #> [1] "My record indicates you are 72 inches tall"
