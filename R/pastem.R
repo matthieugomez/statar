@@ -121,13 +121,22 @@ find_closing_parenthesis <- function(x){
 }
 
 
-# Why strings are different from quotes ? because makes sure that byvars considered as a string and not byvars.
-# But then very similar to substitute/interp
+# Why strings are different from quotes ? because makes sure that byvars considered as a string and not byvars. But then very similar to substitute/interp
 #' @export
+#' @rdname pastem
+evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+  x <- substitute(x)
+  eval(quotem_(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits), parent.frame())
+}
+
 #' @rdname pastem
 quotem <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
   x <- substitute(x)
+  quotem_(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+}
 
+#' @rdname pastem
+quotem_ <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
   # first replace all names
   all.names <- all.vars(x, unique = TRUE)
   env_symbol <- sapply(all.names, function(x){eval_symbol(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)}, USE.NAMES = TRUE)
