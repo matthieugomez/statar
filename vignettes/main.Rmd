@@ -12,7 +12,7 @@ vignette: >
 
 
 # String and expression interpolation
-- The functions `pastem`, which corresponds to R `paste`, implements string interpolations similarly to Stata and Julia.
+- The functions `pastem` corresponds to string interpolations similarly to Stata and Julia.
 
   ```R
   name <- "Bob"
@@ -22,7 +22,7 @@ vignette: >
   pastem("My record indicates your height is $height $(units).")
   #> [1] "My record indicates your height is 72 inches"
   pastem("Your body mass index is $(round(703*weight/height^2,1))")
-  #> [1] [1] "Your body mass index is 31.2"
+  #> [1] "Your body mass index is 31.2"
   a <- "ght"
   pastem("My record indicates you are $(hei$a) inches tall")
   #> [1] "My record indicates you are 72 inches tall"
@@ -40,27 +40,23 @@ vignette: >
   #> [1] "You are 72 inches tall.This is below average."
   ```
 
-- The function `quotem` implements expression interpolations. Note that names starting with the pattern `$`  must be enclosed in backquotes to be considered valid names in R.
+- The function `quotem` implements expression interpolations.  The function `evalm` is a wrapper for `eval(quotem())`: it corresponds to Julia `@eval` and to Stata natural macros (although restricted to name substitutions).
 
   ```R
+  library(statar)
   library(data.table)
   N <- 100
   DT <- data.table(
-    id = sample(5, N, TRUE),
-    v1 = sample(5, N, TRUE),
-    v2 = sample(1e6, N, TRUE)
+  id = sample(5, N, TRUE),
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
   )
   newvar <- quote(temp)
   myvar <- quote(v1)
   byvar <- c("id", "v1")
   quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
   #> DT[, list(temp = mean(v1)), by = c("id", "v1")]
-  ```
-
-  The function `evalm` is a wrapper for `eval(quotem())`. The function corresponds to Julia `@eval` and to Stata natural macros (although restricted to name or object substitutions).
-
-  ```R
-   evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+  evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
   #>    id v1 temp
   #> 1:  2  4    4
   #> 2:  5  5    5
@@ -71,6 +67,8 @@ vignette: >
   #> 7:  3  5    5
   #> 8:  3  1    1
   ```
+
+  Note that names starting with the pattern `$`  must be enclosed in backquotes to be considered valid names in R.
 
 # Vector functions
 The package adds the following vector functions

@@ -20,6 +20,8 @@
 #'          "My record indicates you are $(hei$a) inches tall")
 #' pastem("You are .(height) inches tall.This is below average", pattern = ".")
 #' pastem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
+#' a <- ".This"
+#' pastem("You are .(height) inches tall.a is below average", pattern = ".")
 #' library(data.table)
 #' N <- 100
 #' DT <- data.table(
@@ -50,10 +52,11 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
   location <- 0
   y <- NULL
   z <- ""
+  cut <- rep(0, 4)
   if (x!=""){
     z <- x
     if (!parenthesis.only){
-      while ((regexpr(pattern, z, fixed = TRUE)>0) && (regexpr(pattern, z, fixed = TRUE) < nchar(x)) && (regexpr(paste0(pattern," "), z, fixed = TRUE) <0)){
+      while ((regexpr(pattern, z, fixed = TRUE)>cut[4]) && (regexpr(pattern, z, fixed = TRUE) < nchar(x)) && (regexpr(paste0(pattern," "), z, fixed = TRUE) <0)){
         i <- i +1        
         location <- regexpr(pattern, z, fixed = TRUE) 
         x_after <- substring(z, location + 1, nchar(z))
