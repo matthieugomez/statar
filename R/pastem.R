@@ -126,45 +126,42 @@ find_closing_parenthesis <- function(x){
 #' @export
 #' @rdname pastem
 quotem <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-  expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+  x <- substitute(x)
+
+  # first replace all names
+  all.names <- all.vars(x, unique = TRUE)
+  env_symbol <- sapply(all.names, function(x){eval_symbol(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)}, USE.NAMES = TRUE)
+  x <- interp(x, .values = env_symbol)
+
+  # then replace all names (like option etc) in the LHS
+  string_interpolation_list(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
 }
 
 
-#' @export
-#' @rdname pastem
-evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-  call <- expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
-  eval(call, parent.frame())
+eval_symbol <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+  out <- string_interpolation(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+  if (out[[2]]==1 && out[[3]]==1){
+   # case where the macro is the whole symbol. then the type is directly the type of the object it refers too
+     return(out[[4]])
+   } else{
+   # case where the macro is one part of the symbol. then its type is coerced to expression
+      return(as.name(out[[1]]))
+   }
 }
 
-expression_interpolation  <- function(x = "", pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-    if (x == ""){
-      return(x)
-    } else if (is.name(x) | is.symbol(x)){
-       out <- string_interpolation(remove_back_quotes(as.character(x)), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
-       if (out[[2]]==1 && out[[3]]==1){
-        # case where the macro is the whole symbol. then the type is directly the type of the object it refers too
-          return(out[[4]])
-        } else{
-        # case where the macro is one part of the symbol. then its type is coerced to expression
-           return(as.name(out[[1]]))
+
+string_interpolation_list <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+  if (length(x)>1){
+    # recursion
+    for (i in 1:length(x)){
+        if (!is.null(x[[i]]) & length(x[[i]])){
+            x[[i]] <- string_interpolation_list(x[[i]], pattern = pattern, parenthesis.only = parenthesis.only, env = env , inherits = inherits)
         }
-    } else if (is.language(x)){
-        out <- NULL
-        for (i in 1:length(x)){
-            if (!is.null(x[[i]]) & length(x[[i]])){
-                x[[i]] <- expression_interpolation(x[[i]], pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
-            }
-        }
-        names <- NULL
-        names(x) <- sapply(names(x), function(x){string_interpolation(remove_back_quotes(x), pattern = pattern, parenthesis.only = parenthesis.only, env = env , inherits = inherits)[[1]]}, USE.NAMES = FALSE)
-        return(x)    
-    #} else if (is.character(x)){   # Do I really want that?
-    #  return(sapply(x, function(x){string_interpolation(x, pattern = pattern, parenthesis#.only = parenthesis.only, env = env, inherits = inherits)[[1]]}, USE.NAMES = #FALSE))
-    } else{
-      # for instance 1
-        return(x)
     }
+    # change names
+    names(x) <- sapply(names(x), function(z){string_interpolation(z, pattern = pattern, parenthesis.only = parenthesis.only, env = env , inherits = inherits)[[1]]}, USE.NAMES = FALSE)
+  }
+  x
 }
 
 
@@ -175,5 +172,45 @@ remove_back_quotes <- function(x){
   }
   x
 }
+
+
+##' @export
+##' @rdname pastem
+#evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+#  call <- expression_interpolation(substitute(x), pattern = pattern, parenthesis.only = parenthesis.#only, env = env, inherits = inherits)
+#  eval(call, parent.frame())
+#}
+#
+#expression_interpolation  <- function(x = "", pattern = "$", parenthesis.only = FALSE, env = parent.#frame(), inherits = FALSE){
+#    if (x == ""){
+#      return(x)
+#    } else if (is.name(x) | is.symbol(x)){
+#       out <- string_interpolation(remove_back_quotes(as.character(x)), pattern = pattern, parenthesis#.only = parenthesis.only, env = env, inherits = inherits)
+#       if (out[[2]]==1 && out[[3]]==1){
+#        # case where the macro is the whole symbol. then the type is directly the type of the object #it refers too
+#          return(out[[4]])
+#        } else{
+#        # case where the macro is one part of the symbol. then its type is coerced to expression
+#           return(as.name(out[[1]]))
+#        }
+#    } else if (is.language(x)){
+#        out <- NULL
+#        for (i in 1:length(x)){
+#            if (!is.null(x[[i]]) & length(x[[i]])){
+#                x[[i]] <- expression_interpolation(x[[i]], pattern = pattern, parenthesis.only = #parenthesis.only, env = env, inherits = inherits)
+#            }
+#        }
+#        names <- NULL
+#        names(x) <- sapply(names(x), function(x){string_interpolation(remove_back_quotes(x), pattern =# pattern, parenthesis.only = parenthesis.only, env = env , inherits = inherits)[[1]]}, USE.#NAMES = FALSE)
+#        return(x)    
+#    #} else if (is.character(x)){   # Do I really want that?
+#    #  return(sapply(x, function(x){string_interpolation(x, pattern = pattern, parenthesis#.only = #parenthesis.only, env = env, inherits = inherits)[[1]]}, USE.NAMES = #FALSE))
+#    } else{
+#      # for instance 1
+#        return(x)
+#    }
+#}
+
+
 
 
