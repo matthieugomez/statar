@@ -8,12 +8,13 @@
 #' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.
 #' @examples
 #' DT <- data.table(
-#'  date =  c(1,2,4,7),
-#'  value =  c(1,1,1,1)
+#' id    = c(1, 1, 1, 1)
+#' date  = c(1, 2, 4, 7),
+#' value = c(1, 1, 1, 1)
 #' )
 #' DT1 <- copy(DT)
-#' setroll(DT, funs(count = sum), value, n = 2,  along_with = date)
-#' setroll(DT1, funs(count = sum), value, n = -2,  along_with = date)
+#' setroll(DT, funs(sum), value, n = 2,  along_with = date)
+#' setroll(DT1, funs(sum), value, n = -2,  along_with = date)
 
 #' @export
 setroll <- function(x, funs, ..., n, along_with, by = NULL, i = NULL){
@@ -118,5 +119,9 @@ setroll_<- function(x, funs, vars, n, along_with, i = NULL, by = NULL){
 #}
 
 
+
+
+roll <- function(id, funs){
+    index <- match(along_with + n, along_with, incomparables = NA)
 
 
