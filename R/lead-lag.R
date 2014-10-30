@@ -4,8 +4,8 @@
 #' @param x a vector of values
 #' @param n a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)
 #' @param order_by override the default ordering to use another vector
-#' @param along_with  compute lag with respect to this vector instead of previous row
-#' @param units A character when along_with is a date (one of "second",  "minute", "hour", "day", "week", "month", "quarter", "year").  
+#' @param along_with  use this variable as an index instead of the row number
+#' @param units Deprecated. Use \code{elapsed_dates}
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @param ... Needed for compatibility with lag generic.
 #' @examples
@@ -24,7 +24,7 @@ NULL
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, default = NA,  ...) {
+lead <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA,  ...) {
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
   if (!is.null(order_by)) {
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
@@ -57,16 +57,16 @@ lead <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, de
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, order_by = NULL, units = NULL, along_with = NULL, default = NA, ...) { 
+lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...) { 
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
   if (!is.null(order_by)) {
     if (!is.null(along_with))  stop("order_by cannot be used with along_with")
     if (!is.null(units))  stop("order_by cannot be used with units")
     return(with_order(order_by, lag, x, n = n, default = default))
  }
-
   if (!is.null(along_with)) {
     if (!is.null(units)){
+      warning(paste0("units is deprecated. Convert to elapsed date with as(",units,")"))
       units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
       if (units =="quarter"){
         units <- "month"

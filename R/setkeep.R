@@ -27,9 +27,41 @@ setkeep_ <- function(x, vars){
 	drop <- setdiff(copy(names(x)), vars)
 	if (length(drop)>0){
 		x[, c(drop) := NULL]
-		x[]
 	}
 }
+
+
+
+#' Drop certain columns in place 
+#'
+#' @param x a data.table 
+#' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
+#' @param vars Used to work around non-standard evaluation.
+#' @examples
+#' library(data.table)
+#' DT <- data.table(
+#'   id = c(1,2),
+#'   v1 = c(1,1),
+#'   v2 = c(2,1)
+#' )
+#' setdrop(DT, id, v2)
+#' setdrop(DT, -id)
+#' @export
+setdrop <- function(x, ...){
+	setdrop_(x = x, vars = lazyeval::lazy_dots(...))
+}
+#' @export
+#' @rdname setdrop
+setdrop_ <- function(x, vars){
+	stopifnot(is.data.table(x))
+	dots <- lazyeval::all_dots(vars)
+	vars <- names(select_vars_(names(x), dots))
+	if (!length(vars))  vars <- names(x)
+	if (length(drop)>0){
+		x[, c(vars) := NULL]
+	}
+}
+
 
 ##' Create new data.table by keeping only certain columns or rows
 ##'

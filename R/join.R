@@ -77,9 +77,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
       setnames(x, common_names, paste0(common_names, suffixes[1]))
       setnames(y, common_names, paste0(common_names, suffixes[2]))
       on.exit(setnames(y, paste0(common_names, suffixes[2]), common_names))
-      if (!inplace){
-        on.exit(setnames(x, paste0(common_names, suffixes[1]), common_names), add = TRUE)
-      }
+      on.exit(setnames(x, paste0(common_names, suffixes[1]), common_names), add = TRUE)
     }
 
     # set keys and check duplicates
@@ -130,6 +128,9 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
           x[, c(idu) := NULL]
         }
         DT_output <- x
+        if (inplace && (length(common_names)>0)){
+          on.exit(setnames(x, common_names, paste0(common_names, suffixes[1])), add = TRUE)
+        }
       } else{
         all.x <- FALSE
         all.y <- FALSE
@@ -159,7 +160,6 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
         }
         setnames(DT_output, paste0(common_names, suffixes[1]), common_names)
       }
-      DT_output[]
       return(DT_output)
     } else if (kind == "semi"){
         w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
@@ -171,5 +171,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
         return(DT_output)
     }
   }
+
+
 }
 

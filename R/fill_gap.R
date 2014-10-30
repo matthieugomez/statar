@@ -4,7 +4,7 @@
 #' @param ... Variables to keep (beyond the by and along_with variable). Default to all variables. See the \link[dplyr]{select} documentation.
 #' @param along_with Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.
 #' @param by Variables by which to group. Default to keys (or to keys minus last if along_with is unspecified). ee the \link[dplyr]{select} documentation.
-#' @param units Dreprecated 
+#' @param units Deprecated. Use elapsed dates.
 #' @param full  A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets. 
 #' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is joined to.
 #' @param rollends  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end
@@ -23,7 +23,7 @@
 #' fill_gap(DT, value, along_with = datem , by = id)
 
 #' @export
-fill_gap <- function(x, ..., along_with = NULL, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap <- function(x, ..., along_with, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE),  units = NULL) {
   fill_gap_(x, vars = lazy_dots(...), along_with = substitute(along_with), units = units, by = substitute(by), full = full, roll = roll, rollends = rollends)
@@ -31,12 +31,12 @@ fill_gap <- function(x, ..., along_with = NULL, by = NULL, full = FALSE, roll = 
 
 #' @export
 #' @rdname fill_gap
-fill_gap_ <- function(x, vars, along_with = NULL, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap_ <- function(x, vars, along_with, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
              else c(TRUE,FALSE), units = NULL) {
   stopifnot(is.data.table(x))
-  byvars <- names(select_vars_(names(x), by))
   along_with  <- names(select_vars_(names(x), along_with ))
+  byvars <- names(select_vars_(names(x), by, exclude = along_with))
   if (!length(byvars) & (!length(along_with))){
       byvars <- head(key(x),-1)
       along_with <- tail(key(x),1)

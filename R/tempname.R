@@ -9,7 +9,7 @@
 #' tempname(globalenv())
 #' tempname(data.frame(temp = 1), n = 3)
 #' @export
-tempname=function(where = globalenv() , n = 1, prefix = "temp", inherits=TRUE) {
+tempname=function(where = globalenv() , n = 1, prefix = ".temp", inherits=TRUE) {
     all_names <- NULL
     i <- 0L
     name <- prefix

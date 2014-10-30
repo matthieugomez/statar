@@ -7,7 +7,8 @@
 #' The functions \code{pastem} does string interpolations.
 #' The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) LHS of `=` is also substituted.
 #' The function \code{evalm} is a wapper for \code{eval(quotem()))}.
-#'
+#' 
+#' The expressions includes all letters + underscore that follow the pattern. Use parenthesis if you want the expression to be shorter or longer.
 #' Expressions that follow the pattern are evaluated in the environment specified by \code{env} and substituted into the original object. When they are the name of a non existent object, nothing is returned. Note that in the expression \code{list(`$ok`="`$ok`")}, both occurences are substituted by the object to which \code{ok} refers to.
 #' @details The functions replaces expressions starting with the \code{pattern} by evaluating them in the environment specified by \code{env} (susbtituting by nothing if not found)
 #' @examples
@@ -63,7 +64,7 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
         if (substring(z, location + 1, location + 1)=="("){
             cut <- c(location-1, location + 2, location + find_closing_parenthesis(x_after) -1, location + find_closing_parenthesis(x_after)+1)
           } else{
-            ans <- regexpr("^[a-zA-Z]*", x_after)
+            ans <- regexpr("^[a-zA-Z\\_]*", x_after)
             cut <- c(location -1, location + 1, location + attr(ans, "match.length"), location + attr(ans, "match.length") + 1)
           }
           y <- string_interpolation(substring(z, cut[2], cut[3]), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]]

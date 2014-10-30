@@ -4,6 +4,7 @@
 \alias{pastem}
 \alias{pastem0}
 \alias{quotem}
+\alias{quotem_}
 \title{String and expression interpolation}
 \usage{
 pastem(..., sep = " ", pattern = "$", parenthesis.only = FALSE,
@@ -11,10 +12,13 @@ pastem(..., sep = " ", pattern = "$", parenthesis.only = FALSE,
 
 pastem0(..., pattern = "$")
 
+evalm(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
+  inherits = FALSE)
+
 quotem(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
   inherits = FALSE)
 
-evalm(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
+quotem_(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
   inherits = FALSE)
 }
 \arguments{
@@ -31,6 +35,7 @@ The functions \code{pastem} does string interpolations.
 The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) LHS of `=` is also substituted.
 The function \code{evalm} is a wapper for \code{eval(quotem()))}.
 
+The expressions includes all letters + underscore that follow the pattern. Use parenthesis if you want the expression to be shorter or longer.
 Expressions that follow the pattern are evaluated in the environment specified by \code{env} and substituted into the original object. When they are the name of a non existent object, nothing is returned. Note that in the expression \code{list(`$ok`="`$ok`")}, both occurences are substituted by the object to which \code{ok} refers to.
 }
 \description{
@@ -49,6 +54,8 @@ pastem("My record indicates you are $height $(units).",
          "My record indicates you are $(hei$a) inches tall")
 pastem("You are .(height) inches tall.This is below average", pattern = ".")
 pastem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
+a <- ".This"
+pastem("You are .(height) inches tall.a is below average", pattern = ".")
 library(data.table)
 N <- 100
 DT <- data.table(

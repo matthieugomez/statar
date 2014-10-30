@@ -4,13 +4,13 @@
 \alias{fill_gap_}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
-fill_gap(x, ..., along_with = NULL, by = NULL, full = FALSE,
-  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
-  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE), units = NULL)
+fill_gap(x, ..., along_with, by = NULL, full = FALSE, roll = FALSE,
+  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
+  TRUE) else c(TRUE, FALSE), units = NULL)
 
-fill_gap_(x, vars, along_with = NULL, by = NULL, full = FALSE,
-  roll = FALSE, rollends = if (roll == "nearest") c(TRUE, TRUE) else if
-  (roll >= 0) c(FALSE, TRUE) else c(TRUE, FALSE), units = NULL)
+fill_gap_(x, vars, along_with, by = NULL, full = FALSE, roll = FALSE,
+  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE,
+  TRUE) else c(TRUE, FALSE), units = NULL)
 }
 \arguments{
 \item{x}{A data.table}
@@ -27,7 +27,7 @@ fill_gap_(x, vars, along_with = NULL, by = NULL, full = FALSE,
 
 \item{rollends}{A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end}
 
-\item{units}{Dreprecated}
+\item{units}{Deprecated. Use elapsed dates.}
 
 \item{vars}{Used to work around non-standard evaluation.}
 }

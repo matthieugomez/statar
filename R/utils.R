@@ -11,6 +11,22 @@ deparse_all <- function(x) {
 }
 
 
+shallow <- function(x,...){
+  shallow_(x = x, vars = lazyeval::lazy_dots(...))
+}
+
+shallow_ <- function(x, vars) {
+    vars <- names(select_vars_(names(x), vars))
+    if (length(vars) == 0) {
+       vars <- setdiff(names(x),c(byvars, along_with))
+    }
+    out = as.list(x)[vars]
+    setDT(out)
+    out
+}
+
+
+
 
 assign_var <- function(x, ..., env = parent.frame(), inherits = FALSE){
     names <- sapply(lazy_dots(...), function(x){as.character(x$expr)})
