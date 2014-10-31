@@ -28,7 +28,7 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed.left 
         l <- length(along_with)
         ord <- order(along_with)
         undo <- match(seq_len(l), ord)
-        if (is.matrix(x)){
+        if (is.matrix(x) | is.data.frame(x)){
             x <- x[ord,, drop = FALSE]
         } else if (is.list(x)){
             x <- lapply(x,function(z){z[ord]})
@@ -48,7 +48,7 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed.left 
                 FUN(x,...)
                 }, 
             f_start, f_end)
-        } else if (is.matrix(x)){
+        } else if (is.matrix(x)|is.data.frame(x)){
             out <- mapply(function(start, end){
                 FUN(x[seq.int(start,end),, drop = FALSE],...)
                 }, 
@@ -81,7 +81,7 @@ roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed.left
         l <- length(along_with)
         ord <- order(along_with)
         undo <- match(seq_len(l), ord)
-        if (is.matrix(x)){
+        if (is.matrix(x) | is.data.frame(x)){
             x <- x[ord,, drop = FALSE]
         } else if (is.list(x)){
             x <- lapply(x,function(z){z[ord]})
@@ -101,7 +101,7 @@ roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed.left
                 FUN(x,...)
                 }, 
             f_start, f_end)
-        } else if (is.matrix(x)){
+        } else if (is.matrix(x) | is.data.frame(x)){
             out <- mapply(function(start, end){
                 FUN(x[seq.int(start,end),, drop = FALSE],...)
                 }, 
