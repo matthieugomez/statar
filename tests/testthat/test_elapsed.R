@@ -1,4 +1,5 @@
 library(statar)
+library(lubridate)
 context("dates")
 
 date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  

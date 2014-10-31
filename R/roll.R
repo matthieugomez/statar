@@ -1,4 +1,4 @@
-#' Apply rollling functions
+#' Apply rollling functions with respect to a time variable
 #' 
 #' @param x a vector or matrix
 #' @param FUN function to apply on \code{x}
@@ -9,13 +9,14 @@
 #' @param ... options to pass to the function \code{FUN}
 #' @examples
 #' along_with  = c(1, 2, 4, 7)
-#' x = c(1, 1, 1, 1)
+#' x <- c(1, 1, 1, 1)
 #' roll_lag(x,sum, n = 1, along_with = along_with)
 #' roll_lag(x, sum, n = 1, along_with = along_with)
 #' roll_lag(x, sum, n = 2, along_with = along_with)
 #' roll_lead(x, sum, n = 1, along_with = along_with)
 #' roll_lead(x, sum, n = 2, along_with = along_with)
-#' roll_lag(list(x,y), function(z){cor(z[[1]], z[[2]])},  n = 2, along_with = along_with)
+#' y <- c(1, 2, 1, 1)
+#' roll_lag(list(x,y), function(z){cov(z[[1]], z[[2]])},  n = 2, along_with = along_with)
 #' @export
 #' @aliases roll_lag roll_lead
 #' @rdname roll
@@ -66,9 +67,9 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(T
         }
     } else {
         if (closed[[1]]){
-            f_start <- pmax(seq_len(l) - n, 1)
+            f_start <- pmax(seq - n, 1)
         } else{
-            f_start <- pmax(seq_len(l) - n + 1, 1)
+            f_start <- pmax(seq - n + 1, 1)
         } 
         if (closed[[2]]){
             vec <- lapply(seq, function(i) f_start[i]:i)
@@ -108,8 +109,8 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(T
 
 
 
-
-
+#' @export
+#' @rdname roll
 roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE, TRUE), ...){
     if (length(closed)==1){
         closed = rep(closed,2)
@@ -154,9 +155,9 @@ roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(
           }
     } else {
          if (closed[[1]]){
-             f_end <- pmin(f + n, l)
+             f_end <- pmin(seq + n, l)
          } else{
-             f_end <- pmin(f + n - 1, l)-1
+             f_end <- pmin(seq + n - 1, l)-1
          } 
          if (closed[[2]]){
             vec <- lapply(seq, function(i) i:f_end[i])

@@ -94,30 +94,29 @@ x = c(1, 1, 1, 1, 1)
 
 test_that("lead works", {
 expect_equal(
-  roll_lead(x, sum,  n = 1, along_with = along_with),
- 	c(2, 1, 1, 2, 1))
-  expect_equal(
-  	roll_lead(x, sum,  n = 1, along_with = along_with, closed = c(TRUE, FALSE)),
- 	c(1, 1, 1, 1, 1))
-   expect_equal(
-    roll_lead(x, sum,  n = 1, along_with = along_with, closed = c(FALSE, TRUE)),
-    c(1, NA, NA, 1, NA))
-    expect_equal(
-      roll_lead(x, sum,  n = 1, along_with = along_with, closed = FALSE),
-    c(NA, NA, NA, NA, NA))
-
-     roll_lead(x, sum,  n = 2, along_with = along_with),
-      c(2, 2, 1, 2, 1))
-     expect_equal(
-      roll_lead(x, sum,  n = 2, along_with = along_with, closed = c(TRUE, FALSE)),
-      c(2, 1, 1, 2, 1))
-      expect_equal(
-       roll_lead(x, sum,  n = 2, along_with = along_with, closed = c(FALSE, TRUE)),
-       c(1, 1, NA, 1, NA))
-       expect_equal(
-         roll_lead(x, sum,  n = 2, along_with = along_with, closed = FALSE),
-       c(1, NA, NA, 1, NA))
-
+roll_lead(x, sum,  n = 1, along_with = along_with),
+c(2, 1, 1, 2, 1))
+expect_equal(
+roll_lead(x, sum,  n = 1, along_with = along_with, closed = c(TRUE, FALSE)),
+c(1, 1, 1, 1, 1))
+expect_equal(
+roll_lead(x, sum,  n = 1, along_with = along_with, closed = c(FALSE, TRUE)),
+c(1, NA, NA, 1, NA))
+expect_equal(
+roll_lead(x, sum,  n = 1, along_with = along_with, closed = FALSE),
+c(NA, NA, NA, NA, NA))
+expect_equal(
+roll_lead(x, sum,  n = 2, along_with = along_with),
+c(2, 2, 1, 2, 1))
+expect_equal(
+roll_lead(x, sum,  n = 2, along_with = along_with, closed = c(TRUE, FALSE)),
+c(2, 1, 1, 2, 1))
+expect_equal(
+roll_lead(x, sum,  n = 2, along_with = along_with, closed = c(FALSE, TRUE)),
+c(1, 1, NA, 1, NA))
+expect_equal(
+roll_lead(x, sum,  n = 2, along_with = along_with, closed = FALSE),
+c(1, NA, NA, 1, NA))
 })
 
 

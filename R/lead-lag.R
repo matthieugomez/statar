@@ -1,6 +1,5 @@
-#' lead and lag.
+#' lead and lag with respect to a time variable
 #'
-#' lead and lag are useful for comparing values for date offset by a constant
 #' @param x a vector of values
 #' @param n a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)
 #' @param order_by override the default ordering to use another vector

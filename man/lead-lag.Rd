@@ -3,7 +3,7 @@
 \alias{lag.default}
 \alias{lead}
 \alias{lead-lag}
-\title{lead and lag.}
+\title{lead and lag with respect to a time variable}
 \usage{
 lead(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL,
   default = NA, ...)
@@ -27,7 +27,7 @@ lead(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL,
 \item{...}{Needed for compatibility with lag generic.}
 }
 \description{
-lead and lag are useful for comparing values for date offset by a constant
+lead and lag with respect to a time variable
 }
 \examples{
 year <- c(1989, 1991, 1992)

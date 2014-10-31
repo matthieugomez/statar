@@ -29,7 +29,6 @@
 #' @importFrom lubridate period
 #' @importFrom lubridate second
 #' @importFrom lubridate weeks
-#' @importFrom lubridate mdy
 #' @importFrom lubridate years
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom parallel mclapply
@@ -41,6 +40,5 @@
 #' @importFrom tidyr gather_
 #' @importFrom tidyr spread
 #' @importFrom tidyr spread_
-#' @importFrom ggcomp compute_count_vec
 NULL
 

@@ -2,9 +2,12 @@
 \name{roll_lag}
 \alias{roll_lag}
 \alias{roll_lead}
-\title{Apply rollling functions}
+\title{Apply rollling functions with respect to a time variable}
 \usage{
 roll_lag(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
+  TRUE), ...)
+
+roll_lead(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
   TRUE), ...)
 }
 \arguments{
@@ -23,16 +26,17 @@ roll_lag(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
 \item{...}{options to pass to the function \code{FUN}}
 }
 \description{
-Apply rollling functions
+Apply rollling functions with respect to a time variable
 }
 \examples{
 along_with  = c(1, 2, 4, 7)
-x = c(1, 1, 1, 1)
+x <- c(1, 1, 1, 1)
 roll_lag(x,sum, n = 1, along_with = along_with)
 roll_lag(x, sum, n = 1, along_with = along_with)
 roll_lag(x, sum, n = 2, along_with = along_with)
 roll_lead(x, sum, n = 1, along_with = along_with)
 roll_lead(x, sum, n = 2, along_with = along_with)
-roll_lag(list(x,y), function(z){cor(z[[1]], z[[2]])},  n = 2, along_with = along_with)
+y <- c(1, 2, 1, 1)
+roll_lag(list(x,y), function(z){cov(z[[1]], z[[2]])},  n = 2, along_with = along_with)
 }
 
