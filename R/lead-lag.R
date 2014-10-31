@@ -6,7 +6,6 @@
 #' @param order_by override the default ordering to use another vector
 #' @param along_with  use this variable as an index instead of the row number
 #' @param units Deprecated. Use \code{elapsed_dates}
-#' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @param ... Needed for compatibility with lag generic.
 #' @examples
 #' year <- c(1989, 1991, 1992)
@@ -34,11 +33,10 @@ lead <- function(x, n = 1L, ...) {
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...) { 
+lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, ...){ 
   if (is.null(along_with)){
-    dplyr::lag(x = x, n = n, order_by = order_by, default = NA, ...)
-  }
-  if (!is.null(along_with)) {
+    dplyr::lag(x = x, n = n, order_by = order_by, ...)
+  } else {
     if (!is.null(units)){
       warning(paste0("units is deprecated. Convert to elapsed date with as(",units,")"))
       units <- match.arg(units, c("second", "minute", "hour", "day", "week", "month", "quarter", "year"))
@@ -50,10 +48,10 @@ lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = N
     } else{
       index <- match(along_with - n, along_with, incomparables = NA)
     }
-
   out <- x[index]
   if (!is.na(default)) out[which(is.na(index))] <- default
   attributes(out) <- attributes(x)
   out
+  }
 }
 

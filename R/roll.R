@@ -12,7 +12,6 @@
 #' roll(x, sum, n = 2, along_with = along_with)
 #' roll(x, sum, n = -1, along_with = along_with)
 #' roll(x, sum, n = -2, along_with = along_with)
-#' DT[, a := roll(value, mean, n = 2, order_by = date, na.rm = TRUE), by = id]
 roll <- function(x, FUN, n, along_with = NULL,order_by = NULL, ...){
      if (!is.null(order_by)){
        return(with_order(order_by, roll, x, FUN = FUN, n = n, ...))
@@ -48,4 +47,3 @@ roll <- function(x, FUN, n, along_with = NULL,order_by = NULL, ...){
 }
 
 
-along_with = c(1, 8,9,21)

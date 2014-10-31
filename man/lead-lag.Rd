@@ -5,36 +5,33 @@
 \alias{lead-lag}
 \title{lead and lag.}
 \usage{
-lead(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL,
-  default = NA, ...)
+lead(x, n = 1L, ...)
 
 \method{lag}{default}(x, n = 1L, order_by = NULL, along_with = NULL,
-  units = NULL, default = NA, ...)
+  units = NULL, ...)
 }
 \arguments{
 \item{x}{a vector of values}
 
 \item{n}{a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)}
 
+\item{...}{Needed for compatibility with lag generic.}
+
 \item{order_by}{override the default ordering to use another vector}
 
 \item{along_with}{use this variable as an index instead of the row number}
 
 \item{units}{Deprecated. Use \code{elapsed_dates}}
-
-\item{default}{value used for non-existant rows. Defaults to \code{NA}.}
-
-\item{...}{Needed for compatibility with lag generic.}
 }
 \description{
 lead and lag are useful for comparing values for date offset by a constant
 }
 \examples{
-year <- c(1992, 1989, 1991)
+year <- c(1989, 1991, 1992)
 value <- c(4.1, 4.5, 3.3)
 lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
 lag(value, 1, along_with = year) #  returns value in year - 1
-
+lead(value, 1, along_with = year)
 library(lubridate)
 date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
 value <- c(4.1, 4.5, 3.3, 5.3)
