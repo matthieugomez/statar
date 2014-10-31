@@ -10,7 +10,7 @@
 pastem(..., sep = " ", pattern = "$", parenthesis.only = FALSE,
   env = parent.frame(), inherits = FALSE)
 
-pastem0(..., pattern = "$")
+pastem0(..., env = parent.frame())
 
 evalm(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
   inherits = FALSE)

@@ -44,8 +44,7 @@ setkeep_ <- function(x, vars){
 #'   v1 = c(1,1),
 #'   v2 = c(2,1)
 #' )
-#' setdrop(DT, id, v2)
-#' setdrop(DT, -id)
+#' setdrop(DT, id)
 #' @export
 setdrop <- function(x, ...){
 	setdrop_(x = x, vars = lazyeval::lazy_dots(...))

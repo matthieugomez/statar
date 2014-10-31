@@ -28,5 +28,6 @@ Imports:
     stringr,
     tidyr
 Suggests:
-    knitr
+    knitr,
+    testthat
 VignetteBuilder: knitr

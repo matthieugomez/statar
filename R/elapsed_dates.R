@@ -1,11 +1,10 @@
-#' Elapsed dates (weekly, monthly, quarterly)
+#' Elapsed dates (monthly, quarterly)
 #' @param x a vector
 #' @examples 
 #' library(lubridate)
 #' date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  
 #' datem <- as.monthly(date)
 #' is.monthly(datem)
-#' as.weekly(date)
 #' as.quarterly(date)
 #' as.character(datem)
 #' datem + 1
@@ -15,11 +14,11 @@
 #' as.POSIXlt(datem)
 #' as.POSIXct(datem)
 #' week(datem)
-#' @details Weekly, monthly and quarterly dates are stored as integers, representing the number of elapsed calendar periods since 01/01/1970.  As \code{yearmonth} and \code{yearqtr} the package \code{zoo}, these dates are printed in a way that fits their frequency  (\code{YYY}q\code{q}, \code{YYY}m\code{MM}, \code{YYY}w\code{WW}). The only difference is that \code{weekly}, \code{monthly}, and \code{quarterly} are integers, which removes issues due to floating points (particularly important when merging). This also allows to use arithmetic on perios, ie \code{date} + 1 adds one period rather than one day.
+#' @details Weekly, monthly and quarterly dates are stored as integers, representing the number of elapsed calendar periods since 01/01/1970.  As \code{yearmonth} and \code{yearqtr} the package \code{zoo}, these dates are printed in a way that fits their frequency  (\code{YYY}q\code{q}, \code{YYY}m\code{MM}). The only difference is that, \code{monthly}, and \code{quarterly} are integers, which removes issues due to floating points (particularly important when merging). This also allows to use arithmetic on perios, ie \code{date} + 1 adds one period rather than one day.
 #'
 #' Methods to convert from and to Dates or POSIXlt are provided. In particular, you may use lubridate \code{\link{week}} \code{\link{month}} and \code{\link{year}} to extract information from elapsed dates.
 #' @name elapsed
-#' @aliases quarterly, monthly, weekly
+#' @aliases quarterly, monthly
 NULL
 
 #' @export
@@ -54,21 +53,7 @@ as.monthly <- function(x) {
   out
 }
 
-#' @export
-#' @rdname elapsed 
-as.weekly <- function(x) {
-  if (length(class(x))==1 && class(x) == "numeric"){
-    out <- x
-    } else if (length(class(x))==1 && class(x) == "character"){
-    date <- str_match(x,"(.*)w(.*)")
-    out <- 53L*(as.integer(date[,2])-1970) + (as.integer(date[, 3])-1)
-    } else{
-      date <- as.POSIXlt(x)
-      out <- 53L*(date$year-70) + (date$yday)%/%7
-    }
-  class(out) <-  "weekly"
-  out
-}
+
 
 
 # as.Date
@@ -88,13 +73,6 @@ as.Date.monthly <- function(x, ...){
   as.Date(x, ...)
 }
 
-#' @export
-as.Date.weekly<- function(x, ...){
-  attributes(x) <- NULL
-  date_origin <- mdy("01/01/1970")
-  x <- date_origin + years(floor(x %/% 53)) + weeks(x-53*floor(x %/% 53))
-  as.Date(x, ...)
-}
 
 
 # as.character
@@ -112,14 +90,6 @@ as.character.monthly <- function(x, ...){
   paste0(year(x),"m", monthc)
 }
 
-#' @export
-as.character.weekly <- function(x, ...){
-  week <- week(x)
-  weekc <- as.character(week)
-  weekcc <- paste0("0", weekc[which(week<10)])
-  weekc[which(week<10)] <- weekcc
-  paste0(year(x),"w", weekc)
-}
 
 
 # seq
@@ -139,13 +109,6 @@ seq.monthly <- function(from,...){
   out
 }
 
-#' @export
-seq.weekly <- function(from,...){
-  attributes(from) <- NULL
-  out <- seq.int(from,...)
-  setattr(out, "class", "weekly")
-  out
-}
 
 
 #' @export
@@ -160,11 +123,6 @@ is.monthly <- function(x){
   is(x, "monthly")
 }
 
-#' @export
-#' @rdname elapsed 
-is.weekly <- function(x){
-  is(x, "weekly")
-}
 
 
 
@@ -181,11 +139,6 @@ as.POSIXlt.monthly <- function(x, ...){
   as.POSIXlt(as.Date(x), ...)
 }
 
-#' @export
-as.POSIXlt.weekly<- function(x, ...){
-  as.POSIXlt(as.Date(x), ...)
-}
-
 
 #' @export
 as.POSIXct.quarterly <- function(x, ...){
@@ -197,10 +150,7 @@ as.POSIXct.monthly <- function(x, ...){
   as.POSIXct(as.Date(x), ...)
 }
 
-#' @export
-as.POSIXct.weekly<- function(x, ...){
-  as.POSIXct(as.Date(x), ...)
-}
+
 
 #' @export
 format.quarterly <- function(x, ...){
@@ -212,10 +162,6 @@ format.monthly <- function(x, ...){
   format(as.character(x),...)
 }
 
-#' @export
-format.weekly <- function(x, ...){
-  format(as.character(x),...)
-}
 
 #' @export
 print.quarterly <- function(x, ...){
@@ -224,11 +170,6 @@ print.quarterly <- function(x, ...){
 
 #' @export
 print.monthly <- function(x, ...){
-  print(format(x),...)
-}
-
-#' @export
-print.weekly <- function(x, ...){
   print(format(x),...)
 }
 
@@ -248,12 +189,6 @@ print.weekly <- function(x, ...){
 }
 
 
-#' @export
-`[.weekly` <- function(x,..., drop = TRUE){
-  out <- NextMethod("[")
-  setattr(out, "class", "weekly")
-  out
-}
 
 #' @export
 as.data.frame.monthly <- function(...){
@@ -262,11 +197,6 @@ as.data.frame.monthly <- function(...){
 
 #' @export
 as.data.frame.quarterly <- function(...){
-    as.data.frame.vector(...)
-}
-
-#' @export
-as.data.frame.weekly <- function(...){
     as.data.frame.vector(...)
 }
 

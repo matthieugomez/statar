@@ -25,7 +25,6 @@ DT <- data.table(
   v1 = c(1,1),
   v2 = c(2,1)
 )
-setdrop(DT, id, v2)
-setdrop(DT, -id)
+setdrop(DT, id)
 }
 

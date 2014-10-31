@@ -40,6 +40,9 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
     kind <- type
   }
 
+  if (anyDuplicated(names(x))) stop("Duplicate names in x are not allowed")
+  if (anyDuplicated(names(y))) stop("Duplicate names in y are not allowed")
+
   kind <- match.arg(kind, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
 
   if (!is.data.table(x)){
@@ -63,8 +66,8 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
       xx<-x
     } else{
      xx <- shallow(x)
-    }
-    yy <- shallow(y)
+  }
+  yy <- shallow(y)
 
   if (kind == "cross"){
         k <- NULL # Setting the variables to NULL first for CRAN check NOTE

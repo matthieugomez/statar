@@ -2,36 +2,29 @@
 \name{elapsed}
 \alias{as.monthly}
 \alias{as.quarterly}
-\alias{as.weekly}
 \alias{elapsed}
 \alias{is.monthly}
 \alias{is.quarterly}
-\alias{is.weekly}
-\alias{monthly,}
+\alias{monthly}
 \alias{quarterly,}
-\alias{weekly}
-\title{Elapsed dates (weekly, monthly, quarterly)}
+\title{Elapsed dates (monthly, quarterly)}
 \usage{
 as.quarterly(x)
 
 as.monthly(x)
 
-as.weekly(x)
-
 is.quarterly(x)
 
 is.monthly(x)
-
-is.weekly(x)
 }
 \arguments{
 \item{x}{a vector}
 }
 \description{
-Elapsed dates (weekly, monthly, quarterly)
+Elapsed dates (monthly, quarterly)
 }
 \details{
-Weekly, monthly and quarterly dates are stored as integers, representing the number of elapsed calendar periods since 01/01/1970.  As \code{yearmonth} and \code{yearqtr} the package \code{zoo}, these dates are printed in a way that fits their frequency  (\code{YYY}q\code{q}, \code{YYY}m\code{MM}, \code{YYY}w\code{WW}). The only difference is that \code{weekly}, \code{monthly}, and \code{quarterly} are integers, which removes issues due to floating points (particularly important when merging). This also allows to use arithmetic on perios, ie \code{date} + 1 adds one period rather than one day.
+Weekly, monthly and quarterly dates are stored as integers, representing the number of elapsed calendar periods since 01/01/1970.  As \code{yearmonth} and \code{yearqtr} the package \code{zoo}, these dates are printed in a way that fits their frequency  (\code{YYY}q\code{q}, \code{YYY}m\code{MM}). The only difference is that, \code{monthly}, and \code{quarterly} are integers, which removes issues due to floating points (particularly important when merging). This also allows to use arithmetic on perios, ie \code{date} + 1 adds one period rather than one day.
 
 Methods to convert from and to Dates or POSIXlt are provided. In particular, you may use lubridate \code{\link{week}} \code{\link{month}} and \code{\link{year}} to extract information from elapsed dates.
 }
@@ -40,7 +33,6 @@ library(lubridate)
 date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
 datem <- as.monthly(date)
 is.monthly(datem)
-as.weekly(date)
 as.quarterly(date)
 as.character(datem)
 datem + 1

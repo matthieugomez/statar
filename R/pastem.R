@@ -45,8 +45,8 @@ pastem <- function(..., sep = " ", pattern = "$", parenthesis.only = FALSE, env 
 
 #' @export
 #' @rdname pastem
-pastem0 <- function(..., pattern = "$"){
-  pastem(..., sep = "", pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+pastem0 <- function(..., env = parent.frame()){
+  pastem(..., sep = "", env = env)
 }
 
 string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
