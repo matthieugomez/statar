@@ -13,6 +13,9 @@
 #' roll_lag(x, sum, n = 2, along_with = along_with)
 #' roll_lead(x, sum, n = 1, along_with = along_with)
 #' roll_lead(x, sum, n = 2, along_with = along_with)
+#' @export
+#' @aliases roll_lag roll_lead
+#' @rdname roll
 roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, ...){
      if (!is.null(order_by)){
        return(with_order(order_by, roll_lag, x, FUN = FUN, n = n, ...))
@@ -37,6 +40,9 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, ...){
     }
 }
 
+
+#' @export
+#' @rdname roll
 roll_lead <- function(x, FUN, n, along_with = NULL,order_by = NULL, ...){
      if (!is.null(order_by)){
        return(with_order(order_by, roll_lead, x, FUN = FUN, n = n, ...))
