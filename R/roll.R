@@ -43,9 +43,9 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, ...){
 
 #' @export
 #' @rdname roll
-roll_lead <- function(x, FUN, n, along_with = NULL,order_by = NULL, ...){
+roll_lead <- function(x, FUN,  n, along_with = NULL,order_by = NULL, ...){
      if (!is.null(order_by)){
-       return(with_order(order_by, roll_lead, x, FUN = FUN, n = n, ...))
+       return(with_order(order_by, roll_lead, x, FUN = FUN,  n = n, ...))
     } else if (!is.null(along_with)){
         l <- length(along_with)
         ord <- order(along_with)
