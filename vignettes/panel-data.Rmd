@@ -69,11 +69,11 @@ These functions can be applied to any vector. In particular, they are intended t
 ```R
 DT <- data.table(
     id    = c(1, 1, 1, 2, 2),
-    year  = c(1992, 1989, 1991, 1992, 1991),
+    year  = c(1989, 1991, 1992, 1991, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-DT[, value_l := lag(value, along_with = year)]
-DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year)]
+DT[, value_l := lag(value, along_with = year), by = "id"]
+DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year), by = "id"]
 ```
 ## data.table functions
 
