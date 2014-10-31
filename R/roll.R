@@ -2,11 +2,10 @@
 #' 
 #' @param x a vector
 #' @param FUN function to apply
-#' @param n an integer. 
+#' @param n an integer specifying the rolling window
 #' @param order_by override the default ordering to use another vector
-#' @param along_with  use this variable to roll the function based on the  \code{[along_with - n, along_with]} rather than past \code{n} rows. 
-#' @param along_with Vector of numeric for dates. NA are not accepted
-#' @param ... options for the function
+#' @param along_with  use this variable to roll the function based on the  \code{[along_with - n, along_with]} rather than past \code{n} rows. NA are not accepted
+#' @param ... options to pass to the function \code{FUN}
 #' @examples
 #' along_with  = c(1, 2, 4, 7)
 #' x = c(1, 1, 1, 1)
@@ -31,14 +30,12 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, ...){
     } else{
         end <- seq_along(x)
         start <- pmax(end-n,0)
-
         return(mapply(function(start, end){
             index <- start:end
             FUN(x[index],...)
         }, start, end))
     }
 }
-
 
 roll_lead <- function(x, FUN, n, along_with = NULL,order_by = NULL, ...){
      if (!is.null(order_by)){

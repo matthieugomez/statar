@@ -19,7 +19,7 @@ lead(x, n = 1L, ...)
 
 \item{order_by}{override the default ordering to use another vector}
 
-\item{along_with}{use this variable as an index instead of the row number}
+\item{along_with}{use this variable to lag with respect to \code{n} \code{along_with} rather than \code{n} row}
 
 \item{units}{Deprecated. Use \code{elapsed_dates}}
 }
