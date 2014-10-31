@@ -58,7 +58,7 @@ year <- c(1989, 1991, 1992)
 value <- c(1, 1, 1)
 roll_lag(value, sum, n = 2, order_by = year) # rolling sum based on the two previous rows
 roll_lag(value, sum, n = 2, along_with = year) #  rolling sum based on dates in [year-2, year]
-roll_lag(value, sum, n = 2, along_with = year, closed= c(TRUE, FALSE) #  rolling sum based on dates in [year-2, year[
+roll_lag(value, sum, n = 2, along_with = year, closed= c(TRUE, FALSE)) #  rolling sum based on dates in [year-2, year[
 ```
 
 
