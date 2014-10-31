@@ -4,20 +4,21 @@
 \alias{roll_lead}
 \title{Apply rollling functions}
 \usage{
-roll_lag(x, FUN, n, along_with = NULL, order_by = NULL, ...)
-
-roll_lead(x, FUN, n, along_with = NULL, order_by = NULL, ...)
+roll_lag(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
+  TRUE), ...)
 }
 \arguments{
-\item{x}{a vector}
+\item{x}{a vector or matrix}
 
-\item{FUN}{function to apply}
+\item{FUN}{function to apply on \code{x}}
 
 \item{n}{an integer specifying the rolling window}
 
 \item{along_with}{use this variable to roll the function based on the  \code{[along_with - n, along_with]} rather than past \code{n} rows. NA are not accepted}
 
 \item{order_by}{override the default ordering to use another vector}
+
+\item{closed}{Logical of length 2 (recycled) Should interval be closed ? Default to c(TRUE, TRUE)}
 
 \item{...}{options to pass to the function \code{FUN}}
 }
@@ -27,9 +28,11 @@ Apply rollling functions
 \examples{
 along_with  = c(1, 2, 4, 7)
 x = c(1, 1, 1, 1)
+roll_lag(x,sum, n = 1, along_with = along_with)
 roll_lag(x, sum, n = 1, along_with = along_with)
 roll_lag(x, sum, n = 2, along_with = along_with)
 roll_lead(x, sum, n = 1, along_with = along_with)
 roll_lead(x, sum, n = 2, along_with = along_with)
+roll_lag(list(x,y), function(z){cor(z[[1]], z[[2]])},  n = 2, along_with = along_with)
 }
 

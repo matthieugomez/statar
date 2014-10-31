@@ -56,7 +56,7 @@ DT <- data.table(
 )
 setkeep(DT, list(id, v2))
 setkeep(DT, -id)
-setdropDT, v1)
+setdrop(DT, v1)
 ```
 
 ### Summarize
