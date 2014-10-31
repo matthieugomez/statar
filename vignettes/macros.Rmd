@@ -1,0 +1,84 @@
+---
+title: "statar"
+author: "Matthieu Gomez"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Macros}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+
+
+# String and expression interpolation
+
+
+## String interpolation
+
+ The functions `pastem` corresponds to string interpolations similarly to Stata and Julia.
+
+  ```R
+  name <- "Bob"
+  height <- 72
+  units <- "inches"
+  weight <- 230
+  pastem("My record indicates your height is $height $(units).")
+  #> [1] "My record indicates your height is 72 inches"
+  pastem("Your body mass index is $(round(703*weight/height^2,1))")
+  #> [1] "Your body mass index is 31.2"
+  a <- "ght"
+  pastem("My record indicates you are $(hei$a) inches tall")
+  #> [1] "My record indicates you are 72 inches tall"
+  ```
+  The option pattern allows to use a different pattern. 
+  ```R
+  pastem("My record indicates you are #height inches tall", pattern = "#")
+  #> [1] "My record indicates you are 72 inches tall"
+  ```
+
+  If you choose a common pattern, the option `parenthesis.only = TRUE` allows to replace only expressions enclosed in parenthesis. Note that only the first dot is replaced in the following string:
+
+  ```R
+  pastem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
+  #> [1] "You are 72 inches tall.This is below average."
+  ```
+
+## Expression interpolation
+
+ The function `quotem` implements expression interpolations.  The function `evalm` is a wrapper for `eval(quotem())`: it corresponds to Julia `@eval` and to Stata natural macros (although restricted to name substitutions).
+
+  ```R
+  library(statar)
+  library(data.table)
+  N <- 100
+  DT <- data.table(
+  id = sample(5, N, TRUE),
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+  )
+  newvar <- quote(temp)
+  myvar <- quote(v1)
+  byvar <- c("id", "v1")
+  quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+  #> DT[, list(temp = mean(v1)), by = c("id", "v1")]
+  evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+  #>    id v1 temp
+  #> 1:  2  4    4
+  #> 2:  5  5    5
+  #> 3:  4  5    5
+  #> 4:  1  3    3
+  #> 5:  5  2    2
+  #> 6:  3  4    4
+  #> 7:  3  5    5
+  #> 8:  3  1    1
+  ```
+
+  Note that names starting with the pattern `$`  must be enclosed in backquotes to be considered valid names in R.
+
+
+
+
+
+
+

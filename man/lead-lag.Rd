@@ -8,7 +8,7 @@
 lead(x, n = 1L, ...)
 
 \method{lag}{default}(x, n = 1L, order_by = NULL, along_with = NULL,
-  units = NULL, ...)
+  units = NULL, default = NA, ...)
 }
 \arguments{
 \item{x}{a vector of values}

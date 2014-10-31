@@ -33,7 +33,7 @@ lead <- function(x, n = 1L, ...) {
 
 #' @export
 #' @rdname lead-lag
-lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, ...){ 
+lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...){ 
   if (is.null(along_with)){
     dplyr::lag(x = x, n = n, order_by = order_by, ...)
   } else {
