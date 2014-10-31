@@ -16,7 +16,7 @@ vignette: >
 
 ## Elapsed dates
 
-The classes "monthly", "quarterly"  print as dates and are compatible with usual time extraction (ie `month`, `year`, etc). Yet, they are stored as integers representing the number of elapsed periods since 1970/01/0 (resp in week, months, quarters). This is particularly handy for simple algebra:
+The classes "monthly" and "quarterly"  print as dates and are compatible with usual time extraction (ie `month`, `year`, etc). Yet, they are stored as integers representing the number of elapsed periods since 1970/01/0 (resp in week, months, quarters). This is particularly handy for simple algebra:
 
 ```R
  # elapsed dates
@@ -37,9 +37,7 @@ The classes "monthly", "quarterly"  print as dates and are compatible with usual
 
 ## Vector functions
 
-I include vector functions to compute lag or rolling functions.
-
-`lag`/`lead` create lag/lead variables along a time variable
+`lag`/`lead` a vector along a time variable
 
 ```R
 year <- c(1989, 1991, 1992)
@@ -53,7 +51,7 @@ value <- c(4.1, 4.5, 3.3)
 lag(value, along_with = datem) 
 ```
 
-`roll_lag`/`roll_lead` apply a function along a time variable
+`roll_lag`/`roll_lead` apply a function on a vector over a window defined by a time variable
 
 ```R
 year <- c(1989, 1991, 1992)
@@ -63,7 +61,7 @@ roll_lag(value, sum, n = 2, along_with = year) #  rolling window based on dates 
 ```
 
 
-These functions can be applied to any vector. In particular, they are intended to be used within `mutate` or `data.table`, i.e. within groups.
+Since these functions can be applied to any vector (in constrast to `zoo` and `xts`), they can be used *within groups*. For instance, using `data.table`:
 
 
 ```R
@@ -72,8 +70,8 @@ DT <- data.table(
     year  = c(1989, 1991, 1992, 1991, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-DT[, value_l := lag(value, along_with = year), by = "id"]
-DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year), by = "id"]
+DT[, value_l := lag(value, along_with = year), by = id]
+DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year), by = id]
 ```
 ## data.table functions
 
