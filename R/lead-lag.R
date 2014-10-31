@@ -25,6 +25,9 @@ NULL
 #' @export
 #' @rdname lead-lag
 lead <- function(x, n = 1L, ...) {
+  if (is.null(along_with)){
+    dplyr::lead(x = x, n = n, ...)
+  }
   lag(x, n=-n, ...)
 }
 
@@ -32,12 +35,9 @@ lead <- function(x, n = 1L, ...) {
 #' @export
 #' @rdname lead-lag
 lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = NULL, default = NA, ...) { 
-  if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
-  if (!is.null(order_by)) {
-    if (!is.null(along_with))  stop("order_by cannot be used with along_with")
-    if (!is.null(units))  stop("order_by cannot be used with units")
-    return(with_order(order_by, lag, x, n = n, default = default))
- }
+  if (is.null(along_with)){
+    dplyr::lag(x = x, n = n, order_by = order_by, default = NA, ...)
+  }
   if (!is.null(along_with)) {
     if (!is.null(units)){
       warning(paste0("units is deprecated. Convert to elapsed date with as(",units,")"))
@@ -51,14 +51,8 @@ lag.default <- function(x, n = 1L, order_by = NULL, along_with = NULL, units = N
       index <- match(along_with - n, along_with, incomparables = NA)
     }
 
-    out <- x[index]
-    if (!is.na(default)) out[which(is.na(index))] <- default
-  } else{
-    if (!is.null(units)) stop("Units is specified but along_with is not specified")
-    xlen <- length(x)
-    n <- pmin(n, xlen)
-    out <- c(rep(default, n), x[seq_len(xlen - n)])
-  }
+  out <- x[index]
+  if (!is.na(default)) out[which(is.na(index))] <- default
   attributes(out) <- attributes(x)
   out
 }

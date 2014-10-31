@@ -39,7 +39,7 @@ setroll_<- function(x, funs, vars, n, along_with, i = NULL, by = NULL){
 
     # set key and check no duplicate along id and along_with
     setkeyv(x, c(byvars, along_with))
-    if (anyDuplicated(x)) stop("variables", byvars, along_with, "don't uniquely identify observations")
+    if (anyDuplicated(x)) stop(paste("variables", byvars, along_with, "don't uniquely identify observations"))
     DTx <- shallow_(x, c(byvars, along_with)) 
     DTy <- shallow_(x, c(byvars, along_with, varsname)) 
 	if (!is.null(i)){
@@ -121,7 +121,25 @@ setroll_<- function(x, funs, vars, n, along_with, i = NULL, by = NULL){
 
 
 
-roll <- function(id, funs){
-    index <- match(along_with + n, along_with, incomparables = NA)
+roll <- function(value, f, n, along_with){
+    sapply(along_with, function(x){
+        index <- fmatch((x-n):x, nomatch = 0, along_with)
+        index <- index[index>0]
+        c(f(value[index], length(index)))})
+}
+
+N <- 2e6
+DT <- data.table(
+         date = sample(10, N, TRUE),
+           id = sample(1e5, N, TRUE),   
+        value = sample(1e6, N, TRUE)                   
+)
+DT <- unique(DT, by = c("id", "date"))
+system.time(DT[, roll(value, sum, 2, along_with = date), by = id])
+system.time(DT[, roll(value, sum, 2, within = date, order_by = date), by = id])
 
 
+system.time(setroll(DT, funs(sum), value, n = 2,  along_with = date))
+
+
+    setroll(DT1, funs(sum), value, n = -2,  along_with = date)

@@ -25,23 +25,30 @@ duplicates_ <- function(x, vars, by = NULL, gen = "N"){
   if (anyDuplicated(names))  stop("x has duplicate column names")
   dots <- lazyeval::all_dots(vars)
   byvars <- names(select_vars_(names, by))
-  if (length(byvars)==0){
-    byvars <- copy(names)
+  if (!length(byvars)){
+    if (length(key(x))){
+      byvars <- key(x)
+    } else{
+      byvars <- names(x)
+    }
   }
   vars <- names(select_vars_(names, dots, exclude = byvars))
-  x[, (gen) := .N-1,  by = c(byvars)]
-  on.exit(x[, (gen) := NULL])
-  ans <- eval(substitute(x[NN>0, c(gen, byvars, vars), with = FALSE], list(NN = as.name(gen))))
-  length <- nrow(ans)
-  if (length >0){
+  if (length(vars)==0){
+    vars <- setdiff(names(x), byvars)
+  }
+
+  ans <- DT[, .I[.N>1L], by=c(byvars)]
+  ans <- ans[[length(ans)]]
+  ans <- x[ans, c(byvars, vars), with = FALSE]
+  n_groups <- nrow(unique(ans, by = byvars))
+  message(paste(n_groups,"groups have duplicates"))
+
+  if (nrow(ans)){
+    ans[, c(gen) := .N, by = c(byvars)]
     setkeyv(ans, c(gen, byvars))
-    n_groups <- length- sum(duplicated(ans))
-    message(paste(n_groups,"groups have duplicates"))
     setcolorder(ans, c(gen, byvars, setdiff(names(ans), c(byvars, gen))))
-    return(ans)
   }
-  else{
-    message("There are no duplicates")
-  }
+  return(ans[])
+
 }
 

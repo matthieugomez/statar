@@ -195,19 +195,30 @@ The classes "weekly", "monthly", "quarterly"  print as dates and are compatible 
 ```
 
 
-The package also includes three functions can then be used on daily dates, years, or elapsed dates (see ?elapsed)
+lag/lead create lag/lead variables (corresponds to Stata L. F.). 
 
 ```R
-# lag/lead create lag/lead variables (corresponds to Stata L. F.)
-year <- c(1992, 1989, 1991)
+year <- c(1989, 1991, 1992)
 value <- c(4.1, 4.5, 3.3)
 lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
 lag(value, 1, along_with = year) #  returns value in year - 1
 library(lubridate)
-date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))
+date <- mdy(c("01/04/1992", "03/15/1992", "04/03/1992"))
 datem <- as.monthly(date)
-value <- c(4.1, 4.5, 3.3, 5.3)
+value <- c(4.1, 4.5, 3.3)
 lag(value, along_with = datem) 
+```
+
+roll applies a function along a time variable
+
+```R
+year <- c(1989, 1991, 1992)
+value <- c(1, 1, 1)
+roll(value, sum, n = 2, order_by = year) # based on the two previous rows
+roll(value, sum, n = 2, along_with = year) # based on [year-2, year]
+```
+
+These functions can be used within a call to `mutate` or `data.table`, ie "by" group
 
 fill_gap fills in gaps in a data.table time variable (corresponds to Stata tsfill)
 
@@ -242,18 +253,6 @@ setna(DT2, value, rollends = TRUE)
 setna(DT3, value, roll = "nearest")
 ```
 
-setroll applies a rolling function along a time variable
-
-```R
-DT <- data.table(
-  id = c(1, 1, 1, 1)
- date =  c(1,2,4,7),
- value =  c(1,1,1,1)
-)
-DT1 <- copy(DT)
-setroll(DT, funs(count = sum), value, n = 2,  along_with = date)
-setroll(DT1, funs(count = sum), value, n = -2,  along_with = date)
-```
 
 ## Visual exploration
 
