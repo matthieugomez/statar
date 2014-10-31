@@ -22,7 +22,13 @@ quotem_(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
   inherits = FALSE)
 }
 \arguments{
+\item{...}{Paste multiple strings}
+
+\item{sep}{a character string to separate the terms.}
+
 \item{pattern}{pattern to use. Default to \code{$}}
+
+\item{parenthesis.only}{Limit patterns within parenthesis?}
 
 \item{env}{environment in which to evalute the expressions enclosed in patterns. Default to current environement}
 
@@ -49,11 +55,10 @@ height <- 72
 units <- "inches"
 weight <- 230
 a <- "ght"
-pastem("My record indicates you are $height $(units).",
-         "Your body mass index is $(round(703*weight/height^2))",
-         "My record indicates you are $(hei$a) inches tall")
+pastem("My record indicates you are $height $(units).")
+pastem("Your body mass index is $(round(703*weight/height^2))")
+pastem("My record indicates you are $(hei$a) inches tall")
 pastem("You are .(height) inches tall.This is below average", pattern = ".")
-pastem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
 a <- ".This"
 pastem("You are .(height) inches tall.a is below average", pattern = ".")
 library(data.table)

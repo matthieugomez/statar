@@ -37,7 +37,7 @@ duplicates_ <- function(x, vars, by = NULL, gen = "N"){
     vars <- setdiff(names(x), byvars)
   }
 
-  ans <- DT[, .I[.N>1L], by=c(byvars)]
+  ans <- x[, .I[.N>1L], by=c(byvars)]
   ans <- ans[[length(ans)]]
   ans <- x[ans, c(byvars, vars), with = FALSE]
   n_groups <- nrow(unique(ans, by = byvars))

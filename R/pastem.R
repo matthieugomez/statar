@@ -3,6 +3,9 @@
 #' @param env environment in which to evalute the expressions enclosed in patterns. Default to current environement
 #' @param inherits Default to FALSE
 #' @param pattern pattern to use. Default to \code{$}
+#' @param parenthesis.only Limit patterns within parenthesis?
+#' @param sep   a character string to separate the terms.
+#' @param ... Paste multiple strings
 #' @return 
 #' The functions \code{pastem} does string interpolations.
 #' The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) LHS of `=` is also substituted.
@@ -16,11 +19,10 @@
 #' units <- "inches"
 #' weight <- 230
 #' a <- "ght"
-#' pastem("My record indicates you are $height $(units).",
-#'          "Your body mass index is $(round(703*weight/height^2))",
-#'          "My record indicates you are $(hei$a) inches tall")
+#' pastem("My record indicates you are $height $(units).")
+#' pastem("Your body mass index is $(round(703*weight/height^2))")
+#' pastem("My record indicates you are $(hei$a) inches tall")
 #' pastem("You are .(height) inches tall.This is below average", pattern = ".")
-#' pastem("You are .(height) inches tall.This is below average", pattern = ".", parenthesis.only = TRUE)
 #' a <- ".This"
 #' pastem("You are .(height) inches tall.a is below average", pattern = ".")
 #' library(data.table)
@@ -36,7 +38,6 @@
 #' quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 #' evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
 #' @export
-#' @rdname pastem
 pastem <- function(..., sep = " ", pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
   l <- sapply(list(...), function(x){string_interpolation(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]]})
   paste(l, collapse = sep)
@@ -94,7 +95,7 @@ eval_character <- function(x, env = parent.frame(), inherits = FALSE){
       if (class(x)=="lazy"){
         return(lazy_eval(x_expr))
       } else if (!is.null(environment(x))){
-        return(eval(x, env = environment(x), inherits = inherits))
+        return(get(x, envir = environment(x), inherits = inherits))
       } else{
         return(get(x, envir = env, inherits = inherits))
       }
@@ -103,9 +104,9 @@ eval_character <- function(x, env = parent.frame(), inherits = FALSE){
     } 
   } else if (typeof(x_expr)== "language"){
     if (inherits){
-      return(eval(x_expr, env = env))
+      return(eval(x_expr, envir = env))
     } else{
-      return(eval(x_expr, env = env, enclos = env))
+      return(eval(x_expr, envir = env, enclos = env))
     }
   } else{
     return("")
@@ -133,12 +134,14 @@ evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame
   eval(quotem_(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits), parent.frame())
 }
 
+#' @export
 #' @rdname pastem
 quotem <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
   x <- substitute(x)
   quotem_(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
 }
 
+#' @export
 #' @rdname pastem
 quotem_ <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
   # first replace all names

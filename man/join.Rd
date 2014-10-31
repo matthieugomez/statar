@@ -25,6 +25,8 @@ join(x, y, on = intersect(names(x), names(y)), kind = "outer",
 \item{inplace}{A boolean. In case "kind"= "left" and RHS of check is 1, the merge can be one in-place.}
 
 \item{update}{A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y.}
+
+\item{type}{Deprecated}
 }
 \value{
 A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.

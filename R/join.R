@@ -9,6 +9,7 @@
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @param inplace A boolean. In case "kind"= "left" and RHS of check is 1, the merge can be one in-place. 
 #' @param update A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y. 
+#' @param type Deprecated
 #' @return A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
 #' library(data.table)
@@ -58,6 +59,13 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
     stop(" The option gen only makes sense for left, right and outer joins", call. = FALSE)
   }
 
+  if (inplace){
+      xx<-x
+    } else{
+     xx <- shallow(x)
+    }
+    yy <- shallow(y)
+
   if (kind == "cross"){
         k <- NULL # Setting the variables to NULL first for CRAN check NOTE
         DT_output <- setkey(x[,c(k=1, .SD)],k)[y[, c(k = 1,.SD)], allow.cartesian = TRUE][,k := NULL]
@@ -74,53 +82,49 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
     if (length(intersect(paste0(common_names, suffixes[1]), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix",suffixes[1],"in", common_names,"would create duplicates names in x"), call. = FALSE)
     if (length(intersect(paste0(common_names, suffixes[2]), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix",suffixes[2],"in", common_names,"would create duplicates names in y"), call. = FALSE)
     if (length(common_names)>0){
-      setnames(x, common_names, paste0(common_names, suffixes[1]))
-      setnames(y, common_names, paste0(common_names, suffixes[2]))
-      on.exit(setnames(y, paste0(common_names, suffixes[2]), common_names))
-      on.exit(setnames(x, paste0(common_names, suffixes[1]), common_names), add = TRUE)
+      setnames(xx, common_names, paste0(common_names, suffixes[1]))
+      setnames(yy, common_names, paste0(common_names, suffixes[2]))
     }
 
     # set keys and check duplicates
-    key_x <- key(x)
-    key_y <- key(y)
-    setkeyv(x, vars)
-    setkeyv(y, vars)
+    key_xx <- key(xx)
+    key_yy <- key(yy)
+    setkeyv(xx, vars)
+    setkeyv(yy, vars)
   
-    on.exit(setkeyv(x, key_x), add = TRUE)
-    on.exit(setkeyv(y, key_y), add = TRUE)
+    on.exit(setkeyv(xx, key_xx), add = TRUE)
+    on.exit(setkeyv(yy, key_yy), add = TRUE)
 
     if (check[[2]] == 1){
-       if (anyDuplicated(x)){ 
+       if (anyDuplicated(xx)){ 
          stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in x"), call. = FALSE)
        }
      }
 
     if (check[[3]] == 1){
-     if (anyDuplicated(y)){ 
+     if (anyDuplicated(yy)){ 
        stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in y"), call. = FALSE)
      }
     }
     if (kind %in% c("left", "right", "outer", "inner")){
       if (!gen == FALSE){
-        if (gen %chin% names(x)){
+        if (gen %chin% names(xx)){
           stop(paste0(gen," alreay exists in master"))
         }
-        if (gen %chin% names(y)){
+        if (gen %chin% names(yy)){
           stop(paste0(gen," alreay exists in using"))
         }
-        idm <- tempname(c(names(x),names(y),gen))
-        x[, c(idm) := 1L]
-        idu <- tempname(c(names(x),names(y),gen,idm))
-        y[, c(idu) := 1L]
-        on.exit(x[, c(idm) := NULL], add = TRUE)
-        on.exit(y[, c(idu) := NULL], add = TRUE) 
+        idm <- tempname(c(names(xx),names(yy),gen))
+        xx[, c(idm) := 1L]
+        idu <- tempname(c(names(xx),names(yy),gen,idm))
+        yy[, c(idu) := 1L]
       }
 
       if (inplace){
-        lhs = setdiff(names(y), vars)
+        lhs = setdiff(names(yy), vars)
         v <- lapply(paste0("i.",lhs), as.name)
         call <- as.call(c(quote(list), v)) 
-        call <- substitute(x[y,(lhs) := v], list(v = call))
+        call <- substitute(x[yy,(lhs) := v], list(v = call))
         eval(call)
         if (!gen == FALSE){
           x[, c(gen) := 3L]
@@ -128,9 +132,6 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
           x[, c(idu) := NULL]
         }
         DT_output <- x
-        if (inplace && (length(common_names)>0)){
-          on.exit(setnames(x, common_names, paste0(common_names, suffixes[1])), add = TRUE)
-        }
       } else{
         all.x <- FALSE
         all.y <- FALSE
@@ -140,7 +141,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
         if (kind == "right" | kind == "outer"){
           all.y = TRUE
         }
-        DT_output <- merge(x, y, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)
+        DT_output <- merge(xx, yy, all.x = all.x, all.y= all.y, allow.cartesian= TRUE)
         if (gen != FALSE){
           DT_output[, c(gen) := 3L]
           eval(substitute(DT_output[is.na(v), c(gen) := 1L], list(v = as.name(idu))))
@@ -160,15 +161,15 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
         }
         setnames(DT_output, paste0(common_names, suffixes[1]), common_names)
       }
-      return(DT_output)
+      return(DT_output[])
     } else if (kind == "semi"){
-        w <- unique(x[y, which = TRUE, allow.cartesian = TRUE])
+        w <- unique(xx[yy, which = TRUE, allow.cartesian = TRUE])
         w <- w[!is.na(w)]
-        DT_output <- x[w]
-        return(DT_output)
+        DT_output <- xx[w]
+        return(DT_output[])
     } else if (kind == "anti"){
-        DT_output <- x[!y, allow.cartesian = TRUE]
-        return(DT_output)
+        DT_output <- xx[!yy, allow.cartesian = TRUE]
+        return(DT_output[])
     }
   }
 

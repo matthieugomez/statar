@@ -18,7 +18,7 @@ shallow <- function(x,...){
 shallow_ <- function(x, vars) {
     vars <- names(select_vars_(names(x), vars))
     if (length(vars) == 0) {
-       vars <- setdiff(names(x),c(byvars, along_with))
+       vars <- names(x)
     }
     out = as.list(x)[vars]
     setDT(out)
