@@ -39,13 +39,13 @@ The classes "weekly", "monthly", "quarterly"  print as dates and are compatible 
 
 I include vector functions to compute lag or rolling functions.
 
-`lag`/`lead` create lag/lead variables (corresponds to Stata L. F.). 
+`lag`/`lead` create lag/lead variables along a time variable
 
 ```R
 year <- c(1989, 1991, 1992)
 value <- c(4.1, 4.5, 3.3)
-lag(value, 1, order_by = year) # returns value in previous year, like  dplyr::lag
-lag(value, 1, along_with = year) #  returns value in year - 1
+lag(value, 1, order_by = year) # lag based on previous row
+lag(value, 1, along_with = year) #  lag based on previous year - 1
 library(lubridate)
 date <- mdy(c("01/04/1992", "03/15/1992", "04/03/1992"))
 datem <- as.monthly(date)

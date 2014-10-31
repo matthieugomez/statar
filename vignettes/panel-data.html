@@ -788,7 +788,7 @@ body .markdown-body
   margin: 0 4px 0.25em -20px;
   vertical-align: middle;
 }
-</style><title>panel data</title></head><body><article class="markdown-body"><hr>
+</style><title>panel-data</title></head><body><article class="markdown-body"><hr>
 
 <p>title: "statar"<br>
 author: "Matthieu Gomez"<br>
@@ -825,12 +825,12 @@ vignette: &gt;<br>
 
 <p>I include vector functions to compute lag or rolling functions.</p>
 
-<p><code>lag</code>/<code>lead</code> create lag/lead variables (corresponds to Stata L. F.). </p>
+<p><code>lag</code>/<code>lead</code> create lag/lead variables along a time variable</p>
 
 <div class="highlight highlight-R"><pre>year <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1992</span><span class="p">)</span>
 value <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">)</span>
-lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> order_by <span class="o">=</span> year<span class="p">)</span> <span class="c1"># returns value in previous year, like  dplyr::lag</span>
-lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> along_with <span class="o">=</span> year<span class="p">)</span> <span class="c1">#  returns value in year - 1</span>
+lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> order_by <span class="o">=</span> year<span class="p">)</span> <span class="c1"># lag based on previous row</span>
+lag<span class="p">(</span>value<span class="p">,</span> <span class="m">1</span><span class="p">,</span> along_with <span class="o">=</span> year<span class="p">)</span> <span class="c1">#  lag based on previous year - 1</span>
 <span class="kn">library</span><span class="p">(</span>lubridate<span class="p">)</span>
 date <span class="o">&lt;-</span> mdy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"01/04/1992"</span><span class="p">,</span> <span class="s">"03/15/1992"</span><span class="p">,</span> <span class="s">"04/03/1992"</span><span class="p">))</span>
 datem <span class="o">&lt;-</span> as.monthly<span class="p">(</span><span class="kp">date</span><span class="p">)</span>
@@ -846,15 +846,15 @@ roll_lag<span class="p">(</span>value<span class="p">,</span> <span class="kp">s
 roll_lag<span class="p">(</span>value<span class="p">,</span> <span class="kp">sum</span><span class="p">,</span> n <span class="o">=</span> <span class="m">2</span><span class="p">,</span> along_with <span class="o">=</span> year<span class="p">)</span> <span class="c1">#  rolling window based on dates in [year-2, year]</span>
 </pre></div>
 
-<p>Since these functions can be applied to any vector, they can in particular be used within <code>mutate</code> or <code>data.table</code>, i.e. within groups.</p>
+<p>These functions can be applied to any vector. In particular, they are intended to be used within <code>mutate</code> or <code>data.table</code>, i.e. within groups.</p>
 
 <div class="highlight highlight-R"><pre>DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
     id    <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>
-    year  <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1992</span><span class="p">,</span> <span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1992</span><span class="p">,</span> <span class="m">1991</span><span class="p">),</span>
+    year  <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1989</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1992</span><span class="p">,</span> <span class="m">1991</span><span class="p">,</span> <span class="m">1992</span><span class="p">),</span>
     value <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">4.1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">,</span> <span class="m">3.3</span><span class="p">,</span> <span class="m">3.2</span><span class="p">,</span> <span class="m">5.2</span><span class="p">)</span>
 <span class="p">)</span>
-DT<span class="p">[,</span> value_l <span class="o">:=</span> lag<span class="p">(</span>value<span class="p">,</span> along_with <span class="o">=</span> year<span class="p">)]</span>
-DT<span class="p">[,</span> value_ma <span class="o">:=</span> roll_lag<span class="p">(</span>value<span class="p">,</span> <span class="kp">mean</span><span class="p">,</span> n <span class="o">=</span> <span class="m">3</span><span class="p">,</span> along_with <span class="o">=</span> year<span class="p">)]</span>
+DT<span class="p">[,</span> value_l <span class="o">:=</span> lag<span class="p">(</span>value<span class="p">,</span> along_with <span class="o">=</span> year<span class="p">),</span> by <span class="o">=</span> <span class="s">"id"</span><span class="p">]</span>
+DT<span class="p">[,</span> value_ma <span class="o">:=</span> roll_lag<span class="p">(</span>value<span class="p">,</span> <span class="kp">mean</span><span class="p">,</span> n <span class="o">=</span> <span class="m">3</span><span class="p">,</span> along_with <span class="o">=</span> year<span class="p">),</span> by <span class="o">=</span> <span class="s">"id"</span><span class="p">]</span>
 </pre></div>
 
 <h2>data.table functions</h2>
