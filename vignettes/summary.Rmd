@@ -46,7 +46,7 @@ demean(c(1,2), fe = list(c(NA,2), c(1,3)))
 
 ## data.table functions
 
-### Keep and drop
+### Keep and remove
 
 setkeep and setdrop keeps certain columns inplace
 
@@ -58,10 +58,10 @@ DT <- data.table(
 )
 setkeep(DT, id, v2)
 setkeep(DT, -id)
-setdrop(DT, v1)
+setdiscard(DT, v1)
 ```
 
-keep and drop create a new table with certain columns
+keep and discard create a new table with certain columns
 ```R
 DT <- data.table(
   id = c(1,2),
@@ -70,11 +70,11 @@ DT <- data.table(
 )
 keep(DT, id, v2)
 keep(DT, -id)
-drop(DT, v1)
+discard(DT, v1)
 ```
 
 
-`keep_if` and `drop_if` create a new table with certain rows
+`keep_if` and `discard_if` create a new table with certain rows
 ```R
 DT <- data.table(
   id = c(1,2,1),
@@ -82,11 +82,11 @@ DT <- data.table(
 )
 keep_if(DT, v1 == 1)
 keep_if(DT, v1 == min(v1), by = id)
-drop_if(DT, v1 == 1)
-drop_if(DT, v1 == min(v1), by = id)
+discard_if(DT, v1 == 1)
+discard_if(DT, v1 == min(v1), by = id)
 ```
 
-`drop_if(condition)` differs from `keep_if(!(condition))`: it keeps rows where the condition evaluates to `NA`.
+`discard_if(condition)` differs from `keep_if(!(condition))`: it keeps rows where the condition evaluates to `NA`.
 ### Summarize
 
 ```R

@@ -24,14 +24,14 @@ setkeep_ <- function(x, vars){
 	dots <- lazyeval::all_dots(vars)
 	vars <- names(select_vars_(names(x), dots))
 	if (!length(vars))  vars <- names(x)
-	drop <- setdiff(names(x), vars)
-	if (length(drop)>0){
+	discard <- setdiff(names(x), vars)
+	if (length(discard)>0){
 		x[, c(drop) := NULL]
 	}
 }
 
 
-#' Drop certain columns in place 
+#' discard certain columns in place 
 #'
 #' @param x a data.table 
 #' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
@@ -43,19 +43,19 @@ setkeep_ <- function(x, vars){
 #'   v1 = c(1,1),
 #'   v2 = c(2,1)
 #' )
-#' setdrop(DT, id)
+#' setdiscard(DT, id)
 #' @export
-setdrop <- function(x, ...){
-	setdrop_(x = x, vars = lazyeval::lazy_dots(...))
+setdiscard <- function(x, ...){
+	setdiscard_(x = x, vars = lazyeval::lazy_dots(...))
 }
 #' @export
-#' @rdname setdrop
-setdrop_ <- function(x, vars){
+#' @rdname setdiscard
+setdiscard_ <- function(x, vars){
 	stopifnot(is.data.table(x))
 	dots <- lazyeval::all_dots(vars)
 	vars <- names(select_vars_(names(x), dots))
 	if (!length(vars))  vars <- names(x)
-	if (length(drop)>0){
+	if (length(discard)>0){
 		x[, c(vars) := NULL]
 	}
 }
@@ -90,7 +90,7 @@ keep_ <- function(x, vars){
 }
 
 
-#' Create a new data.table by dropping certain columns 
+#' Create a new data.table by discarding certain columns 
 #'
 #' @param x a data.table 
 #' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
@@ -102,22 +102,16 @@ keep_ <- function(x, vars){
 #'   v1 = c(1,1),
 #'   v2 = c(2,1)
 #' )
-#' drop(DT, id, v2)
-#' drop(DT, -id)
+#' discard(DT, id, v2)
+#' discard(DT, -id)
 #' @export
-drop <- function(x, ...) {
-  UseMethod("drop")
-}
-drop.data.table <- function(x, ...){
-	drop_(x = x, vars = lazyeval::lazy_dots(...))
-}
-drop.default <- function(x, ...){
-	base::drop(x)
+discard <- function(x, ...){
+	discard_(x = x, vars = lazyeval::lazy_dots(...))
 }
 
 #' @export
-#' @rdname drop
-drop_ <- function(x, vars){
+#' @rdname discard
+discard_ <- function(x, vars){
 	stopifnot(is.data.table(x))
 	dots <-  lazyeval::all_dots(vars)
 	vars <- names(select_vars_(names(x), dots))
@@ -165,10 +159,10 @@ keep_if_ <- function(x, .dots, by){
 
 
 
-#' Create new data.table by dropping certain rows
+#' Create new data.table after discarding certain rows
 #'
 #' @param x a data.table 
-#' @param ... Conditions. Rows where the condition evaluates to NA are not dropped. Therefore, \code{drop_if(dt, condition)} is not the same as \code{keep_if(x, !condition)} with 
+#' @param ... Conditions. Rows where the condition evaluates to NA are not discardd. Therefore, \code{discard_if(dt, condition)} is not the same as \code{keep_if(x, !condition)} with 
 #' @param by groups in which the condition should be evaluated
 #' @param .dots Used to work around non-standard evaluation.
 #' @examples
@@ -177,16 +171,16 @@ keep_if_ <- function(x, .dots, by){
 #'   id = c(1,2,1),
 #'   v1 = c(1,NA,2)
 #' )
-#' drop_if(DT, v1 == 1)
-#' drop_if(DT, v1 == min(v1), by = id)
+#' discard_if(DT, v1 == 1)
+#' discard_if(DT, v1 == min(v1), by = id)
 #' @export
-drop_if <- function(x, ..., by = NULL){
-	drop_if_(x = x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
+discard_if <- function(x, ..., by = NULL){
+	discard_if_(x = x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
 }
 
 #' @export
-#' @rdname drop_if
-drop_if_ <- function(x, .dots, by){
+#' @rdname discard_if
+discard_if_ <- function(x, .dots, by){
 	stopifnot(is.data.table(x))
 	byvars <- names(select_vars_(names(x), by))
 	if (!length(by)){
