@@ -47,18 +47,47 @@ demean(c(1,2), fe = list(c(NA,2), c(1,3)))
 ## data.table functions
 
 ### Keep and drop
+
+setkeep and setdrop keeps certain columns inplace
+
 ```R
-# setkeep keeps certain columns inplace
 DT <- data.table(
   id = c(1,2),
   v1 = c(1,1),
   v2 = c(2,1)
 )
-setkeep(DT, list(id, v2))
+setkeep(DT, id, v2)
 setkeep(DT, -id)
 setdrop(DT, v1)
 ```
 
+keep and drop create a new table with certain columns
+```R
+DT <- data.table(
+  id = c(1,2),
+  v1 = c(1,1),
+  v2 = c(2,1)
+)
+keep(DT, id, v2)
+keep(DT, -id)
+drop(DT, v1)
+```
+
+
+`keep_if` and `drop_if` create a new table with certain rows
+```R
+DT <- data.table(
+  id = c(1,2),
+  v1 = c(1,1),
+  v2 = c(2,1)
+)
+keep_if(DT, v1 == 1)
+keep_if(DT, v1 == min(v1), by = id)
+drop_if(DT, v1 == 1)
+drop_if(DT, v1 == min(v1), by = id)
+```
+
+`drop_if(condition)` differs from `keep_if(!condition)`: it keeps rows where the condition evaluates to `NA`, 
 ### Summarize
 
 ```R
@@ -73,14 +102,11 @@ sum_up(DT)
 sum_up(DT, v2, d = TRUE)
 sum_up(DT, starts_with("v"), by = v1)
 
-# tab returns cross tabulation table (faster than tabulate)
-tab(DT, id)
-tab(DT, id, v1, w = v2)
 
 # duplicates returns duplicated rows
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-duplicates(DT, by = a)
-duplicates(DT, by = list(a,b))
+duplicates(DT, a)
+duplicates(DT, a, b)
 ```
 
 

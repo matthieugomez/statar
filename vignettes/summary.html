@@ -835,17 +835,44 @@ demean<span class="p">(</span><span class="kt">c</span><span class="p">(</span><
 
 <h3>Keep and drop</h3>
 
-<div class="highlight highlight-R"><pre><span class="c1"># setkeep keeps certain columns inplace</span>
-DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+<p>setkeep and setdrop keeps certain columns inplace</p>
+
+<div class="highlight highlight-R"><pre>DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
   id <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span>
   v1 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
   v2 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
 <span class="p">)</span>
-setkeep<span class="p">(</span>DT<span class="p">,</span> <span class="kt">list</span><span class="p">(</span>id<span class="p">,</span> v2<span class="p">))</span>
+setkeep<span class="p">(</span>DT<span class="p">,</span> id<span class="p">,</span> v2<span class="p">)</span>
 setkeep<span class="p">(</span>DT<span class="p">,</span> <span class="o">-</span>id<span class="p">)</span>
-
-setdropDT<span class="p">,</span> id<span class="p">)</span>
+setdrop<span class="p">(</span>DT<span class="p">,</span> v1<span class="p">)</span>
 </pre></div>
+
+<p>keep and drop create a new table with certain columns</p>
+
+<div class="highlight highlight-R"><pre>DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+  id <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span>
+  v1 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
+  v2 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+<span class="p">)</span>
+keep<span class="p">(</span>DT<span class="p">,</span> id<span class="p">,</span> v2<span class="p">)</span>
+keep<span class="p">(</span>DT<span class="p">,</span> <span class="o">-</span>id<span class="p">)</span>
+<span class="kp">drop</span><span class="p">(</span>DT<span class="p">,</span> v1<span class="p">)</span>
+</pre></div>
+
+<p><code>keep_if</code> and <code>drop_if</code> create a new table with certain rows</p>
+
+<div class="highlight highlight-R"><pre>DT <span class="o">&lt;-</span> data.table<span class="p">(</span>
+  id <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">),</span>
+  v1 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
+  v2 <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+<span class="p">)</span>
+keep_if<span class="p">(</span>DT<span class="p">,</span> v1 <span class="o">==</span> <span class="m">1</span><span class="p">)</span>
+keep_if<span class="p">(</span>DT<span class="p">,</span> v1 <span class="o">==</span> <span class="kp">min</span><span class="p">(</span>v1<span class="p">),</span> by <span class="o">=</span> id<span class="p">)</span>
+drop_if<span class="p">(</span>DT<span class="p">,</span> v1 <span class="o">==</span> <span class="m">1</span><span class="p">)</span>
+drop_if<span class="p">(</span>DT<span class="p">,</span> v1 <span class="o">==</span> <span class="kp">min</span><span class="p">(</span>v1<span class="p">),</span> by <span class="o">=</span> id<span class="p">)</span>
+</pre></div>
+
+<p><code>drop_if(condition)</code> differs from <code>keep_if(!condition)</code>: it keeps rows where the condition evaluates to <code>NA</code>, </p>
 
 <h3>Summarize</h3>
 
@@ -860,14 +887,11 @@ sum_up<span class="p">(</span>DT<span class="p">)</span>
 sum_up<span class="p">(</span>DT<span class="p">,</span> v2<span class="p">,</span> d <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 sum_up<span class="p">(</span>DT<span class="p">,</span> starts_with<span class="p">(</span><span class="s">"v"</span><span class="p">),</span> by <span class="o">=</span> v1<span class="p">)</span>
 
-<span class="c1"># tab returns cross tabulation table (faster than tabulate)</span>
-tab<span class="p">(</span>DT<span class="p">,</span> id<span class="p">)</span>
-tab<span class="p">(</span>DT<span class="p">,</span> id<span class="p">,</span> v1<span class="p">,</span> w <span class="o">=</span> v2<span class="p">)</span>
 
 <span class="c1"># duplicates returns duplicated rows</span>
 DT <span class="o">&lt;-</span> data.table<span class="p">(</span>a <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">,</span> each <span class="o">=</span> <span class="m">3</span><span class="p">),</span> b <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">)</span>
-duplicates<span class="p">(</span>DT<span class="p">,</span> by <span class="o">=</span> a<span class="p">)</span>
-duplicates<span class="p">(</span>DT<span class="p">,</span> by <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>a<span class="p">,</span>b<span class="p">))</span>
+duplicates<span class="p">(</span>DT<span class="p">,</span> a<span class="p">)</span>
+duplicates<span class="p">(</span>DT<span class="p">,</span> a<span class="p">,</span> b<span class="p">)</span>
 </pre></div>
 
 <h2>Visual exploration</h2>
