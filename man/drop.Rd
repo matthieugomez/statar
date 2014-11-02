@@ -2,7 +2,7 @@
 \name{drop}
 \alias{drop}
 \alias{drop_}
-\title{Create new data.table by dropping certain columns}
+\title{Create a new data.table by dropping certain columns}
 \usage{
 drop(x, ...)
 
@@ -16,7 +16,7 @@ drop_(x, vars)
 \item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
-Create new data.table by dropping certain columns
+Create a new data.table by dropping certain columns
 }
 \examples{
 library(data.table)
@@ -25,7 +25,7 @@ DT <- data.table(
   v1 = c(1,1),
   v2 = c(2,1)
 )
-keep(DT, id, v2)
-keep(DT, -id)
+drop(DT, id, v2)
+drop(DT, -id)
 }
 

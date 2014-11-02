@@ -15,9 +15,9 @@ roll_lead(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
 
 \item{FUN}{function to apply on \code{x}}
 
-\item{n}{an integer specifying the rolling window}
+\item{n}{a numeric specifying the rolling window}
 
-\item{along_with}{use this variable to roll the function based on the  \code{[along_with - n, along_with]} rather than past \code{n} rows. NA are not accepted}
+\item{along_with}{use this variable to roll the function based on the  \code{[along_with - n, along_with]} rather than the past \code{n} rows. NA are not accepted}
 
 \item{order_by}{override the default ordering to use another vector}
 
@@ -29,14 +29,14 @@ roll_lead(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
 Apply rollling functions with respect to a time variable
 }
 \examples{
-along_with  = c(1, 2, 4, 7)
+date  = c(1, 2, 4, 7)
 x <- c(1, 1, 1, 1)
-roll_lag(x,sum, n = 1, along_with = along_with)
-roll_lag(x, sum, n = 1, along_with = along_with)
-roll_lag(x, sum, n = 2, along_with = along_with)
-roll_lead(x, sum, n = 1, along_with = along_with)
-roll_lead(x, sum, n = 2, along_with = along_with)
+roll_lag(x,sum, n = 1, along_with = date)
+roll_lag(x, sum, n = 1, along_with = date)
+roll_lag(x, sum, n = 2, along_with = date)
+roll_lead(x, sum, n = 1, along_with = date)
+roll_lead(x, sum, n = 2, along_with = date)
 y <- c(1, 2, 1, 1)
-roll_lag(list(x,y), function(z){cov(z[[1]], z[[2]])},  n = 2, along_with = along_with)
+roll_lag(list(x,y), function(z){cov(z[[1]], z[[2]])},  n = 2, along_with = date)
 }
 

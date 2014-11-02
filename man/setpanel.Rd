@@ -4,16 +4,14 @@
 \alias{setpanel_}
 \title{Check panel data}
 \usage{
-setpanel(x, ..., along_with = NULL)
+setpanel(x, ...)
 
-setpanel_(x, vars, along_with = NULL)
+setpanel_(x, vars)
 }
 \arguments{
 \item{x}{a vector or matrix}
 
-\item{...}{id variables. Default to none}
-
-\item{along_with}{Date variable.}
+\item{...}{id variables. Last is time variable}
 
 \item{vars}{Used to work around non standard evaluation}
 }

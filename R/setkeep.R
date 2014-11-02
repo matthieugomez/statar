@@ -90,7 +90,7 @@ keep_ <- function(x, vars){
 }
 
 
-#' Create new data.table by dropping certain columns 
+#' Create a new data.table by dropping certain columns 
 #'
 #' @param x a data.table 
 #' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
@@ -102,11 +102,17 @@ keep_ <- function(x, vars){
 #'   v1 = c(1,1),
 #'   v2 = c(2,1)
 #' )
-#' keep(DT, id, v2)
-#' keep(DT, -id)
+#' drop(DT, id, v2)
+#' drop(DT, -id)
 #' @export
-drop <- function(x, ...){
+drop <- function(x, ...) {
+  UseMethod("drop")
+}
+drop.data.table <- function(x, ...){
 	drop_(x = x, vars = lazyeval::lazy_dots(...))
+}
+drop.default <- function(x, ...){
+	base::drop(x)
 }
 
 #' @export
