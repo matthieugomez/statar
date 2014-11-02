@@ -77,9 +77,8 @@ drop(DT, v1)
 `keep_if` and `drop_if` create a new table with certain rows
 ```R
 DT <- data.table(
-  id = c(1,2),
-  v1 = c(1,1),
-  v2 = c(2,1)
+  id = c(1,2,1),
+  v1 = c(1,NA,2)
 )
 keep_if(DT, v1 == 1)
 keep_if(DT, v1 == min(v1), by = id)
@@ -87,7 +86,7 @@ drop_if(DT, v1 == 1)
 drop_if(DT, v1 == min(v1), by = id)
 ```
 
-`drop_if(condition)` differs from `keep_if(!condition)`: it keeps rows where the condition evaluates to `NA`, 
+`drop_if(condition)` differs from `keep_if(!(condition))`: it keeps rows where the condition evaluates to `NA`.
 ### Summarize
 
 ```R
