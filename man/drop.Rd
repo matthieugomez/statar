@@ -21,9 +21,11 @@ Create new data.table by dropping certain columns
 \examples{
 library(data.table)
 DT <- data.table(
-  id = c(1,NA,2),
-  v1 = c(1,1,2)
+  id = c(1,2),
+  v1 = c(1,1),
+  v2 = c(2,1)
 )
-drop_if(DT, id==1)
+keep(DT, id, v2)
+keep(DT, -id)
 }
 

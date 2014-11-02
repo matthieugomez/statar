@@ -23,9 +23,10 @@ Create new data.table by dropping certain rows
 \examples{
 library(data.table)
 DT <- data.table(
-  id = c(1,NA,2),
-  v1 = c(1,1,2)
+  id = c(1,2,1),
+  v1 = c(1,NA,2)
 )
-drop_if(DT, id==1)
+drop_if(DT, v1 == 1)
+drop_if(DT, v1 == min(v1), by = id)
 }
 

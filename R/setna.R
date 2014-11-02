@@ -36,7 +36,7 @@ setna_ <- function(x, ..., vars, along_with = NULL, by = NULL, roll = TRUE,  rol
   else c(TRUE,FALSE)){
   stopifnot(is.data.table(x))
   byvars <- names(select_vars_(names(x), by))
-  along_with  <- names(select_vars_(names(x), along_with ))
+  along_with  <- names(select_vars_(names(x), along_with))
   if (!length(byvars) & (!length(along_with))){
       byvars <- head(key(x),-1)
       along_with <- tail(key(x),1)

@@ -75,6 +75,11 @@ DT[, value_l := lag(value, along_with = year), by = id]
 DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year), by = id]
 ```
 ## data.table functions
+`setpanel` checks no date variable is missing, that there are no duplicates for (id, along_with), and if both these conditions are satisfied, resort the data.table in place along the id and time variables.
+
+```R
+setpanel(DT, id, along_with = year)
+```
 
 `fill_gap` fills in gaps in a data.table along a time variable (corresponds to Stata `tsfill`)
 

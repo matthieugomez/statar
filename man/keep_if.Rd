@@ -2,7 +2,7 @@
 \name{keep_if}
 \alias{keep_if}
 \alias{keep_if_}
-\title{Create new data.table by keeping only certain rows}
+\title{Create new data.table by keeping only certain rows(equivalent to dplyr::filter)}
 \usage{
 keep_if(x, ..., by = NULL)
 
@@ -18,14 +18,15 @@ keep_if_(x, .dots, by)
 \item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{
-Create new data.table by keeping only certain rows
+Create new data.table by keeping only certain rows(equivalent to dplyr::filter)
 }
 \examples{
 library(data.table)
 DT <- data.table(
-  id = c(1,NA,2),
-  v1 = c(1,1,2)
+  id = c(1,2,1),
+  v1 = c(1,NA,2)
 )
-keep_if(DT, id==1)
+keep_if(DT, v1 == 1)
+keep_if(DT, v1 == min(v1), by = id)
 }
 

@@ -2,7 +2,7 @@
 \name{keep}
 \alias{keep}
 \alias{keep_}
-\title{Create new data.table by keeping only certain columns}
+\title{Create new data.table by keeping only certain columns (equivalent to dplyr::select)}
 \usage{
 keep(x, ...)
 
@@ -16,7 +16,7 @@ keep_(x, vars)
 \item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
-Create new data.table by keeping only certain columns
+Create new data.table by keeping only certain columns (equivalent to dplyr::select)
 }
 \examples{
 library(data.table)
@@ -25,7 +25,6 @@ DT <- data.table(
   v1 = c(1,1),
   v2 = c(2,1)
 )
-keep(DT, i = id==1)
 keep(DT, id, v2)
 keep(DT, -id)
 }
