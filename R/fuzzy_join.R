@@ -76,6 +76,8 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, che
 	exact.matched[, (gen) := 0]
 	length <- n_distinct(exact.matched[[index.x]])
 	message(paste(length,"rows of x are perfectly matched"))
+
+	# throw away matched observations in x, and matched observation in y if check m~1
 	if (check[[3]] == 1){
 		ans.y2 <- suppressMessages(join(ans.y, ans.x, kind = "anti", on = c(exact, exact.or.NA, fuzzy)))
 		ans.x <- suppressMessages(join(ans.x, ans.y, kind = "anti", on = c(exact, exact.or.NA, fuzzy)))
@@ -134,9 +136,9 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, che
 		aux <- aux[[length(aux)]]
 	}
 	result <- ans[aux]
+	setnames(result, c(index.x, index.y, gen))
 
 	# append exact and fuzzy matching
-	setnames(result, c(index.x, index.y, gen))
 	out <- rbind(exact.matched, result, use.names = TRUE)
 
 	# add back duplicated
@@ -191,8 +193,7 @@ score_row <- function(l, index.y, ans.y, exact = NULL, exact.or.NA = NULL, fuzzy
 
 stringdist2 <- function(x, y, na.score,  ...){
 	out <- stringdist(x,y, ...)
-	out[is.na(x)] <- na.score
-	out[is.na(y)] <- na.score
+	out[is.na(x) | is.na(y) ] <- na.score
 	out
 }
 
