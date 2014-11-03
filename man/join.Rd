@@ -16,7 +16,7 @@ join(x, y, on = intersect(names(x), names(y)), kind = "outer",
 
 \item{kind}{The kind of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".}
 
-\item{suffixes}{A character vector of length 2 to apply to overlapping columns. Defaut to ".x" and ".y".}
+\item{suffixes}{A character vector of length 2 specifying suffix of overlapping columns. Defaut to ".x" and ".y".}
 
 \item{check}{A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).}
 

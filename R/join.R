@@ -4,7 +4,7 @@
 #' @param y The using data.table
 #' @param on Character vectors specifying variables to match on. Default to common names between x and y. 
 #' @param kind The kind of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross". 
-#' @param suffixes A character vector of length 2 to apply to overlapping columns. Defaut to ".x" and ".y".
+#' @param suffixes A character vector of length 2 specifying suffix of overlapping columns. Defaut to ".x" and ".y".
 #' @param check A formula checking for the presence of duplicates. Specifying 1~m (resp m~1, 1~1) checks that joined variables uniquely identify observations in x (resp y, both).
 #' @param gen Name of new variable to mark result, or the boolean FALSE (default) if no such variable should be created. The variable equals 1 for rows in master only, 2 for rows in using only, 3 for matched rows.
 #' @param inplace A boolean. In case "kind"= "left" and RHS of check is 1, the merge can be one in-place. 

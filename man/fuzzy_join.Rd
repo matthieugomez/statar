@@ -4,36 +4,41 @@
 \title{Fuzzy join two data.tables together}
 \usage{
 fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
-  gen = "distance", which = FALSE, w = rep(1, length(fuzzy)),
-  na.score = 1/3, method = "jw", p = 0.1, ...)
+  gen = "distance", suffixes = c(".x", ".y"), which = FALSE, w = rep(1,
+  length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...)
 }
 \arguments{
 \item{x}{The master data.table}
 
 \item{y}{The using data.table}
 
-\item{exact}{Character vector specifying variables on which to match exactly}
+\item{exact}{Character vector specifying variables on which to match exactly.}
 
 \item{exact.or.NA}{Character vector specifying variables that should not differ if both are non missing.}
 
-\item{fuzzy}{Character vector specifying columns on which to match}
+\item{fuzzy}{Character vector specifying columns on which to match in a fuzzy way}
 
 \item{gen}{Name of new variable with the distance between matched observations. Default to "distance".}
 
-\item{which}{Boolean. With \code{which = TRUE}, returns a three columns data.tables witht he first column corresponding to \code{x}'s row number and the second corresponing to \code{y}'s row number and the score of matched observation. Default is \code{FALSE}, which returns a join with the rows in y.}
+\item{suffixes}{A character vector of length 2 specifying  suffix of overlapping columns. Defaut to ".x" and ".y".}
 
-\item{w}{Numeric vector of the same length as \code{fuzzy} specifying weight to use when summing across different column of \code{fuzzy}. Default to \code{rep(1, length(fuzzy))}.}
+\item{which}{With \code{which = TRUE}, returns a three columns data.tables where he first column corresponds to \code{x}'s row number, the second column corresponds to \code{y}'s row number and the third column corresponds to the score of the match. Default is \code{FALSE}, which returns a join with the rows in y.}
+
+\item{w}{Numeric vector of the same length as \code{fuzzy} specifying the weights to use when summing across different column of \code{fuzzy}. Default to \code{rep(1, length(fuzzy))}.}
 
 \item{na.score}{Numeric that specifies the distance between NA and another string. Default to 1/3}
 
-\item{method}{see \link[stringdist]{stringdist}. Default to "jw"}
+\item{method}{See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}}
 
-\item{p}{see \link[stringdist]{stringdist}. Default to 0.1}
+\item{p}{See  the \code{\link[stringdist]{stringdist}} documentation. Default to 0.1}
 
-\item{...}{Argument to pass to \link[stringdist]{stringdist}.}
+\item{...}{Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.}
 }
 \description{
-\code{fuzzy_join} uses record linkage methods to match observations between two datasets where no perfect key fields exist.  For each row in x, fuzzy_join finds the row in y with the lowest distance (as defined in \code{method}). Multiple matches are returned in case of equality.
+\code{fuzzy_join} uses record linkage methods to match observations between two datasets where no perfect key fields exist.  For each row in x, \code{fuzzy_join} finds the row(s) in y with the lowest distance (a weighted average of the string distance defined in \code{method} over multiple columns).
+}
+\details{
+Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.
 }
 \examples{
 x <- data.table(x = c("france", "franc"), y = c("arras", "dijon"))
