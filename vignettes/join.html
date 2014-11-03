@@ -868,7 +868,7 @@ join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> 
 
 <p><code>fuzzy_join</code>  uses record linkage methods to match observations between two datasets where no perfect key fields exist. For each row in x, fuzzy_join finds the row(s) in y with the lowest distance (a weighted average of the string distance defined in method over multiple columns).</p>
 
-<p>It corresponds roughty to the Stata command <code>reclink</code>, except that rows in <code>y</code> are not thrown away after an exact match with <code>x</code>, that the distance can be arbitrarly specified, and that it is faster.</p>
+<p>It corresponds roughty to the Stata command <code>reclink</code>, except that rows in <code>y</code> are not thrown away after an exact match with <code>x</code>, that the type of distance between strings can be arbitrarly specified, and that it is faster.</p>
 
 <p>One can specify</p>
 
@@ -876,7 +876,7 @@ join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> 
 <li>Columns on which to match exactly</li>
 <li>Columns on which to match fuzzily</li>
 <li>Weight across multiple colums</li>
-<li>Kind of string distance used</li>
+<li>Kind of string distance used (any distance available in <code>stringdist::strindist</code> works).</li>
 </ul>
 
 <div class="highlight highlight-R"><pre>x <span class="o">&lt;-</span> data.table<span class="p">(</span>x <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">"france"</span><span class="p">,</span> <span class="s">"franc"</span><span class="p">),</span> y <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">"arras"</span><span class="p">,</span> <span class="s">"dijon"</span><span class="p">))</span>

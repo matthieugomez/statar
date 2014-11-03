@@ -47,14 +47,14 @@ vignette: >
 ## Fuzzy Join
 `fuzzy_join`  uses record linkage methods to match observations between two datasets where no perfect key fields exist. For each row in x, fuzzy_join finds the row(s) in y with the lowest distance (a weighted average of the string distance defined in method over multiple columns).
 
-It corresponds roughty to the Stata command `reclink`, except that rows in `y` are not thrown away after an exact match with `x`, that the distance can be arbitrarly specified, and that it is faster.
+It corresponds roughty to the Stata command `reclink`, except that rows in `y` are not thrown away after an exact match with `x`, that the type of distance between strings can be arbitrarly specified, and that it is faster.
 
 One can specify
 
 - Columns on which to match exactly
 - Columns on which to match fuzzily
 - Weight across multiple colums
-- Kind of string distance used
+- Kind of string distance used (any distance available in `stringdist::strindist` works).
 
 ```R
 x <- data.table(x = c("france", "franc"), y = c("arras", "dijon"))
