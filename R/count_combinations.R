@@ -1,15 +1,16 @@
 #' Find best string combinations that identify an id
 #'
 #' @param id a vector of identifiers
-#' @param v a vector of characters
+#' @param name a vector of characters
 #' @param n number of words for combinations. Default to \code{1}.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
 #' id <- c(1, 1, 2, 2)
-#' names <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' count_combinations(id, v)
-#' count_combinations(id, v, n = 2)
-count_combinations <- function(id, names, n = 1){
-  dt <- setDT(list(id = id, names = names))
+#' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
+#' count_combinations(id, name)
+#' count_combinations(id, name, n = 2)
+#' @export
+count_combinations <- function(id, name, n = 1){
+  dt <- setDT(list(id = id, name = name))
   if (n>0){
     f <- function(x){
       g <- function(x){
@@ -23,11 +24,11 @@ count_combinations <- function(id, names, n = 1){
       out <- unlist(lapply(x, g))
       unname(out)
     } 
-    dt <- dt[, list(names = f(names)), by = "id"]
+    dt <- dt[, list(name = f(name)), by = "id"]
   }
-  dt <- dt[, list(.N) , by = c("id", "names")]
-  setnames(dt, c("id", "names", "count_within"))
-  dt[, count_across := .N, by = names]
+  dt <- dt[, list(.N) , by = c("id", "name")]
+  setnames(dt, c("id", "name", "count_within"))
+  dt[, count_across := .N, by = name]
   setorder(dt, id, count_across, -count_within)
   setDF(dt)
   dt
@@ -38,15 +39,16 @@ count_combinations <- function(id, names, n = 1){
 #' Find minimum distance of each word to other groups
 #'
 #' @param id a vector of identifiers
-#' @param v a vector of characters
+#' @param name a vector of characters
 #' @param n number of words for combinations. Default to \code{0}.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' compute_score(id, name, n = 0)
-#' compute_score(id, name, n = 1)
-#' compute_score(id, name, n = 2)
-compute_score <- function(id, name, n = 1, method = "jw", p = 0.1, ...){
+#' compute_distance(id, name, n = 0)
+#' compute_distance(id, name, n = 1)
+#' compute_distance(id, name, n = 2)
+#' @export
+compute_distance <- function(id, name, n = 1, method = "jw", p = 0.1, ...){
   dt <- setDT(list(id = id, name = name))
 
   if (n>0){ 

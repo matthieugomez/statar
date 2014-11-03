@@ -68,7 +68,7 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   exact.matched <- keep_(exact.matched, c(index.x, index.y))
   exact.matched[, (gen) := 0]
   length <- n_distinct(exact.matched[[index.x]])
-  message(paste(length,"rows of x are exactly matched"))
+  message(paste(length,"rows of x are exactly matched on all variables"))
   ans.x <- suppressMessages(join(ans.x, ans.y, kind = "anti", on = c(exact, exact.or.NA, fuzzy)))
 
   # fuzzy matching
