@@ -45,13 +45,13 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   ans.x[, c(index.x) := .I]
   ans.y[, c(index.y) := .I]
   # exact matching
-  if (length(c(exact, exact.or.NA, fuzzy))){
-    exact.matched <- suppressMessages(join(ans.x, ans.y, kind = "inner", on = c(exact, exact.or.NA, fuzzy)))
-    exact.matched <- keep_(exact.matched, c(index.x, index.y))
-    exact.matched[, (gen) := 0]
-    setnames(exact.matched, c("x","y", gen))
-    ans.x <- suppressMessages(join(ans.x, ans.y, kind = "anti", on = c(exact, exact.or.NA, fuzzy)))
-  }
+  exact.matched <- suppressMessages(join(ans.x, ans.y, kind = "inner", on = c(exact, exact.or.NA, fuzzy)))
+  exact.matched <- keep_(exact.matched, c(index.x, index.y))
+  length <- n_distinct(exact.matched[[index.x]])
+  message(paste(length,"rows of x are exactly matched"))
+  exact.matched[, (gen) := 0]
+  setnames(exact.matched, c("x","y", gen))
+  ans.x <- suppressMessages(join(ans.x, ans.y, kind = "anti", on = c(exact, exact.or.NA, fuzzy)))
   # fuzzy matching
   result <- sapply(seq_len(nrow(ans.x)), function(i){
     c(ans.x[[index.x]][i], score_row(l = ans.x[i], index.y = index.y, ans.y = ans.y, exact = exact, exact.or.NA = exact.or.NA, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...))
