@@ -58,99 +58,41 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 
 
-<div id="join" class="section level2">
-<h2>Join</h2>
-<p><code>join</code> is a wrapper for data.table merge functionalities.</p>
+<div id="merge-records" class="section level1">
+<h1>Merge records</h1>
+<p>A common set up is the following: <code>x</code> is a dataset of names, and <code>y</code> is a dataset of id and their possible names - the “true” or “master dataset”. The goal is to find the <code>id</code> of each observation in <code>x</code>.</p>
+<div id="normalization" class="section level2">
+<h2>Normalization</h2>
+<p>The package includes two functions that can be applied to the “true” dataset <code>y</code> before using <code>fuzzy_join</code>. They allow to control both <code>type I</code> and <code>type II</code> mistakes when matching on names.</p>
 <ul>
-<li>The option “kind” specifies the kind of join based on SQL syntax. Possible kinds are : left, right, inner, outer, semi, anti and cross.</li>
+<li>The function <code>count_combinations</code> returns a data.frame with four columns. Within each pair (<code>id</code>, <code>name</code>), it computes all permutation of length lower than <code>n</code>, and returns the number of occurences of each permutation within and across groups:</li>
 </ul>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Stata</th>
-<th align="left">statar</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">merge v1</td>
-<td align="left">join(x, y, kind = “outer”)</td>
-</tr>
-<tr class="even">
-<td align="left">merge v1, keep(master matched)</td>
-<td align="left">join(x, y, kind = “left”)</td>
-</tr>
-<tr class="odd">
-<td align="left">merge v1, keep(matched using)</td>
-<td align="left">join(x, y, kind = “right”)</td>
-</tr>
-<tr class="even">
-<td align="left">merge v1, keep(matched)</td>
-<td align="left">join(x, y, kind = “inner”)</td>
-</tr>
-<tr class="odd">
-<td align="left">merge v1, keep(matched) keepusing(v1)</td>
-<td align="left">join(x, y, kind = “semi”)</td>
-</tr>
-<tr class="even">
-<td align="left">merge v1, keep(master) keepusing(v1)</td>
-<td align="left">join(x, y, kind = “anti”)</td>
-</tr>
-<tr class="odd">
-<td align="left">crossby</td>
-<td align="left">join(x, y, kind = “cross”)</td>
-</tr>
-</tbody>
-</table>
+<p><code>R   id &lt;- c(1, 1, 2, 2)   name &lt;- c(&quot;coca cola company&quot;, &quot;coca cola incorporated&quot;, &quot;apple incorporated&quot;, &quot;apple corp&quot;)   count_combinations(id, v)   #.   id        names count_within count_across   #&gt; 1  1         coca            2            1   #&gt; 2  1         cola            2            1   #&gt; 3  1      company            1            1   #&gt; 4  1 incorporated            1            2   #&gt; 5  2        apple            2            1   #&gt; 6  2         corp            1            1   #&gt; 7  2 incorporated            1            2</code> The default is <code>n=1</code>. Words with high <code>count_within</code> and low <code>count_across</code> are good identifiers, since they are specific to some <code>id</code>.</p>
+<p>On the other hand, words with low <code>count_within</code> and high <code>count_across</code> are not good identifiers, and one may want to delete these words from <code>x</code> and <code>y</code>.</p>
 <ul>
-<li>The option “check” checks there are no duplicates in the master or using data.tables (as in Stata).</li>
-</ul>
-<p><code>r   # merge m:1 v1   join(x, y, kind = &quot;outer&quot;, check = m~1)</code> - The option “gen” specifies the name of a new variable that identifies non matched and matched rows (as in Stata).</p>
-<p><code>r   # merge m:1 v1, gen(_merge)    join(x, y, kind = &quot;outer&quot;, gen = &quot;_merge&quot;)</code></p>
-<ul>
-<li>The option “inplace” specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).</li>
-</ul>
-</div>
-<div id="merge-records" class="section level2">
-<h2>Merge records</h2>
-<p>In the following, <code>x</code> is a dataset of names, and <code>y</code> is a dataset of id and their possible names (the true, or master dataset). The goal is to find the <code>id</code> of each observation in <code>x</code>.</p>
-<div id="normalization" class="section level3">
-<h3>Normalization</h3>
-<ul>
-<li>The function <code>count_combinations</code> should be applied to the dataset <code>y</code>. The function returns a data.frame with four columns. For each combination of words within id, it returns the number of occurences within and across groups:</li>
-</ul>
+<li><p>The function <code>compute_score</code> returns a data.frame with three columns. Within each pair (<code>id</code>, <code>name</code>), it computes all permutations of length lower than <code>n</code> and returns the minimum string distance of the name with respect to other ids.</p>
 <pre class="sourceCode r"><code class="sourceCode r">id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)
 name &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;coca cola company&quot;</span>, <span class="st">&quot;coca cola incorporated&quot;</span>, <span class="st">&quot;apple incorporated&quot;</span>, <span class="st">&quot;apple corp&quot;</span>)
-<span class="kw">count_combinations</span>(id, v)
-<span class="co">#.   id        names count_within count_across</span>
-<span class="co">#&gt; 1  1         coca            2            1</span>
-<span class="co">#&gt; 2  1         cola            2            1</span>
-<span class="co">#&gt; 3  1      company            1            1</span>
-<span class="co">#&gt; 4  1 incorporated            1            2</span>
-<span class="co">#&gt; 5  2        apple            2            1</span>
-<span class="co">#&gt; 6  2         corp            1            1</span>
-<span class="co">#&gt; 7  2 incorporated            1            2</span></code></pre>
-<p>“incorporated” has a high “count_across”, which means it is used across a lot of different ids. Therefore one may suppress all the words “incorporated” in the names in <code>x</code> and <code>y</code>.</p>
-<p>“coca”, “cola”, and “apple” have a high “count_within” and a low “count_across”. One could add to the dataset <code>y</code> the rows for <code>id==1, names = &quot;coca&quot;</code>, <code>id==1, names = &quot;cola&quot;</code>, <code>id==2, names = &quot;apple&quot;</code>. This is a good idea if you know that each row in <code>x</code> should have match in <code>y</code>.</p>
-<ul>
-<li>The function <code>compute_score</code> should be applied to the dataset <code>y</code>. The function returns a data.frame with three columns. Within each id, the minimum distance across names in different ids is computed.</li>
+<span class="kw">compute_score</span>(id, name, <span class="dt">n =</span> <span class="dv">0</span>)
+<span class="co">#&gt;   id                   name  distance</span>
+<span class="co">#&gt; 1  1      coca cola company 0.5087146</span>
+<span class="co">#&gt; 2  1 coca cola incorporated 0.2727273</span>
+<span class="co">#&gt; 3  2             apple corp 0.4701299</span>
+<span class="co">#&gt; 4  2     apple incorporated 0.2727273</span>
+<span class="kw">compute_score</span>(id, name, <span class="dt">n =</span> <span class="dv">1</span>)
+<span class="co">#&gt;   id         name  distance</span>
+<span class="co">#&gt; 1  1         coca 0.2666667</span>
+<span class="co">#&gt; 2  1         cola 0.2666667</span>
+<span class="co">#&gt; 3  1      company 0.2190476</span>
+<span class="co">#&gt; 4  1 incorporated 0.0000000</span>
+<span class="co">#&gt; 5  2        apple 0.5166667</span>
+<span class="co">#&gt; 6  2         corp 0.2190476</span>
+<span class="co">#&gt; 7  2 incorporated 0.0000000</span></code></pre>
+<p>Again, words with low distance should be discarded while words with high distance should be kept.</p></li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r">id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)
-name &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;coca cola company&quot;</span>, <span class="st">&quot;coca cola incorporated&quot;</span>, <span class="st">&quot;apple incorporated&quot;</span>, <span class="st">&quot;apple corp&quot;</span>)
-<span class="kw">count_combinations</span>(id, v)
-<span class="co">#.   id        names count_within count_across</span>
-<span class="co">#&gt; 1  1         coca            2            1</span>
-<span class="co">#&gt; 2  1         cola            2            1</span>
-<span class="co">#&gt; 3  1      company            1            1</span>
-<span class="co">#&gt; 4  1 incorporated            1            2</span>
-<span class="co">#&gt; 5  2        apple            2            1</span>
-<span class="co">#&gt; 6  2         corp            1            1</span>
-<span class="co">#&gt; 7  2 incorporated            1            2</span></code></pre>
-<p>“incorporated” has a high “count_across”, which means it is used across a lot of different ids. Therefore one may suppress all the words “incorporated” in the names in <code>x</code> and <code>y</code>.</p>
-<p>“coca”, “cola”, and “apple” have a high “count_within” and a low “count_across”. One could add to the dataset <code>y</code> the rows for <code>id==1, names = &quot;coca&quot;</code>, <code>id==1, names = &quot;cola&quot;</code>, <code>id==2, names = &quot;apple&quot;</code>. This is a good idea if you know that each row in <code>x</code> should have match in <code>y</code>.</p>
 </div>
-<div id="fuzzy-joins" class="section level3">
-<h3>Fuzzy joins</h3>
+<div id="fuzzy-joins" class="section level2">
+<h2>Fuzzy joins</h2>
 <p>For each row in x, <code>fuzzy_join</code> finds the closest row(s) in y for a specific metric. The distance is a weighted average of a string distance over multiple columns. Both the weights and the string distance can be specified by the user. By default, <code>fuzzy_join</code> uses the <a href="https://www.census.gov/srd/papers/pdf/rr93-8.pdf">jaro-winkler distance</a> with a winkler adjustment of 0.1.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">a =</span> <span class="kw">c</span>(<span class="st">&quot;france&quot;</span>, <span class="st">&quot;franc&quot;</span>), <span class="dt">b =</span> <span class="kw">c</span>(<span class="st">&quot;arras&quot;</span>, <span class="st">&quot;dijon&quot;</span>))
 y &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">a =</span> <span class="kw">c</span>(<span class="st">&quot;franc&quot;</span>, <span class="st">&quot;france&quot;</span>), <span class="dt">b =</span> <span class="kw">c</span>(<span class="st">&quot;arvars&quot;</span>, <span class="st">&quot;dijjon&quot;</span>))
@@ -159,6 +101,11 @@ y &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="
 <span class="co">#&gt; 1: 0.09133333 france arras  franc arvars</span>
 <span class="co">#&gt; 2: 0.03833333  franc dijon france dijjon</span>
 <span class="kw">fuzzy_join</span>(x, y, <span class="dt">fuzzy =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>), <span class="dt">w =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))
+<span class="co">#&gt;   distance    a.x   b.x    a.y    b.y</span>
+<span class="co">#&gt;          0  franc dijon  franc arvars</span>
+<span class="co">#&gt;          0 france arras france dijjon</span>
+
+<span class="kw">fuzzy_join</span>(x, y, <span class="dt">exact =</span> <span class="st">&quot;a&quot;</span>, <span class="dt">fuzzy =</span> <span class="kw">c</span>(<span class="st">&quot;b&quot;</span>), <span class="dt">w =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))
 <span class="co">#&gt;   distance    a.x   b.x    a.y    b.y</span>
 <span class="co">#&gt;          0  franc dijon  franc arvars</span>
 <span class="co">#&gt;          0 france arras france dijjon</span></code></pre>

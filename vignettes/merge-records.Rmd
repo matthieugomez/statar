@@ -11,12 +11,12 @@ vignette: >
 
 
 # Merge records
-In the following, `x` is a dataset of names, and `y` is a dataset of id and their possible names (the true, or master dataset). The goal is to find the `id` of each observation in `x`.
+A common set up is the following: `x` is a dataset of names, and `y` is a dataset of id and their possible names -  the "true" or "master dataset". The goal is to find the `id` of each observation in `x`.
 
 ## Normalization
-The package includes two functions that can be applied to the dataset `y` before using `fuzzy_join`.
+The package includes two functions that can be applied to the "true" dataset `y` before using `fuzzy_join`. They allow to control both `type I` and `type II` mistakes when matching on names.
 
-- The function `count_combinations`  returns a data.frame with four columns. For each combination of words within id, it returns the number of occurences of the word combinations within and across groups: 
+- The function `count_combinations`  returns a data.frame with four columns. Within each pair (`id`, `name`), it computes all permutation of length lower than `n`, and returns the number of occurences of each permutation within and across groups: 
 
   ```R
   id <- c(1, 1, 2, 2)
@@ -31,36 +31,37 @@ The package includes two functions that can be applied to the dataset `y` before
   #> 6  2         corp            1            1
   #> 7  2 incorporated            1            2
   ```
+  The default is `n=1`. Words with high `count_within` and low `count_across` are good identifiers, since they are specific to some `id`.
 
-  "incorporated" has a high "count_across", which means it is used across a lot of different ids. Therefore one may suppress all the words "incorporated" in the names in `x` and `y`.
-
-
-  On the other hand, "coca", "cola", and "apple" have a high "count_within" and a low "count_across". One could add to the dataset `y` the rows for `id==1, names = "coca"`,  `id==1, names = "cola"`, `id==2, names = "apple"`. 
+  On the other hand, words with low `count_within` and high `count_across` are not good identifiers, and one may want to delete these words from `x` and `y`.
 
 
 
 
--  The function `compute_score` returns a data.frame with three columns. Within each id, the minimum string distance of the name with respect to the names of other ids is computed.
 
-```R
-id <- c(1, 1, 2, 2)
-name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-compute_score(id, name, n = 0)
-#>   id                   name  distance
-#> 1  1      coca cola company 0.5087146
-#> 2  1 coca cola incorporated 0.2727273
-#> 3  2             apple corp 0.4701299
-#> 4  2     apple incorporated 0.2727273
-compute_score(id, name, n = 1)
-#>   id         name  distance
-#> 1  1         coca 0.2666667
-#> 2  1         cola 0.2666667
-#> 3  1      company 0.2190476
-#> 4  1 incorporated 0.0000000
-#> 5  2        apple 0.5166667
-#> 6  2         corp 0.2190476
-#> 7  2 incorporated 0.0000000
-```
+-  The function `compute_score` returns a data.frame with three columns. Within each pair (`id`, `name`), it computes all permutations of length lower than `n` and returns the minimum string distance of the name with respect to other ids.
+
+    ```R
+    id <- c(1, 1, 2, 2)
+    name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
+    compute_score(id, name, n = 0)
+    #>   id                   name  distance
+    #> 1  1      coca cola company 0.5087146
+    #> 2  1 coca cola incorporated 0.2727273
+    #> 3  2             apple corp 0.4701299
+    #> 4  2     apple incorporated 0.2727273
+    compute_score(id, name, n = 1)
+    #>   id         name  distance
+    #> 1  1         coca 0.2666667
+    #> 2  1         cola 0.2666667
+    #> 3  1      company 0.2190476
+    #> 4  1 incorporated 0.0000000
+    #> 5  2        apple 0.5166667
+    #> 6  2         corp 0.2190476
+    #> 7  2 incorporated 0.0000000
+    ```
+
+    Again, words with low distance should be discarded while words with high distance should be kept.
 
 
 ## Fuzzy joins
@@ -75,13 +76,13 @@ fuzzy_join(x, y, fuzzy = c("a", "b"), w = c(0.1, 0.9))
 #>      distance    a.x   b.x    a.y    b.y
 #> 1: 0.09133333 france arras  franc arvars
 #> 2: 0.03833333  franc dijon france dijjon
-fuzzy_join(x, y, fuzzy = c("a", "b"), w = c(1, 0))
+fuzzy_join(x, y, exact = "a", fuzzy = "b")
 #>   distance    a.x   b.x    a.y    b.y
 #>          0  franc dijon  franc arvars
 #>          0 france arras france dijjon
 ``` 
 
-The function corresponds roughly to the Stata command `reclink`, except that rows in `y` are not thrown away after an exact match with `x`. Moreover, the type of distance between strings can be arbitrarly specified and it is also faster.
+The function corresponds roughly to the Stata command `reclink`, except that rows in `y` are not thrown away after an exact match with `x`. Moreover, the type of distance between strings can be arbitrarly specified thanks to the package `stringdist`.
 
 
 
