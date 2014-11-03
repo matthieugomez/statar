@@ -26,7 +26,7 @@ setkeep_ <- function(x, vars){
 	if (!length(vars))  vars <- names(x)
 	discard <- setdiff(names(x), vars)
 	if (length(discard)>0){
-		x[, c(drop) := NULL]
+		x[, c(discard) := NULL]
 	}
 }
 

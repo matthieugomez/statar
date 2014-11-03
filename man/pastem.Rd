@@ -15,11 +15,11 @@ pastem0(..., env = parent.frame())
 evalm(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
   inherits = FALSE)
 
-quotem(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
-  inherits = FALSE)
+quotem(x, pattern = "$", pattern.name = ".", parenthesis.only = FALSE,
+  env = parent.frame(), inherits = FALSE)
 
-quotem_(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
-  inherits = FALSE)
+quotem_(x, pattern = "$", pattern.name = ".", parenthesis.only = FALSE,
+  env = parent.frame(), inherits = FALSE)
 }
 \arguments{
 \item{...}{Paste multiple strings}
@@ -38,7 +38,7 @@ quotem_(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(),
 }
 \value{
 The functions \code{pastem} does string interpolations.
-The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) LHS of `=` is also substituted.
+The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) two different patterns can be chosen, specifyinbg whether the expression should be replaced by its evaluation, or the symbol of its evaluation
 The function \code{evalm} is a wapper for \code{eval(quotem()))}.
 
 The expressions includes all letters + underscore that follow the pattern. Use parenthesis if you want the expression to be shorter or longer.
@@ -68,10 +68,10 @@ DT <- data.table(
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
 )
-newvar <- quote(temp)
-myvar <- quote(v1)
+newvar <- "temp"
+myvar <- "v1"
 byvar <- c("id", "v1")
-quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+quotem(DT[, list(`$newvar` = mean(.myvar)), by = `$byvar`])
+evalm(DT[, list(`$newvar` = mean(.myvar)), by = `$byvar`])
 }
 

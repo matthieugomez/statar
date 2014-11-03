@@ -57,12 +57,11 @@ vignette: >
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
   )
-  newvar <- quote(temp)
-  myvar <- quote(v1)
+  newvar <- "temp"
+  myvar <- "v1"
   byvar <- c("id", "v1")
-  quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-  #> DT[, list(temp = mean(v1)), by = c("id", "v1")]
-  evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+  quotem(DT[, list("$newvar" = mean(.myvar)), by = `$byvar`])
+  evalm(DT[, list("$newvar" = mean(.myvar)), by = `$byvar`])
   #>    id v1 temp
   #> 1:  2  4    4
   #> 2:  5  5    5

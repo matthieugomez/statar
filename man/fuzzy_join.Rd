@@ -5,7 +5,8 @@
 \usage{
 fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
   gen = "distance", suffixes = c(".x", ".y"), which = FALSE, w = rep(1,
-  length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...)
+  length(fuzzy)), na.score = 1/3, mc.cores = getOption("mc.cores", 2L),
+  method = "jw", p = 0.1, ...)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -28,6 +29,8 @@ fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
 
 \item{na.score}{Numeric that specifies the distance between NA and another string. Default to 1/3}
 
+\item{mc.cores}{Number of cores to use}
+
 \item{method}{See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}}
 
 \item{p}{See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}}
@@ -41,16 +44,16 @@ fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
 Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.
 }
 \examples{
-x <- data.table(x = c("france", "franc"), y = c("arras", "dijon"))
-y <- data.table(x = c("franc", "france"), y = c("arvars", "dijjon"))
-fuzzy_join(x, y, fuzzy = c("x", "y"))
-fuzzy_join(x, y, fuzzy = c("x", "y"), w = c(0.9, 0.1))
-fuzzy_join(x,y, fuzzy = c("x", "y"), w = c(0, 0.9))
-x <- data.table(x = c(1, 1), y = c("arras", "dijon"))
-y <- data.table(x = c(1, 1), y = c("arvars", "dijjon"))
-fuzzy_join(x, y, exact = "x", fuzzy = "y")
-x <- data.table(x = c(1, 2), y = c("arras", "dijon"))
-y <- data.table(x = c(1, 1), y = c("arvars", "dijjon"))
-fuzzy_join(x,y, exact = "x", fuzzy = "y")
+x <- data.table(a = c("france", "franc"), b = c("arras", "dijon"))
+y <- data.table(a = c("franc", "france"), b = c("arvars", "dijjon"))
+fuzzy_join(x, y, fuzzy = c("a", "b"))
+fuzzy_join(x, y, fuzzy = c("a", "b"), w = c(0.9, 0.1))
+fuzzy_join(x,y, fuzzy = c("a", "b"), w = c(0, 0.9))
+x <- data.table(a = c(1, 1), b = c("arras", "dijon"))
+y <- data.table(a = c(1, 1), b = c("arvars", "dijjon"))
+fuzzy_join(a, y, exact = "a", fuzzy = "b")
+x <- data.table(a = c(1, 2), b = c("arras", "dijon"))
+y <- data.table(a = c(1, 1), b = c("arvars", "dijjon"))
+fuzzy_join(x, y, exact = "a", fuzzy = "b")
 }
 

@@ -8,7 +8,7 @@
 #' @param ... Paste multiple strings
 #' @return 
 #' The functions \code{pastem} does string interpolations.
-#' The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) LHS of `=` is also substituted.
+#' The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) two different patterns can be chosen, specifyinbg whether the expression should be replaced by its evaluation, or the symbol of its evaluation
 #' The function \code{evalm} is a wapper for \code{eval(quotem()))}.
 #' 
 #' The expressions includes all letters + underscore that follow the pattern. Use parenthesis if you want the expression to be shorter or longer.
@@ -32,11 +32,11 @@
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
 #' )
-#' newvar <- quote(temp)
-#' myvar <- quote(v1)
+#' newvar <- "temp"
+#' myvar <- "v1"
 #' byvar <- c("id", "v1")
-#' quotem(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
-#' evalm(DT[, list(`$newvar` = mean(`$myvar`)), by = `$byvar`])
+#' quotem(DT[, list(`$newvar` = mean(.myvar)), by = `$byvar`])
+#' evalm(DT[, list(`$newvar` = mean(.myvar)), by = `$byvar`])
 #' @export
 pastem <- function(..., sep = " ", pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
   l <- sapply(list(...), function(x){string_interpolation(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]]})
@@ -136,20 +136,26 @@ evalm <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame
 
 #' @export
 #' @rdname pastem
-quotem <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+quotem <- function(x, pattern = "$", pattern.name = ".", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
   x <- substitute(x)
-  quotem_(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
+  quotem_(x, pattern = pattern, pattern.name = pattern.name, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
 }
 
 #' @export
 #' @rdname pastem
-quotem_ <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-  # first replace all names
+quotem_ <- function(x, pattern = "$", pattern.name = ".", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
+  # first replace all names with pattern by their evaluation
   all.names <- all.vars(x, unique = TRUE)
   env_symbol <- sapply(all.names, function(x){eval_symbol(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)}, USE.NAMES = TRUE)
-  x <- interp(x, .values = env_symbol)
+  env_symbol[sapply(env_symbol, is.null)] <- NULL
 
-  # then replace all names (like option etc) in the LHS
+  # then replace all names with pattern.name by their symbol
+  env_symbol2 <- sapply(all.names, function(x){eval_symbol(x, pattern = pattern.name, parenthesis.only = parenthesis.only, env = env, inherits = inherits)}, USE.NAMES = TRUE)
+  env_symbol2[sapply(env_symbol2, is.null)] <- NULL
+  env_symbol2 <- lapply(env_symbol2, as.name)
+  x <- interp(x, .values = c(env_symbol, env_symbol2))
+
+  # then replace all strings (like option etc) in the LHS
   string_interpolation_list(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)
 }
 
@@ -159,15 +165,19 @@ eval_symbol <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent
   if (out[[2]]==1 && out[[3]]==1){
    # case where the macro is the whole symbol. then the type is directly the type of the object it refers too
      return(out[[4]])
-   } else{
+  } else if (out[[2]]>0) {
    # case where the macro is one part of the symbol. then its type is coerced to expression
       return(as.name(out[[1]]))
-   }
+  } else{
+    return(NULL)
+  }
 }
 
 
 string_interpolation_list <- function(x, pattern = "$", parenthesis.only = FALSE, env = parent.frame(), inherits = FALSE){
-  if (length(x)>1){
+  if (length(x)==1 & is.character(x)){
+    x <- string_interpolation(x, pattern = pattern, parenthesis.only = parenthesis.only, env = env , inherits = inherits)[[1]]
+  } else if (length(x)>1){
     # recursion
     for (i in 1:length(x)){
         if (!is.null(x[[i]]) & length(x[[i]])){

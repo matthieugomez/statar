@@ -11,6 +11,7 @@
 #' @importFrom dplyr tbl_vars
 #' @importFrom dplyr filter_
 #' @importFrom dplyr group_by
+#' @importFrom dplyr n_distinct
 #' @importFrom dplyr sample_n
 #' @importFrom grid grid.layout
 #' @importFrom grid grid.newpage
