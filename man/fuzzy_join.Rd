@@ -30,12 +30,12 @@ fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
 
 \item{method}{See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}}
 
-\item{p}{See  the \code{\link[stringdist]{stringdist}} documentation. Default to 0.1}
+\item{p}{See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}}
 
 \item{...}{Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.}
 }
 \description{
-\code{fuzzy_join} uses record linkage methods to match observations between two datasets where no perfect key fields exist.  For each row in x, \code{fuzzy_join} finds the row(s) in y with the lowest distance (a weighted average of the string distance defined in \code{method} over multiple columns).
+\code{fuzzy_join} uses record linkage methods to match observations between two datasets where no perfect key fields exist.  For each row in x, \code{fuzzy_join} finds the closest row(s) in y. The distance is a weighted average of the string distances defined in \code{method} over multiple columns.
 }
 \details{
 Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.

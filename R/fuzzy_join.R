@@ -13,7 +13,7 @@
 #' @param w Numeric vector of the same length as \code{fuzzy} specifying the weights to use when summing across different column of \code{fuzzy}. Default to \code{rep(1, length(fuzzy))}.
 #' @param na.score Numeric that specifies the distance between NA and another string. Default to 1/3
 #' @param method See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}
-#' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to 0.1
+#' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
 #' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
 #' @examples
 #' x <- data.table(x = c("france", "franc"), y = c("arras", "dijon"))
