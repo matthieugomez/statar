@@ -182,8 +182,8 @@ score_row <- function(l, index.y, ans.y, exact = NULL, exact.or.NA = NULL, fuzzy
     for (i in seq_along(fuzzy)){
   	  tempv <- tempv + w[i]*stringdist2(l[[fuzzy[i]]], ans.y[[fuzzy[i]]], ...)
     }
-	  index <- which.min(tempv)
-	  return(c(ans.y[[index.y]][index], tempv[index]))
+    index <- which.min(tempv)
+    return(c(ans.y[[index.y]][index], tempv[index]))
 	}
 }
 

@@ -1,4 +1,4 @@
-#' Apply rollling functions with respect to a time variable
+#' Apply rolling functions within time intervals
 #' 
 #' @param x a vector or matrix
 #' @param FUN function to apply on \code{x}
