@@ -69,15 +69,14 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
   }
   yy <- shallow(y)
 
-  if (kind == "cross"){
-        k <- NULL # Setting the variables to NULL first for CRAN check NOTE
-        DT_output <- setkey(x[,c(k=1, .SD)],k)[y[, c(k = 1,.SD)], allow.cartesian = TRUE][,k := NULL]
-        return(DT_output)
-  } else {
 
     # find names and  check no common names
-    vars <- on
-    message(paste0("Join based on : ", paste(vars, collapse = " ")))
+    if (kind == "cross"){
+      vars <- character(0)
+    } else{
+      vars <- on
+      message(paste0("Join based on : ", paste(vars, collapse = " ")))
+    }
 
   #  if (!length(setdiff(names(y), vars))) stop("No column in y beyond the one used in the merge")
 
@@ -92,12 +91,24 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
     # set keys and check duplicates
     key_xx <- key(xx)
     key_yy <- key(yy)
-    setkeyv(xx, vars)
-    setkeyv(yy, vars)
+    if (kind!= "cross"){
+      setkeyv(xx, vars)
+      setkeyv(yy, vars)
+    }
   
     on.exit(setkeyv(xx, key_xx), add = TRUE)
     on.exit(setkeyv(yy, key_yy), add = TRUE)
 
+    if (kind == "cross"){
+          idm <- tempname(c(names(xx),names(yy)))
+          xx[, c(idm) := 1]
+          setkeyv(xx, idm)
+          yy[, c(idm) := 1]
+          setkeyv(yy, idm)
+          DT_output <- xx[yy, allow.cartesian = TRUE]
+          DT_output[, c(idm) := NULL]
+          return(DT_output[])
+    } else {
     if (check[[2]] == 1){
        if (anyDuplicated(xx)){ 
          stop(paste0("Variable(s) ",paste(vars, collapse = " ")," don't uniquely identify observations in x"), call. = FALSE)

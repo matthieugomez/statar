@@ -1,16 +1,18 @@
 #' Find best string combinations that identify an id
 #'
-#' @param id a vector of identifiers
 #' @param name a vector of characters
+#' @param by a vector of identifiers
 #' @param n number of words for combinations. Default to \code{1}.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
+#' library(data.table)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' count_combinations(id, name)
-#' count_combinations(id, name, n = 2)
+#' count_combinations(name, by = id)
+#' count_combinations(name, by = id, n = 2)
 #' @export
-count_combinations <- function(id, name, n = 1){
-  dt <- setDT(list(id = id, name = name))
+count_combinations <- function(name, by, n = 1){
+  dt <- setDT(list(id = by, name = name))
+  dt <- na.omit(dt, by = "name")
   if (n>0){
     f <- function(x){
       g <- function(x){
@@ -28,8 +30,8 @@ count_combinations <- function(id, name, n = 1){
   }
   dt <- dt[, list(.N) , by = c("id", "name")]
   setnames(dt, c("id", "name", "count_within"))
-  dt[, count_across := .N, by = name]
-  setorder(dt, id, count_across, -count_within)
+  dt[, "count_across" := .N, by = name]
+  setorder(dt, c("id", "count_across", "count_within"), order = c(1,1,-1))
   setDF(dt)
   dt
 }
@@ -38,19 +40,23 @@ count_combinations <- function(id, name, n = 1){
 
 #' Find minimum distance of each word to other groups
 #'
-#' @param id a vector of identifiers
 #' @param name a vector of characters
+#' @param by a vector of identifiers
 #' @param n number of words for combinations. Default to \code{0}.
+#' @param method See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}
+#' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
+#' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
+#' library(data.table)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' compute_distance(id, name, n = 0)
-#' compute_distance(id, name, n = 1)
-#' compute_distance(id, name, n = 2)
+#' compute_distance(name, by = id, n = 0)
+#' compute_distance(name, by = id, n = 1)
+#' compute_distance(name, by = id, n = 2)
 #' @export
-compute_distance <- function(id, name, n = 1, method = "jw", p = 0.1, ...){
-  dt <- setDT(list(id = id, name = name))
-
+compute_distance <- function(name, by, n = 1, method = "jw", p = 0.1, ...){
+  dt <- setDT(list(id = by, name = name))
+  dt <- na.omit(dt, by = "name")
   if (n>0){ 
     f <- function(x){
       g <- function(x){
@@ -72,7 +78,7 @@ compute_distance <- function(id, name, n = 1, method = "jw", p = 0.1, ...){
   dt2 <- dt[setdiff(seq_len(nrow(dt)), aux)]
 
   setkey(dt2, id)
-  f <- function(x, ...){
+  h <- function(x, ...){
     group <- dt2[id==x, name]
     other <- dt2[id!=x, name]
     m <- stringdistmatrix(group, other, method = method, p = p, ...)
@@ -81,12 +87,12 @@ compute_distance <- function(id, name, n = 1, method = "jw", p = 0.1, ...){
     list(group, x)
   }
   ans <- data.table(id = unique(dt2)$id)
-  ans <- ans[, f(id, ...), by = id]
+  ans <- ans[, h(id, ...), by = id]
   setnames(ans, c("id", "name", "distance"))
   dt3 <- dt[aux]
-  dt3[, distance := 0]
+  dt3[, "distance" := 0]
   ans <- rbind(ans, dt3)
-  setkey(ans, id, name, distance)
+  setkeyv(ans, c("id", "name", "distance"))
   setDF(ans)
   ans
 }

@@ -25,6 +25,7 @@ Imports:
     lfe,
     lubridate,
     matrixStats,
+    stringdist,
     stringr,
     tidyr
 Suggests:

@@ -14,6 +14,7 @@ count_combinations(id, name, n = 1)
 }
 \value{
 \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
+library(data.table)
 id <- c(1, 1, 2, 2)
 name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
 count_combinations(id, name)

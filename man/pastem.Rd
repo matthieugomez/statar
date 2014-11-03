@@ -35,10 +35,12 @@ quotem_(x, pattern = "$", pattern.name = ".", parenthesis.only = FALSE,
 \item{inherits}{Default to FALSE}
 
 \item{x}{any syntactically valid R expression}
+
+\item{pattern.name}{pattern to use when replacing symbol. Default to \code{.}}
 }
 \value{
 The functions \code{pastem} does string interpolations.
-The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) two different patterns can be chosen, specifyinbg whether the expression should be replaced by its evaluation, or the symbol of its evaluation
+The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) two different patterns can be chosen, specifyinbg whether the expression should be replaced by its evaluation (with \code{$}), or the symbol of its evaluation (with \code{.})
 The function \code{evalm} is a wapper for \code{eval(quotem()))}.
 
 The expressions includes all letters + underscore that follow the pattern. Use parenthesis if you want the expression to be shorter or longer.

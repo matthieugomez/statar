@@ -44,6 +44,7 @@ fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
 Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.
 }
 \examples{
+library(data.table)
 x <- data.table(a = c("france", "franc"), b = c("arras", "dijon"))
 y <- data.table(a = c("franc", "france"), b = c("arvars", "dijjon"))
 fuzzy_join(x, y, fuzzy = c("a", "b"))

@@ -3,12 +3,13 @@
 #' @param env environment in which to evalute the expressions enclosed in patterns. Default to current environement
 #' @param inherits Default to FALSE
 #' @param pattern pattern to use. Default to \code{$}
+#' @param pattern.name pattern to use when replacing symbol. Default to \code{.}
 #' @param parenthesis.only Limit patterns within parenthesis?
 #' @param sep   a character string to separate the terms.
 #' @param ... Paste multiple strings
 #' @return 
 #' The functions \code{pastem} does string interpolations.
-#' The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) two different patterns can be chosen, specifyinbg whether the expression should be replaced by its evaluation, or the symbol of its evaluation
+#' The functions \code{quotem} does expression interpolations. It is very similar to `substitute` except that (i) it works in the global environment (ii) only variables prefixed with a pattern are substituted (iii) two different patterns can be chosen, specifyinbg whether the expression should be replaced by its evaluation (with \code{$}), or the symbol of its evaluation (with \code{.})
 #' The function \code{evalm} is a wapper for \code{eval(quotem()))}.
 #' 
 #' The expressions includes all letters + underscore that follow the pattern. Use parenthesis if you want the expression to be shorter or longer.

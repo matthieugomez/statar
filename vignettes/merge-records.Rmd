@@ -21,7 +21,7 @@ The package includes two functions that can be applied to the "true" dataset `y`
   ```R
   id <- c(1, 1, 2, 2)
   name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-  count_combinations(id, name)
+  count_combinations(name, by = id)
   #.   id         name count_within count_across
   #> 1  1         coca            2            1
   #> 2  1         cola            2            1
@@ -44,7 +44,7 @@ The package includes two functions that can be applied to the "true" dataset `y`
     ```R
     id <- c(1, 1, 2, 2)
     name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-    compute_distance(id, name, n = 0)
+    compute_distance(name, by = id, n = 0)
     #>   id                   name  distance
     #> 1  1      coca cola company 0.5087146
     #> 2  1 coca cola incorporated 0.2727273
