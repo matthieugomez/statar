@@ -6,7 +6,7 @@
 \usage{
 keep_if(x, ..., by = NULL)
 
-keep_if_(x, .dots, by)
+keep_if_(x, .dots, by = NULL)
 }
 \arguments{
 \item{x}{a data.table}

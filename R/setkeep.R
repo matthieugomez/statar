@@ -142,7 +142,7 @@ keep_if <- function(x, ..., by = NULL){
 
 #' @export
 #' @rdname keep_if
-keep_if_ <- function(x, .dots, by){
+keep_if_ <- function(x, .dots, by = NULL){
 	stopifnot(is.data.table(x))
 	byvars <- names(select_vars_(names(x), by))
 	if (!length(by)){
@@ -180,7 +180,7 @@ discard_if <- function(x, ..., by = NULL){
 
 #' @export
 #' @rdname discard_if
-discard_if_ <- function(x, .dots, by){
+discard_if_ <- function(x, .dots, by = NULL){
 	stopifnot(is.data.table(x))
 	byvars <- names(select_vars_(names(x), by))
 	if (!length(by)){

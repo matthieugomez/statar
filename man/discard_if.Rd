@@ -6,7 +6,7 @@
 \usage{
 discard_if(x, ..., by = NULL)
 
-discard_if_(x, .dots, by)
+discard_if_(x, .dots, by = NULL)
 }
 \arguments{
 \item{x}{a data.table}

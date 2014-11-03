@@ -46,10 +46,10 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
   kind <- match.arg(kind, c("outer", "left", "right", "inner", "cross", "semi", "anti"))
 
   if (!is.data.table(x)){
-    stop(paste0("Master is not a data.table. Convert it first using setDT()"))
+    stop(paste0("x is not a data.table. Convert it first using setDT(x)"))
   }
   if (!is.data.table(y)){
-    stop(paste0("Using is not a data.table. Convert it first using setDT()"))
+    stop(paste0("y is not a data.table. Convert it first using setDT(y)"))
   }
   
   # check inplace possible
