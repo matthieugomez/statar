@@ -116,91 +116,91 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(T
 #' @export
 #' @rdname roll
 roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE, TRUE), ...){
-  if (length(closed)==1){
-    closed = rep(closed,2)
-  }
-  FUN <- match.fun(FUN)
-   if (!is.null(order_by) | !is.null(along_with)){
-    if (!is.null(order_by)){
-      sort <- order_by
-    } else{
-      sort <- along_with
+    if (length(closed)==1){
+        closed = rep(closed,2)
     }
-    l <- length(sort)
-    ord <- order(sort)
-    undo <- match(seq_len(l), ord)
-    if (is.matrix(x) | is.data.frame(x)){
-      x <- x[ord,, drop = FALSE]
-    } else if (is.list(x)){
-      x <- lapply(x,function(z){z[ord]})
-    } else{
-      x <- x[ord]
-    }
-    sort <- sort[ord]
-  } else{
-      if (!is.null(nrow(x))){
-        l <- nrow(x)
-      } else{
-        l <- length(x)
-      }
-  }
-  seq = seq_len(l)
-  if (!is.null(along_with)){
-      if (anyNA(sort)){
-          stop(sort, "contains NA")
-      }
-     if (closed[[2]]){
-          sort <- as.double(sort)
-          f_end <- .Internal(findInterval(sort - n, sort, FALSE, FALSE))
+    FUN <- match.fun(FUN)
+     if (!is.null(order_by) | !is.null(along_with)){
+        if (!is.null(order_by)){
+            sort <- order_by
         } else{
-          f_end <- .bincode(sort, c(sort-n, Inf))
-        } 
-        if (closed[[1]]){
-            vec <- lapply(seq, function(i) i:f_end[i])
-        } else{
-            seq[seq >=  f_end] <- NA
-            vec <- lapply(seq, function(i) if (!is.na(i)) (i+1):f_end[i])
+            sort <- along_with
         }
-  } else {
-       if (closed[[1]]){
-           f_end <- pmin(seq + n, l)
-       } else{
-           f_end <- pmin(seq + n - 1, l)-1
-       } 
+        l <- length(sort)
+        ord <- order(sort)
+        undo <- match(seq_len(l), ord)
+        if (is.matrix(x) | is.data.frame(x)){
+            x <- x[ord,, drop = FALSE]
+        } else if (is.list(x)){
+            x <- lapply(x,function(z){z[ord]})
+        } else{
+            x <- x[ord]
+        }
+        sort <- sort[ord]
+    } else{
+        if (!is.null(nrow(x))){
+            l <- nrow(x)
+        } else{
+            l <- length(x)
+        }
+    }
+    seq = seq_len(l)
+    if (!is.null(along_with)){
+        if (anyNA(sort)){
+            stop(sort, "contains NA")
+        }
        if (closed[[2]]){
-          vec <- lapply(seq, function(i) i:f_end[i])
-       } else{
-          seq[seq > f_end] <- NA
-           vec <- lapply(seq, function(i) if (!is.na(i)) (i+1):f_end[i])
-       }
-  }
-  if (is.list(x)){
-      out <- lapply(vec, function(v){
-          if (!is.null(v)){
-              x <- lapply(x,function(z){z[v]})
-              FUN(x,...)
-          } else NA
-          })
-  } else if (is.matrix(x)|is.data.frame(x)){
-      out <- lapply(vec, function(v){
-          if (!is.null(v)){
-              FUN(x[v,, drop = FALSE],...)
-          } else NA
-      })
-  }
-   else{
-      out <- lapply(vec, function(v){
-          if (!is.null(v)){
-                 FUN(x[v],...)
-             } else NA
-         })
-  }
-  out <- simplify2array(out, higher = TRUE)
-  if (!is.null(order_by) | !is.null(along_with)){
-      out[undo]
-  } else{
-      out
-  }
+            sort <- as.double(sort)
+            f_end <- .Internal(findInterval(sort - n, sort, FALSE, FALSE))
+          } else{
+            f_end <- .bincode(sort, c(sort-n, Inf))
+          } 
+          if (closed[[1]]){
+              vec <- lapply(seq, function(i) i:f_end[i])
+          } else{
+              seq[seq >=  f_end] <- NA
+              vec <- lapply(seq, function(i) if (!is.na(i)) (i+1):f_end[i])
+          }
+    } else {
+         if (closed[[1]]){
+             f_end <- pmin(seq + n, l)
+         } else{
+             f_end <- pmin(seq + n - 1, l)-1
+         } 
+         if (closed[[2]]){
+            vec <- lapply(seq, function(i) i:f_end[i])
+         } else{
+            seq[seq > f_end] <- NA
+             vec <- lapply(seq, function(i) if (!is.na(i)) (i+1):f_end[i])
+         }
+    }
+    if (is.list(x)){
+        out <- lapply(vec, function(v){
+            if (!is.null(v)){
+                x <- lapply(x,function(z){z[v]})
+                FUN(x,...)
+            } else NA
+            })
+    } else if (is.matrix(x)|is.data.frame(x)){
+        out <- lapply(vec, function(v){
+            if (!is.null(v)){
+                FUN(x[v,, drop = FALSE],...)
+            } else NA
+        })
+    }
+     else{
+        out <- lapply(vec, function(v){
+            if (!is.null(v)){
+                   FUN(x[v],...)
+               } else NA
+           })
+    }
+    out <- simplify2array(out, higher = TRUE)
+    if (!is.null(order_by) | !is.null(along_with)){
+        out[undo]
+    } else{
+        out
+    }
 }
 
 
