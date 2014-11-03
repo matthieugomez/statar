@@ -2,7 +2,7 @@
 \name{discard_if}
 \alias{discard_if}
 \alias{discard_if_}
-\title{Create new data.table after removing certain rows}
+\title{Create new data.table after discarding certain rows}
 \usage{
 discard_if(x, ..., by = NULL)
 
@@ -18,7 +18,7 @@ discard_if_(x, .dots, by)
 \item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{
-Create new data.table after removing certain rows
+Create new data.table after discarding certain rows
 }
 \examples{
 library(data.table)

@@ -2,7 +2,7 @@
 \name{discard}
 \alias{discard}
 \alias{discard_}
-\title{Create a new data.table by removing certain columns}
+\title{Create a new data.table by discarding certain columns}
 \usage{
 discard(x, ...)
 
@@ -16,7 +16,7 @@ discard_(x, vars)
 \item{vars}{Used to work around non-standard evaluation.}
 }
 \description{
-Create a new data.table by removing certain columns
+Create a new data.table by discarding certain columns
 }
 \examples{
 library(data.table)

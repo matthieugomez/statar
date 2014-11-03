@@ -79,7 +79,7 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
     vars <- on
     message(paste0("Join based on : ", paste(vars, collapse = " ")))
 
-    if (!length(setdiff(names(y), vars))) stop("No column in y beyond the one used in the merge")
+  #  if (!length(setdiff(names(y), vars))) stop("No column in y beyond the one used in the merge")
 
     common_names <- setdiff(intersect(names(x),names(y)), vars)
     if (length(intersect(paste0(common_names, suffixes[1]), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix",suffixes[1],"in", common_names,"would create duplicates names in x"), call. = FALSE)
