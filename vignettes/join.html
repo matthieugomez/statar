@@ -868,7 +868,7 @@ join<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> 
 
 <p><code>fuzzy_join</code>  uses record linkage methods to match observations between two datasets where no perfect key fields exist. For each row in x, fuzzy_join finds the row(s) in y with the lowest distance (a weighted average of the string distance defined in method over multiple columns).</p>
 
-<p>It corresponds roughtly to <code>reclink</code>, except that rows in <code>y</code> are not thrown away after an exact match with <code>x</code>.</p>
+<p>It corresponds roughty to the Stata command <code>reclink</code>, except that rows in <code>y</code> are not thrown away after an exact match with <code>x</code>, that the distance can be arbitrarly specified, and that it is faster.</p>
 
 <p>One can specify</p>
 
