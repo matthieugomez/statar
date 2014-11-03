@@ -44,18 +44,22 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   index.x <- tempname(c(names(x), names(y)))
   index.y <- tempname(c(names(x), names(y), index.x))
   w <- w/sum(w)
-  ans.x <- keep_(x, c(exact, exact.or.NA, fuzzy))
-  ans.y <- keep_(y, c(exact, exact.or.NA, fuzzy))
 
   # remove duplicates with respect to key columns in x and y
-  setkeyv(ans.x, c(exact, exact.or.NA, fuzzy))
-  setkeyv(ans.y, c(exact, exact.or.NA, fuzzy))
+  ans.x <- keep_(x, c(exact, exact.or.NA, fuzzy))
+  ans.y <- keep_(y, c(exact, exact.or.NA, fuzzy))
+  ## create unique identifiers .GRP
   ans.x[, c(index.x) := .GRP, by = c(exact, exact.or.NA, fuzzy)]
   ans.y[, c(index.y) := .GRP, by = c(exact, exact.or.NA, fuzzy)]
+  ## keep link .GRP and row number
   merge.x <- ans.x[, list(get(index.x), .I)]
-  setnames(merge.x, c(index.x, "x"))
   merge.y <- ans.y[, list(get(index.y), .I)]
+  setnames(merge.x, c(index.x, "x"))
   setnames(merge.y, c(index.y, "y"))
+
+  # group
+  setkeyv(ans.x, c(exact, exact.or.NA, fuzzy))
+  setkeyv(ans.y, c(exact, exact.or.NA, fuzzy))
   ans.x <- unique(ans.x)
   ans.y <- unique(ans.y)
 
@@ -117,7 +121,6 @@ score_row <- function(l, index.y, ans.y, exact = NULL, exact.or.NA = NULL, fuzzy
     condition.exact.or.NA <- paste0("(",paste(condition.exact.or.NA, collapse = ")&("),")")
     ans.y <- keep_if_(ans.y, condition.exact.or.NA)
   } 
-  print(nrow(ans.y))
   if (nrow(ans.y)==0){
   	return(c(NA, NA))
   } else{

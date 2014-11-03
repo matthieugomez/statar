@@ -36,6 +36,7 @@
 #' @importFrom parallel mcMap
 #' @importFrom stats lag
 #' @importFrom stringdist stringdist
+#' @importFrom stringdist stringdistmatrix
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_match
 #' @importFrom stringr str_detect
