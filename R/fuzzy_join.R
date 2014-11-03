@@ -162,40 +162,42 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, che
 }
 
 
-score_row <- function(l, index.y, ans.y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, w = rep(1, length(fuzzy)), ...){
-	# binary search
-	if (length(exact)){
-		ans.y <- ans.y[l[exact], nomatch = 0]
-	}
-	if (length(exact.or.NA)){
-		condition.exact.or.NA <-  sapply(seq_along(exact.or.NA),
-			function(i){
-				if (!is.na(l[[exact.or.NA[i]]])){
-					pastem(exact.or.NA[i], "==", l[[exact.or.NA[i]]], "| is.na(",l[[exact.or.NA[i]]],"))")
-				}  
-			})
-		condition.exact.or.NA <- paste0("(",paste(condition.exact.or.NA, collapse = ")&("),")")
-		ans.y <- keep_if_(ans.y, condition.exact.or.NA)
-	} 
-	if (nrow(ans.y)==0){
-		return(c(NA, NA))
-	} else{
-		tempv <- rep(0, nrow(ans.y))
-		for (i in seq_along(fuzzy)){
-			tempv <- tempv + w[i]*stringdist2(l[[fuzzy[i]]], ans.y[[fuzzy[i]]], ...)
-		}
-		index <- which.min(tempv)
-		return(c(ans.y[[index.y]][index], tempv[index]))
-	}
-}
-
-	
-
 stringdist2 <- function(x, y, na.score,  ...){
 	out <- stringdist(x,y, ...)
 	out[is.na(x) | is.na(y) ] <- na.score
 	out
 }
+
+#score_row <- function(l, index.y, ans.y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, w = rep(1, length(fuzzy)), #...){
+#	# binary search
+#	if (length(exact)){
+#		ans.y <- ans.y[l[exact], nomatch = 0]
+#	}
+#	if (length(exact.or.NA)){
+#		condition.exact.or.NA <-  sapply(seq_along(exact.or.NA),
+#			function(i){
+#				if (!is.na(l[[exact.or.NA[i]]])){
+#					pastem(exact.or.NA[i], "==", l[[exact.or.NA[i]]], "| is.na(",l[[exact.or.NA[i]]],"))")
+#				}  
+#			})
+#		condition.exact.or.NA <- paste0("(",paste(condition.exact.or.NA, collapse = ")&("),")")
+#		ans.y <- keep_if_(ans.y, condition.exact.or.NA)
+#	} 
+#	if (nrow(ans.y)==0){
+#		return(c(NA, NA))
+#	} else{
+#		tempv <- rep(0, nrow(ans.y))
+#		for (i in seq_along(fuzzy)){
+#			tempv <- tempv + w[i]*stringdist2(l[[fuzzy[i]]], ans.y[[fuzzy[i]]], ...)
+#		}
+#		index <- which.min(tempv)
+#		return(c(ans.y[[index.y]][index], tempv[index]))
+#	}
+#}
+
+	
+
+
 
 
 
