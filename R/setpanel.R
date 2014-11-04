@@ -59,13 +59,37 @@ setpanel <- function(x, ...){
 #' @export
 #' @rdname  is.panel
 setpanel_ <- function(x, vars){
+    vars <- names(select_vars_(names(x), vars))
     if (is.panel_(x, vars)){
-        vars <- names(select_vars_(names(x), vars))
         along_with  <- vars[length(vars)]
         vars <- setdiff(vars, along_with)
         setkeyv(x, c(vars, along_with))
     }
 }
+
+
+
+n_unique <- function(x, ...){
+    n_unique_(x, vars = lazy_dots(...))
+}
+
+n_unique_ <- function(x, ...){
+    UseMethod("n_unique_")
+}
+
+n_unique_.data.table <- function(x, vars, ...){
+    vars <- names(select_vars_(names(x), vars))
+    if (!length(vars)){
+        vars <- names(x)
+    }
+    nrow(x) - sum(duplicated(x, by =vars))
+}
+
+n_unique_.default <- function(x, ...){
+    n_distinct(x)
+}
+
+
 
 
 
