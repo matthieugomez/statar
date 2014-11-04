@@ -2,7 +2,7 @@
 \name{roll_lag}
 \alias{roll_lag}
 \alias{roll_lead}
-\title{Apply rollling functions with respect to a time variable}
+\title{Apply rolling functions within time intervals}
 \usage{
 roll_lag(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
   TRUE), ...)
@@ -26,7 +26,7 @@ roll_lead(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
 \item{...}{options to pass to the function \code{FUN}}
 }
 \description{
-Apply rollling functions with respect to a time variable
+Apply rolling functions within time intervals
 }
 \examples{
 date  = c(1, 2, 4, 7)

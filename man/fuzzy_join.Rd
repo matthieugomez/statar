@@ -4,9 +4,9 @@
 \title{Fuzzy join two data.tables together}
 \usage{
 fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
-  gen = "distance", suffixes = c(".x", ".y"), which = FALSE, w = rep(1,
-  length(fuzzy)), na.score = 1/3, mc.cores = getOption("mc.cores", 2L),
-  method = "jw", p = 0.1, ...)
+  unique.y = NULL, gen = "distance", suffixes = c(".x", ".y"),
+  which = FALSE, w = rep(1, length(fuzzy)), na.score = 1/3,
+  mc.cores = getOption("mc.cores", 2L), method = "jw", p = 0.1, ...)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -19,7 +19,9 @@ fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
 
 \item{fuzzy}{Character vector specifying columns on which to match in a fuzzy way}
 
-\item{gen}{Name of new variable with the distance between matched observations. Default to "distance".}
+\item{unique.y}{Experimental option. Character vector specifying id of y that should not be merge to multiple x. A common specification is a variable equals to the row number. When specified, (i) observations in the same group are throwned away if they are exactly matched (as in Stata \code{reclink} (ii) in the set of fuzzy matches, a linear problem is used to solve for the best combination that satisfies the conditition that no group in y is matched to mutiple x.}
+
+\item{gen}{Name of new variable with the distance between matched observations. Default to "distance". Can't be "x" or "y".}
 
 \item{suffixes}{A character vector of length 2 specifying  suffix of overlapping columns. Defaut to ".x" and ".y".}
 
@@ -35,26 +37,29 @@ fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
 
 \item{p}{See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}}
 
-\item{...}{Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.}
+\item{...}{Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentatio}
 }
 \description{
 \code{fuzzy_join} uses record linkage methods to match observations between two datasets where no perfect key fields exist.  For each row in x, \code{fuzzy_join} finds the closest row(s) in y. The distance is a weighted average of the string distances defined in \code{method} over multiple columns.
 }
 \details{
-Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.
+Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA. The algorithm first creates a cross product of both tables (or a left_join if exact is not NULL), which requires memory. You may want to process x by chunks.
 }
 \examples{
 library(data.table)
 x <- data.table(a = c("france", "franc"), b = c("arras", "dijon"))
 y <- data.table(a = c("franc", "france"), b = c("arvars", "dijjon"))
 fuzzy_join(x, y, fuzzy = c("a", "b"))
+y[, unique := 1:.N]
+fuzzy_join(x, y, fuzzy = c("a","b"), unique.y = "unique")
 fuzzy_join(x, y, fuzzy = c("a", "b"), w = c(0.9, 0.1))
 fuzzy_join(x,y, fuzzy = c("a", "b"), w = c(0, 0.9))
 x <- data.table(a = c(1, 1), b = c("arras", "dijon"))
 y <- data.table(a = c(1, 1), b = c("arvars", "dijjon"))
-fuzzy_join(a, y, exact = "a", fuzzy = "b")
+fuzzy_join(x, y, exact = "a", fuzzy = "b")
 x <- data.table(a = c(1, 2), b = c("arras", "dijon"))
 y <- data.table(a = c(1, 1), b = c("arvars", "dijjon"))
 fuzzy_join(x, y, exact = "a", fuzzy = "b")
+fuzzy_join(x, y, exact = "a", fuzzy = "b", check = m~1)
 }
 

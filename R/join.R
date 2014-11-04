@@ -79,31 +79,33 @@ join =  function(x, y, on = intersect(names(x),names(y)), kind = "outer" , suffi
     }
 
   #  if (!length(setdiff(names(y), vars))) stop("No column in y beyond the one used in the merge")
-
-    common_names <- setdiff(intersect(names(x),names(y)), vars)
-    if (length(intersect(paste0(common_names, suffixes[1]), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix",suffixes[1],"in", common_names,"would create duplicates names in x"), call. = FALSE)
-    if (length(intersect(paste0(common_names, suffixes[2]), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix",suffixes[2],"in", common_names,"would create duplicates names in y"), call. = FALSE)
-    if (length(common_names)>0){
-      setnames(xx, common_names, paste0(common_names, suffixes[1]))
-      setnames(yy, common_names, paste0(common_names, suffixes[2]))
+    if (!(kind== "semi" | kind == "anti")){
+      common_names <- setdiff(intersect(names(x),names(y)), vars)
+      if (length(intersect(paste0(common_names, suffixes[1]), setdiff(names(x),common_names)))>0) stop(paste("Adding the suffix",suffixes[1],"in", common_names,"would create duplicates names in x"), call. = FALSE)
+      if (length(intersect(paste0(common_names, suffixes[2]), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix",suffixes[2],"in", common_names,"would create duplicates names in y"), call. = FALSE)
+      if (length(common_names)>0){
+        setnames(xx, common_names, paste0(common_names, suffixes[1]))
+        setnames(yy, common_names, paste0(common_names, suffixes[2]))
+      }
     }
 
     # set keys and check duplicates
     key_xx <- key(xx)
     key_yy <- key(yy)
-    if (kind!= "cross"){
+    if (!kind == "cross"){
       setkeyv(xx, vars)
       setkeyv(yy, vars)
     }
-  
     on.exit(setkeyv(xx, key_xx), add = TRUE)
     on.exit(setkeyv(yy, key_yy), add = TRUE)
+    
+ 
 
     if (kind == "cross"){
           idm <- tempname(c(names(xx),names(yy)))
-          xx[, c(idm) := 1]
+          xx[, c(idm) := 1L]
           setkeyv(xx, idm)
-          yy[, c(idm) := 1]
+          yy[, c(idm) := 1L]
           setkeyv(yy, idm)
           DT_output <- xx[yy, allow.cartesian = TRUE]
           DT_output[, c(idm) := NULL]
