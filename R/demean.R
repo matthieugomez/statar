@@ -11,7 +11,7 @@
 #' @export
 demean <- function(x, fe){
 	stopifnot(is.atomic(x))
-	if (is.double(x)){
+	if (!is.double(x)){
 		x <- as.double(x)
 	}
 	if (is.atomic(fe)){
@@ -24,7 +24,7 @@ demean <- function(x, fe){
 	for (v in names(ans)[2:length(ans)]){
 		if (!ans[,is.factor(get(v))]) ans[, (v) := as.factor(get(v))]
 	}
-	m <- unlist(demeanlist(ans[, "V1", with = FALSE], ans[, names(ans)[-1], with = FALSE]))
+	m <- unlist(demeanlist(ans[[1]], ans[, names(ans)[-1], with = FALSE]))
 	out <- rep(NA, length(x))
 	out[rows] <- m
 	out
