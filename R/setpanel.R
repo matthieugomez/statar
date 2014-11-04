@@ -69,26 +69,6 @@ setpanel_ <- function(x, vars){
 
 
 
-n_unique <- function(x, ...){
-    n_unique_(x, vars = lazy_dots(...))
-}
-
-n_unique_ <- function(x, ...){
-    UseMethod("n_unique_")
-}
-
-n_unique_.data.table <- function(x, vars, ...){
-    vars <- names(select_vars_(names(x), vars))
-    if (!length(vars)){
-        vars <- names(x)
-    }
-    nrow(x) - sum(duplicated(x, by =vars))
-}
-
-n_unique_.default <- function(x, ...){
-    n_distinct(x)
-}
-
 
 
 
