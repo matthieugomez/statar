@@ -59,12 +59,12 @@ The package includes two functions that can be applied to the "true" dataset `y`
     #> 7  2 incorporated 0.0000000
     ```
 
-    Again, words with low distance should be discarded while words with high distance could be added to the "master" dataset "y'.
+    Again, words with low distance should be discarded while words with high distance could be added to the "master" dataset `y`.
 
 
 ## Fuzzy joins
 
- For each row in x, `fuzzy_join` finds the closest row(s) in y for a specific metric. The distance is a weighted average of a string distance over multiple columns. Both the weights and the string distance can be specified by the user. By default, `fuzzy_join` uses the [jaro-winkler distance](https://www.census.gov/srd/papers/pdf/rr93-8.pdf) with a winkler adjustment of 0.1.
+ For each row in `x`, `fuzzy_join` finds the closest row(s) in `y` for a specific metric. The distance is a weighted average of a string distance over multiple columns. Both the weights and the string distance can be specified by the user. By default, `fuzzy_join` uses the [jaro-winkler distance](https://www.census.gov/srd/papers/pdf/rr93-8.pdf) with a winkler adjustment of 0.1.
 
 
 ```R
@@ -80,7 +80,7 @@ fuzzy_join(x, y, exact = "a", fuzzy = "b")
 #>          0 france arras france dijjon
 ``` 
 
-The function corresponds roughly to the Stata command `reclink`, except that rows in `y` are not thrown away after an exact match with `x`. Moreover, the type of distance between strings can be arbitrarly specified thanks to the package `stringdist`.
+The function corresponds roughly to the Stata command `reclink`. The type of distance between strings can be arbitrarly specified thanks to the package `stringdist`.
 
 
 
