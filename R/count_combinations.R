@@ -1,17 +1,17 @@
 #' Find best string combinations that identify an id
 #'
 #' @param name a vector of characters
-#' @param by a vector of identifiers
+#' @param id a vector of identifiers
 #' @param n number of words for combinations. Default to \code{1}.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
 #' library(data.table)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' count_combinations(name, by = id)
-#' count_combinations(name, by = id, n = 2)
+#' count_combinations(name, id = id)
+#' count_combinations(name, id = id, n = 2)
 #' @export
-count_combinations <- function(name, by, n = 1){
-  dt <- setDT(list(id = by, name = name))
+count_combinations <- function(name, id, n = 1){
+  dt <- setDT(list(id = id, name = name))
   dt <- na.omit(dt, by = "name")
   if (n>0){
     f <- function(x){
@@ -41,7 +41,7 @@ count_combinations <- function(name, by, n = 1){
 #' Find minimum distance of each word to other groups
 #'
 #' @param name a vector of characters
-#' @param by a vector of identifiers
+#' @param id a vector of identifiers
 #' @param n number of words for combinations. Default to \code{0}.
 #' @param method See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}
 #' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
@@ -50,12 +50,12 @@ count_combinations <- function(name, by, n = 1){
 #' library(data.table)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' compute_distance(name, by = id, n = 0)
-#' compute_distance(name, by = id, n = 1)
-#' compute_distance(name, by = id, n = 2)
+#' compute_distance(name, id, n = 0)
+#' compute_distance(name, id, n = 1)
+#' compute_distance(name, id, n = 2)
 #' @export
-compute_distance <- function(name, by, n = 1, method = "jw", p = 0.1, ...){
-  dt <- setDT(list(id = by, name = name))
+compute_distance <- function(name, id, n = 1, method = "jw", p = 0.1, ...){
+  dt <- setDT(list(id = id, name = name))
   dt <- na.omit(dt, by = "name")
   if (n>0){ 
     f <- function(x){

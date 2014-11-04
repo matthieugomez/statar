@@ -3,12 +3,12 @@
 \alias{compute_distance}
 \title{Find minimum distance of each word to other groups}
 \usage{
-compute_distance(name, by, n = 1, method = "jw", p = 0.1, ...)
+compute_distance(name, id, n = 1, method = "jw", p = 0.1, ...)
 }
 \arguments{
 \item{name}{a vector of characters}
 
-\item{by}{a vector of identifiers}
+\item{id}{a vector of identifiers}
 
 \item{n}{number of words for combinations. Default to \code{0}.}
 
@@ -23,9 +23,9 @@ compute_distance(name, by, n = 1, method = "jw", p = 0.1, ...)
 library(data.table)
 id <- c(1, 1, 2, 2)
 name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-compute_distance(name, by = id, n = 0)
-compute_distance(name, by = id, n = 1)
-compute_distance(name, by = id, n = 2)
+compute_distance(name, id, n = 0)
+compute_distance(name, id, n = 1)
+compute_distance(name, id, n = 2)
 }
 \description{
 Find minimum distance of each word to other groups
