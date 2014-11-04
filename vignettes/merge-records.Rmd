@@ -48,7 +48,7 @@ The package includes two functions that can be applied to the "true" dataset `y`
     #> 2  1 coca cola incorporated 0.2727273
     #> 3  2             apple corp 0.4701299
     #> 4  2     apple incorporated 0.2727273
-    compute_distance(name, by = id, n = 1)
+    compute_distance(name, id = id, n = 1)
     #>   id         name  distance
     #> 1  1         coca 0.2666667
     #> 2  1         cola 0.2666667
