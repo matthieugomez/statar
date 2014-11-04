@@ -18,7 +18,9 @@ vars <- function(x, ...){
 		}
 	})
 	names(out) <- NULL
-	as.vector(out)
+	out <- unlist(out)
+	names(out) <- NULL
+	out
 }
 
 
@@ -26,5 +28,3 @@ vars <- function(x, ...){
 vars_not <- function(x, ...){
 	setdiff(names(x), vars(x, ...))
 }
-
-

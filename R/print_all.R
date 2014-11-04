@@ -4,6 +4,6 @@
 #' @export
 
 
-print_all(x){
+print_all <- function(x){
 	print(x, nrow(x))
 }

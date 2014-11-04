@@ -3,16 +3,16 @@
 \alias{bin}
 \title{Bin a numeric vector and return integer codes for the binning (corresponds to Stata command xtile)}
 \usage{
-bin(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL, w = NULL)
+bin(x, n_quantiles = NULL, cutpoints = NULL, probs = NULL, w = NULL)
 }
 \arguments{
 \item{x}{A vector}
 
+\item{n_quantiles}{A numeric specifying number of quantiles. Can be used instead of cutpoints}
+
 \item{cutpoints}{Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4.}
 
 \item{probs}{A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
-
-\item{n_quantiles}{A numeric specifying number of quantiles. Can be used instead of cutpoints}
 
 \item{w}{A variable specifying weight in case the option n_quantiles is specified.}
 }
