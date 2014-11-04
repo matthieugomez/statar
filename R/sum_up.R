@@ -47,9 +47,9 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, digits
     w <- x[[which(names(x)== w)]]
   }
     if (!length(byvars)){
-      invisible(x[, describe(.SD,d = d, w = w, na.rm = na.rm , digits = digits), .SDcols = vars])
+      invisible(x[, describe(.SD, d = d, w = w, na.rm = na.rm , digits = digits), .SDcols = vars])
     } else{
-      invisible(x[, describe(.SD,d = d, w = w, na.rm = na.rm , digits = digits), .SDcols = vars, by = byvars])
+      invisible(x[, describe(.SD, d = d, w = w, na.rm = na.rm , digits = digits), .SDcols = vars, by = byvars])
     }
   
 }

@@ -22,3 +22,9 @@ vars <- function(x, ...){
 }
 
 
+#' @export
+vars_not <- function(x, ...){
+	setdiff(names(x), vars(x, ...))
+}
+
+

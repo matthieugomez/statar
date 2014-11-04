@@ -12,7 +12,7 @@
 #' bin(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
 #' bin(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 #' @export
-bin <- function(x, cutpoints = NULL, probs = NULL, n_quantiles = NULL, w = NULL){
+bin <- function(x, n_quantiles = NULL, cutpoints = NULL, probs = NULL, w = NULL){
   if (!is.null(n_quantiles)){
   if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")
       if (is.null(w)){
