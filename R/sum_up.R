@@ -107,18 +107,18 @@ describe <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores = getOption(
 
 
 print_pretty <- function(x, digits = 3){
-  f <- function(y){
-    if (is.numeric(y)){
-      y <- sapply(y, function(z){.iround(z, decimal.places = digits)})
-      end <- paste0(paste(rep("0", digits), collapse = ""),"$")
-      y <- str_replace(y,end,"")
-      y[y==""] <- "0"
-      y <- str_replace(y,"\\.$","")
-      y <- str_replace(y,"^-0$","0")
-    } 
-    y
-  }
-  x <- x[, lapply(.SD, f), .SDcols = names(x)]
+ # f <- function(y){
+ #   if (is.numeric(y)){
+ #     y <- sapply(y, function(z){.iround(z, decimal.places = digits)})
+ #     end <- paste0(paste(rep("0", digits), collapse = ""),"$")
+ #     y <- str_replace(y,end,"")
+ #     y[y==""] <- "0"
+ #     y <- str_replace(y,"\\.$","")
+ #     y <- str_replace(y,"^-0$","0")
+ #   } 
+ #   y
+ # }
+ # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
     x1 <- keep_(x, c("variable", "N","N_NA","mean","sd","skewness","kurtosis", "min", "max"))
     x2 <- keep_(x, c("variable","`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`"))
