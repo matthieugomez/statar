@@ -35,6 +35,7 @@
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom parallel mclapply
 #' @importFrom parallel mcMap
+#' @importFrom stargazer stargazer
 #' @importFrom stats lag
 #' @importFrom stringdist stringdist
 #' @importFrom stringdist stringdistmatrix
