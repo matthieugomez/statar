@@ -3,6 +3,7 @@
 #' @param x a data.table
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param w Weights. Default to NULL. 
+#' @param i Condition
 #' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @param na.rm A boolean. default to TRUE
@@ -21,14 +22,14 @@
 #' sum_up(DT, starts_with("v"), by = v1)
 #' sum_up(DT, by = v1)
 #' @export
-sum_up <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, by = NULL, digits = 3) {
-  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, by = substitute(by), digits = digits)
+sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, na.rm = TRUE, digits = 3) {
+  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, i = substitute(i), by = substitute(by), digits = digits)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, vars, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, digits = 3) {
+sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL by = NULL, na.rm = TRUE, digits = 3) {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
   if (!length(w)) w <- NULL
@@ -38,13 +39,15 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, digits
   if (length(vars) == 0) {
      vars <- setdiff(names(x), c(byvars,w))
   }
-
   nums <- sapply(x, is.numeric)
   nums_name <- names(nums[nums==TRUE])
   vars=intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
   if (!is.null(w)){
     w <- x[[which(names(x)== w)]]
+  }
+  if (is.null(i)){
+    x <- x[i, vars, with = FALSE]
   }
   if (!length(byvars)){
     out <- x[, describe(.SD, d = d, w = w, na.rm = na.rm), .SDcols = vars]
@@ -53,7 +56,7 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL, na.rm = TRUE, by = NULL, digits
   }
   setkeyv(out, c("variable", byvars))
   setcolorder(out, c("variable", byvars, setdiff(names(out), c("variable", byvars))))
-  print_pretty(out, digits = digits)
+  print_pretty_summary(out, digits = digits)
   invisible(out)
 }
 
@@ -106,7 +109,7 @@ describe <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores = getOption(
 
 
 
-print_pretty <- function(x, digits = 3){
+print_pretty_summary <- function(x, digits = 3){
  # f <- function(y){
  #   if (is.numeric(y)){
  #     y <- sapply(y, function(z){.iround(z, decimal.places = digits)})
@@ -120,13 +123,12 @@ print_pretty <- function(x, digits = 3){
  # }
  # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
-    x1 <- keep_(x, c("variable",byvars,  "N","N_NA","mean","sd","skewness","kurtosis", "min", "max"))
-    x2 <- keep_(x, c("variable",byvars, "`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`"))
-    stargazer(x1, type = "text", summary = FALSE, digits = digits)
-    stargazer(x2, type = "text", summary = FALSE, digits = digits)
+    x1 <-discard_(x, c("`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`"))
+    x2 <- discard_(x, c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max"))
+    stargazer(x1, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
+    stargazer(x2, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
   } else{
-  stargazer(x, type = "text", summary = FALSE, digits = digits)
-
+  stargazer(x, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
   }
 }
 
