@@ -172,6 +172,7 @@ keep_if_ <- function(x, .dots, by = NULL){
 #'   v1 = c(1,NA,2)
 #' )
 #' discard_if(DT, v1 == 1)
+#' discard_if(DT, v1 == 1, v1 == 2)
 #' discard_if(DT, v1 == min(v1), by = id)
 #' @export
 discard_if <- function(x, ..., by = NULL){
@@ -188,7 +189,7 @@ discard_if_ <- function(x, .dots, by = NULL){
 	}
 	dots <-  lazyeval::all_dots(.dots)
 	expr <- lapply(dots, `[[`, "expr")
-	call <- substitute(dt[, .I[expr], by = byvars], list(expr=and_expr(expr)))
+	call <- substitute(dt[, .I[expr], by = byvars], list(expr=or_expr(expr)))
 	env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
 	ans <- eval(call, env)
 	indices <- ans[[length(ans)]]

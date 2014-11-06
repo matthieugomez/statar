@@ -18,6 +18,22 @@ and_expr = function (exprs)
     }
     left
 }
+
+
+or_expr = function (exprs) 
+{
+    if (length(exprs) == 0) 
+        return(TRUE)
+    if (length(exprs) == 1) 
+        return(exprs[[1]])
+    left <- exprs[[1]]
+    for (i in 2:length(exprs)) {
+        left <- substitute(left | right, list(left = left, right = exprs[[i]]))
+    }
+    left
+}
+
+
 deparse_all <- function(x) {
   deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
   vapply(x, deparse2, FUN.VALUE = character(1))
