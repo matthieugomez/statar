@@ -1,16 +1,17 @@
 #' select variables in a data.frame
 #'
 #' @param x a data.frame
-#' @param ...
+#' @param ...  See the \link[dplyr]{select} documentation.
+#' @param .dots Needed to work around non-standard evaluation
 #' @return a character vector. All the syntax available in \code{select_vars} are allowed. Characters are understood as wildcards.
 #' @examples
 #' df <- data.frame(id = 3, id2 = 4)
 #' vars(df, id)
 #' vars(df, w("id*"))
 #' @export
-vars <- function(x, ..., include = character(), exclude = character()) {
+vars <- function(x, ...) {
   args <- lazyeval::lazy_dots(...)
-  vars_(x, args, include = include, exclude = exclude)
+  vars_(x, args)
 }
 
 #' @export
@@ -21,21 +22,19 @@ vars_not <- function(x, ...){
 
 #' @export
 #' @rdname vars
-vars_not_ <- function(x, ...){
-	setdiff(names(x), vars_(x, ...))
+vars_not_ <- function(x, .dots){
+	setdiff(names(x), vars_(x, .dots))
 }
 
 
-
 #' @export
-vars_ <- function(x, args, include = character(), exclude = character()) {
+#' @rdname vars
+vars_ <- function(x, .dots) {
+  include <- character(0)
+  exclude <- character(0)
   varsname <- names(x)
-  if (length(args) == 0) {
-    varsname <- setdiff(include, exclude)
-    return(setNames(varsname, varsname))
-  }
 
-  args <- lazyeval::as.lazy_dots(args)
+  args <- lazyeval::as.lazy_dots(.dots)
 
   # No non-standard evaluation - but all names mapped to their position.
   # Keep integer semantics: include = +, exclude = -

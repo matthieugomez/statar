@@ -61,7 +61,7 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(T
             f_start <- .bincode(sort-n, c(-Inf, sort))
         } else{
             sort <- as.double(sort)
-            f_start <- .Internal(findInterval(c(-Inf, sort), sort-n, FALSE, FALSE))
+            f_start <- findInterval(sort - n, c(-Inf, sort))
         } 
         if (closed[[2]]){
             vec <- lapply(seq, function(i) f_start[i]:i)
@@ -151,7 +151,7 @@ roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(
         }
        if (closed[[2]]){
             sort <- as.double(sort)
-            f_end <- .Internal(findInterval(sort - n, sort, FALSE, FALSE))
+            f_end <- findInterval(sort, sort - n)
           } else{
             f_end <- .bincode(sort, c(sort-n, Inf))
           } 

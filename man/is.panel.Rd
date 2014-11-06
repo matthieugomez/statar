@@ -28,6 +28,7 @@ The function \code{is.panel} checks no data variable is missing and that there a
 Check whether data.table is a panel data
 }
 \examples{
+library(data.table)
 DT <- data.table(
     id    = c(1, 1, 1, 2, 2),
     year  = c(1991, 1993, NA, 1992, 1992),

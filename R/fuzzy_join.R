@@ -25,7 +25,7 @@
 #' fuzzy_join(x,y, fuzzy = c("a", "b"), w = c(0, 0.9))
 #' x <- data.table(a = c(1, 1), b = c("arras", "dijon"))
 #' y <- data.table(a = c(1, 1), b = c("arvars", "dijjon"))
-#' fuzzy_join(a, y, exact = "a", fuzzy = "b")
+#' fuzzy_join(x, y, exact = "a", fuzzy = "b")
 #' x <- data.table(a = c(1, 2), b = c("arras", "dijon"))
 #' y <- data.table(a = c(1, 1), b = c("arvars", "dijjon"))
 #' fuzzy_join(x, y, exact = "a", fuzzy = "b")

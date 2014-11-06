@@ -8,10 +8,10 @@ n_unique(x, ...)
 \arguments{
 \item{x}{a vector or a data.table}
 
-\item{by}{Variables that define groups}
+\item{...}{generics compatibility}
 }
 \value{
-a data.table with groups that have duplicates.
+number of unique element in an object
 }
 \description{
 returns number of unique element

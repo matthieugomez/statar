@@ -35,24 +35,24 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, na.rm = T
   if (!length(w)) w <- NULL
   byvars <- names(select_vars_(names(x), by))
   dots <- all_dots(vars)
-  vars <- names(select_vars_(names(x), dots, exclude = byvars))
+  vars <- names(select_vars_(names(x), dots, exclude = c(w, byvars)))
   if (length(vars) == 0) {
-     vars <- setdiff(names(x), c(byvars,w))
+     vars <- setdiff(names(x), c(byvars, w))
   }
   nums <- sapply(x, is.numeric)
   nums_name <- names(nums[nums==TRUE])
-  vars=intersect(vars,nums_name)
+  vars <- intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
   if (!is.null(w)){
     w <- x[[which(names(x)== w)]]
   }
-  if (is.null(i)){
-    x <- x[i, vars, with = FALSE]
+  if (!is.null(i)){
+    x <- x[i, c(vars, w, byvars), with = FALSE]
   }
   if (!length(byvars)){
     out <- x[, describe(.SD, d = d, w = w, na.rm = na.rm), .SDcols = vars]
   } else{
-    out <- x[, describe(.SD, d = d, w = w, na.rm = na.rm), .SDcols = vars, by = byvars]
+    out <- x[, describe(.SD, d = d, w = w, na.rm = na.rm), by = byvars, .SDcols = vars]
   }
   setkeyv(out, c("variable", byvars))
   setcolorder(out, c("variable", byvars, setdiff(names(out), c("variable", byvars))))
