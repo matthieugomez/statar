@@ -1,7 +1,7 @@
 #' returns number of unique element
 #'
 #' @param x a vector or a data.table
-#' @param by 
+#' @param by Variables that define groups
 #' @return a data.table with groups that have duplicates. 
 #' @examples
 #' n_unique(c(1,2,3))

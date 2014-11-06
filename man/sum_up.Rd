@@ -4,11 +4,11 @@
 \alias{sum_up_}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(x, ..., d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
+sum_up(x, ..., d = FALSE, w = NULL, i = NULL, by = NULL, na.rm = TRUE,
   digits = 3)
 
-sum_up_(x, vars, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
-  digits = 3)
+sum_up_(x, vars, d = FALSE, w = NULL, i = NULL, by = NULL,
+  na.rm = TRUE, digits = 3)
 }
 \arguments{
 \item{x}{a data.table}
@@ -19,9 +19,11 @@ sum_up_(x, vars, d = FALSE, w = NULL, na.rm = TRUE, by = NULL,
 
 \item{w}{Weights. Default to NULL.}
 
-\item{na.rm}{A boolean. default to TRUE}
+\item{i}{Condition}
 
 \item{by}{Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.}
+
+\item{na.rm}{A boolean. default to TRUE}
 
 \item{digits}{Number of significant decimal digits. Default to 3}
 

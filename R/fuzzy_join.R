@@ -17,6 +17,7 @@
 #' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
 #' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
 #' @examples
+#' library(data.table)
 #' x <- data.table(a = c("france", "franc"), b = c("arras", "dijon"))
 #' y <- data.table(a = c("franc", "france"), b = c("arvars", "dijjon"))
 #' fuzzy_join(x, y, fuzzy = c("a", "b"))

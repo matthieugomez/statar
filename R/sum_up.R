@@ -29,7 +29,7 @@ sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, na.rm = T
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL by = NULL, na.rm = TRUE, digits = 3) {
+sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, na.rm = TRUE, digits = 3) {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
   if (!length(w)) w <- NULL
