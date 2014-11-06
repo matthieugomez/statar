@@ -120,8 +120,8 @@ print_pretty <- function(x, digits = 3){
  # }
  # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
-    x1 <- keep_(x, c("variable", "N","N_NA","mean","sd","skewness","kurtosis", "min", "max"))
-    x2 <- keep_(x, c("variable","`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`"))
+    x1 <- keep_(x, c("variable",byvars,  "N","N_NA","mean","sd","skewness","kurtosis", "min", "max"))
+    x2 <- keep_(x, c("variable",byvars, "`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`"))
     stargazer(x1, type = "text", summary = FALSE, digits = digits)
     stargazer(x2, type = "text", summary = FALSE, digits = digits)
   } else{
