@@ -53,12 +53,11 @@ tab_ <- function(x, vars = NULL, i = NULL, w = NULL){
 print_pretty_tab <- function(x){
   x <- copy(x)
   v <- vars_not_(x, "N")
-  x[, c(v):= lapply(.SD, as.character), .SDcols = v]
   names <- names(x)
   if (length(names)==3){
     x1 <- length(unique(x[[1]]))
     x2 <- length(unique(x[[2]]))
-    if (x1<=x2){
+    if (x1>=x2){
       id <-  names[1]
       variable <- names[2]
     } else{
@@ -66,7 +65,8 @@ print_pretty_tab <- function(x){
       variable <- names[1]
     }
     x <- spread_(x, variable, "N", fill = 0)
-    setnames(x, id, paste0(id, "-", variable))
+    setkeyv(x, id)
+    setnames(x, id, paste0(id, "\\\\", variable))
   } 
   stargazer(x, type = "text", summary = FALSE, rownames = FALSE)
 }
