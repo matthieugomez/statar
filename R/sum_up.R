@@ -123,8 +123,8 @@ print_pretty_summary <- function(x, digits = 3){
  # }
  # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
-    x1 <-discard_(x, c("min","`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`", "max"))
-    x2 <- discard_(x, c("N","N_NA","mean","sd","skewness","kurtosis"))
+    x1 <-discard_(x, c("`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`"))
+    x2 <- discard_(x, c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max"))
     stargazer(x1, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
     stargazer(x2, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
   } else{
