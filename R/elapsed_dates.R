@@ -14,6 +14,7 @@
 #' as.POSIXlt(datem)
 #' as.POSIXct(datem)
 #' week(datem)
+#' as.monthly(0)
 #' @details Monthly and quarterly dates are stored as integers, representing the number of elapsed calendar periods since 01/01/1970.  As \code{yearmonth} and \code{yearqtr} the package \code{zoo}, these dates are printed in a way that fits their frequency  (\code{YYY}q\code{q}, \code{YYY}m\code{MM}). The only difference is that, \code{monthly}, and \code{quarterly} are integers, which removes issues due to floating points (particularly important when merging). This also allows to use arithmetic on perios, ie \code{date} + 1 adds one period rather than one day.
 #'
 #' Methods to convert from and to Dates or POSIXlt are provided. In particular, you may use lubridate \code{\link{week}} \code{\link{month}} and \code{\link{year}} to extract information from elapsed dates.
