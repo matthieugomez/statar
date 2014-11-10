@@ -6,6 +6,8 @@
 #' @import ggplot2
 #' @importFrom dplyr funs_
 #' @importFrom dplyr with_order
+#' @importFrom dplyr mutate_each_
+#' @importFrom dplyr slice
 #' @importFrom dplyr select_vars_
 #' @importFrom dplyr select_
 #' @importFrom dplyr tbl_vars
