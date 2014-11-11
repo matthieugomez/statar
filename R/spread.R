@@ -4,8 +4,8 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
   length_lhs <- length(id)
   if (!length_lhs) {
     id <- tempname("temp", data)
+    data <- shallow(data)
     data[, (id) := 1:.N] 
-    on.exit(data[, (id) :=NULL])
   }
   else if (anyDuplicated(data, by = c(id, key_col))){
         overall <- dplyr::id(data[,c(id, key_col), with = FALSE])
@@ -16,7 +16,7 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
         stop("Duplicate identifiers for rows ", paste(str, collapse = ", "),
              call. = FALSE)
   }
-  formula <- reformulate(termlabels = key_col , response = id)
+  formula <- as.formula(paste(paste(id, collapse = "+"), paste(key_col, collapse = "+"), sep = "~"))
   data2 <- dcast.data.table(data, formula, value.var = value_col, fill = fill, drop = drop)
   if (!length_lhs) {
     data2[, (id) := NULL]
