@@ -15,7 +15,6 @@ demean <- function(x, fe){
 	flag <- ""
 	if (is.atomic(x)){
 		flag <- "atomic"
-		x <- list(x)
 	} else if (is.data.frame(x)){
 		flag <- "data.frame"
 	} 
@@ -52,5 +51,4 @@ demean <- function(x, fe){
 }
 
 # demeanlist(c(1,2), list(as.factor(c(1,1))))
-
 # demeanlist(as.matrix(list(c(1,2), c(3,4))), list(as.factor(c(1,1))))
