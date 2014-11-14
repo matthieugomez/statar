@@ -18,7 +18,44 @@ bin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
   }
   if (!is.null(probs)){
     if (is.null(w)){
-      cutpoints <- fquantile(x, probs, na.rm = TRUE)
+      order <- data.table:::forderv(x)
+      l_na <- sum(is.na(x))
+      l_probs <- length(probs)
+      l_x <- length(x)-l_na
+      f <- c(0,ceiling(seq_len(l_probs+1)*l_x/(l_probs+1)))
+      aux <- rep(c(NA, seq_len(l_probs+1)), times = c(l_na, diff(f)))
+      aux[order] <- aux
+      return(aux)
+    } else{
+      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
+    }
+  }
+  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
+}
+
+
+oldbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
+  if (!is.null(n)){
+    probs <-  seq(1/n, 1-1/n, length = n -1)
+  }
+  if (!is.null(probs)){
+    if (is.null(w)){
+     cutpoints <- quantile(x, probs, type =1, na.rm = TRUE)
+    } else{
+      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
+    }
+  }
+  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
+}
+
+
+midbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
+  if (!is.null(n)){
+    probs <-  seq(1/n, 1-1/n, length = n -1)
+  }
+  if (!is.null(probs)){
+    if (is.null(w)){
+     cutpoints <- fquantile(x, probs, na.rm = TRUE)
     } else{
       cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
     }
