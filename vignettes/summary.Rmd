@@ -143,12 +143,15 @@ graph(DT, by = id, type = "boxplot")
 <img src="box.png" height = "400">
 
 ```R
-graph(DT, list(v3, v4), along_with = v2)
+graph(DT, v3, v4, along_with = v2)
 ```
 <img src="v2.png" height = "400">
 
+
+
+You can also regress the variable on another, after partialing out thanks to control specified in formula: 
 ```R
-graph(DT, list(v3, v4), along_with = v2, by = id, type = "loess")
+graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
 ```
 <img src="v2by.png" height = "400">
 
