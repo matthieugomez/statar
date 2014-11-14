@@ -23,6 +23,26 @@
 #' sum_up(DT, by = v1)
 #' @export
 sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, na.rm = TRUE, digits = 3) {
+  UseMethod("sum_up")
+}
+
+#' @export
+sum_up.default <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, digits = 3) {
+  xsub <- copy(deparse(substitute(x)))
+  if (is.null(w)){
+    x <- list(x)
+    setnames(setDT(x), xsub)
+    print(x)
+    sum_up.data.table(x, one_of(xsub), d = d, na.rm = na.rm, digits = digits)
+  } else{
+    x <- list(x, w)
+    setnames(setDT(x),  c(xsub, "weight"))
+    sum_up.data.table(x, one_of(xsub), d = d, w = weight, na.rm = na.rm, digits = digits)
+  }
+}
+
+#' @export
+sum_up.data.table <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, na.rm = TRUE, digits = 3) {
   sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, i = substitute(i), by = substitute(by), digits = digits)
 }
 

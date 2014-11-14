@@ -64,7 +64,7 @@ fquantile <- function(x, probs, na.rm){
   if (!length(order)){
     order <- seq_along(x)
   }
-  x[order[floor(probs * length(x))]]
+  x[order[ceiling(probs * length(x))]]
 }
 
 

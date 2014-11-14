@@ -34,31 +34,32 @@ bin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
 }
 
 
-oldbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
-  if (!is.null(n)){
-    probs <-  seq(1/n, 1-1/n, length = n -1)
-  }
-  if (!is.null(probs)){
-    if (is.null(w)){
-     cutpoints <- quantile(x, probs, type =1, na.rm = TRUE)
-    } else{
-      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
-    }
-  }
-  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
-}
+#oldbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
+#  if (!is.null(n)){
+#    probs <-  seq(1/n, 1-1/n, length = n -1)
+#  }
+#  if (!is.null(probs)){
+#    if (is.null(w)){
+#     cutpoints <- quantile(x, probs, type =1, na.rm = TRUE)
+#    } else{
+#      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
+#    }
+#  }
+#  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
+#}
+#
+#
+#midbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
+#  if (!is.null(n)){
+#    probs <-  seq(1/n, 1-1/n, length = n -1)
+#  }
+#  if (!is.null(probs)){
+#    if (is.null(w)){
+#     cutpoints <- fquantile(x, probs, na.rm = TRUE)
+#    } else{
+#      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
+#    }
+#  }
+#  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
+#}
 
-
-midbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
-  if (!is.null(n)){
-    probs <-  seq(1/n, 1-1/n, length = n -1)
-  }
-  if (!is.null(probs)){
-    if (is.null(w)){
-     cutpoints <- fquantile(x, probs, na.rm = TRUE)
-    } else{
-      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
-    }
-  }
-  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
-}

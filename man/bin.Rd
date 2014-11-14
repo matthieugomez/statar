@@ -3,18 +3,18 @@
 \alias{bin}
 \title{Bin a numeric vector and return integer codes for the binning (corresponds to Stata command xtile)}
 \usage{
-bin(x, n_quantiles = NULL, cutpoints = NULL, probs = NULL, w = NULL)
+bin(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL)
 }
 \arguments{
 \item{x}{A vector}
 
-\item{n_quantiles}{A numeric specifying number of quantiles. Can be used instead of cutpoints}
+\item{probs}{A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
 
 \item{cutpoints}{Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4.}
 
-\item{probs}{A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)}
-
 \item{w}{A variable specifying weight in case the option n_quantiles is specified.}
+
+\item{n_quantiles}{A numeric specifying number of quantiles. Can be used instead of cutpoints}
 }
 \value{
 An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
@@ -23,9 +23,9 @@ An integer vector representing groups corresponding to cutpoints. Includes missi
 Bin a numeric vector and return integer codes for the binning (corresponds to Stata command xtile)
 }
 \examples{
-v <- c(NA, 1:10)
-bin(v, n_quantiles = 3) # 3 groups based on terciles
-bin(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
-bin(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+x <- c(NA, 1:10)
+bin(x, n = 3) # 3 groups based on terciles
+bin(x, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
+bin(x, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 }
 

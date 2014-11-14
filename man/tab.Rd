@@ -4,23 +4,23 @@
 \alias{tab_}
 \title{Returns cross tabulation}
 \usage{
-tab(x, ..., i = NULL, w = NULL)
+tab(x, ...)
 
 tab_(x, vars = NULL, i = NULL, w = NULL)
 }
 \arguments{
-\item{x}{a data.table}
+\item{x}{a vector or a data.table}
 
 \item{...}{Variable to include. If length is two, a special cross tabulation table is printed although the a long data.table is always (invisibly) returned.}
 
+\item{vars}{Used to work around non-standard evaluation.}
+
 \item{i}{Condition to apply function on certain rows only}
 
-\item{w}{Weights. Default to NULL.}
-
-\item{vars}{Used to work around non-standard evaluation.}
+\item{w}{Frequency weights. Default to NULL.}
 }
 \value{
-a data.table sorted by variables in by, var, and with a new column "N" for counts.
+a data.table sorted by variables in ..., and with a new column "N" for counts.
 }
 \description{
 Returns cross tabulation
@@ -33,6 +33,7 @@ DT <- data.table(
   v1 =  sample(c(NA,1:5), N, TRUE),
   v2 =  sample(c(NA,1:1e6), N, TRUE)
 )
+tab(DT[["id"]])
 tab(DT, id)
 tab(DT, id, v1, w = v2)
 }

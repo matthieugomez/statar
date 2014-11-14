@@ -18,7 +18,6 @@ Depends:
 Imports:
     data.table,
     dplyr (>= 0.3),
-    ggcomp,
     ggplot2,
     grid,
     Hmisc,

@@ -15,7 +15,6 @@
 #' @importFrom dplyr group_by
 #' @importFrom dplyr n_distinct
 #' @importFrom dplyr sample_n
-#' @importFrom ggcomp compute_count_vec
 #' @importFrom grid grid.layout
 #' @importFrom grid grid.newpage
 #' @importFrom grid pushViewport
