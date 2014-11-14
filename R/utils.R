@@ -55,6 +55,19 @@ shallow_ <- function(x, vars) {
 }
 
 
+fquantile <- function(x, probs, na.rm){
+  probs[probs==0] <- 1
+  if (na.rm){
+    x <- na.omit(x)
+  }
+  order <- data.table:::forderv(x)
+  if (!length(order)){
+    order <- seq_along(x)
+  }
+  x[order[floor(probs * length(x))]]
+}
+
+
 
 
 assign_var <- function(x, ..., env = parent.frame(), inherits = FALSE){
@@ -67,6 +80,10 @@ assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
         assign(name, tempname, env)
     }
 }
+
+
+
+
 
 
 #set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){

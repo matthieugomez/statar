@@ -7,18 +7,18 @@
 #' @param w A variable specifying weight in case the option n_quantiles is specified.
 #' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
 #' @examples 
-#' v <- c(NA, 1:10)                   
-#' bin(v, n_quantiles = 3) # 3 groups based on terciles
-#' bin(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
-#' bin(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+#' x <- c(NA, 1:10)                   
+#' bin(x, n = 3) # 3 groups based on terciles
+#' bin(x, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
+#' bin(x, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 #' @export
-bin <- function(x, n_quantiles = NULL, cutpoints = NULL, probs = NULL, w = NULL){
-  if (!is.null(n_quantiles)){
-    probs <-  seq(1/n_quantiles, 1-1/n_quantiles, length = n_quantiles -1)
+bin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
+  if (!is.null(n)){
+    probs <-  seq(1/n, 1-1/n, length = n -1)
   }
   if (!is.null(probs)){
     if (is.null(w)){
-      cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)
+      cutpoints <- fquantile(x, probs, na.rm = TRUE)
     } else{
       cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
     }
