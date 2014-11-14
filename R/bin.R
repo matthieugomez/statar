@@ -14,17 +14,14 @@
 #' @export
 bin <- function(x, n_quantiles = NULL, cutpoints = NULL, probs = NULL, w = NULL){
   if (!is.null(n_quantiles)){
-  if (!is.null(cutpoints)|!is.null(probs)) stop("Only one option among cutpoints, probs and n_quantiles can be used")
-      if (is.null(w)){
-        cutpoints <- tail(head(quantile(x, seq(0, 1, length = n_quantiles + 1), type = 1, na.rm = TRUE), -1),-1)
-      } else{
-        cutpoints <- tail(head(wtd.quantile(x, seq(0, 1, length = n_quantiles + 1), type ="i/n", na.rm = TRUE, weights = w), -1),-1)
-      }
-  } else if (!is.null(probs)){
-	  	if (!is.null(cutpoints)) stop("Only one option among cutpoints, probs and n_quantiles can be used")
-	  cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)
-	}
-  breaks <- c(min(min(x, na.rm = TRUE),min(cutpoints)) -1, cutpoints , max(max(x, na.rm = TRUE), max(cutpoints)) + 1)
-  .bincode(x, breaks = breaks , include.lowest=TRUE)
+    probs <-  seq(1/n_quantiles, 1-1/n_quantiles, length = n_quantiles -1)
+  }
+  if (!is.null(probs)){
+    if (is.null(w)){
+      cutpoints <- quantile(x, probs, type = 1, na.rm = TRUE)
+    } else{
+      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
+    }
+  }
+  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
 }
-

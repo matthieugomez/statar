@@ -4,7 +4,7 @@
 #' @param fe List of vectors for group (factor, characters or integers)
 #' @return A demeaned vector
 #' @details This function calls felm::demeanlist after dealing with missing values and converting group variables into factors
-#' @returns An object of the same type than `x` (ie vector, list or data.frame) where each vector is replaced by its demaned version.
+#' @return An object of the same type than `x` (ie vector, list or data.frame) where each vector is replaced by its demaned version.
 #' @examples       
 #' demean(c(1,2), fe = c(1,1))  
 #' demean(c(NA,2), fe = list(c(1,2), c(1,3)))               

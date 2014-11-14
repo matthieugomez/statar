@@ -3,12 +3,12 @@
 \alias{sample_mode}
 \title{Statistical mode}
 \usage{
-sample_mode(x, na.rm = FALSE)
+sample_mode(x, na.rm = TRUE)
 }
 \arguments{
 \item{x}{A vector of values}
 
-\item{na.rm}{Should NA values dropped?}
+\item{na.rm}{Should NA removed?}
 }
 \value{
 Returns one mode of the vector (in case of ties, the first value is chosen)

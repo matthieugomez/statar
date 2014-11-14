@@ -27,6 +27,7 @@ DT <- data.table(
   v1 = c(1,NA,2)
 )
 discard_if(DT, v1 == 1)
+discard_if(DT, v1 == 1, v1 == 2)
 discard_if(DT, v1 == min(v1), by = id)
 }
 

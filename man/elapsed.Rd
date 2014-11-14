@@ -42,5 +42,6 @@ as.Date(datem)
 as.POSIXlt(datem)
 as.POSIXct(datem)
 week(datem)
+as.monthly(0)
 }
 
