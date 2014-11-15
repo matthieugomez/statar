@@ -1,9 +1,9 @@
 #' Statistical mode
 #' 
 #' @param x A vector of values
-#' @param na.rm Should NA ignored? Default to TRUE
+#' @param na.rm logical. Should NA ignored? Default to TRUE. If FALSE, NA are considered as a value per se.
 #' @param ties A character among "all", "min" and "max"
-#' @return Returns one mode of the vector (in case of ties, the first value by order of appearance is chosen)
+#' @return Returns one mode of the vector
 #' @examples                        
 #' fmode(c(1, 2, 2))
 #' fmode(c(1, 2), ties = "min")
@@ -12,18 +12,25 @@
 #' fmode(c(NA, NA, 1))
 #' fmode(c(NA, NA, 1), na.rm = FALSE)
 #' @export
-fmode <- function(x, na.rm = TRUE, ties.method = "min") {
-	if (na.rm) x <- x[!is.na(x)]
+fmode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
+	ties.method <- match.arg(ties.method, c("min", "max", "all"))
 	order <- data.table:::forderv(x, retGrp = TRUE)
+	start <- attr(order,"starts")
 	size <- diff(c(attr(order,"starts"), length(x) + 1))
+	n <- 0
 	if (!length(order)){
 		order <- seq.int(1, length(x))
 	}
+	if (na.rm){
+		if (is.na(x[order[1]])){
+			size[1] <- -1
+		}
+	}
 	if (ties.method == "min"){
-	  out <- x[order[which.max(size)]]
+	  out <- x[order[start[which.max(size)]]]
 	} else{
 		z <- which(size == max(size))
-		out <- x[order[z]]
+		out <- x[order[start[z]]]
 		if (ties.method == "all"){
 		} else{
 			out <- out[length(out)]
