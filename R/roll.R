@@ -6,11 +6,13 @@
 #' @param order_by override the default ordering to use another vector
 #' @param along_with  use this variable to roll the function based on the  \code{[along_with - n, along_with]} rather than the past \code{n} rows. NA are not accepted
 #' @param closed Logical of length 2 (recycled) Should interval be closed ? Default to c(TRUE, TRUE)
+#' @param min An integer. Return NA if the number of observations is strictkly lower than min
 #' @param ... options to pass to the function \code{FUN}
 #' @examples
 #' date  = c(1, 2, 4, 7)
 #' x <- c(1, 1, 1, 1)
 #' roll_lag(x,sum, n = 1, along_with = date)
+#' roll_lag(x,sum, n = 1, along_with = date, min = 2)
 #' roll_lag(x, sum, n = 1, along_with = date)
 #' roll_lag(x, sum, n = 2, along_with = date)
 #' roll_lead(x, sum, n = 1, along_with = date)
@@ -23,7 +25,7 @@
 
 
 #' @rdname roll
-roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE, TRUE), ...){
+roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE, TRUE), min = 1L, ...){
     if (length(closed)==1){
         closed = rep(closed,2)
     }
@@ -84,21 +86,21 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(T
     }
     if (is.list(x)){
         out <- lapply(vec, function(v){
-            if (!is.null(v)){
+            if (length(v) >= min){
                 x <- lapply(x,function(z){z[v]})
                 FUN(x,...)
             } else NA
             })
     } else if (is.matrix(x)|is.data.frame(x)){
         out <- lapply(vec, function(v){
-            if (!is.null(v)){
+            if (length(v) >= min){
                 FUN(x[v,, drop = FALSE],...)
             } else NA
         })
     }
      else{
         out <- lapply(vec, function(v){
-            if (!is.null(v)){
+            if (length(v) >= min){
                    FUN(x[v],...)
                } else NA
            })
@@ -115,7 +117,7 @@ roll_lag <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(T
 
 #' @export
 #' @rdname roll
-roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE, TRUE), ...){
+roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE, TRUE), min = 1L,...){
     if (length(closed)==1){
         closed = rep(closed,2)
     }
@@ -176,21 +178,21 @@ roll_lead <- function(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(
     }
     if (is.list(x)){
         out <- lapply(vec, function(v){
-            if (!is.null(v)){
+            if (length(v) >= min){
                 x <- lapply(x,function(z){z[v]})
                 FUN(x,...)
             } else NA
             })
     } else if (is.matrix(x)|is.data.frame(x)){
         out <- lapply(vec, function(v){
-            if (!is.null(v)){
+            if (length(v) > min){
                 FUN(x[v,, drop = FALSE],...)
             } else NA
         })
     }
      else{
         out <- lapply(vec, function(v){
-            if (!is.null(v)){
+            if (length(v) >= min){
                    FUN(x[v],...)
                } else NA
            })

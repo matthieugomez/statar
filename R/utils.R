@@ -55,16 +55,33 @@ shallow_ <- function(x, vars) {
 }
 
 
-fquantile <- function(x, probs, na.rm){
-  probs[probs==0] <- 1
-  if (na.rm){
-    x <- na.omit(x)
+fquantile <- function(x, probs, na.rm = TRUE, w = NULL){
+  l_na <- sum(is.na(x))
+  if (!na.rm & l_na){
+    return(rep(NA, probs))
+  } else{
+    if (is.null(w)){
+      order <- data.table:::forderv(x)
+      if (!length(order)){
+        order <- seq_along(x)
+      }
+      index <- pmax(1, ceiling(probs * (length(x)-l_na)))
+      return(x[order[l_na + index]])
+    } else{
+      take <- !is.na(x) & !is.na(w)
+      w <- w[take]
+      w <- as.numeric(w)
+      w <- w / sum(w)
+      x <- x[take]
+      order <- data.table:::forderv(x)
+      if (!length(order)){
+        order <- seq_along(x)
+      }
+      cum <- cumsum(w[order])
+      index <- pmin(length(x), .bincode(probs, c(-Inf, cum)))
+      return(x[order[index]])
+    }
   }
-  order <- data.table:::forderv(x)
-  if (!length(order)){
-    order <- seq_along(x)
-  }
-  x[order[ceiling(probs * length(x))]]
 }
 
 

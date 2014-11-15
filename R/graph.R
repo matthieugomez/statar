@@ -52,12 +52,14 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
   }
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
 
-  tempname <- tempname(x, n = 5)
+  tempname <- tempname(x, n = 7)
   group <- tempname[1]
   count <- tempname[2]
   variable <- tempname[3]
   value <- tempname[4]
   bin <- tempname[5]
+  intercept <- tempname[6]
+  slope <- tempname[7]
   x <- shallow_(x, c(byvars, vars, along_with, w, all.vars(formula)))
   if (!length(w)){
     w <- tempname(x)
@@ -151,7 +153,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             .SDcols = setdiff(names(ans), group)
             ]
             ans_coeff <- ans[, as.list(coef(f(as.formula(paste0(v,"~", along_with)), .SD))), by = c(group), .SDcols = setdiff(names(ans), group)]
-            setnames(ans_coeff, c(group, "intercept", "slope"))
+            setnames(ans_coeff, c(group, intercept, slope))
             ans[, c(bin) := bin(get(along_with), n = n), by = c(group)]
             ans2 <- ans[, list(mean(get(along_with)), mean(get(v), na.rm = TRUE)), by = c(group, bin)]
             setnames(ans2, c(group, bin, along_with, v))
@@ -159,12 +161,12 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
                 if (length(group)){
                   ans_coeff[, (group):= as.factor(get(group))]
                   ans2[, (group):= as.factor(get(group))]
+                  g[[i]] <-  ggplot(ans2, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(alpha = 0.6) + geom_abline(data = ans_coeff, aes_string(intercept = intercept, slope = slope, color = group))
                 } else{
-                  group <- NULL
+                  g[[i]] <-  ggplot(ans2, aes_string(weight = ww, x = along_with, y = v)) + geom_point(colour = hcl(h=15,l=65,c=100)) + geom_abline(data = ans_coeff, aes_string(intercept = intercept, slope = slope))
                 }
-                g[[i]] <-  ggplot(ans2, aes_string(weight = ww, x = along_with, y = v, color = group)) + geom_point(alpha = 0.6) + geom_abline(data = ans_coeff, aes_string(intercept = "intercept", slope = "slope", color = group))
               } else{
-                g[[i]] <-  ggplot(ans2, aes_string(weight = ww, x = along_with, y = v)) + geom_point(alpha = 0.6)  + geom_abline(data = ans_coeff, aes_string(intercept = "intercept", slope = "slope"))+ facet_grid(as.formula(paste0(group, "~.")))
+                g[[i]] <-  ggplot(ans2, aes_string(weight = ww, x = along_with, y = v)) + geom_point(alpha = 0.6)  + geom_abline(data = ans_coeff, aes_string(intercept = intercept, slope = slope))+ facet_grid(as.formula(paste0(group, "~.")))
               }
             } 
         } else{

@@ -22,7 +22,7 @@
 #' sum_up(DT, starts_with("v"), by = v1)
 #' sum_up(DT, by = v1)
 #' @export
-sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, na.rm = TRUE, digits = 3) {
+sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 3) {
   UseMethod("sum_up")
 }
 
@@ -43,13 +43,13 @@ sum_up.default <- function(x, ...,  d = FALSE, w = NULL, na.rm = TRUE, digits = 
 
 #' @export
 sum_up.data.table <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, na.rm = TRUE, digits = 3) {
-  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), na.rm = na.rm, i = substitute(i), by = substitute(by), digits = digits)
+  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i), by = substitute(by), digits = digits)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, na.rm = TRUE, digits = 3) {
+sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, digits = 3) {
   stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
   if (!length(w)) w <- NULL
@@ -87,9 +87,17 @@ describe <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores = getOption(
   # Now starts the code 
   if (d==FALSE) {
     if (!is.null(w)){
-      sum <-mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, Hmisc::wtd.mean(x,na.rm=na.rm, w = w), sqrt(Hmisc::wtd.var(x,na.rm= na.rm, w = w)), Hmisc::wtd.quantile(x, c(0, 1), na.rm = na.rm, weights = w))})
+      sum <-mclapply(M ,function(x){
+        take <- !is.na(x) & !is.na(w)
+        x_omit <- x[take]
+        w_omit <- w[take]
+        c(length(x_omit), length(x)-length(x_omit), Hmisc::wtd.mean(x_omit, w = w_omit), sqrt(Hmisc::wtd.var(x_omit, w = w_omit)), min(x_omit), max(x_omit))
+      })
     }else{
-      sum <-mclapply(M ,function(x){a <- sum(is.na(x)) ; c(length(x)-a,a, mean(x,na.rm=na.rm, w = w), sd(x,na.rm= na.rm), quantile(x, c(0, 1), type = 1, na.rm = na.rm, weights = w))})
+      sum <-mclapply(M ,function(x){
+        x_omit <- na.omit(x)
+      c(length(x_omit), length(x) - length(x_omit), mean(x_omit), sd(x_omit), min(x_omit), max(x_omit))
+      })
     }
     setDT(sum)
     sum <- t(sum)
@@ -100,22 +108,26 @@ describe <- function(M, d = FALSE, na.rm = TRUE, w = NULL, mc.cores = getOption(
     N <- nrow(M)
     f=function(x){
       if (!is.null(w)){
-        m <- Hmisc::wtd.mean(x, na.rm = na.rm, w = w)
-        sum_higher <- matrixStats::colWeightedMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm, w = w)
+        take <- !is.na(x) & !is.na(w)
+        x_omit <- x[take]
+        w_omit <- w[take]
+        m <- Hmisc::wtd.mean(x_omit, w = w_omit)
+        sum_higher <- matrixStats::colWeightedMeans(cbind((x_omit-m)^2,(x_omit-m)^3,(x_omit-m)^4), w = w_omit)
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
-        sum_quantile=Hmisc::wtd.quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1), na.rm=na.rm, weights = w)
+        sum_quantile <- fquantile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), weights = w_omit)
       } else{
-        m <-mean(x, na.rm = na.rm)
-        sum_higher <- colMeans(cbind((x-m)^2,(x-m)^3,(x-m)^4), na.rm=na.rm)
+        x_omit <- na.omit(x)
+        m <-mean(x_omit)
+        sum_higher <- colMeans(cbind((x_omit-m)^2,(x_omit-m)^3,(x_omit-m)^4))
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
-        sum_quantile= quantile(x, c(0,0.01,0.05,0.1,0.25,0.50,0.75,0.9,0.95,0.99,1),type= 1, na.rm=na.rm, weights = w)
+        sum_quantile= fquantile(x, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1))
       }
-      n_NA <- sum(is.na(x))
-      sum <- c(N-n_NA,n_NA,m,sum_higher,sum_quantile)
+      n_NA <- length(x) - length(x_omit)
+      sum <- c(N-n_NA, n_NA, m, sum_higher, sum_quantile)
     }
     sum <- mclapply(M, f)
     setDT(sum)
