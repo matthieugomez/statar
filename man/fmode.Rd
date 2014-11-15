@@ -4,19 +4,19 @@
 \alias{sample_mode}
 \title{Statistical mode}
 \usage{
-fmode(x, na.rm = TRUE, ties.method = "min")
+fmode(x, na.rm = TRUE, ties.method = c("min", "max", "all"))
 
 sample_mode(x, na.rm = TRUE, ties.method = "min")
 }
 \arguments{
 \item{x}{A vector of values}
 
-\item{na.rm}{Should NA ignored? Default to TRUE}
+\item{na.rm}{logical. Should NA ignored? Default to TRUE. If FALSE, NA are considered as a value per se.}
 
 \item{ties}{A character among "all", "min" and "max"}
 }
 \value{
-Returns one mode of the vector (in case of ties, the first value by order of appearance is chosen)
+Returns one mode of the vector
 }
 \description{
 Statistical mode

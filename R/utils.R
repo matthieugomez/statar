@@ -55,6 +55,7 @@ shallow_ <- function(x, vars) {
 }
 
 
+# fast functions not exported
 fquantile <- function(x, probs, na.rm = TRUE, w = NULL){
   l_na <- sum(is.na(x))
   if (!na.rm & l_na){
@@ -83,6 +84,9 @@ fquantile <- function(x, probs, na.rm = TRUE, w = NULL){
     }
   }
 }
+
+
+# funique not faster than unique
 
 
 

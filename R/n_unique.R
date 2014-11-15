@@ -15,9 +15,8 @@ n_unique <- function(x, ...){
 }
 #' @export
 n_unique.default <- function(x, ...){
-    n_distinct(x)
+	length(attr(data.table:::forderv(x, retGrp=TRUE), 'starts'))
 }
-
 
 #' returns number of unique element in a data.table
 #'
@@ -29,5 +28,4 @@ n_unique.default <- function(x, ...){
 n_unique.data.table <- function(x, by = key(x), ...){
     nrow(x) - sum(duplicated(x, by = by))
 }
-
 
