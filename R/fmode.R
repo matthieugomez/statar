@@ -33,7 +33,7 @@ fmode <- function(x, na.rm = TRUE, ties.method = "min") {
 }
 
 #' @export
-#' @alias fmode
+#' @rdname fmode
 sample_mode <-  function(x, na.rm = TRUE, ties.method = "min") {
 	fmode(x = x, na.rm = na.rm, ties.method = ties.method)
 }

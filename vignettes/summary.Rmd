@@ -17,16 +17,16 @@ The package adds the following vector functions
 
 ```R
 # sample_mode returns the statistical mode
-sample_mode(c(1, 2, 2))
-sample_mode(c(1, 2))
-sample_mode(c(NA, NA, 1))
-sample_mode(c(NA, NA, 1), na.rm = TRUE)
+fmode(c(1, 2, 2))
+fmode(c(1, 2))
+fmode(c(NA, NA, 1))
+fmode(c(NA, NA, 1), na.rm = TRUE)
 
 # bin creates integer variable for quantile categories (corresponds to Stata xtile)
 v <- c(NA, 1:10)                   
-bin(v, n_quantiles = 3) # 3 groups based on terciles
-bin(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
-bin(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+fbin(v, n_quantiles = 3) # 3 groups based on terciles
+fbin(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
+fbin(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 
 # winsorize (default based on 5 x interquartile range)
 v <- c(1:4, 99)

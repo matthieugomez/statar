@@ -6,11 +6,15 @@
 \usage{
 graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
   winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if
-  (is.null(substitute(along_with))) {     "density" } else {     "lm" })
+  (is.null(substitute(along_with))) {     "density" } else {     if
+  (is.null(formula))          "loess"     else "felm" }, formula = NULL,
+  n = 20)
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
   reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE,
-  type = if (is.null(along_with)) {     "density" } else {     "lm" })
+  type = if (is.null(along_with)) {     "density" } else {     if
+  (is.null(formula))          "loess"     else "felm" }, formula = NULL,
+  n = 20)
 }
 \arguments{
 \item{x}{A data.table.}
@@ -21,7 +25,7 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{by}{Groups within which variables should be ploted.}
 
-\item{w}{Weights (experimental)}
+\item{w}{Analytical weights (experimental)}
 
 \item{reorder}{Should the category with the most count be printed first?}
 
@@ -31,7 +35,9 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
-\item{type}{type of graph among "density", "boxplot", "line", "lm", "loess"}
+\item{type}{type of graph among "density", "boxplot", "line", or a statistical method (like "lm", "loeless" or "felm")}
+
+\item{formula}{to use then type is "felm"}
 
 \item{.dots}{Used to work around non-standard evaluation.}
 }
@@ -40,7 +46,7 @@ Experimental function to graph a dataset
 }
 \examples{
 library(data.table)
-N <- 100
+N <- 1e4
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
   v1 = sample(c(1:5), N, TRUE),
@@ -48,9 +54,11 @@ DT <- data.table(
   v3 = sample(runif(100, max=100), N, TRUE)
 )
 DT[, v4 := v3 + rnorm(N, sd = 20)]
+graph(DT)
 graph(DT, by = id)
 graph(DT, by = id, facet = TRUE)
 graph(DT, by = id, type = "boxplot")
-graph(DT, v3, v4, along_with = v2, by = id, type = "loess")
+graph(DT, v3, along_with = v2, by = id, type = "loess")
+graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
 }
 

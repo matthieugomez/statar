@@ -5,10 +5,10 @@
 \title{Apply rolling functions within time intervals}
 \usage{
 roll_lag(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
-  TRUE), ...)
+  TRUE), min = 1L, ...)
 
 roll_lead(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
-  TRUE), ...)
+  TRUE), min = 1L, ...)
 }
 \arguments{
 \item{x}{a vector or matrix}
@@ -23,6 +23,8 @@ roll_lead(x, FUN, n, along_with = NULL, order_by = NULL, closed = c(TRUE,
 
 \item{closed}{Logical of length 2 (recycled) Should interval be closed ? Default to c(TRUE, TRUE)}
 
+\item{min}{An integer. Return NA if the number of observations is strictkly lower than min}
+
 \item{...}{options to pass to the function \code{FUN}}
 }
 \description{
@@ -32,6 +34,7 @@ Apply rolling functions within time intervals
 date  = c(1, 2, 4, 7)
 x <- c(1, 1, 1, 1)
 roll_lag(x,sum, n = 1, along_with = date)
+roll_lag(x,sum, n = 1, along_with = date, min = 2)
 roll_lag(x, sum, n = 1, along_with = date)
 roll_lag(x, sum, n = 2, along_with = date)
 roll_lead(x, sum, n = 1, along_with = date)
