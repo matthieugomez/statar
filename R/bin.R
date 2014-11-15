@@ -18,12 +18,13 @@ bin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
   }
   if (!is.null(probs)){
     if (is.null(w)){
+      # compute quantile and bin in one pass by reordering first
       order <- data.table:::forderv(x)
       l_na <- sum(is.na(x))
       l_probs <- length(probs)
       l_x <- length(x)-l_na
-      f <- c(0,ceiling(seq_len(l_probs+1)*l_x/(l_probs+1)))
-      aux <- rep(c(NA, seq_len(l_probs+1)), times = c(l_na, diff(f)))
+      f <- c(0, ceiling(seq_len(l_probs+1)*l_x/(l_probs+1)))
+      aux <- rep(c(NA, seq_len(l_probs + 1)), times = c(l_na, diff(f)))
       aux[order] <- aux
       return(aux)
     } else{
@@ -32,6 +33,8 @@ bin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
   }
   .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
 }
+
+
 
 
 #oldbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
