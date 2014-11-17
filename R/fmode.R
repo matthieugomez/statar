@@ -16,20 +16,20 @@ fmode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
 	ties.method <- match.arg(ties.method, c("min", "max", "all"))
 	order <- data.table:::forderv(x, retGrp = TRUE)
 	start <- attr(order,"starts")
-	size <- diff(c(attr(order,"starts"), length(x) + 1))
+	size_groups <- diff(c(attr(order,"starts"), length(x) + 1))
 	n <- 0
 	if (!length(order)){
 		order <- seq_along(x)
 	}
 	if (na.rm){
 		if (is.na(x[order[1]])){
-			size[1] <- -1
+			size_groups[1] <- -1
 		}
 	}
 	if (ties.method == "min"){
-	  out <- x[order[start[which.max(size)]]]
+	  out <- x[order[start[which.max(size_groups)]]]
 	} else{
-		z <- which(size == max(size))
+		z <- which(size_groups == max(size_groups))
 		out <- x[order[start[z]]]
 		if (ties.method == "all"){
 		} else{
