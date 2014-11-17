@@ -19,7 +19,7 @@ fmode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
 	size <- diff(c(attr(order,"starts"), length(x) + 1))
 	n <- 0
 	if (!length(order)){
-		order <- seq.int(1, length(x))
+		order <- seq_along(x)
 	}
 	if (na.rm){
 		if (is.na(x[order[1]])){

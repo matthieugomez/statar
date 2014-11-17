@@ -21,6 +21,8 @@
 #' DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))]
 #' DT[, datem :=  as.monthly(date)]
 #' fill_gap(DT, value, along_with = datem , by = id)
+#' fill_gap(DT, value, along_with = datem , by = id, roll = "nearest")
+
 
 #' @export
 fill_gap <- function(x, ..., along_with, by = NULL, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
@@ -82,9 +84,9 @@ fill_gap_ <- function(x, vars, along_with, by = NULL, full = FALSE, roll = FALSE
     setattr(ans[[along_with]], name, attributes(get(along_with, x))[[name]]) 
   }
   setkeyv(ans, c(byvars, along_with))
-  x <- x[, c(byvars,along_with, vars), with = FALSE]
-  setkeyv(x, c(byvars,along_with))
-  x <- x[ans,allow.cartesian=TRUE]
+  x <- x[, c(byvars, along_with, vars), with = FALSE]
+  setkeyv(x, c(byvars, along_with))
+  x <- x[ans, allow.cartesian = TRUE, roll = roll, rollends = rollends]
   x
 }
 
