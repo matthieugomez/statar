@@ -12,7 +12,7 @@
 #' @export
 count_combinations <- function(name, id, n = 1){
   dt <- setDT(list(id = id, name = name))
-  dt <- na.omit(dt, by = "name")
+  dt <- na.omit(dt, by = "name", cols = "name")
   if (n>0){
     f <- function(x){
       g <- function(x){

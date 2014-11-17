@@ -35,7 +35,7 @@ DT <- data.table(
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
 is.panel(DT, id, year)
-DT <- na.omit(DT, by = "year")
+DT <- na.omit(DT, cols = "year")
 is.panel(DT, id, year)
 DT <- unique(DT, by = c("id", "year"))
 is.panel(DT, id, year)
