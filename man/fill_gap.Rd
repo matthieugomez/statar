@@ -46,5 +46,6 @@ library(lubridate)
 DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992"))]
 DT[, datem :=  as.monthly(date)]
 fill_gap(DT, value, along_with = datem , by = id)
+fill_gap(DT, value, along_with = datem , by = id, roll = "nearest")
 }
 
