@@ -1,22 +1,22 @@
-#' Statistical mode
+#' Sample mode
 #' 
 #' @param x A vector of values
 #' @param na.rm logical. Should NA ignored? Default to TRUE. If FALSE, NA are considered as a value per se.
-#' @param ties A character among "all", "min" and "max"
+#' @param ties A character among "all", "min" and "max" that changes behavior in case of multiple modes. Default to "min".
 #' @return Returns one mode of the vector
 #' @examples                        
-#' fmode(c(1, 2, 2))
-#' fmode(c(1, 2), ties = "min")
-#' fmode(c(1, 2), ties = "max")
-#' fmode(c(1, 2), ties = "all")
-#' fmode(c(NA, NA, 1))
-#' fmode(c(NA, NA, 1), na.rm = FALSE)
+#' sample_mode(c(1, 2, 2))
+#' sample_mode(c(1, 2), ties = "min")
+#' sample_mode(c(1, 2), ties = "max")
+#' sample_mode(c(1, 2), ties = "all")
+#' sample_mode(c(NA, NA, 1))
+#' sample_mode(c(NA, NA, 1), na.rm = FALSE)
 #' @export
-fmode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
+sample_mode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
 	ties.method <- match.arg(ties.method, c("min", "max", "all"))
 	order <- data.table:::forderv(x, retGrp = TRUE)
-	start <- attr(order,"starts")
-	size_groups <- diff(c(attr(order,"starts"), length(x) + 1))
+	start <- attr(order, "starts")
+	size_groups <- diff(c(attr(order, "starts"), length(x) + 1))
 	n <- 0
 	if (!length(order)){
 		order <- seq_along(x)
@@ -31,16 +31,12 @@ fmode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
 	} else{
 		z <- which(size_groups == max(size_groups))
 		out <- x[order[start[z]]]
-		if (ties.method == "all"){
-		} else{
-			out <- out[length(out)]
+		if (ties.method == "max"){
+		out <- out[length(out)]
 		}
 	}
 	out
 }
 
 #' @export
-#' @rdname fmode
-sample_mode <-  function(x, na.rm = TRUE, ties.method = "min") {
-	fmode(x = x, na.rm = na.rm, ties.method = ties.method)
-}
+fmode <-  sample_mode
