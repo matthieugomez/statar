@@ -192,10 +192,10 @@ discard_if_ <- function(x, .dots, by = NULL){
 	call <- substitute(dt[, .I[expr], by = byvars], list(expr=or_expr(expr)))
 	env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
 	ans <- eval(call, env)
-	if (!length(ans)){
+	indices <- ans[[length(ans)]]
+	if (!length(indices)){
 		out <- x
 	} else{
-		indices <- ans[[length(ans)]]
 		out <- x[-indices[!is.na(indices)]]
 	}
 	out
