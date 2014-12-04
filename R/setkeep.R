@@ -190,11 +190,11 @@ discard_if_ <- function(x, .dots, by = NULL){
 	dots <-  lazyeval::all_dots(.dots)
 	expr <- lapply(dots, `[[`, "expr")
 	call <- substitute(dt[, .I[expr], by = byvars], list(expr=or_expr(expr)))
-	if (!length(call)){
+	env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
+	ans <- eval(call, env)
+	if (!length(ans)){
 		out <- x
 	} else{
-		env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
-		ans <- eval(call, env)
 		indices <- ans[[length(ans)]]
 		out <- x[-indices[!is.na(indices)]]
 	}
