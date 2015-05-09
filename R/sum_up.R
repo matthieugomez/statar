@@ -26,6 +26,7 @@ sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 
 }
 
 #' @export
+#' @method sum_up default
 sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
   xsub <- copy(deparse(substitute(x)))
   if (is.null(w)){
@@ -41,6 +42,7 @@ sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
 }
 
 #' @export
+#' @method sum_up data.table
 sum_up.data.table <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 3) {
   sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i), by = substitute(by), digits = digits)
 }

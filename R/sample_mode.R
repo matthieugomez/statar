@@ -12,6 +12,7 @@
 #' sample_mode(c(NA, NA, 1))
 #' sample_mode(c(NA, NA, 1), na.rm = FALSE)
 #' @export
+#' @name sample mode
 sample_mode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
 	ties.method <- match.arg(ties.method, c("min", "max", "all"))
 	order <- data.table:::forderv(x, retGrp = TRUE)
@@ -39,4 +40,5 @@ sample_mode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
 }
 
 #' @export
+#'
 fmode <-  sample_mode

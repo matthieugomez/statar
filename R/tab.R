@@ -23,6 +23,7 @@ tab <- function(x, ...) {
 }
 
 #' @export
+#' @method tab default
 tab.default <- function(x, w = NULL) {
   xsub <- copy(deparse(substitute(x)))
   x <- list(x)
@@ -36,6 +37,7 @@ tab.default <- function(x, w = NULL) {
 }
 
 #' @export
+#' @method tab data.table
 tab.data.table <- function(x, ..., i = NULL, w = NULL){
   tab_(x, vars = lazy_dots(...) , i = substitute(i), w = substitute(w))
 }

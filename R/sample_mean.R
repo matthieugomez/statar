@@ -1,4 +1,4 @@
-#' Weighted mean
+#' Sample mean
 #' 
 #' @param x A vector of values
 #' @param w vector of weights.
