@@ -8,16 +8,16 @@
 #' @examples
 #' library(data.table)
 #' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-#' duplicates(DT, a)
-#' duplicates(DT, a, b)
+#' find_duplicates(DT, a)
+#' find_duplicates(DT, a, b)
 #' @export
-duplicates <- function(x, ..., gen = "N"){
-  duplicates_(x, vars = lazyeval::lazy_dots(...), gen = gen)
+find_duplicates <- function(x, ..., gen = "N"){
+  find_duplicates_(x, vars = lazyeval::lazy_dots(...), gen = gen)
 }
 
 #' @export
-#' @rdname duplicates
-duplicates_ <- function(x, vars, gen = "N"){
+#' @rdname find_duplicates
+find_duplicates_ <- function(x, vars, gen = "N"){
   stopifnot(is.data.table(x))
   names <- names(x)
   if (gen %in% names)   stop(paste("A variable named", gen, "already exists."))

@@ -50,5 +50,3 @@ demean <- function(x, fe){
 	out
 }
 
-# demeanlist(c(1,2), list(as.factor(c(1,1))))
-# demeanlist(as.matrix(list(c(1,2), c(3,4))), list(as.factor(c(1,1))))

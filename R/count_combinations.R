@@ -4,6 +4,7 @@
 #' @param id a vector of identifiers
 #' @param n number of words for combinations. Default to \code{1}.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
+#' @examples
 #' library(data.table)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
@@ -31,7 +32,7 @@ count_combinations <- function(name, id, n = 1){
   dt <- dt[, list(.N) , by = c("id", "name")]
   setnames(dt, c("id", "name", "count_within"))
   dt[, "count_across" := .N, by = name]
-  setorder(dt, c("id", "count_across", "count_within"), order = c(1,1,-1))
+  setorderv(dt, c("id", "count_across", "count_within"), order = c(1,1,-1))
   setDF(dt)
   dt
 }
