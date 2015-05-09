@@ -8,11 +8,11 @@
 #' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
 #' @examples 
 #' x <- c(NA, 1:10)                   
-#' bin(x, n = 3) # 3 groups based on terciles
-#' bin(x, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
-#' bin(x, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+#' xtile(x, n = 3) # 3 groups based on terciles
+#' xtile(x, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
+#' xtile(x, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 #' @export
-fbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
+xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
   if (!is.null(n)){
     probs <-  seq(1/n, 1-1/n, length = n -1)
   }
@@ -37,7 +37,7 @@ fbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
 
 #' @export
 #' @rdname fbin
-bin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
+fbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
   fbin(x = x, n = n, probs = probs, cutpoints = cutpoints, w = w)
 }
  
