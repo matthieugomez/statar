@@ -124,7 +124,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             }
           } else if (is.null(formula)){
             # if no formula, use stat.smooth
-            ans[, (bin) := bin(get(along_with), n = n, w = get(w))]
+            ans[, (bin) := xtile(get(along_with), n = n, w = get(w))]
             N <- ans[, sum(get(w))]
             ans2 <- shallow(ans)
             ans2[, c(along_with,v) := list(weighted.mean(get(along_with), get(w)), weighted.mean(get(v),  get(w))), by = c(group, bin)]
@@ -154,7 +154,7 @@ graph_<- function(x, ..., .dots , along_with = NULL, by = NULL, w = NULL, reorde
             ]
             ans_coeff <- ans[, as.list(coef(f(as.formula(paste0(v,"~", along_with)), .SD))), by = c(group), .SDcols = setdiff(names(ans), group)]
             setnames(ans_coeff, c(group, intercept, slope))
-            ans[, c(bin) := bin(get(along_with), n = n), by = c(group)]
+            ans[, c(bin) := xtile(get(along_with), n = n), by = c(group)]
             ans2 <- ans[, list(mean(get(along_with)), mean(get(v), na.rm = TRUE)), by = c(group, bin)]
             setnames(ans2, c(group, bin, along_with, v))
               if (!facet){

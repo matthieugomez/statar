@@ -125,7 +125,8 @@ score_row <- function(l, condition.exact.or.NA, index.y, ans.y, exact = NULL, ex
     return(c(NA, NA))
   } 
   if (!is.null(condition.exact.or.NA) && condition.exact.or.NA!=""){
-    ans.y <- keep_if_(ans.y, condition.exact.or.NA)
+    expression <- parse(text = condition.exact.or.NA)
+    ans.y <- eval(substitute(ans.y[v,], list(v = expression)))
   } 
   if (nrow(ans.y)==0){
     	return(c(NA, NA))

@@ -9,7 +9,6 @@
 #' library(data.table)
 #' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 #' find_duplicates(DT, a)
-#' find_duplicates(DT, a, b)
 #' @export
 find_duplicates <- function(x, ..., gen = "N"){
   find_duplicates_(x, vars = lazyeval::lazy_dots(...), gen = gen)

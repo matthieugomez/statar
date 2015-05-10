@@ -28,6 +28,5 @@ returns a data.table with duplicated rows
 library(data.table)
 DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
 find_duplicates(DT, a)
-find_duplicates(DT, a, b)
 }
 

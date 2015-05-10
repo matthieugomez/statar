@@ -83,19 +83,19 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, digits = 
 
 
 
-describe <- function(M, d = FALSE, w = NULL, mc.cores = getOption("mc.cores", 2)){
+describe <- function(M, d = FALSE, w = NULL){
   names <- names(M)
   # Now starts the code 
   if (d==FALSE) {
     if (!is.null(w)){
-      sum <-mclapply(M ,function(x){
+      sum <- lapply(M ,function(x){
         take <- !is.na(x) & !is.na(w)
         x_omit <- x[take]
         w_omit <- w[take]
         c(length(x_omit), length(x)-length(x_omit), Hmisc::wtd.mean(x_omit, w = w_omit), sqrt(Hmisc::wtd.var(x_omit, w = w_omit)), min(x_omit), max(x_omit))
       })
     }else{
-      sum <-mclapply(M ,function(x){
+      sum <- lapply(M ,function(x){
         x_omit <- na.omit(x)
       c(length(x_omit), length(x) - length(x_omit), mean(x_omit), sd(x_omit), min(x_omit), max(x_omit))
       })
@@ -156,8 +156,8 @@ print_pretty_summary <- function(x, digits = 3){
  # }
  # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
-    x1 <- select(x, -ones_of(c("`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`")))
-    x2 <-  select(x, -ones_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
+    x1 <- select(x, -one_of(c("`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`")))
+    x2 <-  select(x, -one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
     stargazer(x1, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
     stargazer(x2, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
   } else{
