@@ -78,7 +78,7 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   setDF(ans.x)
   setkeyv(ans.y, c(exact, exact.or.NA, fuzzy))
   if (length(exact.or.NA)){
-  	condition <- g(exact.or.NA, ans.x)
+  	condition <- build_condition(exact.or.NA, ans.x)
   } else{
   	condition <-  NULL
   }
@@ -144,7 +144,7 @@ stringdist2 <- function(x, y, na.score,  ...){
 }
 
 
-g <- function(exact.or.NA, ans.x){
+build_condition <- function(exact.or.NA, ans.x){
   condition <- NULL
   for (i in seq_along(exact.or.NA)){
     condition <- paste0(condition, 
