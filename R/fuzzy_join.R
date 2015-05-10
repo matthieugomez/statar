@@ -12,7 +12,6 @@
 #' @param which With \code{which = TRUE}, returns a three columns data.tables where he first column corresponds to \code{x}'s row number, the second column corresponds to \code{y}'s row number and the third column corresponds to the score of the match. Default is \code{FALSE}, which returns a join with the rows in y.
 #' @param w Numeric vector of the same length as \code{fuzzy} specifying the weights to use when summing across different column of \code{fuzzy}. Default to \code{rep(1, length(fuzzy))}.
 #' @param na.score Numeric that specifies the distance between NA and another string. Default to 1/3
-#' @param mc.cores Number of cores to use
 #' @param method See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}
 #' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
 #' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
@@ -34,7 +33,7 @@
 #' fuzzy_join(x, y, exact.or.NA = "a", fuzzy = "b")
 #' @details Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.
 #' @export
-fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen = "distance", suffixes = c(".x",".y"), which = FALSE, w = rep(1, length(fuzzy)), na.score = 1/3, mc.cores = getOption("mc.cores", 2L), method = "jw", p = 0.1, ...){
+fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen = "distance", suffixes = c(".x",".y"), which = FALSE, w = rep(1, length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...){
   if (gen %in% union(names(x), names(y))) stop(gen, "already exists")
 	if (!is.data.table(x)){
 	  stop(paste0("x is not a data.table. Convert it first using setDT(x)"))
@@ -84,7 +83,7 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   	condition <-  NULL
   }
   result <- mclapply(seq_len(nrow(ans.x)), function(i){
-    c(ans.x[[index.x]][i], score_row(l = ans.x[i,], condition.exact.or.NA = condition[i], index.y = index.y, ans.y = ans.y, exact = exact, exact.or.NA = exact.or.NA, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...), mc.cores = mc.cores)
+    c(ans.x[[index.x]][i], score_row(l = ans.x[i,], condition.exact.or.NA = condition[i], index.y = index.y, ans.y = ans.y, exact = exact, exact.or.NA = exact.or.NA, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...))
     })
   result <- simplify2array(result, higher = FALSE)
   result <- t(result)
