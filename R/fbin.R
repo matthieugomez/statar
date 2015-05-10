@@ -36,9 +36,9 @@ xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
 
 
 #' @export
-#' @rdname fbin
+#' 
 fbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
-  fbin(x = x, n = n, probs = probs, cutpoints = cutpoints, w = w)
+  xtile(x = x, n = n, probs = probs, cutpoints = cutpoints, w = w)
 }
  
 

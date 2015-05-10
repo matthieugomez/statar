@@ -6,8 +6,7 @@
 \usage{
 fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
   gen = "distance", suffixes = c(".x", ".y"), which = FALSE, w = rep(1,
-  length(fuzzy)), na.score = 1/3, mc.cores = getOption("mc.cores", 2L),
-  method = "jw", p = 0.1, ...)
+  length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...)
 }
 \arguments{
 \item{x}{The master data.table}
@@ -29,8 +28,6 @@ fuzzy_join(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL,
 \item{w}{Numeric vector of the same length as \code{fuzzy} specifying the weights to use when summing across different column of \code{fuzzy}. Default to \code{rep(1, length(fuzzy))}.}
 
 \item{na.score}{Numeric that specifies the distance between NA and another string. Default to 1/3}
-
-\item{mc.cores}{Number of cores to use}
 
 \item{method}{See the \code{\link[stringdist]{stringdist}} documentation. Default to \code{"jw"}}
 
