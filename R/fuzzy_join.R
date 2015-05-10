@@ -49,8 +49,8 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   w <- w/sum(w)
 
   # remove duplicates with respect to key columns in x and y
-  ans.x <- keep_(x, c(exact, exact.or.NA, fuzzy))
-  ans.y <- keep_(y, c(exact, exact.or.NA, fuzzy))
+  ans.x <- x[, c(exact, exact.or.NA, fuzzy), with = FALSE]
+  ans.y <- y[, c(exact, exact.or.NA, fuzzy), with = FALSE]
   ## create unique identifiers .GRP
   ans.x[, c(index.x) := .GRP, by = c(exact, exact.or.NA, fuzzy)]
   ans.y[, c(index.y) := .GRP, by = c(exact, exact.or.NA, fuzzy)]
@@ -68,7 +68,7 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
 
   # exact matching
   exact.matched <- suppressMessages(join(ans.x, ans.y, kind = "inner", on = c(exact, exact.or.NA, fuzzy)))
-  exact.matched <- keep_(exact.matched, c(index.x, index.y))
+  exact.matched <- exact.matched[, c(index.x, index.y), with = FALSE]
   exact.matched[, (gen) := 0]
   length <- n_distinct(exact.matched[[index.x]])
   message(paste(length,"rows of x are exactly matched on all variables"))
@@ -82,6 +82,8 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   } else{
   	condition <-  NULL
   }
+
+  setcolorder(ans.y, c(exact, setdiff(names(ans.y), exact)))
   result <- lapply(seq_len(nrow(ans.x)), function(i){
     c(ans.x[[index.x]][i], score_row(l = ans.x[i,], condition.exact.or.NA = condition[i], index.y = index.y, ans.y = ans.y, exact = exact, exact.or.NA = exact.or.NA, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...))
     })
@@ -96,7 +98,7 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   # add back duplicated
   out <- suppressMessages(join(out, merge.x, on = index.x, kind = "left"))
   out <- suppressMessages(join(out, merge.y, on = index.y, kind = "left"))
-  setkeep_(out, c("x","y", gen))
+  out[, setdiff(names(out), c("x","y", gen)) := NULL]
 
   # if which = FALSE, output rows instead of row index
   if (!which){
