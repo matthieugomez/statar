@@ -117,22 +117,25 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
 score_row <- function(l, condition.exact.or.NA, index.y, ans.y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, w = rep(1, length(fuzzy)), ...){
   # binary search
   if (length(exact)){
-    ans.y <- ans.y[l[[exact]], nomatch = 0]
+    ans.y <- ans.y[l[exact], nomatch = 0]
   }
+  if (nrow(ans.y)==0){
+    return(c(NA, NA))
+  } 
   if (!is.null(condition.exact.or.NA) && condition.exact.or.NA!=""){
     ans.y <- keep_if_(ans.y, condition.exact.or.NA)
   } 
   if (nrow(ans.y)==0){
-  	return(c(NA, NA))
-  } else{
-    tempv <- rep(0, nrow(ans.y))
-    for (i in seq_along(fuzzy)){
-  	  tempv <- tempv + w[i]*stringdist2(l[[fuzzy[i]]], ans.y[[fuzzy[i]]], ...)
-    }
-	  index <- which.min(tempv)
-	  return(c(ans.y[[index.y]][index], tempv[index]))
-	}
+    	return(c(NA, NA))
+  } 
+  tempv <- rep(0, nrow(ans.y))
+  for (i in seq_along(fuzzy)){
+	  tempv <- tempv + w[i]*stringdist2(l[[fuzzy[i]]], ans.y[[fuzzy[i]]], ...)
+  }
+  index <- which.min(tempv)
+  return(c(ans.y[[index.y]][index], tempv[index]))
 }
+
 
   
 
