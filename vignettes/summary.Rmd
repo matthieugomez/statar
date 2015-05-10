@@ -17,12 +17,12 @@ The package adds the following vector functions
 
 ```R
 # sample_mode returns the statistical mode
-fmode(c(1, 2, 2))
-fmode(c(1, 2))
-fmode(c(NA, NA, 1))
-fmode(c(NA, NA, 1), na.rm = TRUE)
+sample_mode(c(1, 2, 2))
+sample_mode(c(1, 2))
+sample_mode(c(NA, NA, 1))
+sample_mode(c(NA, NA, 1), na.rm = TRUE)
 
-# bin creates integer variable for quantile categories (corresponds to Stata xtile)
+# xtile creates integer variable for quantile categories (corresponds to Stata xtile)
 v <- c(NA, 1:10)                   
 xtile(v, n_quantiles = 3) # 3 groups based on terciles
 xtile(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
