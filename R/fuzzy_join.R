@@ -82,7 +82,7 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   } else{
   	condition <-  NULL
   }
-  result <- mclapply(seq_len(nrow(ans.x)), function(i){
+  result <- lapply(seq_len(nrow(ans.x)), function(i){
     c(ans.x[[index.x]][i], score_row(l = ans.x[i,], condition.exact.or.NA = condition[i], index.y = index.y, ans.y = ans.y, exact = exact, exact.or.NA = exact.or.NA, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...))
     })
   result <- simplify2array(result, higher = FALSE)
