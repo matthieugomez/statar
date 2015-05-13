@@ -55,11 +55,12 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
   location <- 0
   y <- NULL
   z <- ""
-  cut <- rep(0, 4)
+  start <- 0
   if (x!=""){
     z <- x
     if (!parenthesis.only){
-      while ((regexpr(pattern, z, fixed = TRUE)>cut[4]) && (regexpr(pattern, z, fixed = TRUE) < nchar(x)) && (regexpr(paste0(pattern," "), z, fixed = TRUE) <0)){
+      while ((regexpr(pattern, z, fixed = TRUE) > start) && (regexpr(pattern, z, fixed = TRUE) < nchar(x)) && (regexpr(paste0(pattern," "), z, fixed = TRUE) <0)){
+        print("try")
         i <- i +1        
         location <- regexpr(pattern, z, fixed = TRUE) 
         x_after <- substring(z, location + 1, nchar(z))
@@ -72,6 +73,7 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
           y <- string_interpolation(substring(z, cut[2], cut[3]), pattern = pattern, parenthesis.only = parenthesis.only, env = env, inherits = inherits)[[1]]
           y <- eval_character(y, env = env, inherits = inherits)
           z <- paste0(substring(z, 1, cut[1]), y, substring(z, cut[4], nchar(z)))
+          start <- cut[1] + length(y) - 1
       }
     } else{
       while (regexpr(paste0(pattern,"("), z, fixed = TRUE)>0){
