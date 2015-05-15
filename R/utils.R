@@ -192,9 +192,196 @@ assign_var_ <- function(x, names, env = parent.frame(), inherits=TRUE) {
 }
 
 
+setmutate <- function(x, ..., i = NULL, by = NULL){
+    setmutate_(x, vars = lazy_dots(...), i = substitute(i), by = substitute(by))
+}
+
+setmutate_ <- function(x, vars, i = NULL, by = NULL){
+    stopifnot(is.data.table(x))
+    byvars <- names(select_vars_(names(x), by))
+    if (!length(by)){
+        byvars <- NULL
+    }
+    if (!is.null(i)){
+      i <- as.lazy(i)$expr
+    }
+    dots <- lazyeval::all_dots(vars, all_named = TRUE)
+    env <- dt_env(x, lazyeval::common_env(dots), byvars)
+     # For each new variable, generate a call of the form df[, new := expr]
+     for(col in names(dots)) {
+      if (is.null(byvars) & is.null(i)){
+         call <- substitute(dt[, lhs := rhs],
+           list(lhs = as.name(col), rhs = dots[[col]]$expr))
+       } else if (is.null(byvars) & !is.null(i)){
+        call <- substitute(dt[i, lhs := rhs],
+          list(lhs = as.name(col), rhs = dots[[col]]$expr, i = i))
+      } else if (!is.null(byvars) & is.null(i)){
+        call <- substitute(dt[, lhs := rhs, by = c(byvars)],
+          list(lhs = as.name(col), rhs = dots[[col]]$expr))
+      } else {
+        call <- substitute(dt[i, lhs := rhs, by = c(byvars)],
+          list(lhs = as.name(col), rhs = dots[[col]]$expr, i = i))
+      }
+    eval(call, env)
+    }
+  x[]
+}
+
+setmutate_each <- function(x, funs, ..., i = NULL, by = NULL, replace = FALSE){
+    setmutate_each_(x, funs, vars = lazy_dots(...), i = substitute(i), by = substitute(by), replace = replace)
+}
+
+setmutate_each_ <- function(x, funs, vars, i = NULL, by = NULL, replace = FALSE){
+  stopifnot(is.data.table(x))
+    if (anyDuplicated(names(funs))){
+      stop("Multiple functions are specified with the same name", call. = FALSE)
+    }
+    if (replace & length(funs)!=1){
+      stop("replace is TRUE but not one function is specified", call. = FALSE)
+    }
+    byvars <- names(select_vars_(names(x), by))
+    if (!length(by)){
+        byvars <- NULL
+    }
+    vars <- lazyeval::all_dots(vars)
+    vars <- colwise_(x, funs_(funs), vars, byvars = byvars, replace = replace)
+    setmutate_(x, vars, i, by)
+}
 
 
 
+colwise_ <- function(tbl, calls, vars, byvars = NULL, replace = FALSE) {
+  vars <- select_vars_(tbl_vars(tbl), vars, exclude = byvars)
+  if (!length(vars)){
+    vars <- setdiff(names(tbl), byvars)
+  }
+  out <- vector("list", length(vars) * length(calls))
+  dim(out) <- c(length(vars), length(calls))
+  for (i in seq_along(vars)) {
+    for (j in seq_along(calls)) {
+      out[[i, j]] <- lazyeval::interp(calls[[j]],
+        .values = list(. = as.name(vars[i])))
+    }
+  }
+  dim(out) <- NULL  
+  # modification is here:
+  if (length(calls) == 1 & replace) {
+    names(out) <- names(vars)
+  } else {
+    grid <- expand.grid(var = names(vars), call = names(calls))
+    names(out) <- paste(grid$var, grid$call, sep = "_")
+  }
+  out
+}
+
+
+setkeep <- function(x, ...){
+  setkeep_(x = x, vars = lazyeval::lazy_dots(...))
+}
+
+#
+setkeep_ <- function(x, vars){
+  stopifnot(is.data.table(x))
+  dots <- lazyeval::all_dots(vars)
+  vars <- names(select_vars_(names(x), dots))
+  if (!length(vars))  vars <- names(x)
+  discard <- setdiff(names(x), vars)
+  if (length(discard)>0){
+    x[, c(discard) := NULL]
+  }
+}
+
+
+setdiscard <- function(x, ...){
+  setdiscard_(x = x, vars = lazyeval::lazy_dots(...))
+}
+setdiscard_ <- function(x, vars){
+  stopifnot(is.data.table(x))
+  dots <- lazyeval::all_dots(vars)
+  vars <- names(select_vars_(names(x), dots))
+  if (!length(vars))  vars <- names(x)
+  if (length(discard)>0){
+    x[, c(vars) := NULL]
+  }
+}
+
+
+keep <- function(x, ...){
+  keep_(x = x, vars = lazyeval::lazy_dots(...))
+}
+keep_ <- function(x, vars){
+  stopifnot(is.data.table(x))
+  dots <-  lazyeval::all_dots(vars)
+  vars <- names(select_vars_(names(x), dots))
+  if (!length(vars))  vars <- names(x)
+  x[, vars, with = FALSE]
+}
+
+
+discard <- function(x, ...){
+  discard_(x = x, vars = lazyeval::lazy_dots(...))
+}
+
+discard_ <- function(x, vars){
+  stopifnot(is.data.table(x))
+  dots <-  lazyeval::all_dots(vars)
+  vars <- names(select_vars_(names(x), dots))
+  keep <- setdiff(names(x), vars)
+  x[, keep, with = FALSE]
+}
+
+
+
+keep_if <- function(x, ..., by = NULL){
+  keep_if_(x = x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
+}
+
+keep_if_ <- function(x, .dots, by = NULL){
+  stopifnot(is.data.table(x))
+  byvars <- names(select_vars_(names(x), by))
+  if (!length(by)){
+      byvars <- NULL
+  }
+  dots <-  lazyeval::all_dots(.dots)
+  expr <- lapply(dots, `[[`, "expr")
+  call <- substitute(dt[, .I[expr], by = byvars], list(expr=and_expr(expr)))
+  env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
+  ans <- eval(call, env)
+  indices <- ans[[length(ans)]]
+  x[indices[!is.na(indices)]]
+}
+
+
+
+discard_if <- function(x, ..., by = NULL){
+  discard_if_(x = x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
+}
+
+discard_if_ <- function(x, .dots, by = NULL){
+  stopifnot(is.data.table(x))
+  byvars <- names(select_vars_(names(x), by))
+  if (!length(by)){
+      byvars <- NULL
+  }
+  dots <-  lazyeval::all_dots(.dots)
+  expr <- lapply(dots, `[[`, "expr")
+  call <- substitute(dt[, .I[expr], by = byvars], list(expr=or_expr(expr)))
+  env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
+  ans <- eval(call, env)
+  indices <- ans[[length(ans)]]
+  if (!length(indices)){
+    out <- x
+  } else{
+    out <- x[-indices[!is.na(indices)]]
+  }
+  out
+}
+
+
+
+print_all <- function(x){
+  print(x, nrow(x))
+}
 
 #set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){
 #    call <- substitute(set_(x, new = substitute(new), fun = func , old = substitute(old), i = ic, by =# substitute(by)), list(func = substitute(fun), ic = substitute(i)))
