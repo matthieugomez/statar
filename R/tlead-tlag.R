@@ -16,7 +16,7 @@
 #' value <- c(4.1, 4.5, 3.3)
 #' datem <- as.monthly(date)
 #' tlag(value, along_with = datem) 
-#' @name lead-lag
+#' @name tlead-tlag
 NULL
 
 
