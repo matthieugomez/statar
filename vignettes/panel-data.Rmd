@@ -37,18 +37,17 @@ The classes "monthly" and "quarterly"  print as dates and are compatible with us
 
 ## Vector functions
 
-`lag`/`lead` a vector along a time variable
+`lag`/`lead` a vector along a time variable (and NOT with respet to a number of row)
 
 ```R
 year <- c(1989, 1991, 1992)
 value <- c(4.1, 4.5, 3.3)
-lag(value, 1, order_by = year) # lag based on previous row
-lag(value, 1, along_with = year) #  lag based on previous year - 1
+tlag(value, 1, along_with = year)
 library(lubridate)
 date <- mdy(c("01/04/1992", "03/15/1992", "04/03/1992"))
 datem <- as.monthly(date)
 value <- c(4.1, 4.5, 3.3)
-lag(value, along_with = datem) 
+tlag(value, along_with = datem) 
 ```
 
 `roll_lag`/`roll_lead` apply a function on a vector over a window defined by a time variable
@@ -71,13 +70,13 @@ DT <- data.table(
     year  = c(1989, 1991, 1992, 1991, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-DT[, value_l := lag(value, along_with = year), by = id]
+DT[, value_l := tlag(value, along_with = year), by = id]
 DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year), by = id]
 ```
 
 
 ## data.table functions
-`setpanel` checks no date variable is missing, that there are no duplicates for (id, along_with), and if both these conditions are satisfied, resort the data.table in place along the id and time variables.
+`setpanel` resort the data.table in place along the id and time variables. It returns an error if (i)  date variable is missing or (ii) there are duplicates for (id, along_with).
 
 ```R
 DT <- data.table(
