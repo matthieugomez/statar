@@ -27,14 +27,58 @@ sum_up(DT, v2, d = TRUE)
 sum_up(DT, starts_with("v"), by = v1)
 ```
 
-## find_duplicates
-find duplicates returns duplicated rows
+
+
+tab prints distinct rows with their count
 
 ```R
-DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-find_duplicates(DT, a)
-find_duplicates(DT, a, b)
+N <- 1e2 ; K = 10
+DT <- data.table(
+  id = sample(c(NA,1:5), N/K, TRUE),
+  v1 =  sample(c(NA,1:5), N, TRUE),
+  v2 =  sample(c(NA,1:1e6), N, TRUE)         
+)
+tab(DT)
+tab(DT, id, v1)
+tab(DT, id, v1, na.omit = FALSE)
 ```
+
+
+
+
+
+## Join
+`join` is a wrapper for data.table merge functionalities.
+
+- The option "kind" specifies the kind of join based on SQL syntax. Possible kinds are : left, right, inner, outer, semi, anti and cross.
+
+  |Stata     | statar
+  |:-----------|------------
+  |merge v1   | join(x, y, kind = "outer") 
+  |merge v1, keep(master matched)  |  join(x, y, kind = "left")
+  |merge v1, keep(matched using)  | join(x, y, kind = "right")
+  |merge v1, keep(matched)| join(x, y, kind = "inner")
+  |merge v1, keep(matched) keepusing(v1)| join(x, y, kind = "semi")
+  |merge v1, keep(master) keepusing(v1)| join(x, y, kind = "anti")
+  |crossby   | join(x, y, kind = "cross")
+
+- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
+
+  ```r
+  # merge m:1 v1
+  join(x, y, kind = "outer", check = m~1) 
+  ```
+- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
+
+  ```r
+  # merge m:1 v1, gen(_merge) 
+  join(x, y, kind = "outer", gen = "_merge") 
+  ```
+
+
+- The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
+
+
 
 
 ## Visual exploration
@@ -77,41 +121,6 @@ graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
 ```
 <img src="v2by.png" height = "400">
 
-
-
-
-
-
-## Join
-`join` is a wrapper for data.table merge functionalities.
-
-- The option "kind" specifies the kind of join based on SQL syntax. Possible kinds are : left, right, inner, outer, semi, anti and cross.
-
-  |Stata     | statar
-  |:-----------|------------
-  |merge v1   | join(x, y, kind = "outer") 
-  |merge v1, keep(master matched)  |  join(x, y, kind = "left")
-  |merge v1, keep(matched using)  | join(x, y, kind = "right")
-  |merge v1, keep(matched)| join(x, y, kind = "inner")
-  |merge v1, keep(matched) keepusing(v1)| join(x, y, kind = "semi")
-  |merge v1, keep(master) keepusing(v1)| join(x, y, kind = "anti")
-  |crossby   | join(x, y, kind = "cross")
-
-- The option "check" checks there are no duplicates in the master or using data.tables (as in Stata).
-
-  ```r
-  # merge m:1 v1
-  join(x, y, kind = "outer", check = m~1) 
-  ```
-- The option "gen" specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
-
-  ```r
-  # merge m:1 v1, gen(_merge) 
-  join(x, y, kind = "outer", gen = "_merge") 
-  ```
-
-
-- The option "inplace" specifies whether the dataset x should be merged in place. It is only available for left joins, when y has no duplicates (for now).
 
 
 

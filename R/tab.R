@@ -15,8 +15,8 @@
 #' )
 #' tab(DT[["id"]])
 #' tab(DT, id)
-#' tab(DT, id, v1, w = v2)
-#' @return a data.table sorted by variables in ..., and with a new column "N" for counts.
+#' tab(DT, id, v1, w = v2,)
+#' @return a data.table sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
 #' @export
 tab <- function(x, ...) {
   UseMethod("tab")
@@ -24,26 +24,29 @@ tab <- function(x, ...) {
 
 #' @export
 #' @method tab default
-tab.default <- function(x, w = NULL) {
+tab.default <- function(x, w = NULL, na.omit = TRUE) {
   xsub <- copy(deparse(substitute(x)))
   x <- list(x)
-   setDT(x)
+  setDT(x)
   setnames(x, xsub)
   if (is.null(w)){
-    x[,list(N = .N), keyby = c(xsub)]
+    x[,list(Obs = .N), keyby = c(xsub)]
   } else{
-    x[,list(N = sum(w, na.rm = TRUE)), keyby = c(xsub)]
+    x[,list(Obs = sum(w, na.rm = TRUE)), keyby = c(xsub)]
+  }
+  if (na.omit){
+    x <- na.omit(x)
   }
 }
 
 #' @export
 #' @method tab data.table
-tab.data.table <- function(x, ..., i = NULL, w = NULL){
-  tab_(x, vars = lazy_dots(...) , i = substitute(i), w = substitute(w))
+tab.data.table <- function(x, ..., i = NULL, w = NULL, na.omit = TRUE){
+  tab_(x, vars = lazy_dots(...) , i = substitute(i), w = substitute(w), na.omit = na.omit)
 }
 #' @export
 #' @rdname tab
-tab_ <- function(x, vars = NULL, i = NULL, w = NULL){
+tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.omit = TRUE){
   wvar <- names(select_vars_(names(x), w))
   if (!length(wvar)){
     wvar <- NULL
@@ -53,31 +56,23 @@ tab_ <- function(x, vars = NULL, i = NULL, w = NULL){
     x <- eval(substitute(x[i, c(vars, wvar), with = FALSE]))
   } 
   if (is.null(wvar)){
-    x <- x[, list(N = .N) , keyby = c(vars)]
+    x <- x[, list(Freq = .N) , keyby = c(vars)]
   } else{
-    x <- x[, list(N = sum(get(wvar))), keyby = c(vars)]
+    x <- x[, list(Freq = sum(get(wvar))), keyby = c(vars)]
+  }
+  x[, Percent := Freq/sum(Freq)*100]
+  x[, Cum. := cumsum(Percent)]
+
+  if (na.omit){
+    x <- na.omit(x)
   }
   print_pretty_tab(x)
   invisible(x)
 }
 
+
 print_pretty_tab <- function(x){
-  x <- copy(x)
-  v <- vars_not_(x, "N")
-  names <- names(x)
-  if (length(names)==3){
-    x1 <- length(unique(x[[1]]))
-    x2 <- length(unique(x[[2]]))
-    if (x1>=x2){
-      id <-  names[1]
-      variable <- names[2]
-    } else{
-      id <-  names[2]
-      variable <- names[1]
-    }
-    x <- spread_(x, variable, "N", fill = 0)
-    setkeyv(x, id)
-    setnames(x, id, paste0(id, "\\\\", variable))
-  } 
-  stargazer(x, type = "text", summary = FALSE, rownames = FALSE)
+  print(x, row.names = FALSE)
 }
+
+

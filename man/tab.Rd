@@ -7,7 +7,7 @@
 \usage{
 tab(x, ...)
 
-tab_(x, vars = NULL, i = NULL, w = NULL)
+tab_(x, vars = NULL, i = NULL, w = NULL, na.omit = TRUE)
 }
 \arguments{
 \item{x}{a vector or a data.table}
@@ -21,7 +21,7 @@ tab_(x, vars = NULL, i = NULL, w = NULL)
 \item{w}{Frequency weights. Default to NULL.}
 }
 \value{
-a data.table sorted by variables in ..., and with a new column "N" for counts.
+a data.table sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
 }
 \description{
 Returns cross tabulation
@@ -36,6 +36,6 @@ DT <- data.table(
 )
 tab(DT[["id"]])
 tab(DT, id)
-tab(DT, id, v1, w = v2)
+tab(DT, id, v1, w = v2,)
 }
 
