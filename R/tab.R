@@ -4,6 +4,7 @@
 #' @param ... Variable to include. If length is two, a special cross tabulation table is printed although the a long data.table is always (invisibly) returned.
 #' @param i Condition to apply function on certain rows only
 #' @param w Frequency weights. Default to NULL. 
+#' @param na.omit Omit missing values. Default to FALSE
 #' @param vars Used to work around non-standard evaluation.
 #' @examples
 #' library(data.table)
@@ -24,7 +25,7 @@ tab <- function(x, ...) {
 
 #' @export
 #' @method tab default
-tab.default <- function(x, w = NULL, na.omit = TRUE) {
+tab.default <- function(x, w = NULL, na.omit = FALSE) {
   xsub <- copy(deparse(substitute(x)))
   x <- list(x)
   setDT(x)
@@ -41,12 +42,12 @@ tab.default <- function(x, w = NULL, na.omit = TRUE) {
 
 #' @export
 #' @method tab data.table
-tab.data.table <- function(x, ..., i = NULL, w = NULL, na.omit = TRUE){
-  tab_(x, vars = lazy_dots(...) , i = substitute(i), w = substitute(w), na.omit = na.omit)
+tab.data.table <- function(x, ..., i = NULL, w = NULL, na.omit = FALSE){
+  tab_(x, vars = lazy_dots(...) , i = substitute(i), w = substitute(w), na.omit = na.omit, generate = generate)
 }
 #' @export
 #' @rdname tab
-tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.omit = TRUE){
+tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.omit = FALSE){
   wvar <- names(select_vars_(names(x), w))
   if (!length(wvar)){
     wvar <- NULL
@@ -62,7 +63,6 @@ tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.omit = TRUE){
   }
   x[, Percent := Freq/sum(Freq)*100]
   x[, Cum. := cumsum(Percent)]
-
   if (na.omit){
     x <- na.omit(x)
   }

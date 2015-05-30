@@ -49,3 +49,8 @@
 #' @importFrom tidyr spread_
 NULL
 
+
+
+#' @useDynLib statar
+#' @importFrom Rcpp sourceCpp
+NULL

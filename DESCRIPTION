@@ -25,6 +25,7 @@ Imports:
     lfe,
     lubridate,
     matrixStats,
+    Rcpp,
     stargazer,
     stringdist,
     stringr,
@@ -33,3 +34,8 @@ Suggests:
     knitr,
     testthat
 VignetteBuilder: knitr
+LinkingTo: 
+    Rcpp,
+    dplyr,
+    BH
+

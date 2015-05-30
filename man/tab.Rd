@@ -7,7 +7,7 @@
 \usage{
 tab(x, ...)
 
-tab_(x, vars = NULL, i = NULL, w = NULL, na.omit = TRUE)
+tab_(x, vars = NULL, i = NULL, w = NULL, na.omit = FALSE)
 }
 \arguments{
 \item{x}{a vector or a data.table}
@@ -19,6 +19,8 @@ tab_(x, vars = NULL, i = NULL, w = NULL, na.omit = TRUE)
 \item{i}{Condition to apply function on certain rows only}
 
 \item{w}{Frequency weights. Default to NULL.}
+
+\item{na.omit}{Omit missing values. Default to FALSE}
 }
 \value{
 a data.table sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
