@@ -38,6 +38,7 @@ DT <- data.table(
 )
 tab(DT[["id"]])
 tab(DT, id)
-tab(DT, id, v1, w = v2,)
+tab(DT, id, i = v1>=3)
+tab(DT, id, v1, w = v2)
 }
 

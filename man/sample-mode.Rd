@@ -12,7 +12,7 @@ sample_mode(x, na.rm = TRUE, ties.method = c("min", "max", "all"))
 
 \item{na.rm}{logical. Should NA ignored? Default to TRUE. If FALSE, NA are considered as a value per se.}
 
-\item{ties}{A character among "all", "min" and "max" that changes behavior in case of multiple modes. Default to "min".}
+\item{ties.method}{A character among "all", "min" and "max" that changes behavior in case of multiple modes. Default to "min".}
 }
 \value{
 Returns one mode of the vector

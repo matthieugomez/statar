@@ -2,7 +2,7 @@
 #' 
 #' @param x A vector of values
 #' @param na.rm logical. Should NA ignored? Default to TRUE. If FALSE, NA are considered as a value per se.
-#' @param ties A character among "all", "min" and "max" that changes behavior in case of multiple modes. Default to "min".
+#' @param ties.method A character among "all", "min" and "max" that changes behavior in case of multiple modes. Default to "min".
 #' @return Returns one mode of the vector
 #' @examples                        
 #' sample_mode(c(1, 2, 2))
@@ -38,7 +38,3 @@ sample_mode <- function(x, na.rm = TRUE, ties.method = c("min", "max", "all")) {
 	}
 	out
 }
-
-#' @export
-#'
-fmode <-  sample_mode

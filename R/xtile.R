@@ -3,7 +3,7 @@
 #' @param x A vector
 #' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. 
 #' @param probs A vector of probabilities that an be used instead of cutpoints. Quantiles are computed as the inverse of the empirical distribution function (type = 1)
-#' @param n_quantiles A numeric specifying number of quantiles. Can be used instead of cutpoints
+#' @param n A numeric specifying number of quantiles. Can be used instead of cutpoints
 #' @param w A variable specifying weight in case the option n_quantiles is specified.
 #' @return An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
 #' @examples 
@@ -35,12 +35,6 @@ xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
 }
 
 
-#' @export
-#' 
-fbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
-  xtile(x = x, n = n, probs = probs, cutpoints = cutpoints, w = w)
-}
- 
 
 
 #oldbin <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){

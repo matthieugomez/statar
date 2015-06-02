@@ -16,7 +16,8 @@
 #' )
 #' tab(DT[["id"]])
 #' tab(DT, id)
-#' tab(DT, id, v1, w = v2,)
+#' tab(DT, id, i = v1>=3)
+#' tab(DT, id, v1, w = v2)
 #' @return a data.table sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
 #' @export
 tab <- function(x, ...) {
@@ -25,47 +26,54 @@ tab <- function(x, ...) {
 
 #' @export
 #' @method tab default
-tab.default <- function(x, w = NULL, na.omit = FALSE) {
+tab.default <- function(x, ..., w = NULL, na.omit = FALSE) {
   xsub <- copy(deparse(substitute(x)))
-  x <- list(x)
-  setDT(x)
-  setnames(x, xsub)
+  x <- data_frame(x)
+  x <- setNames(x, xsub)
+  xsub <- paste0("`", xsub, "`")
+  x <- group_by_(x, .dots =  xsub)
   if (is.null(w)){
-    x[,list(Obs = .N), keyby = c(xsub)]
+     x <- summarize(x, Freq = n()) 
   } else{
-    x[,list(Obs = sum(w, na.rm = TRUE)), keyby = c(xsub)]
+       new = list(~sum(w, na.rm = TRUE))
+       x <- summarize_(x, .dots = setNames(new, "Freq")) 
   }
+  x <- mutate(x, Percent = Freq/sum(Freq)*100, Cum = cumsum(Percent))
   if (na.omit){
     x <- na.omit(x)
   }
+  x
 }
 
 #' @export
 #' @method tab data.table
 tab.data.table <- function(x, ..., i = NULL, w = NULL, na.omit = FALSE){
-  tab_(x, vars = lazy_dots(...) , i = substitute(i), w = substitute(w), na.omit = na.omit, generate = generate)
+  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = lazy(w), na.omit = na.omit)
 }
 #' @export
 #' @rdname tab
 tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.omit = FALSE){
-  wvar <- names(select_vars_(names(x), w))
+  wvar <- names(select_vars_(names(x), w$expr))
   if (!length(wvar)){
     wvar <- NULL
   }
   vars <- names(select_vars_(names(x), vars, exclude = c(wvar)))
-  if (!is.null(i)){
-    x <- eval(substitute(x[i, c(vars, wvar), with = FALSE]))
+  if (!is.null(i$expr)){
+    x <- filter_(x, .dots = i)
   } 
+  x <- select(x, one_of(c(vars, wvar)))
+  x <- group_by_(x, .dots = vars)
   if (is.null(wvar)){
-    x <- x[, list(Freq = .N) , keyby = c(vars)]
+    x <- summarize(x, Freq = n()) 
   } else{
-    x <- x[, list(Freq = sum(get(wvar))), keyby = c(vars)]
+    new = list(interp(~sum(w, na.rm = TRUE), w = w))
+    x <- summarize_(x, .dots = setNames(new, "Freq")) 
   }
-  x[, Percent := Freq/sum(Freq)*100]
-  x[, Cum. := cumsum(Percent)]
+  x <- mutate(x, Percent = Freq/sum(Freq)*100, Cum = cumsum(Percent))
   if (na.omit){
     x <- na.omit(x)
   }
+  x <- arrange_(x, .dots = vars)
   print_pretty_tab(x)
   invisible(x)
 }

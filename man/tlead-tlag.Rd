@@ -6,22 +6,18 @@
 \alias{tlead-tlag}
 \title{lead and lag with respect to a time variable}
 \usage{
-tlead(x, n = 1L, along_with, units = NULL, default = NA, ...)
+tlead(x, n = 1L, along_with, default = NA)
 
-tlag(x, n = 1L, along_with, units = NULL, default = NA, ...)
+tlag(x, n = 1L, along_with, default = NA)
 }
 \arguments{
 \item{x}{a vector of values}
 
 \item{n}{a positive integer of length 1, giving the number of positions to lead or lag by. When the package lubridate is loaded, it can be a period when using with along_with (see the lubridate function minutes, hours, days, weeks, months and years)}
 
-\item{along_with}{use this variable to lag with respect to \code{n} \code{along_with} rather than \code{n} row}
+\item{along_with}{time variable}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}
-
-\item{...}{Needed for compatibility with lag generic.}
-
-\item{order_by}{override the default ordering to use another vector}
 }
 \description{
 lead and lag with respect to a time variable

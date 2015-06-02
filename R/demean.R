@@ -27,14 +27,13 @@ demean <- function(x, fe){
 		fe <- list(fe)
 	}
 	fe <- as.data.frame(fe)
-	setDT(fe)
 	fe_c <- names(fe)[!sapply(fe, is.factor)]
 	if (length(fe_c)){
 		fe <- mutate_each_(fe, funs(as.factor), vars = fe_c)
 	}
 	nrow <- nrow(x)
 	rows <- complete.cases(x) & complete.cases(fe)
-	m <- demeanlist(filter(x, rows == TRUE), filter(fe, rows == TRUE))
+	m <- demeanlist(filter(x, rows), filter(fe, rows))
 	out <- lapply(m, function(y){
 		out <- rep(NA, nrow)
 		out[rows] <- y

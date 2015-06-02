@@ -40,6 +40,8 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 
 \item{formula}{to use then type is "felm"}
 
+\item{n}{Number of quantiles to plot}
+
 \item{.dots}{Used to work around non-standard evaluation.}
 }
 \description{

@@ -12,6 +12,7 @@
 #' @param .dots Used to work around non-standard evaluation.
 #' @param formula to use then type is "felm"
 #' @param w Analytical weights (experimental)
+#' @param n Number of quantiles to plot
 #' @examples
 #' library(data.table)
 #' N <- 1e4
