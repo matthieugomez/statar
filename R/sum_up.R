@@ -92,7 +92,8 @@ describe <- function(M, d = FALSE, w = NULL){
         take <- !is.na(x) & !is.na(w)
         x_omit <- x[take]
         w_omit <- w[take]
-        c(length(x_omit), length(x)-length(x_omit), Hmisc::wtd.mean(x_omit, w = w_omit), sqrt(Hmisc::wtd.var(x_omit, w = w_omit)), min(x_omit), max(x_omit))
+        m <- matrixStats::weightedMean(x_omit, w = w_omit)
+        c(length(x_omit), length(x)-length(x_omit), m, sqrt(matrixStats::weightedMean((x_omit-m)^2, w = w_omit)), min(x_omit), max(x_omit))
       })
     }else{
       sum <- lapply(M ,function(x){
@@ -112,7 +113,7 @@ describe <- function(M, d = FALSE, w = NULL){
         take <- !is.na(x) & !is.na(w)
         x_omit <- x[take]
         w_omit <- w[take]
-        m <- Hmisc::wtd.mean(x_omit, w = w_omit)
+        m <- matrixStats::weightedMean(x_omit, w = w_omit)
         sum_higher <- matrixStats::colWeightedMeans(cbind((x_omit-m)^2,(x_omit-m)^3,(x_omit-m)^4), w = w_omit)
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
@@ -156,7 +157,7 @@ print_pretty_summary <- function(x, digits = 3){
  # }
  # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
-    x1 <- select(x, -one_of(c("`1%`","`5%`","`10%`","`25%`","`50%`","`75%`","`90%`","`95%`","`99%`")))
+    x1 <- select(x, -one_of(c("1%","5%","10%","25%","50%","75%","90%","95%","99%")))
     x2 <-  select(x, -one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
     stargazer(x1, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
     stargazer(x2, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
