@@ -93,12 +93,12 @@ describe <- function(M, d = FALSE, w = NULL){
         x_omit <- x[take]
         w_omit <- w[take]
         m <- matrixStats::weightedMean(x_omit, w = w_omit)
-        c(length(x_omit), length(x)-length(x_omit), m, sqrt(matrixStats::weightedMean((x_omit-m)^2, w = w_omit)), min(x_omit), max(x_omit))
+        c(length(x_omit), length(x)-length(x_omit), m, sqrt(matrixStats::weightedMean((x_omit-m)^2, w = w_omit)), matrixStats::colRanges(x_omit))
       })
     }else{
       sum <- lapply(M ,function(x){
         x_omit <- na.omit(x)
-      c(length(x_omit), length(x) - length(x_omit), mean(x_omit), sd(x_omit), min(x_omit), max(x_omit))
+      c(length(x_omit), length(x) - length(x_omit), mean(x_omit), sd(x_omit), matrixStats::colRanges(x_omit)
       })
     }
     setDT(sum)
