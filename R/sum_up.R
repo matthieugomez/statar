@@ -4,22 +4,21 @@
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param w Weights. Default to NULL. 
 #' @param i Condition
-#' @param by Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @param digits Number of significant decimal digits. Default to 3
 #' @param vars Used to work around non-standard evaluation.
 #' @examples
-#' library(data.table)
+#' library(dplyr)
 #' N <- 100
-#' DT <- data.table(
+#' df <- data_frame(
 #'   id = 1:N,
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
 #' )
-#' sum_up(DT)
-#' sum_up(DT, v2, d = TRUE)
-#' sum_up(DT, starts_with("v"), by = v1)
-#' sum_up(DT, by = v1)
+#' sum_up(df)
+#' sum_up(df, v2, d = TRUE)
+#' sum_up(df, v2, d = TRUE, i = v1>3)
+#' df %>% group_by(v1) %>% sum_up(starts_with("v"))
 #' @export
 sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 3) {
   UseMethod("sum_up")
@@ -35,15 +34,16 @@ sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
     print(x)
     sum_up_(x, vars = xsub, d = d, digits = digits)
   } else{
-    x <- list(x, w)
-    setnames(setDT(x),  c(xsub, "weight"))
+    x <- setNames(data_frame(x, w),  c(xsub, "weight"))
     sum_up_(x, vars = xsub, d = d, w = w, digits = digits)
   }
 }
 
+
+
 #' @export
-#' @method sum_up data.table
-sum_up.data.table <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 3) {
+#' @method sum_up data.frame
+sum_up.data.frame <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 3) {
   sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i), by = substitute(by), digits = digits)
 }
 
@@ -51,10 +51,8 @@ sum_up.data.table <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL
 #' @export
 #' @rdname sum_up
 sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, digits = 3) {
-  stopifnot(is.data.table(x))
   w <- names(select_vars_(names(x), w))
-  if (!length(w)) w <- NULL
-  byvars <- names(select_vars_(names(x), by))
+  byvars <-  vapply(groups(x), as.character, character(1))
   dots <- all_dots(vars)
   vars <- names(select_vars_(names(x), dots, exclude = c(w, byvars)))
   if (length(vars) == 0) {
@@ -64,32 +62,45 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, digits = 
   nums_name <- names(nums[nums==TRUE])
   vars <- intersect(vars,nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  if (!is.null(w)){
-    w <- x[[which(names(x)== w)]]
-  }
+  newname = NULL
   if (!is.null(i)){
-    x <- x[i, c(vars, w, byvars), with = FALSE]
+      newname <- tempname(x, 1)
+      x <- mutate_(x, .dots = setNames(list(interp(~ as.integer(i), i = i)), newname))
+      if (length(w)){
+        x <- mutate_(x, .dots = setNames(list(interp(~ w*newname, w = as.name(w), newname = as.name(newname))), newname))
+      }  
+      w <- newname
   }
-  if (!length(byvars)){
-    out <- x[, describe(.SD, d = d, w = w), .SDcols = vars]
+  x <- select_(x, .dots = c(vars, byvars, w))
+  # bug for do in data.table
+  if (is.data.table(x)){
+      out <- x[, describe(.SD, d = d, wname = w), by = c(byvars)]
   } else{
-    out <- x[, describe(.SD, d = d, w = w), by = byvars, .SDcols = vars]
+      out <- x %>% do(describe(., d = d, wname = w))
   }
-  setkeyv(out, c("variable", byvars))
-  setcolorder(out, c("variable", byvars, setdiff(names(out), c("variable", byvars))))
+  out <- arrange_(out, .dots = c(byvars, "variable"))
+  out <- select_(out, .dots = c(byvars, "variable", setdiff(names(out), c("variable", byvars))))
   print_pretty_summary(out, digits = digits)
   invisible(out)
 }
 
 
 
-describe <- function(M, d = FALSE, w = NULL){
+describe <- function(M, d = FALSE, wname = character(0)){
+  if (length(wname)){
+    w <- M[[wname]]
+    M <- select(M, -one_of(wname))
+    print(w)
+  }
+  else{
+    w <- NULL
+  }
   names <- names(M)
   # Now starts the code 
   if (d==FALSE) {
     if (!is.null(w)){
       sum <- lapply(M ,function(x){
-        take <- !is.na(x) & !is.na(w)
+        take <- !is.na(x) & !is.na(w) & w > 0
         x_omit <- x[take]
         w_omit <- w[take]
         m <- matrixStats::weightedMean(x_omit, w = w_omit)
@@ -101,16 +112,15 @@ describe <- function(M, d = FALSE, w = NULL){
       c(length(x_omit), length(x) - length(x_omit), mean(x_omit), sd(x_omit), matrixStats::colRanges(x_omit, dim = c(length(x_omit), 1)))
       })
     }
-    setDT(sum)
-    sum <- t(sum)
-    sum <- as.data.table(sum)
-    sum <- cbind(names, sum)
-    setnames(sum, c("variable", "N","N_NA","mean","sd","min", "max"))
+    sum <- do.call(cbind, sum)
+    sum <- as.data.frame(t(sum))
+    sum <- bind_cols(data_frame(names), sum)
+    sum <- setNames(sum, c("variable", "N","N_NA","mean","sd","min", "max"))
   } else {
     N <- nrow(M)
     f=function(x){
       if (!is.null(w)){
-        take <- !is.na(x) & !is.na(w)
+        take <- !is.na(x) & !is.na(w) & w > 0
         x_omit <- x[take]
         w_omit <- w[take]
         m <- matrixStats::weightedMean(x_omit, w = w_omit)
@@ -132,11 +142,10 @@ describe <- function(M, d = FALSE, w = NULL){
       sum <- c(N-n_NA, n_NA, m, sum_higher, sum_quantile)
     }
     sum <- mclapply(M, f)
-    setDT(sum)
-    sum <- t(sum)
-    sum <- as.data.table(sum)
-    sum <- cbind(names, sum)
-    setnames(sum, c("variable", "N","N_NA","mean","sd","skewness","kurtosis","min","1%","5%","10%","25%","50%","75%","90%","95%","99%","max"))
+    sum <- do.call(cbind, sum)
+    sum <- as.data.frame(t(sum))
+    sum <- bind_cols(data_frame(names), sum)
+    sum <- setNames(sum,  c("variable", "N","N_NA","mean","sd","skewness","kurtosis","min","p1","p5","p10","p25","p50","p75","p90","p95","p99","max"))
   }
   sum
 }
@@ -157,12 +166,13 @@ print_pretty_summary <- function(x, digits = 3){
  # }
  # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
-    x1 <- select(x, -one_of(c("1%","5%","10%","25%","50%","75%","90%","95%","99%")))
+    x1 <- select(x, -one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
     x2 <-  select(x, -one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
     stargazer(x1, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
     stargazer(x2, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
   } else{
-  stargazer(x, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
+    setDF(x)
+    stargazer(x, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
   }
 }
 

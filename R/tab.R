@@ -4,20 +4,20 @@
 #' @param ... Variable to include. If length is two, a special cross tabulation table is printed although the a long data.table is always (invisibly) returned.
 #' @param i Condition to apply function on certain rows only
 #' @param w Frequency weights. Default to NULL. 
-#' @param na.omit Omit missing values. Default to FALSE
+#' @param na.rm Remove missing values. Default to FALSE
 #' @param vars Used to work around non-standard evaluation.
 #' @examples
-#' library(data.table)
+#' library(dplyr)
 #' N <- 1e2 ; K = 10
-#' DT <- data.table(
+#' df <- data_frame(
 #'   id = sample(c(NA,1:5), N/K, TRUE),
-#'   v1 =  sample(c(NA,1:5), N, TRUE),
-#'   v2 =  sample(c(NA,1:1e6), N, TRUE)                       
+#'   v1 =  sample(c(NA,1:1e6), N, TRUE)                       
 #' )
-#' tab(DT[["id"]])
-#' tab(DT, id)
-#' tab(DT, id, i = v1>=3)
-#' tab(DT, id, v1, w = v2)
+#' tab(df[["id"]])
+#' tab(df, id)
+#' DT %>% group_by(id) %>% tab()
+#' DT %>% group_by(id) %>% tab(v1)
+#' tab(DT, id, i = id>=3)
 #' @return a data.table sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
 #' @export
 tab <- function(x, ...) {
@@ -26,7 +26,7 @@ tab <- function(x, ...) {
 
 #' @export
 #' @method tab default
-tab.default <- function(x, ..., w = NULL, na.omit = FALSE) {
+tab.default <- function(x, ..., w = NULL, na.rm = FALSE) {
   xsub <- copy(deparse(substitute(x)))
   x <- data_frame(x)
   x <- setNames(x, xsub)
@@ -39,38 +39,46 @@ tab.default <- function(x, ..., w = NULL, na.omit = FALSE) {
        x <- summarize_(x, .dots = setNames(new, "Freq")) 
   }
   x <- mutate(x, Percent = Freq/sum(Freq)*100, Cum = cumsum(Percent))
-  if (na.omit){
-    x <- na.omit(x)
+  if (na.rm){
+    x <- na.rm(x)
   }
   x
 }
 
 #' @export
-#' @method tab data.table
-tab.data.table <- function(x, ..., i = NULL, w = NULL, na.omit = FALSE){
-  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = lazy(w), na.omit = na.omit)
+#' @method tab data.frame
+tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE){
+  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = lazy(w), na.rm = na.rm)
 }
+
+
 #' @export
 #' @rdname tab
-tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.omit = FALSE){
+tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE){
+  byvars <-  vapply(groups(x), as.character, character(1))
   wvar <- names(select_vars_(names(x), w$expr))
   if (!length(wvar)){
     wvar <- NULL
   }
-  vars <- names(select_vars_(names(x), vars, exclude = c(wvar)))
+  vars <- names(select_vars_(names(x), vars, exclude = c(wvar, byvars)))
+  vars <- c(byvars, vars)
+
   if (!is.null(i$expr)){
-    x <- filter_(x, .dots = i)
+    newname <- tempname(x, 1)
+    x <- mutate_(x, .dots = setNames(list(i), newname))
+    x <- select_(x, .dots = c(vars, wvar, newname))
+    x <- filter_(x, .dots = interp(~var, var = as.name(newname)))
   } 
-  x <- select(x, one_of(c(vars, wvar)))
+  x <- select_(x, .dots = c(vars, wvar))
   x <- group_by_(x, .dots = vars)
   if (is.null(wvar)){
-    x <- summarize(x, Freq = n()) 
+    x <- summarize_(x, .dots = setNames(list(~n()), "Freq")) 
   } else{
-    new = list(interp(~sum(w, na.rm = TRUE), w = w))
-    x <- summarize_(x, .dots = setNames(new, "Freq")) 
+    x <- summarize_(x, .dots = setNames(list(~sum(w, na.rm = TRUE)), "Freq")) 
   }
-  x <- mutate(x, Percent = Freq/sum(Freq)*100, Cum = cumsum(Percent))
-  if (na.omit){
+  x <- mutate_(x, .dots = setNames(list(~Freq/sum(Freq)*100), "Percent"))
+  x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum"))
+  if (na.rm){
     x <- na.omit(x)
   }
   x <- arrange_(x, .dots = vars)
