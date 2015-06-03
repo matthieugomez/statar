@@ -1,9 +1,9 @@
-#' Fuzzy join two data.tables together 
+#' Fuzzy join two data.frames together 
 #'
 #' \code{fuzzy_join} uses record linkage methods to match observations between two datasets where no perfect key fields exist.  For each row in x, \code{fuzzy_join} finds the closest row(s) in y. The distance is a weighted average of the string distances defined in \code{method} over multiple columns.
 #'
-#' @param x The master data.table
-#' @param y The using data.table
+#' @param x The master data.frame
+#' @param y The using data.frame
 #' @param exact Character vector specifying variables on which to match exactly. 
 #' @param exact.or.NA Character vector specifying variables that should not differ if both are non missing.
 #' @param fuzzy Character vector specifying columns on which to match in a fuzzy way
@@ -16,6 +16,7 @@
 #' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
 #' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
 #' @examples
+#' library(dplyr)
 #' x <- data_frame(a = c("france", "franc"), b = c("arras", "dijon"))
 #' y <- data_frame(a = c("franc", "france"), b = c("arvars", "dijjon"))
 #' fuzzy_join(x, y, fuzzy = c("a", "b"))
@@ -62,8 +63,6 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
 
   merge.x <- select_(ans.x, .dots = c(index.x, "x"))
   merge.y <- select_(ans.y, .dots = c(index.y, "y"))
-
-
 
   # exact matching
   exact.matched <- suppressMessages(inner_join(ans.x, ans.y, on = c(exact, exact.or.NA, fuzzy)))
