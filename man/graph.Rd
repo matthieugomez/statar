@@ -49,7 +49,7 @@ Experimental function to graph a dataset
 }
 \examples{
 library(data.table)
-N <- 1e4
+N <- 1e2
 DT <- data.table(
   id = sample(c("id1","id2","id3"), N, TRUE),
   v1 = sample(c(1:5), N, TRUE),
@@ -62,6 +62,5 @@ graph(DT, by = id)
 graph(DT, by = id, facet = TRUE)
 graph(DT, by = id, type = "boxplot")
 graph(DT, v3, along_with = v2, by = id, type = "loess")
-graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
 }
 

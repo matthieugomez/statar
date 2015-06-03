@@ -15,7 +15,7 @@
 #' @param n Number of quantiles to plot
 #' @examples
 #' library(data.table)
-#' N <- 1e4
+#' N <- 1e2
 #' DT <- data.table(
 #'   id = sample(c("id1","id2","id3"), N, TRUE),
 #'   v1 = sample(c(1:5), N, TRUE),
@@ -28,7 +28,6 @@
 #' graph(DT, by = id, facet = TRUE)
 #' graph(DT, by = id, type = "boxplot")
 #' graph(DT, v3, along_with = v2, by = id, type = "loess")
-#' graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
 #' @export
 graph <- function(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if (is.null(substitute(along_with))){"density"} else {if (is.null(formula)) "loess" else "felm"}, formula = NULL, n = 20) {
   graph_(x, .dots = lazy_dots(...) , along_with = substitute(along_with), by = substitute(by), w = substitute(w), reorder = reorder, winsorize = winsorize, facet = facet, verbose = verbose, type = type, formula = formula, n = n)

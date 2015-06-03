@@ -75,7 +75,3 @@
 NULL
 
 
-
-#' @useDynLib statar
-#' @importFrom Rcpp sourceCpp
-NULL
