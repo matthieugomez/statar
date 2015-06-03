@@ -20,3 +20,14 @@ You can install
 	```
 
 
+
+
+# News
+- lag(, along_with) and lead(, along_with) become tlag(, along_with) and tlead(, along_with). The usual lag/lead based on rows can be found in dplyr
+- bin is renamed xtile
+- In join, the option type = "outer" is renamed type = "full" similarly to dplyr
+- sum_up(), tab(), and find_duplicates() now accept data.frames and grouped dataframes
+
+
+
+
