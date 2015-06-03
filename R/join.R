@@ -1,7 +1,7 @@
-#' Join two data.tables together 
+#' Join two data frames together 
 #' 
-#' @param x The master data.table
-#' @param y The using data.table
+#' @param x The master data.frame
+#' @param y The using data.frame
 #' @param on Character vectors specifying variables to match on. Default to common names between x and y. 
 #' @param kind The kind of (SQL) join among "full" (default), "left", "right", "inner", "semi", "anti" and "cross". 
 #' @param suffixes A character vector of length 2 specifying suffix of overlapping columns. Defaut to ".x" and ".y".
@@ -10,7 +10,7 @@
 #' @param inplace A boolean. In case "kind"= "left" and RHS of check is 1, the merge can be one in-place. 
 #' @param update A boolean. For common variables in x and y not specified in "on", replace missing observations by the non missing observations in y. 
 #' @param type Deprecated
-#' @return A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
+#' @return A data.frame that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
 #' @examples
 #' library(dplyr)
 #' x <- data.frame(a = rep(1:2, each = 3), b=1:6)
