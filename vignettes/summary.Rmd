@@ -45,6 +45,8 @@ df %>% group_by(id) %>% tab(v1)
 
 
 
+The functions syntax are similar to `dplyr` (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). 
+
 
 ## Join
 `join` is a wrapper for dplyr merge functionalities.
@@ -118,23 +120,5 @@ You can also regress the variable on another, after partialing out thanks to con
 graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
 ```
 <img src="v2by.png" height = "400">
-
-
-
-
-## Syntax
-The functions select variables similarly to `dplyr` syntax (see the [dplyr vignette](https://github.com/hadley/dplyr/blob/master/vignettes/nse.Rmd) for more details). 
-
-```R
-# NSE version
-sum_up(DT, list(v2, v3), by = list(id,v1))
-# SE version
-sum_up_(DT, c("v2","v3"), by = c("id","v1"))
-```
-
-
-
-
-
 
 
