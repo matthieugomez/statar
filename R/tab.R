@@ -9,7 +9,7 @@
 #' @examples
 #' library(dplyr)
 #' N <- 1e2 ; K = 10
-#' df <- data.frame(
+#' df <- data_frame(
 #'   id = sample(c(NA,1:5), N/K, TRUE),
 #'   v1 =  sample(c(NA,1:5), N/K, TRUE)                       
 #' )
@@ -32,13 +32,8 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE) {
   x <- setNames(x, xsub)
   xsub <- paste0("`", xsub, "`")
   x <- group_by_(x, .dots =  xsub)
-  if (is.null(w)){
-     x <- summarize(x, Freq = n()) 
-  } else{
-       new = list(~sum(w, na.rm = TRUE))
-       x <- summarize_(x, .dots = setNames(new, "Freq")) 
-  }
-  x <- mutate_(x, .dots = setNames(list(~Freq/sum(Freq)*100), "Percent"))
+  x <- count_(x, vars = xsub, wt = w)
+  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
   x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum"))
   if (na.rm){
     x <- na.rm(x)
@@ -49,7 +44,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE) {
 #' @export
 #' @method tab data.frame
 tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE){
-  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = lazy(w), na.rm = na.rm)
+  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm)
 }
 
 
@@ -57,27 +52,20 @@ tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE){
 #' @rdname tab
 tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE){
   byvars <-  vapply(groups(x), as.character, character(1))
-  wvar <- names(select_vars_(names(x), w$expr))
+  wvar <- names(select_vars_(names(x), w))
   if (!length(wvar)){
     wvar <- NULL
   }
   vars <- names(select_vars_(names(x), vars, exclude = c(wvar, byvars)))
   vars <- c(byvars, vars)
-
   if (!is.null(i$expr)){
     newname <- tempname(x, 1)
     x <- mutate_(x, .dots = setNames(list(i), newname))
     x <- select_(x, .dots = c(vars, wvar, newname))
     x <- filter_(x, .dots = interp(~var, var = as.name(newname)))
   } 
-  x <- select_(x, .dots = c(vars, wvar))
-  x <- group_by_(x, .dots = vars)
-  if (is.null(wvar)){
-    x <- summarize_(x, .dots = setNames(list(~n()), "Freq")) 
-  } else{
-    x <- summarize_(x, .dots = setNames(list(~sum(w, na.rm = TRUE)), "Freq")) 
-  }
-  x <- mutate_(x, .dots = setNames(list(~Freq/sum(Freq)*100), "Percent"))
+  x <- count_(x, vars = vars, wt = w)
+  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
   x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum"))
   if (na.rm){
     x <- na.omit(x)

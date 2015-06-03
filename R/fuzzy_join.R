@@ -49,6 +49,8 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   w <- w/sum(w)
 
   ## create unique identifiers 
+  x <- ungroup(x)
+  y <- ungroup(y)
   tx <- mutate_(x, .dots = setNames(list(~row_number()), "x"))
   ty <- mutate_(y, .dots = setNames(list(~row_number()), "y"))
 
