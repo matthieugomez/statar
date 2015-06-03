@@ -5,12 +5,12 @@
 \alias{sum_up_}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(x, ..., d = FALSE, w = NULL, i = NULL, by = NULL, digits = 3)
+sum_up(x, ..., d = FALSE, w = NULL, i = NULL, digits = 3)
 
-sum_up_(x, vars, d = FALSE, w = NULL, i = NULL, by = NULL, digits = 3)
+sum_up_(x, vars, d = FALSE, w = NULL, i = NULL, digits = 3)
 }
 \arguments{
-\item{x}{a data.table}
+\item{x}{a data.frame}
 
 \item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
@@ -20,26 +20,27 @@ sum_up_(x, vars, d = FALSE, w = NULL, i = NULL, by = NULL, digits = 3)
 
 \item{i}{Condition}
 
-\item{by}{Groups within which summary statistics are printed. Default to NULL. See the \link[dplyr]{select} documentation.}
-
 \item{digits}{Number of significant decimal digits. Default to 3}
 
 \item{vars}{Used to work around non-standard evaluation.}
+}
+\value{
+a data.frame
 }
 \description{
 Gives summary statistics (corresponds to Stata command summarize)
 }
 \examples{
-library(data.table)
+library(dplyr)
 N <- 100
-DT <- data.table(
+df <- data_frame(
   id = 1:N,
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
 )
-sum_up(DT)
-sum_up(DT, v2, d = TRUE)
-sum_up(DT, starts_with("v"), by = v1)
-sum_up(DT, by = v1)
+sum_up(df)
+sum_up(df, v2, d = TRUE)
+sum_up(df, v2, d = TRUE, i = v1>3)
+df \%>\% group_by(v1) \%>\% sum_up(starts_with("v"))
 }
 

@@ -60,7 +60,6 @@ string_interpolation <- function(x, pattern = "$", parenthesis.only = FALSE, env
     z <- x
     if (!parenthesis.only){
       while ((regexpr(pattern, z, fixed = TRUE) > start) && (regexpr(pattern, z, fixed = TRUE) < nchar(x)) && (regexpr(paste0(pattern," "), z, fixed = TRUE) <0)){
-        print("try")
         i <- i +1        
         location <- regexpr(pattern, z, fixed = TRUE) 
         x_after <- substring(z, location + 1, nchar(z))

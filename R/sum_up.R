@@ -1,6 +1,6 @@
 #' Gives summary statistics (corresponds to Stata command summarize)
 #' 
-#' @param x a data.table
+#' @param x a data.frame
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param w Weights. Default to NULL. 
 #' @param i Condition
@@ -19,8 +19,9 @@
 #' sum_up(df, v2, d = TRUE)
 #' sum_up(df, v2, d = TRUE, i = v1>3)
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
+#' @return a data.frame 
 #' @export
-sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 3) {
+sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, digits = 3) {
   UseMethod("sum_up")
 }
 
@@ -43,14 +44,14 @@ sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
 
 #' @export
 #' @method sum_up data.frame
-sum_up.data.frame <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, by = NULL, digits = 3) {
-  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i), by = substitute(by), digits = digits)
+sum_up.data.frame <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, digits = 3) {
+  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i), digits = digits)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, digits = 3) {
+sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, digits = 3) {
   w <- names(select_vars_(names(x), w))
   byvars <-  vapply(groups(x), as.character, character(1))
   dots <- all_dots(vars)
@@ -74,9 +75,9 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, digits = 
   x <- select_(x, .dots = c(vars, byvars, w))
   # bug for do in data.table
   if (is.data.table(x)){
-      out <- x[, describe(.SD, d = d, wname = w), by = c(byvars)]
+      out <- x[, describe(.SD, d = d, wname = w, byvars = byvars), by = c(byvars)]
   } else{
-      out <- x %>% do(describe(., d = d, wname = w))
+      out <-  do_(x, ~describe(., d = d, wname = w, byvars = byvars))
   }
   out <- arrange_(out, .dots = c(byvars, "variable"))
   out <- select_(out, .dots = c(byvars, "variable", setdiff(names(out), c("variable", byvars))))
@@ -86,11 +87,13 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, by = NULL, digits = 
 
 
 
-describe <- function(M, d = FALSE, wname = character(0)){
+describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0)){
+  if (length(byvars)){
+    M <- select(M, -one_of(byvars))
+  }
   if (length(wname)){
     w <- M[[wname]]
     M <- select(M, -one_of(wname))
-    print(w)
   }
   else{
     w <- NULL
@@ -168,11 +171,11 @@ print_pretty_summary <- function(x, digits = 3){
   if ("skewness" %in% names(x)){
     x1 <- select(x, -one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
     x2 <-  select(x, -one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
-    stargazer(x1, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
-    stargazer(x2, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
+   stargazer(format(x1, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
+   stargazer(format(x2, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
   } else{
     setDF(x)
-    stargazer(x, type = "text", summary = FALSE, digits = digits, rownames = FALSE)
+   stargazer(format(x, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
   }
 }
 

@@ -3,14 +3,14 @@
 \name{find_duplicates}
 \alias{find_duplicates}
 \alias{find_duplicates_}
-\title{returns a data.table with duplicated rows}
+\title{returns a data.frame with duplicated rows}
 \usage{
 find_duplicates(x, ..., gen = "N")
 
 find_duplicates_(x, vars, gen = "N")
 }
 \arguments{
-\item{x}{a data.table}
+\item{x}{a data.frame}
 
 \item{...}{Variable on which one should check for duplicates. Default to all variables}
 
@@ -19,14 +19,13 @@ find_duplicates_(x, vars, gen = "N")
 \item{vars}{Used to work around non-standard evaluation.}
 }
 \value{
-a data.table with groups that have duplicates.
+a data.frame with groups that have duplicates.
 }
 \description{
-returns a data.table with duplicated rows
+returns a data.frame with duplicated rows
 }
 \examples{
-library(data.table)
-DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-find_duplicates(DT, a)
+df <- data.frame(a = rep(1:2, each = 3), b = 1:6)
+find_duplicates(df, a)
 }
 

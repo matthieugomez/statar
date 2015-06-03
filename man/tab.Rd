@@ -7,12 +7,12 @@
 \usage{
 tab(x, ...)
 
-tab_(x, vars = NULL, i = NULL, w = NULL, na.omit = FALSE)
+tab_(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE)
 }
 \arguments{
-\item{x}{a vector or a data.table}
+\item{x}{a vector or a data.frame}
 
-\item{...}{Variable to include. If length is two, a special cross tabulation table is printed although the a long data.table is always (invisibly) returned.}
+\item{...}{Variable to include. If length is two, a special cross tabulation table is printed although the a long data.frame is always (invisibly) returned.}
 
 \item{vars}{Used to work around non-standard evaluation.}
 
@@ -20,25 +20,25 @@ tab_(x, vars = NULL, i = NULL, w = NULL, na.omit = FALSE)
 
 \item{w}{Frequency weights. Default to NULL.}
 
-\item{na.omit}{Omit missing values. Default to FALSE}
+\item{na.rm}{Remove missing values. Default to FALSE}
 }
 \value{
-a data.table sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
+a data.frame sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
 }
 \description{
 Returns cross tabulation
 }
 \examples{
-library(data.table)
+library(dplyr)
 N <- 1e2 ; K = 10
-DT <- data.table(
+df <- data.frame(
   id = sample(c(NA,1:5), N/K, TRUE),
-  v1 =  sample(c(NA,1:5), N, TRUE),
-  v2 =  sample(c(NA,1:1e6), N, TRUE)
+  v1 =  sample(c(NA,1:5), N/K, TRUE)
 )
-tab(DT[["id"]])
-tab(DT, id)
-tab(DT, id, i = v1>=3)
-tab(DT, id, v1, w = v2)
+tab(df[["id"]])
+tab(df, id)
+df \%>\% group_by(id) \%>\% tab()
+df \%>\% group_by(id) \%>\% tab(v1)
+tab(df, id, i = id>=3)
 }
 

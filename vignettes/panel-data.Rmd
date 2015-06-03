@@ -37,7 +37,7 @@ The classes "monthly" and "quarterly"  print as dates and are compatible with us
 
 ## Vector functions
 
-`lag`/`lead` a vector along a time variable (and NOT with respet to a number of row)
+`tlag`/`tlead` a vector along a time variable (and NOT with respet to a number of row)
 
 ```R
 year <- c(1989, 1991, 1992)

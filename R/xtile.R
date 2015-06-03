@@ -19,7 +19,8 @@ xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
   if (!is.null(probs)){
     if (is.null(w)){
       # compute quantile and bin in one pass by reordering first
-      order <- data.table:::forderv(x)
+      # order <- forderv(x)
+      order <- order(x)
       l_na <- sum(is.na(x))
       l_probs <- length(probs)
       l_x <- length(x)-l_na
@@ -28,7 +29,7 @@ xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
       aux[order] <- aux
       return(aux)
     } else{
-      cutpoints <- wtd.quantile(x, probs, type ="i/n", na.rm = TRUE, weights = w)
+      cutpoints <- fquantile(x, probs, w = w)
     }
   }
   .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
@@ -65,5 +66,4 @@ xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
 #  }
 #  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
 #}
-
 

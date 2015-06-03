@@ -1,14 +1,13 @@
-#' returns a data.table with duplicated rows
+#' returns a data.frame with duplicated rows
 #'
-#' @param x a data.table
+#' @param x a data.frame
 #' @param ... Variable on which one should check for duplicates. Default to all variables
 #' @param gen A character that specifies  the name of a new variable with the number of duplicates. Default to "N".
 #' @param vars Used to work around non-standard evaluation.
-#' @return a data.table with groups that have duplicates. 
+#' @return a data.frame with groups that have duplicates. 
 #' @examples
-#' library(data.table)
-#' DT <- data.table(a = rep(1:2, each = 3), b = 1:6)
-#' find_duplicates(DT, a)
+#' df <- data.frame(a = rep(1:2, each = 3), b = 1:6)
+#' find_duplicates(df, a)
 #' @export
 find_duplicates <- function(x, ..., gen = "N"){
   find_duplicates_(x, vars = lazyeval::lazy_dots(...), gen = gen)
@@ -17,25 +16,20 @@ find_duplicates <- function(x, ..., gen = "N"){
 #' @export
 #' @rdname find_duplicates
 find_duplicates_ <- function(x, vars, gen = "N"){
-  stopifnot(is.data.table(x))
   names <- names(x)
   if (gen %in% names)   stop(paste("A variable named", gen, "already exists."))
   if (anyDuplicated(names))  stop("x has duplicate column names")
   dots <- lazyeval::all_dots(vars)
   byvars <- names(select_vars_(names, dots))
-  if (!length(byvars)){
-      byvars <- names(x)
-  }
-  ans <- x[, .I[.N>1L], by=c(byvars)]
-  ans <- ans[[length(ans)]]
-  ans <- x[ans]
-  n_groups <- nrow(unique(ans, by = byvars))
+  byvars <-  c(vapply(groups(x), as.character, character(1)), byvars)
+  ans <- mutate_(group_by_(x, .dots = byvars), .dots = setNames(list(~n()), gen))
+  ans <- filter_(ans, interp(~gen > 1, gen = as.name(gen)))
+  n_groups <- nrow(ans)
   message(paste(n_groups, "groups have duplicates"))
   if (n_groups>0){
-    ans <- ans[, c(gen) := .N, by = c(byvars)]
-    setkeyv(ans, c(gen, byvars))
-    setcolorder(ans, c(gen, byvars, setdiff(names(ans), c(byvars, gen))))
+    ans <- arrange_(ans, .dots = c(gen, byvars))
+    ans <- select_(ans, interp(~gen, gen =as.name(gen)), interp(~byvars, byvars =as.name(byvars)), ~everything())
   } 
-  return(ans[])
+  return(ans)
 }
 

@@ -20,7 +20,6 @@ count_combinations(name, id, n = 1)
 Find best string combinations that identify an id
 }
 \examples{
-library(data.table)
 id <- c(1, 1, 2, 2)
 name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
 count_combinations(name, id = id)

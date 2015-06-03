@@ -5,7 +5,6 @@
 #' @param n number of words for combinations. Default to \code{1}.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. Intuitively, when the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
 #' @examples
-#' library(data.table)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
 #' count_combinations(name, id = id)
@@ -48,7 +47,6 @@ count_combinations <- function(name, id, n = 1){
 #' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
 #' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
-#' library(data.table)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
 #' compute_distance(name, id, n = 0)

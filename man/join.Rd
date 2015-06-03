@@ -4,18 +4,18 @@
 \alias{join}
 \title{Join two data.tables together}
 \usage{
-join(x, y, on = intersect(names(x), names(y)), kind = "outer",
-  suffixes = c(".x", ".y"), check = m ~ m, gen = FALSE, inplace = FALSE,
-  update = FALSE, type)
+join(x, y, kind, on = intersect(names(x), names(y)), suffixes = c(".x",
+  ".y"), check = m ~ m, gen = FALSE, inplace = FALSE, update = FALSE,
+  type)
 }
 \arguments{
 \item{x}{The master data.table}
 
 \item{y}{The using data.table}
 
-\item{on}{Character vectors specifying variables to match on. Default to common names between x and y.}
+\item{kind}{The kind of (SQL) join among "full" (default), "left", "right", "inner", "semi", "anti" and "cross".}
 
-\item{kind}{The kind of (SQL) join among "outer" (default), "left", "right", "inner", "semi", "anti" and "cross".}
+\item{on}{Character vectors specifying variables to match on. Default to common names between x and y.}
 
 \item{suffixes}{A character vector of length 2 specifying suffix of overlapping columns. Defaut to ".x" and ".y".}
 
@@ -36,23 +36,23 @@ A data.table that joins rows in master and using datases. Importantly, if x or y
 Join two data.tables together
 }
 \examples{
-library(data.table)
-x <- data.table(a = rep(1:2, each = 3), b=1:6)
-y <- data.table(a = 0:1, bb = 10:11)
-join(x, y, kind = "outer")
+library(dplyr)
+x <- data.frame(a = rep(1:2, each = 3), b=1:6)
+y <- data.frame(a = 0:1, bb = 10:11)
+join(x, y, kind = "full")
 join(x, y, kind = "left", gen = "_merge")
 join(x, y, kind = "right", gen = "_merge")
 join(x, y, kind = "inner", check = m~1)
 join(x, y, kind = "semi")
 join(x, y, kind = "anti")
-setnames(y, "bb", "b")
-join(x, y, on = "a")
-join(x, y, on = "a", suffixes = c("",".i"))
-y <- data.table(a = 0:1, bb = 10:11)
-join(x, y, kind = "left", check = m~1, inplace = TRUE)
-x <- data.table(a = c(1,2), b=c(NA, 2))
-y <- data.table(a = c(1,2), b = 10:11)
+y <- rename(y, b = bb)
+join(x, y, kind = "full", on = "a")
+join(x, y, kind = "full", on = "a", suffixes = c("",".i"))
+y <- data.frame(a = 0:1, bb = 10:11)
+join(x, y, kind = "left", check = m~1)
+x <- data.frame(a = c(1,2), b=c(NA, 2))
+y <- data.frame(a = c(1,2), b = 10:11)
 join(x, y, kind = "left", on = "a",  update = TRUE)
-join(x, y, kind = "left", on = "a", chec = m~1, inplace = TRUE,  update = TRUE)
+join(x, y, kind = "left", on = "a", check = m~1,  update = TRUE)
 }
 
