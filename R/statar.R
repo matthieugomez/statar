@@ -57,7 +57,6 @@
 #' @importFrom matrixStats colRanges
 #' @importFrom parallel mclapply
 #' @importFrom stargazer stargazer
-#' @importFrom stats lag
 #' @importFrom stringdist stringdist
 #' @importFrom stringdist stringdistmatrix
 #' @importFrom stringr str_replace
