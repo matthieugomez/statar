@@ -2,16 +2,16 @@
 % Please edit documentation in R/join.R
 \name{join}
 \alias{join}
-\title{Join two data.tables together}
+\title{Join two data frames together}
 \usage{
 join(x, y, kind, on = intersect(names(x), names(y)), suffixes = c(".x",
   ".y"), check = m ~ m, gen = FALSE, inplace = FALSE, update = FALSE,
   type)
 }
 \arguments{
-\item{x}{The master data.table}
+\item{x}{The master data.frame}
 
-\item{y}{The using data.table}
+\item{y}{The using data.frame}
 
 \item{kind}{The kind of (SQL) join among "full" (default), "left", "right", "inner", "semi", "anti" and "cross".}
 
@@ -30,10 +30,10 @@ join(x, y, kind, on = intersect(names(x), names(y)), suffixes = c(".x",
 \item{type}{Deprecated}
 }
 \value{
-A data.table that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
+A data.frame that joins rows in master and using datases. Importantly, if x or y are not keyed, the join may change their row orders.
 }
 \description{
-Join two data.tables together
+Join two data frames together
 }
 \examples{
 library(dplyr)

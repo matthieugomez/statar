@@ -7,7 +7,7 @@
 \usage{
 tab(x, ...)
 
-tab_(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE)
+tab_(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE, sort = sort)
 }
 \arguments{
 \item{x}{a vector or a data.frame}
@@ -21,9 +21,11 @@ tab_(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE)
 \item{w}{Frequency weights. Default to NULL.}
 
 \item{na.rm}{Remove missing values. Default to FALSE}
+
+\item{sort}{Boolean. Default to TRUE}
 }
 \value{
-a data.frame sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
+a data.frame sorted by variables in ..., and with a columns "n", "Percent", and "Cum." for counts.
 }
 \description{
 Returns cross tabulation
@@ -31,9 +33,9 @@ Returns cross tabulation
 \examples{
 library(dplyr)
 N <- 1e2 ; K = 10
-df <- data.frame(
+df <- data_frame(
   id = sample(c(NA,1:5), N/K, TRUE),
-  v1 =  sample(c(NA,1:5), N/K, TRUE)
+  v1 =  sample(1:5, N/K, TRUE)
 )
 tab(df[["id"]])
 tab(df, id)

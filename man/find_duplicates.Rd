@@ -5,18 +5,18 @@
 \alias{find_duplicates_}
 \title{returns a data.frame with duplicated rows}
 \usage{
-find_duplicates(x, ..., gen = "N")
+find_duplicates(x, ...)
 
-find_duplicates_(x, vars, gen = "N")
+find_duplicates_(x, vars)
 }
 \arguments{
 \item{x}{a data.frame}
 
 \item{...}{Variable on which one should check for duplicates. Default to all variables}
 
-\item{gen}{A character that specifies  the name of a new variable with the number of duplicates. Default to "N".}
-
 \item{vars}{Used to work around non-standard evaluation.}
+
+\item{gen}{A character that specifies  the name of a new variable with the number of duplicates. Default to "N".}
 }
 \value{
 a data.frame with groups that have duplicates.
