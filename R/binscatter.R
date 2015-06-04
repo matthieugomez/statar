@@ -18,6 +18,10 @@ binscatter <- function(x, formula, w = NULL, verbose = FALSE, n = 20) {
 #' @export
 #' @rdname binscatter
 binscatter_<- function(x, formula, w = NULL, verbose = FALSE, n = 20){
+  bin <- "bin"
+  intercept <- "intercept"
+  slope <- "slope"
+  ww <- "ww"
   w <- names(select_vars_(names(x),w))
   byvars <-  vapply(groups(x), as.character, character(1))
   if (length(byvars)>1){
@@ -28,38 +32,33 @@ binscatter_<- function(x, formula, w = NULL, verbose = FALSE, n = 20){
   } else{
     group <- character(0)
   }
-  ww <- "ww"
   if (!length(w)){
     x <- mutate_(x, .dots = setNames(list(~1), ww))
   } else{
    x <-  mutate_(x, .dots = setNames(list(interp(~w/sum(w), w = as.name(w))), ww))
   }
   x <- select_(x, .dots = c(all.vars(formula), ww))
-  x <- na.omit(x)
-  bin <- "bin"
-  intercept <- "intercept"
-  slope <- "slope"
-  ans <- x
+  x <- na.omit(x) 
   F <- Formula(formula)
   F1 <- formula(F, lhs = 1, rhs = 1)
   F2 <- formula(F, lhs = 0, rhs = - 1)
   y <- deparse(F1[[2]])
-  x <- deparse(F1[[3]])
+  x1 <- deparse(F1[[3]])
   newformula <- as.Formula(~1, F2)
-  ans2 <- do_(ans, .dots = interp(~f(y, x, newformula, ww, .), y = y, x= x, newformula = newformula, ww = ww))
-  coeff <- do_(group_by_(ans2, .dots = group), .dots = interp(~data.frame(t(coef(lm(formula,  data = . , weights = ww)))), formula = as.formula(paste0(y, "~", x)), ww = as.name(ww)))
+  ans <- do_(x, .dots = interp(~f(y, x1, newformula, ww, .), y = y, x1 = x1, newformula = newformula, ww = ww))
+  coeff <- do_(group_by_(ans, .dots = group), .dots = interp(~data.frame(t(coef(lm(formula,  data = . , weights = ww)))), formula = as.formula(paste0(y, "~", x1)), ww = as.name(ww)))
   coeff <- setNames(coeff, c(group, intercept, slope))
-  ans2 <- mutate_(ans2, .dots = setNames(list(interp(~xtile(x, n, ww), x = as.name(x), ww = as.name(ww))), bin))
-  ans2 <- group_by_(ans2, .dots = bin, add = TRUE)
-  summary <- summarize_(ans2, .dots = setNames(list(interp(~mean(x), x = as.name(x)),interp(~mean(y), y = as.name(y))), c(x, y)))
+  ans <- mutate_(ans, .dots = setNames(list(interp(~xtile(x1, n, ww), x1 = as.name(x1), ww = as.name(ww))), bin))
+  ans <- group_by_(ans, .dots = bin, add = TRUE)
+  summary <- summarize_(ans, .dots = setNames(list(interp(~mean(x1), x1 = as.name(x1)),interp(~mean(y), y = as.name(y))), c(x1, y)))
   if (length(group)){
     coeff <- ungroup(coeff)
     coeff <- mutate_(coeff, .dots = setNames(list(interp(~as.factor(group), group = as.name(group))), group))
     summary <- ungroup(summary)
     summary <- mutate_(summary, .dots = setNames( list(interp(~as.factor(group), group = as.name(group))), group))
-    g <-  ggplot(summary, aes_string(x = x, y = y, color = group)) + geom_point() + geom_abline(data = coeff, aes_string(intercept = intercept, slope = slope, color = group))
+    g <-  ggplot(summary, aes_string(x = x1, y = y, color = group)) + geom_point() + geom_abline(data = coeff, aes_string(intercept = intercept, slope = slope, color = group))
   } else{
-    g <-  ggplot(summary, aes_string(x = x, y = y)) + geom_point(colour = hcl(h=15,l=65,c=100)) + geom_abline(data = coeff, aes_string(intercept = intercept, slope = slope))
+    g <-  ggplot(summary, aes_string(x = x1, y = y)) + geom_point(colour = hcl(h=15,l=65,c=100)) + geom_abline(data = coeff, aes_string(intercept = intercept, slope = slope))
   }
   print(g)
 }
