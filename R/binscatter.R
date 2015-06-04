@@ -40,10 +40,8 @@ binscatter_<- function(x, formula, w = NULL, verbose = FALSE, n = 20){
   intercept <- "intercept"
   slope <- "slope"
   ans <- x
-  # type boxplot
   F <- Formula(formula)
   F1 <- formula(F, lhs = 1, rhs = 1)
-
   F2 <- formula(F, lhs = 0, rhs = - 1)
   y <- deparse(F1[[2]])
   x <- deparse(F1[[3]])

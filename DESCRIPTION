@@ -17,6 +17,7 @@ Imports:
     data.table,
     dplyr (>= 0.4.1),
     ggplot2,
+    Formula,
     grid,
     Hmisc,
     lazyeval,
