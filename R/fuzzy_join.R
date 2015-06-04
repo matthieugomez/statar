@@ -60,9 +60,8 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
 
   ans.x <- select_(ans.x, .dots =  c(exact, exact.or.NA, fuzzy, index.x, "x"))
   ans.y <- select_(ans.y, .dots =  c(exact, exact.or.NA, fuzzy, index.y, "y"))
-  ans.x = distinct(ans.x, .dots = c(exact, exact.or.NA, fuzzy))
-  ans.y = distinct(ans.y, .dots = c(exact, exact.or.NA, fuzzy))
-
+  ans.x = distinct_(ans.x, .dots = c(exact, exact.or.NA, fuzzy))
+  ans.y = distinct_(ans.y, .dots = c(exact, exact.or.NA, fuzzy))
   merge.x <- select_(ans.x, .dots = c(index.x, "x"))
   merge.y <- select_(ans.y, .dots = c(index.y, "y"))
 
@@ -78,7 +77,6 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   ans.y <- select_(ans.y, .dots = c(exact, ~everything()))
   setDT(ans.y)
   setkeyv(ans.y, exact)
- 
   result <- lapply(seq_len(nrow(ans.x)), function(i){
     c(ans.x[[index.x]][i], score_row(l = ans.x[i,], condition.exact.or.NA = condition[i], index.y = index.y, ans.y = ans.y, exact = exact, exact.or.NA = exact.or.NA, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...))
     })
