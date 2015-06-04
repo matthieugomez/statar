@@ -7,14 +7,12 @@
 \usage{
 graph(x, ..., along_with = NULL, by = NULL, w = NULL, reorder = TRUE,
   winsorize = TRUE, facet = FALSE, verbose = FALSE, type = if
-  (is.null(substitute(along_with))) {     "density" } else {     if
-  (is.null(formula))          "loess"     else "felm" }, formula = NULL,
+  (is.null(substitute(along_with))) {     "density" } else {     "loess" },
   n = 20)
 
 graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
   reorder = TRUE, winsorize = TRUE, facet = FALSE, verbose = FALSE,
-  type = if (is.null(along_with)) {     "density" } else {     if
-  (is.null(formula))          "loess"     else "felm" }, formula = NULL,
+  type = if (is.null(along_with)) {     "density" } else {     "loess" },
   n = 20)
 }
 \arguments{
@@ -37,8 +35,6 @@ graph_(x, ..., .dots, along_with = NULL, by = NULL, w = NULL,
 \item{verbose}{Should warnings (regarding missing values, outliers, etc) be printed?}
 
 \item{type}{type of graph among "density", "boxplot", "line", or a statistical method (like "lm", "loeless" or "felm")}
-
-\item{formula}{to use then type is "felm"}
 
 \item{n}{Number of quantiles to plot}
 

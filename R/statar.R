@@ -39,6 +39,7 @@
 #' @importFrom dplyr data_frame
 #' @importFrom dplyr bind_cols
 #' @importFrom Formula Formula
+#' @importFrom Formula as.Formula
 #' @importFrom grid grid.layout
 #' @importFrom grid grid.newpage
 #' @importFrom grid pushViewport
