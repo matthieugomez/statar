@@ -6,19 +6,20 @@
 #' @param w Frequency weights. Default to NULL. 
 #' @param na.rm Remove missing values. Default to FALSE
 #' @param vars Used to work around non-standard evaluation.
+#' @param sort Boolean. Default to TRUE
 #' @examples
 #' library(dplyr)
 #' N <- 1e2 ; K = 10
 #' df <- data_frame(
 #'   id = sample(c(NA,1:5), N/K, TRUE),
-#'   v1 =  sample(c(NA,1:5), N/K, TRUE)                       
+#'   v1 =  sample(1:5, N/K, TRUE)                       
 #' )
 #' tab(df[["id"]])
 #' tab(df, id)
 #' df %>% group_by(id) %>% tab()
 #' df %>% group_by(id) %>% tab(v1)
 #' tab(df, id, i = id>=3)
-#' @return a data.frame sorted by variables in ..., and with a columns "Freq", "Percent", and "Cum." for counts.
+#' @return a data.frame sorted by variables in ..., and with a columns "n", "Percent", and "Cum." for counts.
 #' @export
 tab <- function(x, ...) {
   UseMethod("tab")
@@ -26,31 +27,32 @@ tab <- function(x, ...) {
 
 #' @export
 #' @method tab default
-tab.default <- function(x, ..., w = NULL, na.rm = FALSE) {
-  xsub <- copy(deparse(substitute(x)))
-  x <- data_frame(x)
-  x <- setNames(x, xsub)
-  xsub <- paste0("`", xsub, "`")
-  x <- group_by_(x, .dots =  xsub)
-  x <- count_(x, vars = xsub, wt = w)
+tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
+  x <- setNames(data.frame(x), "x")
+  x <- group_by_(x, .dots =  "x")
+  x <- count_(x, vars = "x", wt = w)
   x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
   x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum"))
   if (na.rm){
-    x <- na.rm(x)
-  }
-  x
+     x <- na.omit(x)
+   }
+   if (sort){
+     x <- arrange_(x, .dots = "x")
+   }
+   print_pretty_tab(x)
+   invisible(x)
 }
 
 #' @export
 #' @method tab data.frame
-tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE){
-  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm)
+tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE, sort = TRUE){
+  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm, sort = sort)
 }
 
 
 #' @export
 #' @rdname tab
-tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE){
+tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
   byvars <-  vapply(groups(x), as.character, character(1))
   wvar <- names(select_vars_(names(x), w))
   if (!length(wvar)){
@@ -70,7 +72,9 @@ tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE){
   if (na.rm){
     x <- na.omit(x)
   }
-  x <- arrange_(x, .dots = vars)
+  if (sort){
+    x <- arrange_(x, .dots = vars)
+  }
   print_pretty_tab(x)
   invisible(x)
 }

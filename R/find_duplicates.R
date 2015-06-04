@@ -9,26 +9,27 @@
 #' df <- data.frame(a = rep(1:2, each = 3), b = 1:6)
 #' find_duplicates(df, a)
 #' @export
-find_duplicates <- function(x, ..., gen = "N"){
-  find_duplicates_(x, vars = lazyeval::lazy_dots(...), gen = gen)
+find_duplicates <- function(x, ...){
+  find_duplicates_(x, vars = lazyeval::lazy_dots(...))
 }
 
 #' @export
 #' @rdname find_duplicates
-find_duplicates_ <- function(x, vars, gen = "N"){
+find_duplicates_ <- function(x, vars){
   names <- names(x)
-  if (gen %in% names)   stop(paste("A variable named", gen, "already exists."))
+  if ("n" %in% names)   stop(paste("A variable named n already exists."))
   if (anyDuplicated(names))  stop("x has duplicate column names")
   dots <- lazyeval::all_dots(vars)
   byvars <- names(select_vars_(names, dots))
   byvars <-  c(vapply(groups(x), as.character, character(1)), byvars)
-  ans <- mutate_(group_by_(x, .dots = byvars), .dots = setNames(list(~n()), gen))
-  ans <- filter_(ans, interp(~gen > 1, gen = as.name(gen)))
-  n_groups <- nrow(ans)
+  ans <- group_by_(x, .dots = byvars)
+  ans <- mutate_(ans, .dots = setNames(list(~n()), "n"))
+  ans <- filter_(ans, ~ n > 1)
+  n_groups <- nrow(distinct_(ans, .dots = byvars))
   message(paste(n_groups, "groups have duplicates"))
   if (n_groups>0){
-    ans <- arrange_(ans, .dots = c(gen, byvars))
-    ans <- select_(ans, interp(~gen, gen =as.name(gen)), interp(~byvars, byvars =as.name(byvars)), ~everything())
+    ans <- arrange_(ans, .dots = c("n", byvars))
+    ans <- select_(ans, ~n, interp(~byvars, byvars =as.name(byvars)), ~everything())
   } 
   return(ans)
 }

@@ -68,7 +68,6 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
 
   # exact matching
   exact.matched <- suppressMessages(inner_join(ans.x, ans.y, on = c(exact, exact.or.NA, fuzzy)))
-  print(exact.matched)
   exact.matched <- select_(exact.matched, .dots = interp(~index.x, index.x = as.name(index.x)), interp(~index.y, index.y = as.name(index.y)))
   exact.matched <- mutate_(exact.matched, .dots = setNames(list(~0), gen))
   length <- n_distinct(exact.matched[[index.x]])

@@ -28,16 +28,12 @@ sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, digits = 3) {
 #' @export
 #' @method sum_up default
 sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
-  xsub <- copy(deparse(substitute(x)))
   if (is.null(w)){
-    x <- list(x)
-    setnames(setDT(x), xsub)
-    print(x)
-    sum_up_(x, vars = xsub, d = d, digits = digits)
+    x <- setNames(data_frame(x), "x")
   } else{
     x <- setNames(data_frame(x, w),  c(xsub, "weight"))
-    sum_up_(x, vars = xsub, d = d, w = w, digits = digits)
   }
+  sum_up_(x, vars = xsub, d = d, w = w, digits = digits)
 }
 
 
@@ -156,18 +152,6 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
 
 
 print_pretty_summary <- function(x, digits = 3){
- # f <- function(y){
- #   if (is.numeric(y)){
- #     y <- sapply(y, function(z){.iround(z, decimal.places = digits)})
- #     end <- paste0(paste(rep("0", digits), collapse = ""),"$")
- #     y <- str_replace(y,end,"")
- #     y[y==""] <- "0"
- #     y <- str_replace(y,"\\.$","")
- #     y <- str_replace(y,"^-0$","0")
- #   } 
- #   y
- # }
- # x <- x[, lapply(.SD, f), .SDcols = names(x)]
   if ("skewness" %in% names(x)){
     x1 <- select(x, -one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
     x2 <-  select(x, -one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
