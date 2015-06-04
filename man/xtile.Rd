@@ -2,7 +2,7 @@
 % Please edit documentation in R/xtile.R
 \name{xtile}
 \alias{xtile}
-\title{Bin a numeric vector and return integer codes for the binning (corresponds to Stata command xtile)}
+\title{Bin variable in groups (similar to Stata xtile)}
 \usage{
 xtile(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL)
 }
@@ -21,7 +21,7 @@ xtile(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL)
 An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
 }
 \description{
-Bin a numeric vector and return integer codes for the binning (corresponds to Stata command xtile)
+Bin variable in groups (similar to Stata xtile)
 }
 \examples{
 x <- c(NA, 1:10)
