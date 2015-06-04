@@ -11,10 +11,7 @@ expect_equal(class(seq(datem[1], datem[2])), "monthly")
 })
 
 test_that("conversion works", {
-	expect_equal(as.POSIXlt(as.quarterly(date)), floor_date(date, "quarter") )
 	expect_equal(as.POSIXlt(as.monthly(date)), floor_date(date, "month") )
-
-	expect_equal(as.Date(as.quarterly(date)), as.Date(floor_date(date, "quarter") ))
 	expect_equal(as.Date(as.monthly(date)), as.Date(floor_date(date, "month") ))
 	})
 

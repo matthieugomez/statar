@@ -55,36 +55,6 @@ shallow_ <- function(x, vars) {
 }
 
 
-wquantile <- function(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE){
-  if (is.null(w)){
-    quantile(x = x, type = 2, probs = probs, na.rm = na.rm)
-  } else{
-      # implementation of quantile type = 2 with weight
-      if (anyNA(x) | anyNA(w)) {
-        if (na.rm) {
-          na <- is.na(x) | is.na(w)
-          x <- x[!na]
-          w <- w[!na]
-        }
-        else{
-          stop("Missing values not allowed when na.rm is FALSE", call. = FALSE)
-        } 
-      }
-      # Ensure x and w in ascending order of x
-      order <- order(x)
-      cumsum <- cumsum(w[order])
-      n <- cumsum[length(cumsum)]
-
-      # follow definition of quantile 2 in R
-      index <- n * probs
-      j <- floor(index)
-      low <- x[order[pmin(length(x),   .bincode(j, c(-Inf, cumsum)))]]
-      high <- x[order[pmin(length(x),   .bincode(j + 1, c(-Inf, cumsum)))]]
-      ifelse(j == index, 0.5 * low + 0.5 * high, high)
-    }
-}
-
-
 
 
 
@@ -187,50 +157,6 @@ colwise_ <- function(tbl, calls, vars, byvars = NULL, replace = FALSE) {
 
 
 
-
 print_all <- function(x){
   print(x, nrow(x))
 }
-
-#set = function(x, new = NULL, fun = NULL, old = NULL, i = TRUE, by = NULL){
-#    call <- substitute(set_(x, new = substitute(new), fun = func , old = substitute(old), i = ic, by =# substitute(by)), list(func = substitute(fun), ic = substitute(i)))
-#    eval(call)
-#}
-#
-#set_ = function(x, new = NULL , fun = NULL, old = NULL, i = TRUE, by = NULL){
-#    i = substitute(i)
-#    fun = substitute(fun)
-#    if (is.null(old)){
-#        newvars <- names(select_vars_(names(x), new))
-#        vvars <- newvars
-#    } else{
-#        newvars <- new
-#        vvars <- names(select_vars_(names(x), old))
-#    }
-#    byvars <- names(select_vars_(names(x), by))
-#    if (!length(by)){
-#        by <- NULL
-#    }
-#    if (is.call(fun)){
-#      fun <- interp(fun, .values = list(. = as.name("x")))
-#      fun <- substitute(function(x){y}, list(y = fun))
-#    }
-#    if (is.null(fun)){
-#        call <- substitute(dt[, (newvars) := NULL])
-#    } else{
-#            if (length(byvars)){
-#                call <- substitute(dt[i, new := lapply(.SD, fun), by = by, .SDcols= v], list(i = i, #fun = fun, v = vvars, by = byvars, new = newvars))
-#            } else{
-#                call <- substitute(dt[i, new := lapply(.SD, fun), .SDcols= v], list(i = i, fun = fun, #v = vvars, by = byvars, new = newvars))
-#            }
-#        }
-#    dt_env <- dt_env(x, parent.frame())
-#    eval(call, dt_env)
-#}
-
-
-
-
-
-
-
