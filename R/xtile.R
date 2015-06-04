@@ -19,6 +19,6 @@ xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL){
   if (!is.null(probs)){
     cutpoints <-  wquantile(x, probs, w = w, na.rm = TRUE)
   }
-  # In stata xtile is (-infty, x_p1], (xp1, xpe]. .bincode also uses intervals  intervals closed on the right
-  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest=TRUE)
+  # In stata xtile is (-infty, x_p1], (xp1, xpe], like .bincode 
+  .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest = TRUE)
 }

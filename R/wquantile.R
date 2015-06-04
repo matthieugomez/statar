@@ -9,7 +9,6 @@ wquantile <- function(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE){
   if (is.null(w)){
     quantile(x = x, type = 2, probs = probs, na.rm = na.rm)
   } else{
-      # implementation of quantile type = 2 with weight
       if (anyNA(x) | anyNA(w)) {
         if (na.rm) {
           na <- is.na(x) | is.na(w)
@@ -24,7 +23,7 @@ wquantile <- function(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE){
       order <- order(x)
       cumsum <- cumsum(w[order])
       n <- cumsum[length(cumsum)]
-      # follow definition of quantile 2 in R
+      # follow definition of quantile 2 
       index <- n * probs
       j <- floor(index)
       low <- x[order[pmin(length(x),   .bincode(j, c(-Inf, cumsum)))]]
