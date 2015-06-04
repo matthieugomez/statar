@@ -21,7 +21,6 @@ Imports:
     Hmisc,
     lazyeval,
     lfe,
-    lubridate,
     matrixStats,
     stargazer,
     stringdist,
