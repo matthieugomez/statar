@@ -1,21 +1,13 @@
 #' Experimental function to graph a dataset
 #' 
-#' @param x A data.table.
-#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param by Groups within which variables should be ploted.
-#' @param type type of graph among "density", "boxplot", "line", or a statistical method (like "lm", "loeless" or "felm")
-#' @param x A variable that specifies the x axis. Should be specified when "type" is "line", "lm" or "loeless".
-#' @param winsorize Should variables winsorized?
-#' @param reorder Should the category with the most count be printed first?
-#' @param facet Should different groups graphed in different windows?
-#' @param verbose Should warnings (regarding missing values, outliers, etc) be printed?
-#' @param .dots Used to work around non-standard evaluation.
-#' @param formula to use then type is "felm"
-#' @param w Analytical weights (experimental)
+#' @param x A data.frame
+#' @param formula A formula.
+#' @param w Wweights 
 #' @param n Number of quantiles to plot
+#' @param A plot of the lhs of the formula over the first regressor, after controlling by variables in the formula.
 #' @examples
 #' library(dplyr)
-#' binscatter(iris, Sepal.Width ~ Sepal.Length | Species)
+#' binscatter(iris, Sepal.Width ~ Sepal.Length)
 #' binscatter(iris, Sepal.Width ~ Sepal.Length | Species, n = 10)
 #' binscatter(group_by(iris, Species), Sepal.Width ~ Sepal.Length, n = 10)
 #' @export
