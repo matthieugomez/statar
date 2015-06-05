@@ -5,14 +5,16 @@
 #' @param n number of words for combinations. Default to \code{1}.
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. Intuitively, when the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
 #' @examples
+#' library(stringdist)
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' count_combinations(name, id = id)
-#' count_combinations(name, id = id, n = 2)
+#' count_combinations(id, name)
+#' count_combinations(id, name, n = 2)
 #' @export
-count_combinations <- function(name, id, n = 1){
-  dt <- setDT(list(id = id, name = name))
-  dt <- na.omit(dt, by = "name", cols = "name")
+count_combinations <- function(id, name, n = 1){
+  try_require("stringdist")
+  df <- data_frame(id = id, name = name)
+  df <- filter(df, !is.na(name))
   if (n>0){
     f <- function(x){
       g <- function(x){
@@ -26,14 +28,13 @@ count_combinations <- function(name, id, n = 1){
       out <- unlist(lapply(x, g))
       unname(out)
     } 
-    dt <- dt[, list(name = f(name)), by = "id"]
+    print(df)
+    suppressWarnings(df <- df %>% group_by(id) %>% do_(~data.frame(name = f(.$name))))
   }
-  dt <- dt[, list(.N) , by = c("id", "name")]
-  setnames(dt, c("id", "name", "count_within"))
-  dt[, "count_across" := .N, by = name]
-  setorderv(dt, c("id", "count_across", "count_within"), order = c(1,1,-1))
-  setDF(dt)
-  dt
+  df <- count(df, id, name)
+  df <- setNames(df, c("id", "name", "count_within"))
+  df <- df %>% group_by(name) %>% mutate(count_across = n())
+  arrange_(df, ~id, ~count_across, ~desc(count_within))
 }
 
 
@@ -49,13 +50,14 @@ count_combinations <- function(name, id, n = 1){
 #' @return \code{tab_accross} returns a data.frame of four columns. The first is id, the second corresponds to unique combination of words in each element of \code{v} with length lower than \code{n} (sorted alphabetically),  the third is the count of these permutation within \code{id}, the fourth is the count of these permutation accross \code{i}. When the count accross group is 1 and the count within group is high, the element can be considered as an identifier of the group.
 #' id <- c(1, 1, 2, 2)
 #' name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-#' compute_distance(name, id, n = 0)
-#' compute_distance(name, id, n = 1)
-#' compute_distance(name, id, n = 2)
+#' compute_distance(id, name, n = 0)
+#' compute_distance(id, name, n = 1)
+#' compute_distance(id, name, n = 2)
 #' @export
-compute_distance <- function(name, id, n = 1, method = "jw", p = 0.1, ...){
-  dt <- setDT(list(id = id, name = name))
-  dt <- na.omit(dt, by = "name")
+compute_distance <- function(id, name, n = 1, method = "jw", p = 0.1, ...){
+  try_require("stringdist")
+  df <- data_frame(id = id, name = name)
+  df <- filter(df, !is.na(name))
   if (n>0){ 
     f <- function(x){
       g <- function(x){
@@ -69,31 +71,29 @@ compute_distance <- function(name, id, n = 1, method = "jw", p = 0.1, ...){
       out <- unlist(lapply(x, g))
       unname(out)
     } 
-    dt <- dt[, list(name = f(name)), by = "id"]
+    suppressWarnings(df <- df %>% group_by(id) %>% do_(~data.frame(name = f(.$name))))
   }
-  dt <- unique(dt, by = c("id","name"))
+  df <- distinct(df, id, name)
   # remove those that are duplicated
-  aux <- dt[, .I[.N>1], by = "name"]$V1
-  dt2 <- dt[setdiff(seq_len(nrow(dt)), aux)]
+  df <- df %>% group_by(name) %>% mutate(n = n()) 
 
-  setkey(dt2, id)
+  ans1 <- df %>% filter(n > 1) %>% mutate(distance = 0) %>% select_(~-n)
+
+  ans2 <- df %>% filter(n == 1) %>% select_(~-n)
+  uniqueid <- unique(ans2$id)
   h <- function(x, ...){
-    group <- dt2[id==x, name]
-    other <- dt2[id!=x, name]
-    m <- stringdistmatrix(group, other, method = method, p = p, ...)
+    group <- ans2 %>%  filter(id == x)
+    other <-  ans2 %>%  filter(id != x)
+    m <- stringdist::stringdistmatrix(group$name, other$name, method = method, p = p, ...)
     x <- m[,1]
     for (i in 2:ncol(m)) x <- pmin(x, m[,i])
-    list(group, x)
+    out <- bind_cols(group, data.frame(distance = x))
   }
-  ans <- data.table(id = unique(dt2)$id)
-  ans <- ans[, h(id, ...), by = id]
-  setnames(ans, c("id", "name", "distance"))
-  dt3 <- dt[aux]
-  dt3[, "distance" := 0]
-  ans <- rbind(ans, dt3)
-  setkeyv(ans, c("id", "name", "distance"))
-  setDF(ans)
-  ans
+  result <- lapply(uniqueid, h)
+  result <- rbind_all(result)
+  setNames(result, c("id", "name", "distance"))
+  ans <- bind_rows(result, ans1)
+  arrange_(ans,  ~id , ~name, ~distance)
 }
 
 

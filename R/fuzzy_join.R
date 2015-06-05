@@ -17,6 +17,7 @@
 #' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
 #' @examples
 #' library(dplyr)
+#' library(stringdist)
 #' x <- data_frame(a = c("france", "franc"), b = c("arras", "dijon"))
 #' y <- data_frame(a = c("franc", "france"), b = c("arvars", "dijjon"))
 #' fuzzy_join(x, y, fuzzy = c("a", "b"))
@@ -34,6 +35,9 @@
 #' @details Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.
 #' @export
 fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen = "distance", suffixes = c(".x",".y"), which = FALSE, w = rep(1, length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...){
+
+  try_require("stringidst")
+
   if (gen %in% union(names(x), names(y))) stop(gen, "already exists")
   if (!(length(w)==length(fuzzy))){
     stop("fuzzy and w must have the same length)")
@@ -96,7 +100,7 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
     common_names = intersect(names(x), names(y))
     out <- suppressMessages(left_join(tx, out, by = "x"))
     out <- suppressMessages(left_join(out, ty, by = "y"))
-    out <- select(out, -one_of("x", "y")) 
+    out <- select_(out, ~-one_of("x", "y")) 
     out <- select_(out, .dots = c(gen, ~everything()))
   }
   out
@@ -130,7 +134,7 @@ score_row <- function(l, condition.exact.or.NA, index.y, ans.y, exact = NULL, ex
   
 
 stringdist2 <- function(x, y, na.score,  ...){
-  out <- stringdist(x,y, ...)
+  out <- stringdist::stringdist(x,y, ...)
   out[is.na(x)] <- na.score
   out[is.na(y)] <- na.score
   out

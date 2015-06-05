@@ -31,9 +31,9 @@ sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
   if (is.null(w)){
     x <- setNames(data_frame(x), "x")
   } else{
-    x <- setNames(data_frame(x, w),  c(xsub, "weight"))
+    x <- setNames(data_frame(x, w),  c("x", "weight"))
   }
-  sum_up_(x, vars = xsub, d = d, w = w, digits = digits)
+  sum_up_(x, vars = "x", d = d, w = w, digits = digits)
 }
 
 
@@ -70,11 +70,8 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, digits = 3) {
   }
   x <- select_(x, .dots = c(vars, byvars, w))
   # bug for do in data.table
-  if (is.data.table(x)){
-      out <- x[, describe(.SD, d = d, wname = w, byvars = byvars), by = c(byvars)]
-  } else{
-      out <-  do_(x, ~describe(., d = d, wname = w, byvars = byvars))
-  }
+ 
+  out <-  do_(x, ~describe(., d = d, wname = w, byvars = byvars))
   out <- arrange_(out, .dots = c(byvars, "variable"))
   out <- select_(out, .dots = c(byvars, "variable", setdiff(names(out), c("variable", byvars))))
   print_pretty_summary(out, digits = digits)
@@ -85,11 +82,11 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, digits = 3) {
 
 describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0)){
   if (length(byvars)){
-    M <- select(M, -one_of(byvars))
+    M <- select_(M, ~-one_of(byvars))
   }
   if (length(wname)){
     w <- M[[wname]]
-    M <- select(M, -one_of(wname))
+    M <- select_(M, ~-one_of(wname))
   }
   else{
     w <- NULL
@@ -127,7 +124,7 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
-        sum_quantile <- wquantile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), w = w_omit)
+        sum_quantile <- pctile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), w = w_omit)
       } else{
         x_omit <- na.omit(x)
         m <-mean(x_omit)
@@ -135,7 +132,7 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
-        sum_quantile= wquantile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1))
+        sum_quantile= pctile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1))
       }
       n_NA <- length(x) - length(x_omit)
       sum <- c(N-n_NA, n_NA, m, sum_higher, sum_quantile)
@@ -153,8 +150,8 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
 
 print_pretty_summary <- function(x, digits = 3){
   if ("skewness" %in% names(x)){
-    x1 <- select(x, -one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
-    x2 <-  select(x, -one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
+    x1 <- select_(x, ~-one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
+    x2 <-  select_(x, ~-one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
    stargazer(format(x1, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
    stargazer(format(x2, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
   } else{

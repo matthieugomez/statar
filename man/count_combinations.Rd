@@ -4,12 +4,12 @@
 \alias{count_combinations}
 \title{Find best string combinations that identify an id}
 \usage{
-count_combinations(name, id, n = 1)
+count_combinations(id, name, n = 1)
 }
 \arguments{
-\item{name}{a vector of characters}
-
 \item{id}{a vector of identifiers}
+
+\item{name}{a vector of characters}
 
 \item{n}{number of words for combinations. Default to \code{1}.}
 }
@@ -20,9 +20,10 @@ count_combinations(name, id, n = 1)
 Find best string combinations that identify an id
 }
 \examples{
+library(stringdist)
 id <- c(1, 1, 2, 2)
 name <- c("coca cola company", "coca cola incorporated", "apple incorporated", "apple corp")
-count_combinations(name, id = id)
-count_combinations(name, id = id, n = 2)
+count_combinations(id, name)
+count_combinations(id, name, n = 2)
 }
 

@@ -5,7 +5,7 @@
 \title{Plot the mean of y over the mean of x in x bins}
 \usage{
 stat_binmean(mapping = NULL, data = NULL, geom = "point",
-  position = "identity", n = 20, cutpoints = NULL, na.rm = FALSE, ...)
+  position = "identity", n = 20, na.rm = FALSE, ...)
 }
 \arguments{
 \item{mapping}{The aesthetic mapping, usually constructed with
@@ -43,8 +43,9 @@ Plot the mean of y over the mean of x in x bins
 \Sexpr[results=rd,stage=build]{ggplot2:::rd_aesthetics("stat", "quantile")}
 }
 \examples{
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10)
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
+g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length))
+g+ stat_binmean()
+g + stat_binmean(n=10)
+g + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
 }
 

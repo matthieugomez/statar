@@ -85,10 +85,10 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       }
     if (kind %in% c("left", "right", "full", "inner")){
       if (!gen == FALSE){
-        if (gen %chin% names(x)){
+        if (gen %in% names(x)){
           stop(paste0(gen," alreay exists in master"))
         }
-        if (gen %chin% names(y)){
+        if (gen %in% names(y)){
           stop(paste0(gen," alreay exists in using"))
         }
         idm <- tempname(c(names(x),names(y),gen))
@@ -112,7 +112,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         out <- mutate_(out, .dots = setNames(list(~3L), gen))
         out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(v), 1, gen), v=as.name(idu), gen = as.name(gen))), gen))
         out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(v), 1, gen), v=as.name(idm), gen = as.name(gen))), gen))
-        out <- select(out, - one_of(idm, idu))
+        out <- select_(out, ~- one_of(idm, idu))
       }
     
       if (update){
@@ -120,7 +120,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
           newvx <- paste0(v,suffixes[1])
           newvy <- paste0(v,suffixes[2])
           out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(newvx) & !is.na(newvy), newvy, newvx), newvx =as.name(newvx), newvy = as.name(newvy))), newvx))
-          out <- select(out, -one_of(newvy))
+          out <- select_(out, ~-one_of(newvy))
           out <- rename_(out, .dots = setNames(list(interp(~v, v = as.name(paste0(v, suffixes[1])))), v))
         }
       }

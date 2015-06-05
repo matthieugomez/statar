@@ -15,8 +15,6 @@ find_duplicates_(x, vars)
 \item{...}{Variable on which one should check for duplicates. Default to all variables}
 
 \item{vars}{Used to work around non-standard evaluation.}
-
-\item{gen}{A character that specifies  the name of a new variable with the number of duplicates. Default to "N".}
 }
 \value{
 a data.frame with groups that have duplicates.

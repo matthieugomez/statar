@@ -1,7 +1,7 @@
 #' Weighted quantile of type 2 (similar to Stata _pctile)
 #'
 #' @param x A vector
-#' @param cutpoints Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4. 
+#' @param probs A vector of probabilities
 #' @param w A weight vector
 #' @param na.rm Should missing values be returned?
 #' @export

@@ -18,14 +18,15 @@ Imports:
     dplyr (>= 0.4.1),
     ggplot2,
     lazyeval,
+    lubridate,
     matrixStats,
     proto,
     stargazer,
-    stringdist,
     stringr,
     tidyr
 Suggests:
     knitr,
+    stringdist,
     testthat
 VignetteBuilder: knitr
 

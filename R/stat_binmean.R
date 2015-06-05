@@ -12,17 +12,18 @@
 #'   \item{x}{mean of x}
 #'   \item{y}{mean of y}
 #' @examples
-#' ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
-#' ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) 
-#' ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
+#' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) 
+#' g+ stat_binmean()
+#' g + stat_binmean(n=10) 
+#' g + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
 #' @export
-stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20, cutpoints = NULL,  na.rm = FALSE, ...) {
-  Statbinmean$new(mapping = mapping, data = data, geom = geom, position = position, n = n, cutpoints = cutpoints, na.rm = na.rm, ...)
+stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, ...) {
+  Statbinmean$new(mapping = mapping, data = data, geom = geom, position = position, n = n, na.rm = na.rm, ...)
 }
 
 Statbinmean <- proto(getFromNamespace("Stat", "ggplot2"), {
     objname <- "binmean"
-    calculate <- function(., data, scales, n = 20, cutpoints = curpoints, na.rm = FALSE, ...) {
+    calculate <- function(., data, scales, n = 20, na.rm = FALSE, ...) {
       if (is.null(data$weight)){
         out <- data %>% dplyr::mutate(xbin = ntile(x, n))  %>% dplyr::group_by(xbin, add = TRUE)  %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
       }

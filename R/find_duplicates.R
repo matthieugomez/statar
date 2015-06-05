@@ -2,7 +2,6 @@
 #'
 #' @param x a data.frame
 #' @param ... Variable on which one should check for duplicates. Default to all variables
-#' @param gen A character that specifies  the name of a new variable with the number of duplicates. Default to "N".
 #' @param vars Used to work around non-standard evaluation.
 #' @return a data.frame with groups that have duplicates. 
 #' @examples

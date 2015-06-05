@@ -43,6 +43,7 @@ Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset
 }
 \examples{
 library(dplyr)
+library(stringdist)
 x <- data_frame(a = c("france", "franc"), b = c("arras", "dijon"))
 y <- data_frame(a = c("franc", "france"), b = c("arvars", "dijjon"))
 fuzzy_join(x, y, fuzzy = c("a", "b"))

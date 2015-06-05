@@ -9,11 +9,11 @@ pctile(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE)
 \arguments{
 \item{x}{A vector}
 
+\item{probs}{A vector of probabilities}
+
 \item{w}{A weight vector}
 
 \item{na.rm}{Should missing values be returned?}
-
-\item{cutpoints}{Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4.}
 }
 \description{
 Weighted quantile of type 2 (similar to Stata _pctile)

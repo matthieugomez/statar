@@ -54,8 +54,17 @@ shallow_ <- function(x, vars) {
     out
 }
 
+# from ggplot2
+try_require <- function(package) {
+  available <- suppressMessages(suppressWarnings(
+    require(package, character.only = TRUE)
+  ))
 
-
+  if (!available) {
+    stop(package, " package required for this functionality. " ,
+      "Please install and try again.", call. = FALSE)
+  }
+}
 
 
 
