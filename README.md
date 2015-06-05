@@ -25,10 +25,15 @@ You can install
 
 # News
 ## 0.3
-- demean() is depreciated (still available in utils), now that you can use `felm` with multiple `lhs`
-- graph() is deprecated
+- demean() and graph() are depreciated (but still available in utils if you want to use them). To replace demean(), simply use `felm` with multiple `lhs`
+
+```
+felm(Sepal.Length + Sepal.Width ~ Petal.Length|Species, iris, na.action = NULL)$residuals
+```
+
 - stat_binmean() allows to plot the mean of y over the mean of x in given xtiles
-- new function pctile() that corresponds to Stata _pctile
+- new function pctile() that corresponds to Stata _pctile (quantile type 2 weighted)
+
 ## 0.2
 - lag(, along_with) and lead(, along_with) become separate functions with prefix t: tlag(, along_with) and tlead(, along_with). The usual lag/lead based on rows can still be found in dplyr
 - bin is renamed xtile
