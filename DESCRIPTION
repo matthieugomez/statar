@@ -18,7 +18,6 @@ Imports:
     dplyr (>= 0.4.1),
     ggplot2,
     lazyeval,
-    lubridate,
     matrixStats,
     proto,
     stargazer,
@@ -26,6 +25,7 @@ Imports:
     tidyr
 Suggests:
     knitr,
+    lubridate,
     stringdist,
     testthat
 VignetteBuilder: knitr

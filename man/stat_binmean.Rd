@@ -43,6 +43,7 @@ Plot the mean of y over the mean of x in x bins
 \Sexpr[results=rd,stage=build]{ggplot2:::rd_aesthetics("stat", "quantile")}
 }
 \examples{
+library(ggplot2)
 g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length))
 g+ stat_binmean()
 g + stat_binmean(n=10)

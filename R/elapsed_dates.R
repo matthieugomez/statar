@@ -76,7 +76,7 @@ as.POSIXlt.quarterly <- function(x, ...){as.POSIXlt(as.Date(x,...))}
 #' @export
 #' @method as.character quarterly
 as.character.quarterly <- function(x, ...){
-  paste0(year(x),"q", quarter(x))
+  paste0(as.POSIXlt(x)$year + 1900L,"q", as.POSIXlt(x)$mon%/%3L + 1L)
 }
 
 #' @export
@@ -191,7 +191,7 @@ as.POSIXlt.monthly <- function(x, ...){as.POSIXlt(as.Date(x,...))}
 #' @export
 #' @method as.character monthly
 as.character.monthly <- function(x, ...){
-  paste0(year(x),"m", month(x))
+  paste0(as.POSIXlt(x)$year + 1900L,"m", as.POSIXlt(x)$mon+ 1L)
 }
 
 #' @export

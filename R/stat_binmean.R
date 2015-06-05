@@ -12,12 +12,14 @@
 #'   \item{x}{mean of x}
 #'   \item{y}{mean of y}
 #' @examples
+#' library(ggplot2)
 #' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) 
 #' g+ stat_binmean()
 #' g + stat_binmean(n=10) 
 #' g + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
 #' @export
 stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, ...) {
+  try_require("ggplot2")
   Statbinmean$new(mapping = mapping, data = data, geom = geom, position = position, n = n, na.rm = na.rm, ...)
 }
 

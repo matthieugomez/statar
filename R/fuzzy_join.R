@@ -16,8 +16,8 @@
 #' @param p See  the \code{\link[stringdist]{stringdist}} documentation. Default to \code{0.1}
 #' @param ... Other arguments to pass to \code{stringdist}. See the \code{\link[stringdist]{stringdist}} documentation.
 #' @examples
-#' library(dplyr)
 #' library(stringdist)
+#' library(dplyr)
 #' x <- data_frame(a = c("france", "franc"), b = c("arras", "dijon"))
 #' y <- data_frame(a = c("franc", "france"), b = c("arvars", "dijjon"))
 #' fuzzy_join(x, y, fuzzy = c("a", "b"))
@@ -36,7 +36,7 @@
 #' @export
 fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen = "distance", suffixes = c(".x",".y"), which = FALSE, w = rep(1, length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...){
 
-  try_require("stringidst")
+  try_require("stringdist")
 
   if (gen %in% union(names(x), names(y))) stop(gen, "already exists")
   if (!(length(w)==length(fuzzy))){
