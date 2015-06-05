@@ -5,7 +5,7 @@
 #' @param w A weight vector
 #' @param na.rm Should missing values be returned?
 #' @export
-wquantile <- function(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE){
+pctile <- function(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE){
   if (is.null(w)){
     quantile(x = x, type = 2, probs = probs, na.rm = na.rm)
   } else{

@@ -2,8 +2,7 @@
 #'
 #' @docType package
 #' @name statar
-#' @import data.table 
-#' @import ggplot2
+#' @import data.table colorspace grid proto scales ggplot2
 #' @importFrom dplyr funs_
 #' @importFrom dplyr with_order
 #' @importFrom dplyr mutate_each_
@@ -38,15 +37,6 @@
 #' @importFrom dplyr anti_join
 #' @importFrom dplyr data_frame
 #' @importFrom dplyr bind_cols
-#' @importFrom Formula Formula
-#' @importFrom Formula as.Formula
-#' @importFrom grid grid.layout
-#' @importFrom grid grid.newpage
-#' @importFrom grid pushViewport
-#' @importFrom grid viewport
-#' @importFrom Hmisc wtd.quantile
-#' @importFrom lfe demeanlist
-#' @importFrom lfe felm
 #' @importFrom lazyeval as.lazy
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval lazy_eval

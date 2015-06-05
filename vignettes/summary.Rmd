@@ -66,42 +66,26 @@ df %>% group_by(id) %>% tab(v1)
 
 ## Visual exploration
 
-`graph` is a wrapper for `ggplot2` functionalities, useful for interactive exploration of datasets
+`stat_binmean()` is a layer for ggplot2. It allows to compute the mean of y over the mean of x within bins of x, similarly to Stata command [binscatter](https://github.com/michaelstepner/binscatter),
 
 ```R
-N <- 10000
-DT <- data.table(
-  id = sample(c("id1","id2","id3"), N, TRUE),
-  v1 = sample(c(1:5), N, TRUE),
-  v2 = rnorm(N, sd = 20),
-  v3 = sample(runif(100, max=100), N, TRUE)
-)
-DT[, v4 := (id=="id1")* v2 + rnorm(N, sd = 5)]
-graph(DT)
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
 ```
 <img src="output_2_0.png" height = "400">
 
 ```R
-graph(DT, by = id)
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) 
 ```
 <img src="output_3_0.png" height = "400">
 
-```R
-graph(DT, by = id, type = "boxplot")
-```
-<img src="box.png" height = "400">
+Since `stat_binmean` is just a layer for ggplo2, you can surimpose any model fit 
 
 ```R
-graph(DT, v3, v4, along_with = v2)
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
 ```
-<img src="v2.png" height = "400">
+<img src="output_4_0.png" height = "400">
 
 
 
-You can also regress the variable on another, after partialing out thanks to control specified in formula: 
-```R
-graph(DT, v3, along_with = v2, by = id, type = "felm", formula = ~v4|v1)
-```
-<img src="v2by.png" height = "400">
 
 
