@@ -1,9 +1,6 @@
-#' Plot the mean of y over the mean of x in x bins
+#' Plot the mean of y over the mean of x within bins of x.
 #'
-#' @section Aesthetics:
-#' \Sexpr[results=rd,stage=build]{ggplot2:::rd_aesthetics("stat", "quantile")}
-#'
-#' @param n number of x-bins
+#' @param n number of x-bins. Default to 20. Set to zero if you want to use distinct value of x for grouping.
 #' @param na.rm If \code{FALSE} (the default), removes missing values with
 #'    a warning.  If \code{TRUE} silently removes missing values.
 #' @inheritParams ggplot2::stat_identity
@@ -14,30 +11,50 @@
 #' @examples
 #' library(ggplot2)
 #' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) 
-#' g+ stat_binmean()
-#' g + stat_binmean(n=10) 
-#' g + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
+#' g + stat_binmean(n = 10)
+#' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
+#' g + stat_binmean(n = 0) 
+#' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species, shape = Species, linetype = Species)) 
+#' g + stat_binmean(n = 10)
+#' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
 #' @export
-stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, ...) {
+stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, discontinuity = NULL, ...) {
   try_require("ggplot2")
   Statbinmean$new(mapping = mapping, data = data, geom = geom, position = position, n = n, na.rm = na.rm, ...)
 }
 
 Statbinmean <- proto(getFromNamespace("Stat", "ggplot2"), {
-    objname <- "binmean"
-    calculate <- function(., data, scales, n = 20, na.rm = FALSE, ...) {
+  objname <- "binmean"
+  required_aes <- c("x", "y")
+  default_geom <- function(.) GeomPoint
+
+  calculate_groups <- function(., data, scales, n = 20, na.rm = FALSE,
+  ...) {
+
+    # Compute bins accross groups
+    if (n == 0){
+      # n = 0 : use values of x as group variables
+      data <- data %>% dplyr::mutate(binx = x) 
+    }
+    else{
+      # n > 0: bin x in n categories
       if (is.null(data$weight)){
-        out <- data %>% dplyr::mutate(xbin = ntile(x, n))  %>% dplyr::group_by(xbin, add = TRUE)  %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
+        data <- data %>% dplyr::mutate(binx = ntile(x, n)) 
       }
       else{
-        out <- data %>% stata::mutate(xbin = xtile(x, n = n, w = weight))  %>% dplyr::group_by(xbin, add = TRUE)  %>% dplyr::mutate(x = weighted.mean(x, w = w, na.rm = na.rm), y = weighted.mean(y, w = w, na.rm = na.rm))
+        # xtile from statar is ntile with weight
+        data <- data %>% dplyr::mutate(binx = xtile(x, n = n, w = weight)) 
       }
-      out %>%  dplyr::slice(1) %>% dplyr::filter(!is.na(xbin))
+   }
+
+   # compute mean within (group, binx)
+   data <- data %>% dplyr::group_by(group, binx)
+    if (is.null(data$weight)){
+      data <-  data %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
     }
-    calculate_groups <- function(., data, scales, n = 20, na.rm = FALSE,
-    ...) {
-      return(calculate(., data %>%  dplyr::group_by(group), n = n, na.rm = na.rm, ...))
+    else{
+      data <- data %>% dplyr::mutate(x = weighted.mean(x, w = w, na.rm = na.rm), y = weighted.mean(y, w = w, na.rm = na.rm))
     }
-    required_aes <- c("x", "y")
-    default_geom <- function(.) GeomPoint
+    data %>%  dplyr::slice(1) %>% dplyr::filter(!is.na(binx))
+  }
 })
