@@ -14,11 +14,11 @@
 #' g + stat_binmean(n = 10)
 #' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
 #' g + stat_binmean(n = 0) 
-#' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species, shape = Species, linetype = Species)) 
+#' g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species))
 #' g + stat_binmean(n = 10)
 #' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
 #' @export
-stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, discontinuity = NULL, ...) {
+stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, ...) {
   try_require("ggplot2")
   Statbinmean$new(mapping = mapping, data = data, geom = geom, position = position, n = n, na.rm = na.rm, ...)
 }

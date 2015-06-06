@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_binmean.R
 \name{stat_binmean}
 \alias{stat_binmean}
-\title{Plot the mean of y over the mean of x in x bins}
+\title{Plot the mean of y over the mean of x within bins of x.}
 \usage{
 stat_binmean(mapping = NULL, data = NULL, geom = "point",
   position = "identity", n = 20, na.rm = FALSE, ...)
@@ -20,7 +20,7 @@ the plot defaults.}
 \item{position}{The position adjustment to use for overlappling points
 on this layer}
 
-\item{n}{number of x-bins}
+\item{n}{number of x-bins. Default to 20. Set to zero if you want to use distinct value of x for grouping.}
 
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with
 a warning.  If \code{TRUE} silently removes missing values.}
@@ -36,17 +36,16 @@ a data.frame with additional columns:
   \item{y}{mean of y}
 }
 \description{
-Plot the mean of y over the mean of x in x bins
-}
-\section{Aesthetics}{
-
-\Sexpr[results=rd,stage=build]{ggplot2:::rd_aesthetics("stat", "quantile")}
+Plot the mean of y over the mean of x within bins of x.
 }
 \examples{
 library(ggplot2)
 g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length))
-g+ stat_binmean()
-g + stat_binmean(n=10)
-g + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
+g + stat_binmean(n = 10)
+g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
+g + stat_binmean(n = 0)
+g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species))
+g + stat_binmean(n = 10)
+g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
 }
 

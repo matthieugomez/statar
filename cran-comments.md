@@ -1,0 +1,1 @@
+Although last CRAN submission was three days ago, I caught an important bug, and would like to resubmit again. Sorry for this mistake.

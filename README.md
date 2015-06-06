@@ -25,10 +25,11 @@ You can install
 
 # News
 ## 0.3
-- `demean` and `graph` are depreciated (but still available in utils if you want to use them). To replace `demean', simply use `felm` with multiple variables at the lhs
+- `demean` and `graph` are deprecated (still available, just not exported). To replace `demean`, simply use `felm` with multiple variables at the lhs
 
 	```R
-	felm(Sepal.Length + Sepal.Width ~ Petal.Length|Species, iris, na.action = NULL)$residuals
+	result <- felm(Sepal.Length + Sepal.Width ~ Petal.Length|Species, iris, na.action = NULL)
+	resul$residuals
 	```
 
 - `stat_binmean` allows to plot the mean of y over the mean of x in given xtiles
@@ -38,7 +39,7 @@ You can install
 - `lag(, along_with)` and `lead(, along_with)` become separate functions with prefix t: `tlag(, along_with)` and `tlead(, along_with)`. The usual lag/lead based on rows can still be found in dplyr
 - `bin` is renamed to `xtile`
 - In join, the option type = "outer" is renamed to type = "full" similarly to dplyr
-- `sum_up`, `tab', and `find_duplicates` now accept data.frames and grouped dataframes
+- `sum_up`, `tab`, and `find_duplicates` now accept data.frames and grouped dataframes
 
 
 
