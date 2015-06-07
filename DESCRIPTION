@@ -3,11 +3,9 @@ Title: Tools Inspired by Stata to Manipulate Tabular Data
 Version: 0.3.0
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
-Description: Tools inspired by Stata for tabular datasets. It
-    includes a set of functions to summarize and tabulate datasets, to join
-    datasets using an SQL-syntax, to manipulate datasets with a panel structure
-    (elapsed dates, lead/lag, rolling functions, fill in missing values based
-    on previous dates, add rows for missing dates). 
+Description: A set of tools to explore data.frames (summarize,
+    tabulate, xtile, pctile, binscatter) and work with panel data (elapsed
+    quarters/month, lead/lag, fill in rows of values, rolling functions).
 License: GPL-2
 URL: https://github.com/matthieugomez/statar
 BugReports: https://github.com/matthieugomez/statar/issues
@@ -29,5 +27,3 @@ Suggests:
     stringdist,
     testthat
 VignetteBuilder: knitr
-
-

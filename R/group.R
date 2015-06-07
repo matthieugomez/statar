@@ -1,11 +1,11 @@
 #' Group multiple variable (similar to Stata group)
 #'
 #' @param ... vectors
+#' @param na.rm  Should groups where some variable is NA return NA? Default to FALSE
 #' @return An integer vector representing groups
 #' @examples 
 #' library(dplyr)                   
 #' mutate(iris, g = group(Species))
-# returns NA for groups where some variable is missing
 #' mutate(iris, g = group(Species, floor(Sepal.Width)), na.rm = TRUE)
 #' @export
 group <- function(..., na.rm = FALSE){

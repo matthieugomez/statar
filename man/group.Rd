@@ -4,10 +4,12 @@
 \alias{group}
 \title{Group multiple variable (similar to Stata group)}
 \usage{
-group(...)
+group(..., na.rm = FALSE)
 }
 \arguments{
 \item{...}{vectors}
+
+\item{na.rm}{Should groups where some variable is NA return NA? Default to FALSE}
 }
 \value{
 An integer vector representing groups
@@ -18,6 +20,6 @@ Group multiple variable (similar to Stata group)
 \examples{
 library(dplyr)
 mutate(iris, g = group(Species))
-mutate(iris, g = group(Species, floor(Sepal.Width)))
+mutate(iris, g = group(Species, floor(Sepal.Width)), na.rm = TRUE)
 }
 

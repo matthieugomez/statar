@@ -1,11 +1,10 @@
-#' Fuzzy join two data.frames together 
+#' Experimental fuzzy join function
 #'
 #' \code{fuzzy_join} uses record linkage methods to match observations between two datasets where no perfect key fields exist.  For each row in x, \code{fuzzy_join} finds the closest row(s) in y. The distance is a weighted average of the string distances defined in \code{method} over multiple columns.
 #'
 #' @param x The master data.frame
 #' @param y The using data.frame
 #' @param exact Character vector specifying variables on which to match exactly. 
-#' @param exact.or.NA Character vector specifying variables that should not differ if both are non missing.
 #' @param fuzzy Character vector specifying columns on which to match in a fuzzy way
 #' @param gen Name of new variable with the distance between matched observations. Default to "distance".
 #' @param suffixes A character vector of length 2 specifying  suffix of overlapping columns. Defaut to ".x" and ".y".
@@ -29,12 +28,9 @@
 #' x <- data_frame(a = c(1, 2), b = c("arras", "dijon"))
 #' y <- data_frame(a = c(1, 1), b = c("arvars", "dijjon"))
 #' fuzzy_join(x, y, exact = "a", fuzzy = "b")
-#' x <- data_frame(a = c(1, NA), b = c("arras", "dijon"))
-#' y <- data_frame(a = c(1, 1), b = c("arvars", "dijjon"))
-#' fuzzy_join(x, y, exact.or.NA = "a", fuzzy = "b")
-#' @details Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} or \code{exact.or.NA} is specified, rows without matches are returned with distance NA.
+#' @details Typically, \code{x} is a dataset with dirty names, while \code{y} is the dataset with true names. When \code{exact} is specified, rows without matches are returned with distance NA.
 #' @export
-fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen = "distance", suffixes = c(".x",".y"), which = FALSE, w = rep(1, length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...){
+fuzzy_join <- function(x, y, exact = NULL, fuzzy = NULL, gen = "distance", suffixes = c(".x",".y"), which = FALSE, w = rep(1, length(fuzzy)), na.score = 1/3, method = "jw", p = 0.1, ...){
 
   try_require("stringdist")
 
@@ -42,11 +38,11 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   if (!(length(w)==length(fuzzy))){
     stop("fuzzy and w must have the same length)")
   }
-  if (length(exact.or.NA)){
-    condition <- build_condition(exact.or.NA, x)
-  } else{
-    condition <-  NULL
-  }
+  #if (length(exact.or.NA)){
+  #  condition <- build_condition(exact.or.NA, x)
+  #} else{
+  #  condition <-  NULL
+  #}
 
   index.x <- tempname(c(names(x), names(y)))
   index.y <- tempname(c(names(x), names(y), index.x))
@@ -59,30 +55,30 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
   ty <- mutate_(y, .dots = setNames(list(~row_number()), "y"))
 
   # remove duplicates with respect to key columns in x and y
-  ans.x <- mutate_(tx, .dots = setNames(list(~ group_indices_(tx, .dots = c(exact, exact.or.NA, fuzzy))), index.x))
-  ans.y <- mutate_(ty, .dots = setNames(list(~ group_indices_(ty, .dots = c(exact, exact.or.NA, fuzzy))), index.y))
+  ans.x <- mutate_(tx, .dots = setNames(list(~ group_indices_(tx, .dots = c(exact, fuzzy))), index.x))
+  ans.y <- mutate_(ty, .dots = setNames(list(~ group_indices_(ty, .dots = c(exact, fuzzy))), index.y))
 
-  ans.x <- select_(ans.x, .dots =  c(exact, exact.or.NA, fuzzy, index.x, "x"))
-  ans.y <- select_(ans.y, .dots =  c(exact, exact.or.NA, fuzzy, index.y, "y"))
-  ans.x = distinct_(ans.x, .dots = c(exact, exact.or.NA, fuzzy))
-  ans.y = distinct_(ans.y, .dots = c(exact, exact.or.NA, fuzzy))
+  ans.x <- select_(ans.x, .dots =  c(exact, fuzzy, index.x, "x"))
+  ans.y <- select_(ans.y, .dots =  c(exact, fuzzy, index.y, "y"))
+  ans.x = distinct_(ans.x, .dots = c(exact, fuzzy))
+  ans.y = distinct_(ans.y, .dots = c(exact, fuzzy))
   merge.x <- select_(ans.x, .dots = c(index.x, "x"))
   merge.y <- select_(ans.y, .dots = c(index.y, "y"))
 
   # exact matching
-  exact.matched <- suppressMessages(inner_join(ans.x, ans.y, on = c(exact, exact.or.NA, fuzzy)))
+  exact.matched <- suppressMessages(inner_join(ans.x, ans.y, on = c(exact, fuzzy)))
   exact.matched <- select_(exact.matched, .dots = interp(~index.x, index.x = as.name(index.x)), interp(~index.y, index.y = as.name(index.y)))
   exact.matched <- mutate_(exact.matched, .dots = setNames(list(~0), gen))
   length <- n_distinct(exact.matched[[index.x]])
   message(paste(length,"rows of x are exactly matched on all variables"))
-  ans.x <- suppressMessages(anti_join(ans.x, ans.y, on = c(exact, exact.or.NA, fuzzy)))
+  ans.x <- suppressMessages(anti_join(ans.x, ans.y, on = c(exact, fuzzy)))
 
   # fuzzy matching
-  ans.y <- select_(ans.y, .dots = c(exact, ~everything()))
+  ans.y <- as.list(select_(ans.y, .dots = c(exact, ~everything())))
   setDT(ans.y)
   setkeyv(ans.y, exact)
   result <- lapply(seq_len(nrow(ans.x)), function(i){
-    c(ans.x[[index.x]][i], score_row(l = ans.x[i,], condition.exact.or.NA = condition[i], index.y = index.y, ans.y = ans.y, exact = exact, exact.or.NA = exact.or.NA, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...))
+    c(ans.x[[index.x]][i], score_row(l = ans.x[i,], index.y = index.y, ans.y = ans.y, exact = exact, fuzzy = fuzzy, w = w, method = method, p = p, na.score = na.score, ...))
     })
   result <- simplify2array(result, higher = FALSE)
   result <- t(result)
@@ -107,21 +103,21 @@ fuzzy_join <- function(x, y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, gen
 }
 
 
-score_row <- function(l, condition.exact.or.NA, index.y, ans.y, exact = NULL, exact.or.NA = NULL, fuzzy = NULL, w = rep(1, length(fuzzy)), ...){
+score_row <- function(l, index.y, ans.y, exact = NULL, fuzzy = NULL, w = rep(1, length(fuzzy)), ...){
   # binary search
   if (length(exact)){
-    ans.y <- ans.y[as.list(l)[exact], nomatch = 0]
+    ans.y <- ans.y[as.list(l[exact]), nomatch = 0]
   }
   if (nrow(ans.y)==0){
     return(c(NA, NA))
   } 
-  if (!is.null(condition.exact.or.NA) && condition.exact.or.NA!=""){
-    expression <- parse(text = condition.exact.or.NA)
-    ans.y <- eval(substitute(ans.y[v,], list(v = expression)))
-  } 
-  if (nrow(ans.y)==0){
-    	return(c(NA, NA))
-  } 
+  #if (!is.null(condition.exact.or.NA) && condition.exact.or.NA!=""){
+  #  expression <- parse(text = condition.exact.or.NA)
+  #  ans.y <- eval(substitute(ans.y[v,], list(v = expression)))
+  #} 
+  #if (nrow(ans.y)==0){
+  #  	return(c(NA, NA))
+  #} 
   tempv <- rep(0, nrow(ans.y))
   for (i in seq_along(fuzzy)){
 	  tempv <- tempv + w[i]*stringdist2(l[[fuzzy[i]]], ans.y[[fuzzy[i]]], ...)
@@ -129,7 +125,6 @@ score_row <- function(l, condition.exact.or.NA, index.y, ans.y, exact = NULL, ex
   index <- which.min(tempv)
   return(c(ans.y[[index.y]][index], tempv[index]))
 }
-
 
   
 
@@ -141,15 +136,15 @@ stringdist2 <- function(x, y, na.score,  ...){
 }
 
 
-build_condition <- function(exact.or.NA, ans.x){
-  condition <- NULL
-  for (i in seq_along(exact.or.NA)){
-    condition <- paste0(condition, 
-    	ifelse(
-    		!is.na(ans.x[[exact.or.NA[i]]]),
-    		paste0("&(", exact.or.NA[i], " == ", ans.x[[exact.or.NA[i]]], " | is.na(", exact.or.NA[i],"))"),
-    		"")
-    	)
-  }
-  str_replace(condition, fixed("&"), "")
-}
+#build_condition <- function(exact.or.NA, ans.x){
+#  condition <- NULL
+#  for (i in seq_along(exact.or.NA)){
+#    condition <- paste0(condition, 
+#    	ifelse(
+#    		!is.na(ans.x[[exact.or.NA[i]]]),
+#    		paste0("&(", exact.or.NA[i], " == ", ans.x[[exact.or.NA[i]]], " | is.na(", exact.or.NA[i],"))"),
+#    		"")
+#    	)
+#  }
+#  str_replace(condition, fixed("&"), "")
+#}

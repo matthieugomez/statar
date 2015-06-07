@@ -19,6 +19,7 @@
 #' @importFrom dplyr  filter
 #' @importFrom dplyr distinct_
 #' @importFrom dplyr ungroup
+#' @importFrom dplyr group_indices_
 #' @importFrom dplyr funs_
 #' @importFrom dplyr with_order
 #' @importFrom dplyr mutate_each_

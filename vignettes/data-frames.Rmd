@@ -4,15 +4,13 @@ author: "Matthieu Gomez"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Summary function}
+  %\VignetteIndexEntry{Data.frames function}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
 
 
-# Summary functions
-
-## summarize 
+## sum_up
 `sum_up` prints detailed summary statistics (corresponds to Stata summarize)
 
 ```R
@@ -27,8 +25,7 @@ df %>% sum_up(starts_with("v"), d = TRUE)
 df %>% group_by(v1) %>%  sum_up()
 ```
 
-
-
+## tab
 `tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command just adds Frequency and Cumulative frequency.
 
 ```R
@@ -44,7 +41,7 @@ df %>% group_by(id) %>% tab(v1)
 
 
 
-## Join
+## join
 `join` is a wrapper for dplyr merge functionalities, with two added functions
 
 - The option `check` checks there are no duplicates in the master or using data.tables (as in Stata).
@@ -61,30 +58,6 @@ df %>% group_by(id) %>% tab(v1)
   ```
 
 - The option `update` allows to update missing values of the master dataset by the value in the using dataset
-
-
-
-## Visual exploration
-
-`stat_binmean()` is a layer for ggplot2. It allows to compute the mean of y over the mean of x within bins of x, similarly to Stata command [binscatter](https://github.com/michaelstepner/binscatter),
-
-```R
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
-```
-<img src="output_2_0.png" height = "400">
-
-```R
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) 
-```
-<img src="output_3_0.png" height = "400">
-
-Since `stat_binmean` is just a layer for ggplo2, you can surimpose any model fit 
-
-```R
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
-```
-<img src="output_4_0.png" height = "400">
-
 
 
 

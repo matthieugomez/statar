@@ -4,8 +4,7 @@ statar
 statar makes it easier to work with tabular datasets. The package includes a set of functions to clean and summarize variables, to join datasets with an SQL-syntax, and to manipulate datasets with a panel
 structure. statar is based on the data.table package and is inspired by Stata.
 
-The first vignettes presents [data.frame functions](vignettes/summary.Rmd),  the second presents [panel data functions](vignettes/panel-data.Rmd), the third presents [vector functions](vignettes/vector.Rmd)
-the fourth presents [fuzzy merges](vignettes/merge-records.Rmd) , the fifth presents [string and expression interpolation](vignettes/macros.Rmd).
+Vignettes present [data.frame functions](vignettes/data.frame.Rmd), [panel data functions](vignettes/panel-data.Rmd), [graph functions](vignettes/graph.Rmd) , [vector functions](vignettes/vector.Rmd), [fuzzy merges](vignettes/merge-records.Rmd) , and finally [string and expression interpolation](vignettes/macros.Rmd).
 
 You can install 
 
