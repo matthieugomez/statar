@@ -127,7 +127,7 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
         sum_quantile <- pctile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), w = w_omit)
       } else{
         x_omit <- na.omit(x)
-        m <-mean(x_omit)
+        m <- mean(x_omit)
         sum_higher <- colMeans(cbind((x_omit-m)^2,(x_omit-m)^3,(x_omit-m)^4))
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
