@@ -14,10 +14,9 @@ Depends:
 Imports:
     data.table,
     dplyr (>= 0.4.1),
-    ggplot2,
+    ggplot2 (>= 1.0.1.9003),
     lazyeval,
     matrixStats,
-    proto,
     stargazer,
     stringr,
     tidyr

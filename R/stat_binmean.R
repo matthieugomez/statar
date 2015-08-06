@@ -18,19 +18,26 @@
 #' g + stat_binmean(n = 10)
 #' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
 #' @export
-stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, ...) {
-  try_require("ggplot2")
-  Statbinmean$new(mapping = mapping, data = data, geom = geom, position = position, n = n, na.rm = na.rm, ...)
-}
-
-Statbinmean <- proto(getFromNamespace("Stat", "ggplot2"), {
-  objname <- "binmean"
-  required_aes <- c("x", "y")
-  default_geom <- function(.) GeomPoint
-
-  calculate_groups <- function(., data, scales, n = 20, na.rm = FALSE,
-  ...) {
-
+stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, ..., show.legend = NA, inherit.aes = TRUE) {
+  layer(
+      data = data,
+      mapping = mapping,
+      stat = StatBinmean,
+      geom = geom,
+      position = position,
+      show.legend = show.legend,
+      inherit.aes = inherit.aes,
+      stat_params = list(
+        n     = n,
+        na.rm = na.rm
+      ),
+      params = list(...)
+    )
+   }     
+ 
+StatBinmean <-  ggproto("StatBinmean", Stat, 
+  required_aes = c("x", "y"), 
+  compute_group = function(., data, scales, na.rm = FALSE, n = 20, ...) {
     # Compute bins accross groups
     if (n == 0){
       # n = 0 : use values of x as group variables
@@ -57,4 +64,4 @@ Statbinmean <- proto(getFromNamespace("Stat", "ggplot2"), {
     }
     data %>%  dplyr::slice(1) %>% dplyr::filter(!is.na(binx))
   }
-})
+)

@@ -2,7 +2,6 @@
 #'
 #' @docType package
 #' @name statar
-#' @import proto 
 #' @import ggplot2
 #' @importFrom data.table is.data.table
 #' @importFrom data.table key
