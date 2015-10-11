@@ -5,7 +5,8 @@
 \title{Plot the mean of y over the mean of x within bins of x.}
 \usage{
 stat_binmean(mapping = NULL, data = NULL, geom = "point",
-  position = "identity", n = 20, na.rm = FALSE, ...)
+  position = "identity", n = 20, na.rm = FALSE, ..., show.legend = NA,
+  inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{The aesthetic mapping, usually constructed with
@@ -17,7 +18,7 @@ the plot defaults.}
 
 \item{geom}{The geometric object to use display the data}
 
-\item{position}{The position adjustment to use for overlappling points
+\item{position}{The position adjustment to use for overlapping points
 on this layer}
 
 \item{n}{number of x-bins. Default to 20. Set to zero if you want to use distinct value of x for grouping.}
@@ -28,6 +29,15 @@ a warning.  If \code{TRUE} silently removes missing values.}
 \item{...}{other arguments passed on to \code{\link{layer}}. This can
 include aesthetics whose values you want to set, not map. See
 \code{\link{layer}} for more details.}
+
+\item{show.legend}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.}
+
+\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. \code{\link{borders}}.}
 }
 \value{
 a data.frame with additional columns:
