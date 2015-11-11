@@ -13,7 +13,7 @@ Depends:
     R (>= 3.1.0)
 Imports:
     data.table,
-    dplyr (>= 0.4.1),
+    dplyr (>= 0.4.3.9000),
     ggplot2 (>= 1.0.1.9003),
     lazyeval,
     matrixStats,

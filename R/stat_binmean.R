@@ -18,7 +18,7 @@
 #' g + stat_binmean(n = 10)
 #' g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
 #' @export
-stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", n = 20,  na.rm = FALSE, ..., show.legend = NA, inherit.aes = TRUE) {
+stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position = "identity", show.legend = NA, inherit.aes = TRUE, na.rm = FALSE, n = 20, ...) {
   layer(
       data = data,
       mapping = mapping,
@@ -27,17 +27,13 @@ stat_binmean <- function (mapping = NULL, data = NULL, geom = "point", position 
       position = position,
       show.legend = show.legend,
       inherit.aes = inherit.aes,
-      stat_params = list(
-        n     = n,
-        na.rm = na.rm
-      ),
-      params = list(...)
+      params = list(na.rm = na.rm, n = n, ...)
     )
    }     
  
 StatBinmean <-  ggproto("StatBinmean", Stat, 
   required_aes = c("x", "y"), 
-  compute_group = function(., data, scales, na.rm = FALSE, n = 20, ...) {
+  compute_group = function(data, scales, na.rm = FALSE, n = 20) {
     # Compute bins accross groups
     if (n == 0){
       # n = 0 : use values of x as group variables
@@ -45,22 +41,21 @@ StatBinmean <-  ggproto("StatBinmean", Stat,
     }
     else{
       # n > 0: bin x in n categories
-      if (is.null(data$weight)){
-        data <- data %>% dplyr::mutate(binx = ntile(x, n)) 
+      if ("weight" %in% names(data)){
+        data <- data %>% dplyr::mutate(binx = xtile(x, n = n, w = weight)) 
       }
       else{
-        # xtile from statar is ntile with weight
-        data <- data %>% dplyr::mutate(binx = xtile(x, n = n, w = weight)) 
+        data <- data %>% dplyr::mutate(binx = ntile(x, n)) 
       }
    }
 
    # compute mean within (group, binx)
    data <- data %>% dplyr::group_by(group, binx)
-    if (is.null(data$weight)){
-      data <-  data %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
+    if ("weight" %in% names(data)){
+      data <- data %>% dplyr::mutate(x = weighted.mean(x, w = w, na.rm = na.rm), y = weighted.mean(y, w = w, na.rm = na.rm))
     }
     else{
-      data <- data %>% dplyr::mutate(x = weighted.mean(x, w = w, na.rm = na.rm), y = weighted.mean(y, w = w, na.rm = na.rm))
+      data <-  data %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
     }
     data %>%  dplyr::slice(1) %>% dplyr::filter(!is.na(binx))
   }
