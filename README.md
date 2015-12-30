@@ -9,7 +9,7 @@ statar makes it easier to work with tabular datasets in R if you're used to Stat
 - a class for monthly and quarterly dates.
 - a stat for `ggplot` that reproduces the Stata commmand `binscatter`
 
-Vignettes present [data.frame functions](vignettes/data.frame.Rmd), [panel data functions](vignettes/panel-data.Rmd), [graph functions](vignettes/graph.Rmd) , and [vector functions](vignettes/vector.Rmd).
+Vignettes presents [vector functions](vignettes/vector.Rmd), [data.frame functions](vignettes/data-frames.Rmd), [panel data functions](vignettes/panel-data.Rmd),  and a [R equivalent to binscatter](vignettes/graph.Rmd).
 
 You can install 
 

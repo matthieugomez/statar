@@ -78,6 +78,16 @@
 #' @importFrom tidyr gather_
 #' @importFrom tidyr spread
 #' @importFrom tidyr spread_
+#' @importFrom methods is
+#' @importFrom stats as.formula
+#' @importFrom stats complete.cases
+#' @importFrom stats na.omit
+#' @importFrom stats quantile
+#' @importFrom stats sd
+#' @importFrom stats setNames
+#' @importFrom utils head
+#' @importFrom utils tail
+#' @importFrom utils type.convert
 NULL
 
 globalVariables(".SD")
