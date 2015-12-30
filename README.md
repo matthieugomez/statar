@@ -3,7 +3,7 @@ statar
 
 statar makes it easier to work with tabular datasets in R if you're used to Stata.
 
-Vignettes present [vector functions](vignettes/vector.Rmd), [data.frame functions](vignettes/data-frames.Rmd), [panel data functions](vignettes/panel-data.Rmd),  and a [ggplot stat to mimic binscatter](vignettes/graph.Rmd).
+Vignettes present [vector functions](vignettes/vector.Rmd), [data.frame functions](vignettes/data-frames.Rmd), [panel data functions](vignettes/panel-data.Rmd),  and a [graph functions](vignettes/graph.Rmd).
 
 You can install 
 
