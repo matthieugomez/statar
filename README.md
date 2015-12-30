@@ -1,15 +1,9 @@
 statar
 ======
 
-statar makes it easier to work with tabular datasets in R if you're used to Stata. It contains the following functions:
-- summary commands such as `summarize` and `tab`.
-- vector functions `xtile`, `pctile`. 
-- join datasets with `1:m/m:1` check and a `_merge` variable,
-- panel data commands such as `tsset`, `tsfill`, `lag`, `duplicates`
-- a class for monthly and quarterly dates.
-- a stat for `ggplot` that reproduces the Stata commmand `binscatter`
+statar makes it easier to work with tabular datasets in R if you're used to Stata.
 
-Vignettes presents [vector functions](vignettes/vector.Rmd), [data.frame functions](vignettes/data-frames.Rmd), [panel data functions](vignettes/panel-data.Rmd),  and a [R equivalent to binscatter](vignettes/graph.Rmd).
+Vignettes present [vector functions](vignettes/vector.Rmd), [data.frame functions](vignettes/data-frames.Rmd), [panel data functions](vignettes/panel-data.Rmd),  and a [R equivalent to binscatter](vignettes/graph.Rmd).
 
 You can install 
 
