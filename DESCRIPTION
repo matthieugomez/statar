@@ -1,6 +1,6 @@
 Package: statar
 Title: Tools Inspired by Stata to Manipulate Tabular Data
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
 Description: A set of tools to explore data.frames (summarize,
@@ -14,7 +14,7 @@ Depends:
 Imports:
     data.table,
     dplyr (>= 0.4.3.9000),
-    ggplot2 (>= 1.0.1.9003),
+    ggplot2 (>= 2.0.0),
     lazyeval,
     matrixStats,
     stargazer,
