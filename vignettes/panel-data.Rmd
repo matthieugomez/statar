@@ -50,15 +50,6 @@ value <- c(4.1, 4.5, 3.3)
 tlag(value, along_with = datem) 
 ```
 
-`roll_lag`/`roll_lead` apply a function on a vector over a window defined by a time variable
-
-```R
-year <- c(1989, 1991, 1992)
-value <- c(1, 1, 1)
-roll_lag(value, sum, n = 2, order_by = year) # rolling sum based on the two previous rows
-roll_lag(value, sum, n = 2, along_with = year) #  rolling sum based on dates in [year-2, year]
-roll_lag(value, sum, n = 2, along_with = year, closed= c(TRUE, FALSE)) #  rolling sum based on dates in [year-2, year[
-```
 
 
 Since these functions can be applied to any vector (in constrast to `zoo` and `xts`), they can be used *within groups*. For instance, using `data.table`:
@@ -71,7 +62,6 @@ DT <- data.table(
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
 DT[, value_l := tlag(value, along_with = year), by = id]
-DT[, value_ma := roll_lag(value, mean, n = 3, along_with = year), by = id]
 ```
 
 

@@ -1,9 +1,13 @@
 statar
 ======
 
-statar makes it easier to work with tabular datasets in R if you're used to Stata.
+statar makes it easier to work with tabular datasets in R. The package contains tools inspired by useful Stata commands.
 
-Vignettes present [vector functions](vignettes/vector.Rmd), [data.frame functions](vignettes/data-frames.Rmd), [panel data functions](vignettes/panel-data.Rmd),  and a [graph functions](vignettes/graph.Rmd).
+The package includes:
+- [vector functions](vignettes/vector.Rmd) (mode, xtile, pctile, winsorize)
+- [data.frame functions](vignettes/data-frames.Rmd) (summarize, tabulate, join)
+- [panel data functions](vignettes/panel-data.Rmd) (elapsed dates, time lead/lag, setna)
+- [graph functions](vignettes/graph.Rmd) (binscatter)
 
 You can install 
 
