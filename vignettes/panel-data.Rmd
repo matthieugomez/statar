@@ -11,10 +11,9 @@ vignette: >
 
 
 
-# Panel data
 
 
-## Elapsed dates
+### Elapsed dates
 
 The classes "monthly" and "quarterly"  print as dates and are compatible with usual time extraction (ie `month`, `year`, etc). Yet, they are stored as integers representing the number of elapsed periods since 1970/01/0 (resp in week, months, quarters). This is particularly handy for simple algebra:
 
@@ -35,7 +34,7 @@ The classes "monthly" and "quarterly"  print as dates and are compatible with us
 ```
 
 
-## Vector functions
+### lag / lead
 
 `tlag`/`tlead` a vector along a time variable (and NOT with respet to a number of row)
 
@@ -63,7 +62,7 @@ df <- data_frame(
 df %>% group_by(id) %>% mutate(value_l = tlag(value, time = year))
 ```
 
-
+### is.panel
 `is.panel` checks whether a dataset is a panel i.e. the  time variable is never missing and the combinations (id, time) are unique.
 
 ```R
