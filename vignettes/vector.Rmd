@@ -13,17 +13,19 @@ vignette: >
 The package adds the following vector functions
 
 ```R
+# count returns the number of non missing observation
+count(c(NA, NA, 1), 1:3)
+count(data_frame(c(NA, NA, 1), 1:3))
+
 # sample_mode returns the statistical mode
 sample_mode(c(1, 2, 2))
 sample_mode(c(1, 2))
 sample_mode(c(NA, NA, 1))
 sample_mode(c(NA, NA, 1), na.rm = TRUE)
 
-
 # pctile computes quantile and weighted quantile of type 2 (similarly to Stata _pctile)
 v <- c(NA, 1:10)                   
 pctile(v, probs = c(0.3, 0.7), na.rm = TRUE) 
-
 
 # xtile creates integer variable for quantile categories (corresponds to Stata xtile)
 v <- c(NA, 1:10)                   

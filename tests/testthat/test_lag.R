@@ -8,9 +8,9 @@ value <- c(3.3, 4.1, 4.5)
 
 test_that("basic order", {
  expect_equal(
-	tlag(value, 1, along_with = year),
+	tlag(value, 1, year),
 	c(4.5, NA, NA))
   expect_equal(
- 	tlead(value, 1, along_with = year),
+ 	tlead(value, 1, year),
  	c(NA, NA , 3.3))
 })

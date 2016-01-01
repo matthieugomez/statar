@@ -171,82 +171,6 @@ print_all <- function(x){
 }
 
 
-##' Experimental function to graph a dataset
-##' 
-##' @param x A data.frame
-##' @param formula A formula.
-##' @param w Wweights 
-##' @param n Number of quantiles to plot
-##' @param A plot of the lhs of the formula over the first regressor, after controlling by #variables in the formula.
-##' @examples
-##' library(dplyr)
-##' binscatter(iris, Sepal.Width ~ Sepal.Length)
-##' binscatter(iris, Sepal.Width ~ Sepal.Length | Species, n = 10)
-##' binscatter(group_by(iris, Species), Sepal.Width ~ Sepal.Length, n = 10)
-##' @export
-#binscatter <- function(x, formula, w = NULL, verbose = FALSE, n = 20) {
-#  binscatter_(x, formula, w = substitute(w), verbose = verbose, n = n)
-#}
-#
-##' @export
-##' @rdname binscatter
-#binscatter_<- function(x, formula, w = NULL, verbose = FALSE, n = 20){
-#  bin <- "bin"
-#  intercept <- "intercept"
-#  slope <- "slope"
-#  ww <- "ww"
-#  w <- names(select_vars_(names(x),w))
-#  byvars <-  vapply(groups(x), as.character, character(1))
-#  if (length(byvars)>1){
-#    group <- tempname(x, 1)
-#    x <- mutate_(x, .dots = setNames(list(~as.factor(group_indices_(x, .dots = byvars))), group)#)
-#  } else if (length(byvars)==1){
-#    group <- byvars
-#  } else{
-#    group <- character(0)
-#  }
-#  if (!length(w)){
-#    x <- mutate_(x, .dots = setNames(list(~1), ww))
-#  } else{
-#   x <-  mutate_(x, .dots = setNames(list(interp(~w/sum(w), w = as.name(w))), ww))
-#  }
-#  x <- select_(x, .dots = c(all.vars(formula), ww))
-#  x <- na.omit(x) 
-#  F <- Formula(formula)
-#  F1 <- formula(F, lhs = 1, rhs = 1)
-#  F2 <- formula(F, lhs = 0, rhs = - 1)
-#  y <- deparse(F1[[2]])
-#  x1 <- deparse(F1[[3]])
-#  newformula <- as.Formula(~1, F2)
-#  ans <- do_(x, .dots = interp(~f(y, x1, newformula, ww, .), y = y, x1 = x1, newformula = #newformula, ww = ww))
-#  coeff <- do_(group_by_(ans, .dots = group), .dots = interp(~data.frame(t(coef(lm(formula,  #data = . , weights = ww)))), formula = as.formula(paste0(y, "~", x1)), ww = as.name(ww)))
-#  coeff <- setNames(coeff, c(group, intercept, slope))
-#  ans <- mutate_(ans, .dots = setNames(list(interp(~xtile(x1, n, ww), x1 = as.name(x1), ww = as.#name(ww))), bin))
-#  ans <- group_by_(ans, .dots = bin, add = TRUE)
-#  summary <- summarize_(ans, .dots = setNames(list(interp(~mean(x1), x1 = as.name(x1)),interp(~#mean(y), y = as.name(y))), c(x1, y)))
-#  if (length(group)){
-#    coeff <- ungroup(coeff)
-#    coeff <- mutate_(coeff, .dots = setNames(list(interp(~as.factor(group), group = as.name(#group))), group))
-#    summary <- ungroup(summary)
-#    summary <- mutate_(summary, .dots = setNames( list(interp(~as.factor(group), group = as.name#(group))), group))
-#    g <-  ggplot(summary, aes_string(x = x1, y = y, color = group)) + geom_point() + geom_abline#(data = coeff, aes_string(intercept = intercept, slope = slope, color = group))
-#  } else{
-#    g <-  ggplot(summary, aes_string(x = x1, y = y)) + geom_point(colour = hcl(h=15,l=65,c=100))# + geom_abline(data = coeff, aes_string(intercept = intercept, slope = slope))
-#  }
-#  print(g)
-#}
-#
-#
-#
-#f <- function(varname1, varname2, formula, ww, df){
-#  felm1 <- felm(as.formula(paste0(varname1, deparse(formula))), df, weights = df[[ww]])
-#  out1 <- mean(df[[varname1]]) + felm1$residuals
-#  felm2 <- felm(as.formula(paste0(varname2, deparse(formula))), df, weights = df[[ww]])
-#  out2 <- mean(df[[varname2]]) + felm2$residuals
-#  setNames(data.frame(out1, out2, df[[ww]]), c(varname1, varname2, ww))
-#}
-
-
 
 
 ##' Experimental function to graph a dataset
@@ -524,6 +448,269 @@ print_all <- function(x){
 
 
 
+##' Keep only certain columns in place 
+##'
+##' @param x a data.table 
+##' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
+##' @param vars Used to work around non-standard evaluation.
+##' @examples
+##' library(data.table)
+##' DT <- data.table(
+##'   id = c(1,2),
+##'   v1 = c(1,1),
+##'   v2 = c(2,1)
+##' )
+##' setkeep(DT, id, v2)
+##' setkeep(DT, -id)
+##' @export
+#setkeep <- function(x, ...){
+#  setkeep_(x = x, vars = lazyeval::lazy_dots(...))
+#}
+#
+##' @export
+##' @rdname setkeep
+#setkeep_ <- function(x, vars){
+#  stopifnot(is.data.table(x))
+#  dots <- lazyeval::all_dots(vars)
+#  vars <- names(select_vars_(names(x), dots))
+#  if (!length(vars))  vars <- names(x)
+#  discard <- setdiff(names(x), vars)
+#  if (length(discard)>0){
+#    x[, c(discard) := NULL]
+#  }
+#}
+#
+#
+##' discard certain columns in place 
+##'
+##' @param x a data.table 
+##' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
+##' @param vars Used to work around non-standard evaluation.
+##' @examples
+##' library(data.table)
+##' DT <- data.table(
+##'   id = c(1,2),
+##'   v1 = c(1,1),
+##'   v2 = c(2,1)
+##' )
+##' setdiscard(DT, id)
+##' @export
+#setdiscard <- function(x, ...){
+#  setdiscard_(x = x, vars = lazyeval::lazy_dots(...))
+#}
+##' @export
+##' @rdname setdiscard
+#setdiscard_ <- function(x, vars){
+#  stopifnot(is.data.table(x))
+#  dots <- lazyeval::all_dots(vars)
+#  vars <- names(select_vars_(names(x), dots))
+#  if (!length(vars))  vars <- names(x)
+#  if (length(discard)>0){
+#    x[, c(vars) := NULL]
+#  }
+#}
+#
+#
+##' Create new data.table by keeping only certain columns (equivalent to dplyr::select)
+##'
+##' @param x a data.table 
+##' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
+##' @param vars Used to work around non-standard evaluation.
+##' @examples
+##' library(data.table)
+##' DT <- data.table(
+##'   id = c(1,2),
+##'   v1 = c(1,1),
+##'   v2 = c(2,1)
+##' )
+##' keep(DT, id, v2)
+##' keep(DT, -id)
+##' @export
+#keep <- function(x, ...){
+#  keep_(x = x, vars = lazyeval::lazy_dots(...))
+#}
+##' @export
+##' @rdname keep
+#keep_ <- function(x, vars){
+#  stopifnot(is.data.table(x))
+#  dots <-  lazyeval::all_dots(vars)
+#  vars <- names(select_vars_(names(x), dots))
+#  if (!length(vars))  vars <- names(x)
+#  x[, vars, with = FALSE]
+#}
+#
+#
+##' Create a new data.table by discarding certain columns 
+##'
+##' @param x a data.table 
+##' @param ... Variables to keep. Default to all. See the \link[dplyr]{select} documentation.
+##' @param vars Used to work around non-standard evaluation.
+##' @examples
+##' library(data.table)
+##' DT <- data.table(
+##'   id = c(1,2),
+##'   v1 = c(1,1),
+##'   v2 = c(2,1)
+##' )
+##' discard(DT, id, v2)
+##' discard(DT, -id)
+##' @export
+#discard <- function(x, ...){
+#  discard_(x = x, vars = lazyeval::lazy_dots(...))
+#}
+#
+##' @export
+##' @rdname discard
+#discard_ <- function(x, vars){
+#  stopifnot(is.data.table(x))
+#  dots <-  lazyeval::all_dots(vars)
+#  vars <- names(select_vars_(names(x), dots))
+#  keep <- setdiff(names(x), vars)
+#  x[, keep, with = FALSE]
+#}
+#
+#
+#
+##' Create new data.table by keeping only certain rows(equivalent to dplyr::filter)
+##'
+##' @param x a data.table 
+##' @param ... Conditions
+##' @param by groups in which the condition should be evaluated
+##' @param .dots Used to work around non-standard evaluation.
+##' @examples
+##' library(data.table)
+##' DT <- data.table(
+##'   id = c(1,2,1),
+##'   v1 = c(1,NA,2)
+##' )
+##' keep_if(DT, v1 == 1)
+##' keep_if(DT, v1 == min(v1), by = id)
+##' @export
+#keep_if <- function(x, ..., by = NULL){
+#  keep_if_(x = x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
+#}
+#
+##' @export
+##' @rdname keep_if
+#keep_if_ <- function(x, .dots, by = NULL){
+#  stopifnot(is.data.table(x))
+#  byvars <- names(select_vars_(names(x), by))
+#  if (!length(by)){
+#      byvars <- NULL
+#  }
+#  dots <-  lazyeval::all_dots(.dots)
+#  expr <- lapply(dots, `[[`, "expr")
+#  call <- substitute(dt[, .I[expr], by = byvars], list(expr=and_expr(expr)))
+#  env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
+#  ans <- eval(call, env)
+#  indices <- ans[[length(ans)]]
+#  x[indices[!is.na(indices)]]
+#}
+#
+#
+#
+##' Create new data.table after discarding certain rows
+##'
+##' @param x a data.table 
+##' @param ... Conditions. Rows where the condition evaluates to NA are not discardd. Therefore, \code{discard_if(dt, condition)} is #not the same as \code{keep_if(x, !condition)} with 
+##' @param by groups in which the condition should be evaluated
+##' @param .dots Used to work around non-standard evaluation.
+##' @examples
+##' library(data.table)
+##' DT <- data.table(
+##'   id = c(1,2,1),
+##'   v1 = c(1,NA,2)
+##' )
+##' discard_if(DT, v1 == 1)
+##' discard_if(DT, v1 == 1, v1 == 2)
+##' discard_if(DT, v1 == min(v1), by = id)
+##' @export
+#discard_if <- function(x, ..., by = NULL){
+#  discard_if_(x = x, .dots = lazyeval::lazy_dots(...), by = substitute(by))
+#}
+#
+##' @export
+##' @rdname discard_if
+#discard_if_ <- function(x, .dots, by = NULL){
+#  stopifnot(is.data.table(x))
+#  byvars <- names(select_vars_(names(x), by))
+#  if (!length(by)){
+#      byvars <- NULL
+#  }
+#  dots <-  lazyeval::all_dots(.dots)
+#  expr <- lapply(dots, `[[`, "expr")
+#  call <- substitute(dt[, .I[expr], by = byvars], list(expr=or_expr(expr)))
+#  env <- dt_env(x, lazyeval::common_env(dots), byvars = byvars)
+#  ans <- eval(call, env)
+#  indices <- ans[[length(ans)]]
+#  if (!length(indices)){
+#    out <- x
+#  } else{
+#    out <- x[-indices[!is.na(indices)]]
+#  }
+#  out
+#}
+
+
+##' fill NA in place based on non missing observations
+##'
+##' @param x a data.table 
+##' @param ... Variables to fill in. Default to all non grouping variables. See the \link[dplyr]{select} documentation.
+##' @param along_with Numeric variable along which NAs should be filled. Default to last key. See the \link[dplyr]{select} #documentation.
+##' @param by Groups within which gaps should be fill. Default to keys (or to keys minus last if along_with is unspecified). See the \#link[dplyr]{select} documentation.
+##' @param roll When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. #When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited #roll back. When roll is "nearest", the nearest value is joined to.
+##' @param rollends  A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past# the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]#=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but #not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite #number, that limit is also applied when rolling the end
+##' @param vars Used to work around non-standard evaluation.
+##' @examples
+##' library(data.table)
+##' DT <- data.table(
+##'  id    = c(1, 1, 1, 1, 2, 2),
+##'  date  = c(1992, 1989, 1991, 1993, 1992, 1991),
+##'  value = c(NA, NA, 3, NA, 3.2, 5.2)
+##' )
+##' DT1 <- copy(DT)
+##' setkey(DT1, id, date)
+##' DT2 <- copy(DT1)
+##' DT3 <- copy(DT1)
+##' setna(DT, value, along_with = date, by = id)
+##' setna(DT1)
+##' setna(DT2, value, rollends = TRUE)
+##' setna(DT3, value, roll = "nearest")
+##' @export
+#setna <- function(x, ..., along_with = NULL, by = NULL, roll = TRUE,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+#  else if (roll>=0) c(FALSE,TRUE)
+#  else c(TRUE,FALSE)){
+#    setna_(x, vars = lazy_dots(...) , along_with = substitute(along_with),  by = substitute(by), roll = roll, rollends = rollends)
+#}
+#
+##' @export
+##' @rdname setna
+#setna_ <- function(x, ..., vars, along_with = NULL, by = NULL, roll = TRUE,  rollends = if (roll=="nearest") c(TRUE,TRUE)
+#  else if (roll>=0) c(FALSE,TRUE)
+#  else c(TRUE,FALSE)){
+#  stopifnot(is.data.table(x))
+#  byvars <- names(select_vars_(names(x), by))
+#  along_with  <- names(select_vars_(names(x), along_with))
+#  if (!length(byvars) & (!length(along_with))){
+#      byvars <- head(key(x),-1)
+#      along_with <- tail(key(x),1)
+#      if (!length(along_with)) stop("along_with is not specified but x is not keyed")
+#  } else if (!length(byvars)){
+#      byvars <- key(x)
+#  } else if (!length(along_with)){
+#      stop("When by is specified, along_with must also be specified")
+#  }
+#  setkeyv(x, c(byvars, along_with))
+#  dots <- all_dots(vars)
+#  vars <- names(select_vars_(names(x), dots, exclude = c(byvars, along_with)))  
+#  if (length(vars) == 0) {
+#     vars <- setdiff(names(x),c(byvars, along_with))
+#  }
+#  for (col in vars){
+#    eval(substitute(x[, (col) := x[!is.na(t), c(byvars,along_with, col), with = FALSE ][x, value, roll = roll, rollends = rollends]], #list(t = as.name(col))))
+#  }
+#  x[]
+#}
 
 
 

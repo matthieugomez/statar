@@ -42,80 +42,42 @@ The classes "monthly" and "quarterly"  print as dates and are compatible with us
 ```R
 year <- c(1989, 1991, 1992)
 value <- c(4.1, 4.5, 3.3)
-tlag(value, 1, along_with = year)
+tlag(value, 1, time = year)
 library(lubridate)
 date <- mdy(c("01/04/1992", "03/15/1992", "04/03/1992"))
 datem <- as.monthly(date)
 value <- c(4.1, 4.5, 3.3)
-tlag(value, along_with = datem) 
+tlag(value, time = datem) 
 ```
 
 
-
-Since these functions can be applied to any vector (in constrast to `zoo` and `xts`), they can be used *within groups*. For instance, using `data.table`:
+In constrast to comparable functions in `zoo` and `xts`, these functions can be applied to any vector. This allows them to be used within  a `dplyr` chain:
 
 
 ```R
-DT <- data.table(
+df <- data_frame(
     id    = c(1, 1, 1, 2, 2),
     year  = c(1989, 1991, 1992, 1991, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-DT[, value_l := tlag(value, along_with = year), by = id]
+df %>% group_by(id) %>% mutate(value_l = tlag(value, time = year))
 ```
 
 
-## data.table functions
-`setpanel` resort the data.table in place along the id and time variables. It returns an error if (i)  date variable is missing or (ii) there are duplicates for (id, along_with).
+`is.panel` checks whether a dataset is a panel i.e. the  time variable is never missing and the combinations (id, time) are unique.
 
 ```R
-DT <- data.table(
-    id    = c(1, 1, 1, 2, 2),
+df <- data_frame(
+    id1    = c(1, 1, 1, 2, 2),
+    id2   = 1:5,
     year  = c(1991, 1993, NA, 1992, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-setpanel(DT, id, year)
-#> Error: Error: Variable year has missing values in 1 row(s): 3
-DT <- na.omit(DT, by = "year")
-setpanel(DT, id, year)
-#> Error: Variables (id, year) have duplicates for rows (3, 4)
-DT <- unique(DT, by = c("id", "year"))
-setpanel(DT, id, year)
+is.panel(df, id1, year)
+df <- df %>% filter(!is.na(year))
+is.panel(df, id1, year)
+is.panel(df, id1, id2, year)
 ```
-
-`fill_gap` fills in gaps in a data.table along a time variable (corresponds to Stata `tsfill`)
-
-```R
-DT <- data.table(
-    id    = c(1, 1, 1, 2, 2),
-    year  = c(1992, 1989, 1991, 1992, 1991),
-    value = c(4.1, 4.5, 3.3, 3.2, 5.2)
-)
-fill_gap(DT, value, along_with = year, by = id)
-library(lubridate)
-DT[, date:= mdy(c("03/01/1992", "04/03/1992", "07/15/1992", "08/21/1992", "10/03/1992"))]
-DT[, datem :=  as.monthly(date)]
-fill_gap(DT, value, along_with = datem, by = id)
-```
-
-`setna` fills in missing values along a time variable. `setna` inherits from the data.table options `roll` and `rollends`
-
-```R
-DT <- data.table(
- id    = c(1, 1, 1, 1, 2, 2),
- date  = c(1992, 1989, 1991, 1993, 1992, 1991),
- value = c(NA, NA, 3, NA, 3.2, 5.2)
-)
-DT1 <- copy(DT)
-setkey(DT1, id, date)
-DT2 <- copy(DT1)
-DT3 <- copy(DT1)
-setna(DT, value, along_with = date, by = id)
-setna(DT1)
-setna(DT2, value, rollends = TRUE)
-setna(DT3, value, roll = "nearest")
-```
-
 
 
 
