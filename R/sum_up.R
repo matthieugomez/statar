@@ -6,7 +6,7 @@
 #' @param i Condition
 #' @param d Should detailed summary statistics be printed?
 #' @param digits Number of significant decimal digits. Default to 3
-#' @param vars Used to work around non-standard evaluation.
+#' @param .dots Used to work around non-standard evaluation.
 #' @examples
 #' library(dplyr)
 #' N <- 100
@@ -33,7 +33,7 @@ sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
   } else{
     x <- setNames(data_frame(x, w),  c("x", "weight"))
   }
-  sum_up_(x, vars = "x", d = d, w = w, digits = digits)
+  sum_up_(x, .dots = "x", d = d, w = w, digits = digits)
 }
 
 
@@ -41,23 +41,23 @@ sum_up.default <- function(x, ...,  d = FALSE, w = NULL, digits = 3) {
 #' @export
 #' @method sum_up data.frame
 sum_up.data.frame <- function(x, ...,  d = FALSE, w = NULL,  i = NULL, digits = 3) {
-  sum_up_(x, vars = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i), digits = digits)
+  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i), digits = digits)
 }
 
 
 #' @export
 #' @rdname sum_up
-sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, digits = 3) {
+sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL,  i = NULL, digits = 3) {
   w <- names(select_vars_(names(x), w))
-  byvars <-  vapply(groups(x), as.character, character(1))
-  dots <- all_dots(vars)
-  vars <- names(select_vars_(names(x), dots, exclude = c(w, byvars)))
+  byvars <- as.character(groups(x))
+  dots <- all_dots(.dots, ..., all_named = TRUE)
+  vars <- select_vars_(names(x), dots, exclude = c(w, byvars))
   if (length(vars) == 0) {
      vars <- setdiff(names(x), c(byvars, w))
   }
   nums <- sapply(x, is.numeric)
-  nums_name <- names(nums[nums==TRUE])
-  vars <- intersect(vars,nums_name)
+  nums_name <- names(nums[nums == TRUE])
+  vars <- intersect(vars, nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
   newname = NULL
   if (!is.null(i)){
@@ -71,7 +71,7 @@ sum_up_<- function(x, vars, d = FALSE,  w= NULL,  i = NULL, digits = 3) {
   x <- select_(x, .dots = c(vars, byvars, w))
   # bug for do in data.table
  
-  out <-  do_(x, ~describe(., d = d, wname = w, byvars = byvars))
+  out <- do_(x, ~describe(., d = d, wname = w, byvars = byvars))
   out <- arrange_(out, .dots = c(byvars, "variable"))
   out <- select_(out, .dots = c(byvars, "variable", setdiff(names(out), c("variable", byvars))))
   print_pretty_summary(out, digits = digits)

@@ -5,7 +5,7 @@
 #' @param i Condition to apply function on certain rows only
 #' @param w Frequency weights. Default to NULL. 
 #' @param na.rm Remove missing values. Default to FALSE
-#' @param vars Used to work around non-standard evaluation.
+#' @param .dots Used to work around non-standard evaluation.
 #' @param sort Boolean. Default to TRUE
 #' @examples
 #' library(dplyr)
@@ -46,19 +46,20 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
 #' @export
 #' @method tab data.frame
 tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE, sort = TRUE){
-  tab_(x, vars = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm, sort = sort)
+  tab_(x, .dots = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm, sort = sort)
 }
 
 
 #' @export
 #' @rdname tab
-tab_ <- function(x, vars = NULL, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
-  byvars <-  vapply(groups(x), as.character, character(1))
-  wvar <- names(select_vars_(names(x), w))
+tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
+  byvars <- as.character(groups(x))
+  wvar <- select_vars_(names(x), w)
   if (!length(wvar)){
     wvar <- NULL
   }
-  vars <- names(select_vars_(names(x), vars, exclude = c(wvar, byvars)))
+  dots <- all_dots(.dots, ..., all_named = TRUE)
+  vars <- select_vars_(names(x), dots, exclude = c(wvar, byvars))
   vars <- c(byvars, vars)
   if (!is.null(i$expr)){
     newname <- tempname(x, 1)

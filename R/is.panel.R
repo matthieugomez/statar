@@ -2,7 +2,7 @@
 #' 
 #' @param df a data frame
 #' @param ... a list of variables. All except last are the id variable. Last is time variable
-#' @param vars Used to work around non standard evaluation
+#' @param .dots Used to work around non standard evaluation
 #' @return The function \code{is.panel} check that there are no duplicate combinations of the variables in ... and that no observation is missing for the last variable in ... (the time variable). 
 #' @examples
 #' library(dplyr)
@@ -18,15 +18,16 @@
 #' is.panel(df, id1, id2, year)
 #' @export
 is.panel <- function(df, ...){
-    is.panel_(df, vars = lazy_dots(...))
+    is.panel_(df, .dots = lazy_dots(...))
 }
 
 #' @export
 #' @rdname  is.panel
-is.panel_ <- function(df, vars){
-    charvars <- names(select_vars_(names(df), vars))
-    timevar  <- charvars[length(charvars)]
-    idvars <- setdiff(charvars, timevar)
+is.panel_ <- function(df, ..., .dots){
+    dots <- all_dots(.dots, ..., all_named = TRUE)
+    vars <- select_vars_(names(df), dots)
+    timevar  <- vars[length(vars)]
+    idvars <- setdiff(vars, timevar)
     out <- TRUE
     if (anyNA(df[[timevar]])){
         ans <- which(is.na(df[[timevar]]))
@@ -39,7 +40,7 @@ is.panel_ <- function(df, vars){
         groups <- groups[vapply(groups, length, integer(1)) > 1]
         str <- vapply(groups, function(x) paste0("(", paste0(x, collapse = ","), ")"),
              character(1))
-        message(paste0("Variables (", paste(charvars, collapse = " , "), ") have duplicates for rows ", paste(str, collapse = ", ")))
+        message(paste0("Variables (", paste(vars, collapse = " , "), ") have duplicates for rows ", paste(str, collapse = ", ")))
         out <- FALSE
     }
     out
