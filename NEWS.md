@@ -1,4 +1,10 @@
 # News
+## 0.5
+
+- `fill_gap` is removed. A similar functionality is now available in the `tidyr` package (v0.3.1.9) : `complete(df, id, year = full_seq(year, 1))`
+
+
+
 ## 0.3
 
 - `stat_binmean` allows to plot the mean of y over the mean of x in given xtiles
