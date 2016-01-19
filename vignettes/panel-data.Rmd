@@ -82,7 +82,7 @@ df1 %>% group_by(id1, id2) %>% is.panel(year)
 
 
 ### fill_gap
-fill_gap transforms a unbalanced panel into a balanced panel. Missing rows for certain dates are added as rows with missing values. It corresponds to the stata command `tsfill`.
+fill_gap transforms a unbalanced panel into a balanced panel.  It corresponds to the stata command `tsfill`. Missing observations are added as rows with missing values.
 ```R
 df <- data_frame(
     id    = c(1, 1, 1, 2),
@@ -92,7 +92,6 @@ df <- data_frame(
 df %>% group_by(id) %>% fill_gap(datem)
 df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
 df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
-df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
 ```
 
 
