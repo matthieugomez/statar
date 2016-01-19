@@ -14,7 +14,7 @@ fill_gap_(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (roll
   FALSE))
 }
 \arguments{
-\item{x}{A data.table}
+\item{x}{A data frame}
 
 \item{full}{A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets.}
 
@@ -22,9 +22,7 @@ fill_gap_(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (roll
 
 \item{rollends}{A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end}
 
-\item{time}{Numeric variable along which gaps should be filled. Default to last key. ee the \link[dplyr]{select} documentation.}
-
-\item{units}{Deprecated. Use elapsed dates.}
+\item{time}{Numeric variable along which gaps should be filled. Default to last key. See the \link[dplyr]{select} documentation.}
 
 \item{vars}{Used to work around non-standard evaluation.}
 }
