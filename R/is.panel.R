@@ -18,8 +18,8 @@
 #' df1 %>% group_by(id1) %>% is.panel(year)
 #' df1 %>% group_by(id1, id2) %>% is.panel(year)
 #' @export
-is.panel <- function(df, ...){
-    is.panel_(df, .dots = lazy_dots(...))
+is.panel <- function(x, ...){
+    is.panel_(x, .dots = lazy_dots(...))
 }
 
 #' @export

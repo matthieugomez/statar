@@ -10,6 +10,7 @@
 #' @importFrom data.table setkeyv
 #' @importFrom data.table setDF
 #' @importFrom data.table setDT
+#' @importFrom data.table as.data.table
 #' @importFrom data.table dcast.data.table
 #' @importFrom data.table :=
 #' @importFrom dplyr "%>%"
