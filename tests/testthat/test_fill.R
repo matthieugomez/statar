@@ -1,0 +1,21 @@
+library(statar)
+library(lubridate)
+library(data.table)
+context("fill")
+df <- data_frame(
+    id    = c(1, 1, 1, 2),
+    datem  = as.monthly(mdy(c("04/03/1992", "01/04/1992", "03/15/1992", "05/11/1992"))),
+    value = c(4.1, 4.5, 3.3, 3.2)
+)
+groupeddf <- df %>% group_by(id)
+expect_equal(fill_gap(groupeddf, datem)$value, c(4.5, NA, 3.3, 4.1, 3.2))
+expect_equal(fill_gap(groupeddf, datem, full = TRUE)$value, c(4.5, NA, 3.3, 4.1, NA, NA, NA, NA, NA, 3.2))
+expect_equal(fill_gap(groupeddf, datem, roll = "nearest")$value, c(4.5, 4.5, 3.3, 4.1, 3.2))
+expect_equal(fill_gap(groupeddf, datem, roll = "nearest", full = TRUE)$value,  c(4.5, 4.5, 3.3, 4.1, 4.1, 3.2, 3.2, 3.2, 3.2, 3.2))
+library(data.table)
+setDT(groupeddf)
+groupeddf = df %>% group_by(id)
+expect_equal(fill_gap(groupeddf, datem)$value, c(4.5, NA, 3.3, 4.1, 3.2))
+expect_equal(fill_gap(groupeddf, datem, full = TRUE)$value, c(4.5, NA, 3.3, 4.1, NA, NA, NA, NA, NA, 3.2))
+expect_equal(fill_gap(groupeddf, datem, roll = "nearest")$value, c(4.5, 4.5, 3.3, 4.1, 3.2))
+expect_equal(fill_gap(groupeddf, datem, roll = "nearest", full = TRUE)$value,  c(4.5, 4.5, 3.3, 4.1, 4.1, 3.2, 3.2, 3.2, 3.2, 3.2))

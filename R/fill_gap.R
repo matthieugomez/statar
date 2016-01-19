@@ -17,6 +17,7 @@
 #' df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
+#' library(data.table)
 #' setDT(df)
 #' df %>% group_by(id) %>% fill_gap(datem)
 #' df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
@@ -54,13 +55,14 @@ fill_gap_ <- function(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (
 		ans <- lazy_eval(interp(~ans[, list(seq(a, b, by = 1L)), by = c(byvars)], a = a, b = b))
 	}
 	setnames(ans, c(byvars, timevar))
-	setDT(x)
 	for (name in names(attributes(get(timevar, x)))){
 		setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
 	}
 
+
 	# data.table merge with roll
 	setkeyv(ans, c(byvars, timevar))
+	x <- as.data.table(x)
 	setkeyv(x, c(byvars, timevar))
 	out <- x[ans, allow.cartesian = TRUE, roll = roll, rollends = rollends]
 

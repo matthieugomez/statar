@@ -40,5 +40,11 @@ df \%>\% group_by(id) \%>\% fill_gap(datem)
 df \%>\% group_by(id) \%>\% fill_gap(datem, full = TRUE)
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest")
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest", full = TRUE)
+library(data.table)
+setDT(df)
+df \%>\% group_by(id) \%>\% fill_gap(datem)
+df \%>\% group_by(id) \%>\% fill_gap(datem, full = TRUE)
+df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest")
+df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest", full = TRUE)
 }
 
