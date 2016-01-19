@@ -41,9 +41,10 @@ fill_gap_ <- function(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (
 
 	# check byvars, timevar form a panel
 	stopifnot(is.panel_(x, timevar))
+
+	# create id x time 
 	ans <- select_(x, .dots = c(byvars, timevar))
 	setDT(ans)
-	# create id x time 
 	if (!full){
 		ans <- lazy_eval(interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
 	}
@@ -52,9 +53,7 @@ fill_gap_ <- function(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (
 		b <- max(ans[[timevar]])
 		ans <- lazy_eval(interp(~ans[, list(seq(a, b, by = 1L)), by = c(byvars)], a = a, b = b))
 	}
-	print(ans)
 	setnames(ans, c(byvars, timevar))
-	show(ans)
 	setDT(x)
 	for (name in names(attributes(get(timevar, x)))){
 		setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
