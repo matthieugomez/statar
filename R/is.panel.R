@@ -1,7 +1,7 @@
 #' Check whether a data.frame is a panel
 #' 
-#' @param df a data frame
-#' @param ... a list of variables. All except last are the id variable. Last is time variable
+#' @param x a data frame
+#' @param ... a time variable
 #' @param .dots Used to work around non standard evaluation
 #' @return The function \code{is.panel} check that there are no duplicate combinations of the variables in ... and that no observation is missing for the last variable in ... (the time variable). 
 #' @examples
@@ -12,10 +12,11 @@
 #'     year  = c(1991, 1993, NA, 1992, 1992),
 #'     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 #' )
-#' is.panel(df, id1, year)
-#' df <- df %>% filter(!is.na(year))
-#' is.panel(df, id1, year)
-#' is.panel(df, id1, id2, year)
+#' df %>% group_by(id1) %>% is.panel(year)
+#' df1 <- df %>% filter(!is.na(year))
+#' df1 %>% is.panel(year)
+#' df1 %>% group_by(id1) %>% is.panel(year)
+#' df1 %>% group_by(id1, id2) %>% is.panel(year)
 #' @export
 is.panel <- function(df, ...){
     is.panel_(df, .dots = lazy_dots(...))
@@ -23,18 +24,21 @@ is.panel <- function(df, ...){
 
 #' @export
 #' @rdname  is.panel
-is.panel_ <- function(df, ..., .dots){
+is.panel_ <- function(x, ..., .dots){
+    byvars <- as.character(groups(x))
     dots <- all_dots(.dots, ..., all_named = TRUE)
-    vars <- select_vars_(names(df), dots)
-    timevar  <- vars[length(vars)]
-    idvars <- setdiff(vars, timevar)
+    timevar <- select_vars_(names(x), dots, exclude = byvars)
+    if (length(timevar) > 1) {
+        message("There should only be one variable for time")
+    }
+    vars = c(byvars, timevar)
     out <- TRUE
-    if (anyNA(df[[timevar]])){
-        ans <- which(is.na(df[[timevar]]))
+    if (anyNA(x[[timevar]])){
+        ans <- which(is.na(x[[timevar]]))
         message(paste0("Variable ", timevar, " has missing values in ", length(ans)," row(s): ", paste(as.character(ans),collapse = ",")))
         out <- FALSE
     }
-    overall = group_indices_(df, .dots = vars)
+    overall = group_indices_(ungroup(x), .dots = vars)
     if (anyDuplicated(overall)){
         groups <- split(seq_along(overall), overall)
         groups <- groups[vapply(groups, length, integer(1)) > 1]

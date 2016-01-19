@@ -7,12 +7,12 @@
 \usage{
 is.panel(df, ...)
 
-is.panel_(df, ..., .dots)
+is.panel_(x, ..., .dots)
 }
 \arguments{
-\item{df}{a data frame}
+\item{...}{a time variable}
 
-\item{...}{a list of variables. All except last are the id variable. Last is time variable}
+\item{x}{a data frame}
 
 \item{.dots}{Used to work around non standard evaluation}
 }
@@ -30,9 +30,10 @@ df <- data_frame(
     year  = c(1991, 1993, NA, 1992, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
 )
-is.panel(df, id1, year)
-df <- df \%>\% filter(!is.na(year))
-is.panel(df, id1, year)
-is.panel(df, id1, id2, year)
+df \%>\% group_by(id1) \%>\% is.panel(year)
+df1 <- df \%>\% filter(!is.na(year))
+df1 \%>\% is.panel(year)
+df1 \%>\% group_by(id1) \%>\% is.panel(year)
+df1 \%>\% group_by(id1, id2) \%>\% is.panel(year)
 }
 

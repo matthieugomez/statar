@@ -1,7 +1,7 @@
 # News
 ## 0.5
 
-- `fill_gap` is removed. A similar functionality is now available in the `tidyr` package (v0.3.1.9) : `complete(df, id, year = full_seq(year, 1))`
+- `fill_gap` is removed since a similar functionality is now available in the `tidyr` package (v0.3.1.9) : `complete(df, id, year = full_seq(year, 1))`
 
 
 
