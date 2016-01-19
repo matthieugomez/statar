@@ -17,6 +17,11 @@
 #' df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
+#' setDT(df)
+#' df %>% group_by(id) %>% fill_gap(datem)
+#' df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
+#' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
+#' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
 #' @export
 fill_gap <- function(x, ..., full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
@@ -36,15 +41,20 @@ fill_gap_ <- function(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (
 
 	# check byvars, timevar form a panel
 	stopifnot(is.panel_(x, timevar))
-
+	ans <- select_(x, .dots = c(byvars, timevar))
+	setDT(ans)
 	# create id x time 
 	if (!full){
-		ans <- do(x, setNames(data_frame(datem = seq(min(.[[timevar]]), max(.[[timevar]]), by = 1)), timevar))
+		ans <- lazy_eval(interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
 	}
 	else{
-		ans <- do(x, setNames(data_frame(datem = seq(min(x[[timevar]]), max(x[[timevar]]), by = 1)), timevar))
+		a <- min(ans[[timevar]])
+		b <- max(ans[[timevar]])
+		ans <- lazy_eval(interp(~ans[, list(seq(a, b, by = 1L)), by = c(byvars)], a = a, b = b))
 	}
-	setDT(ans)
+	print(ans)
+	setnames(ans, c(byvars, timevar))
+	show(ans)
 	setDT(x)
 	for (name in names(attributes(get(timevar, x)))){
 		setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
