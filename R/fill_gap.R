@@ -17,12 +17,6 @@
 #' df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
-#' library(data.table)
-#' setDT(df)
-#' df %>% group_by(id) %>% fill_gap(datem)
-#' df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
-#' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
-#' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
 #' @export
 fill_gap <- function(x, ..., full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
              else if (roll>=0) c(FALSE,TRUE)
