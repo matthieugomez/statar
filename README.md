@@ -18,7 +18,6 @@ You can install
 	```
 	
 - Download this forked version from [github](https://github.com/eloualiche/statar) with
--
 	 ```R
 	devtools::install_github("eloualiche/statar")
 	```
