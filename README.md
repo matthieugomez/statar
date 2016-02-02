@@ -16,7 +16,14 @@ You can install
 	```R
 	install.packages("statar")
 	```
--  The current version from [github](https://github.com/matthieugomez/statar) with
+	
+- Download this forked version from [github](https://github.com/eloualiche/statar) with
+-
+	 ```R
+	devtools::install_github("eloualiche/statar")
+	```
+
+-  Download Matthieu Gomez's version from [github](https://github.com/matthieugomez/statar) with
 
 	```R
 	devtools::install_github("matthieugomez/statar")
