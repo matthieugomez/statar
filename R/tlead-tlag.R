@@ -5,15 +5,18 @@
 #' @param time  time variable
 #' @param default value used for non-existant rows. Defaults to \code{NA}.
 #' @examples
-#' year <- c(1989, 1991, 1992)
+#' date <- c(1989, 1991, 1992)
 #' value <- c(4.1, 4.5, 3.3)
 #' tlag(value, 1, time = year) #  returns value in year - 1
-#' tlead(value, 1, time = year)
 #' library(lubridate)
-#' date <- mdy(c("01/04/1992", "03/15/1992", "04/03/1992"))
-#' value <- c(4.1, 4.5, 3.3)
-#' datem <- as.monthly(date)
-#' tlag(value, time = datem) 
+#' date <- as.monthly(mdy(c("01/04/1992", "03/15/1992", "04/03/1992")))
+#' tlag(value, time = date) 
+#' df <- data_frame(
+#'    id    = c(1, 2, 2),
+#'    date  = date,
+#'    value = value
+#')
+#' df %>% group_by(id) %>% tlag(valuel = tlag(value, n = 1, time = date)
 #' @name tlead-tlag
 NULL
 
@@ -22,6 +25,7 @@ NULL
 #' @rdname tlead-tlag
 tlead <- function(x, n = 1L, time, default = NA) {
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
+  if (n_distinct(time) < length(time)) stop("time has duplicate elements")
   index <- match(time + n, time, incomparables = NA) 
   out <- x[index]
   if (!is.na(default)) out[which(is.na(index))] <- default
@@ -36,6 +40,7 @@ tlead <- function(x, n = 1L, time, default = NA) {
 #' @rdname tlead-tlag
 tlag <- function(x, n = 1L, time, default = NA) { 
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
+  if (n_distinct(time) < length(time)) stop("time has duplicate elements")
   index <- match(time - n, time, incomparables = NA)
   out <- x[index]
   if (!is.na(default)) out[which(is.na(index))] <- default

@@ -34,6 +34,7 @@
 #' @importFrom dplyr distinct
 #' @importFrom dplyr sample_n
 #' @importFrom dplyr arrange
+#' @importFrom dplyr everything
 #' @importFrom dplyr arrange_
 #' @importFrom dplyr group_by_
 #' @importFrom dplyr summarize
