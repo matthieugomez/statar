@@ -28,7 +28,7 @@ find_duplicates_ <- function(x, vars){
   message(paste(n_groups, "groups have duplicates"))
   if (n_groups>0){
     ans <- arrange_(ans, .dots = c("n", byvars))
-    ans <- select_(ans, ~n, interp(~byvars, byvars =as.name(byvars)), ~everything())
+    ans <- select_(ans, ~n, interp(~byvars, byvars =as.name(byvars)), ~dplyr::everything())
   } 
   return(ans)
 }

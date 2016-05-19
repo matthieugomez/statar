@@ -1,8 +1,0 @@
-inst/doc
-.Rapp.history
-.Rhistory
-R/.Rapp.history
-vignettes/.Rhistory
-src/*.o
-src/*.so
-src/*.dll
