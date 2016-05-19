@@ -57,6 +57,6 @@ StatBinmean <-  ggproto("StatBinmean", Stat,
     else{
       data <-  data %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
     }
-    data %>%  dplyr::slice(1) %>% dplyr::filter(!is.na(binx))
+    data %>%  dplyr::slice(1) %>% ungroup() %>% dplyr::filter(!is.na(binx))
   }
 )
