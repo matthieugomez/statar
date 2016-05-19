@@ -82,7 +82,7 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
 
 
 print_pretty_tab <- function(x){
-  stargazer(format(x, digits = 3), type = "text", summary = FALSE, rownames = FALSE)
+  print(format(x, digits = 3, scientific = FALSE))
 }
 
 
