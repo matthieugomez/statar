@@ -50,7 +50,7 @@ tlag(value, time = datem)
 ```
 
 
-In constrast to comparable functions in `zoo` and `xts`, these functions can be applied to any vector. This allows them to be used within  a `dplyr` chain:
+In constrast to comparable functions in `zoo` and `xts`, these functions can be applied to any vector and be used within  a `dplyr` chain:
 
 
 ```R
