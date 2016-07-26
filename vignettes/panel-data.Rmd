@@ -36,7 +36,7 @@ The classes "monthly" and "quarterly"  print as dates and are compatible with us
 
 ### lag / lead
 
-`tlag`/`tlead` a vector along a time variable (and NOT with respet to a number of row)
+`tlag`/`tlead` a vector with respect to a number of periods, **not** with respect to the number of rows
 
 ```R
 year <- c(1989, 1991, 1992)
