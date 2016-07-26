@@ -11,7 +11,7 @@ vignette: >
 
 ## stat_binmean
 
-`stat_binmean()` is a `stat` for ggplot2. It returns the mean of `y` and `x` within bins of `x`, similarly to Stata command [binscatter](https://github.com/michaelstepner/binscatter),
+`stat_binmean()` is a `stat` for ggplot2. It returns the mean of `y` and `x` within bins of `x`. It's a bareborne version of the Stata command [binscatter](https://github.com/michaelstepner/binscatter)
 
 ```R
 ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
