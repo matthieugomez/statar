@@ -1,7 +1,7 @@
 statar
 ======
 
-statar contains functions inspired by useful Stata commands.
+This package contains functions hard to find in R corresponding to useful Stata commands.
 
 The package includes:
 - [vector functions](vignettes/vector.Rmd) (count, sample_mode, xtile, pctile, winsorize)
