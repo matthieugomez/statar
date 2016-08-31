@@ -1,3 +1,9 @@
+print_pretty <- function(x) {
+  pander(format(x, digits = 3, scientific = FALSE), justify = "right", plain.ascii = TRUE, style = "simple")
+}
+
+
+
 dt_env <- function(dt, env, byvars) {
   env <- new.env(parent = env, size = 2L)
   env$dt <- dt

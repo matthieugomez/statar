@@ -17,6 +17,7 @@ Imports:
     lazyeval,
     matrixStats,
     methods,
+    pander,
     stringr,
     tidyr
 Suggests:
