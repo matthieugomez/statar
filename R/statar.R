@@ -18,6 +18,7 @@
 #' @importFrom dplyr  desc
 #' @importFrom dplyr  filter
 #' @importFrom dplyr distinct_
+#' @importFrom dplyr everything
 #' @importFrom dplyr ungroup
 #' @importFrom dplyr group_indices_
 #' @importFrom dplyr funs_

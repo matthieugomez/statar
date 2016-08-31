@@ -28,8 +28,8 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
   data2
 }
 
-#' @export
-#' @method spread_ tbl_dt
-spread_.tbl_dt <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE) {
-  dplyr::tbl_dt(NextMethod())
-}
+##' @export
+##' @method spread_ tbl_dt
+#spread_.tbl_dt <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE) {
+#  dplyr::tbl_dt(NextMethod())
+#}#
