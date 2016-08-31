@@ -69,6 +69,7 @@
 #' @importFrom matrixStats weightedMean
 #' @importFrom matrixStats colWeightedMeans
 #' @importFrom matrixStats colRanges
+#' @importFrom pander pander
 #' @importFrom parallel mclapply
 #' @importFrom stringr str_replace
 #' @importFrom stringr str_match
