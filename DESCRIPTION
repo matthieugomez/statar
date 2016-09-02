@@ -1,10 +1,10 @@
 Package: statar
-Title: Tools Inspired by Stata to Manipulate Tabular Data
-Version: 0.6.1
+Title: Tools Inspired by 'Stata' to Manipulate Tabular Data
+Version: 0.6.2
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
-Description: A set of tools inspired by Stata to explore data.frames (summarize,
-    tabulate, xtile, pctile, binscatter, elapsed quarters/month, lead/lag).
+Description: A set of tools inspired by 'Stata' to explore data.frames ('summarize',
+    'tabulate', 'xtile', 'pctile', 'binscatter', elapsed quarters/month, lead/lag).
 License: GPL-2
 URL: https://github.com/matthieugomez/statar
 BugReports: https://github.com/matthieugomez/statar/issues
@@ -12,11 +12,12 @@ Depends:
     R (>= 3.2.0)
 Imports:
     data.table,
-    dplyr (>= 0.4.3),
+    dplyr (>= 0.5.0),
     ggplot2 (>= 2.0.0),
     lazyeval,
     matrixStats,
     methods,
+    pander,
     stringr,
     tidyr
 Suggests:

@@ -45,7 +45,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
      x <- arrange_(x, .dots = "x")
    }
    x <- select(x, -n)
-   print_pretty_tab(x)
+   print_pretty(x)
    invisible(x)
 }
 
@@ -84,13 +84,9 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     x <- arrange_(x, .dots = vars)
   }
   x <- select(x, -n)
-  print_pretty_tab(x)
+  print_pretty(x)
   invisible(x)
 }
 
-
-print_pretty_tab <- function(x){
-  pander(format(x, digits = 3, scientific = FALSE), justify = "right", plain.ascii = TRUE, style = "simple")
-}
 
 

@@ -12,7 +12,7 @@ tab_(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort)
 \arguments{
 \item{x}{a vector or a data.frame}
 
-\item{...}{Variable to include. If length is two, a special cross tabulation table is printed although the a long data.frame is always (invisibly) returned.}
+\item{...}{Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.}
 
 \item{.dots}{Used to work around non-standard evaluation.}
 
@@ -25,22 +25,26 @@ tab_(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort)
 \item{sort}{Boolean. Default to TRUE}
 }
 \value{
-a data.frame sorted by variables in ..., and with a columns "n", "Percent", and "Cum." for counts.
+a data.frame sorted by variables in ..., and with columns "Freq.", "Percent", and "Cum." for counts.
 }
 \description{
 Returns cross tabulation
 }
 \examples{
+# setup
 library(dplyr)
 N <- 1e2 ; K = 10
 df <- data_frame(
   id = sample(c(NA,1:5), N/K, TRUE),
   v1 =  sample(1:5, N/K, TRUE)                       
 )
+# one-way tabulation
 tab(df[["id"]])
 tab(df, id)
 df \%>\% group_by(id) \%>\% tab()
+# two-way tabulation
 df \%>\% group_by(id) \%>\% tab(v1)
+df \%>\% tab(id, v1)
 tab(df, id, i = id>=3)
 }
 

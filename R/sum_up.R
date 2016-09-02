@@ -152,10 +152,10 @@ print_pretty_summary <- function(x, digits = 3){
   if ("skewness" %in% names(x)){
     x1 <- select_(x, ~-one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
     x2 <-  select_(x, ~-one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
-   print(format(x1, digits = digits, scientific = FALSE))
-   print(format(x2, digits = digits, scientific = FALSE))
+    print_pretty(x1)
+    print_pretty(x2)
   } else{
-    print(format(x, digits = digits, scientific = FALSE))
+    print_pretty(x)
   }
 }
 
