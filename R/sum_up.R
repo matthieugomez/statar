@@ -152,10 +152,10 @@ print_pretty_summary <- function(x, digits = 3){
   if ("skewness" %in% names(x)){
     x1 <- select_(x, ~-one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
     x2 <-  select_(x, ~-one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
-    print_pretty(x1)
-    print_pretty(x2)
+    statascii(x1, flavor = "summary")
+    statascii(x2, flavor = "summary")
   } else{
-    print_pretty(x)
+    statascii(x, flavor = "summary")
   }
 }
 

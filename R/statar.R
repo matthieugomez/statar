@@ -76,6 +76,7 @@
 #' @importFrom stringr str_match
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_split
+#' @importFrom stringr str_pad
 #' @importFrom stringr fixed
 #' @importFrom tidyr gather_
 #' @importFrom tidyr spread
