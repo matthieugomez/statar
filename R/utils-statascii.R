@@ -26,6 +26,9 @@ statascii <- function(df, flavor = "oneway", padding = "stata", pad = 1L, ...) {
     if (padding == "stata") {
         colnames(df) <- str_pad(colnames(df), 9L, pad = " ")
     }
+    if (padding == "sum_up") {
+      colnames(df) <- str_pad(colnames(df), 5L, pad = " ")
+    }
     else if (padding == "none") {
     }
     SepLine <- function(n, pad = 1L) {

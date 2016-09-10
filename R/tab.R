@@ -44,7 +44,6 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
    if (sort){
      x <- arrange_(x, .dots = "x")
    }
-   x <- select(x, -n)
    statascii(x)
    invisible(x)
 }
