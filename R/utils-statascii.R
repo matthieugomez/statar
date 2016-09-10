@@ -8,7 +8,7 @@
 # library(dplyr)
 # library(stringr)
 
-statascii <- function(df, flavor = "oneway", pad = 1L, ...) {
+statascii <- function(df, flavor = "oneway", padding = "stata", pad = 1L, ...) {
     ## error checking
     stopifnot(is.data.frame(df))
     if (ncol(df) <= 2L & flavor == "twoway") {
@@ -23,7 +23,11 @@ statascii <- function(df, flavor = "oneway", pad = 1L, ...) {
     if (ncol(df) == 1L) {
         df <- t(df)
     }
-    colnames(df) <- str_pad(colnames(df), 9L, pad = " ")
+    if (padding == "stata") {
+        colnames(df) <- str_pad(colnames(df), 9L, pad = " ")
+    }
+    else if (padding == "none") {
+    }
     SepLine <- function(n, pad = 1L) {
         tmp <- lapply(n, function(x, pad)
             paste0(rep("\xe2\x94\x80", x + (2L * pad)),
@@ -122,6 +126,9 @@ statascii <- function(df, flavor = "oneway", pad = 1L, ...) {
 # # 'oneway' flavor for one-way tables of frequencies
 # a <- mtcars %>% count(gear) %>% rename(Freq. = n)
 # statascii(a, flavor = "oneway")
+# # 'oneway' flavor with no Stata-like padding
+# a <- mtcars %>% count(gear) %>% rename(Freq. = n)
+# statascii(a, flavor = "oneway", padding = "none")
 # # 'twoway' flavor for n-way tables of frequencies
 # b <- mtcars %>% count(gear, carb, am) %>% rename(Freq. = n)
 # statascii(b, flavor = "twoway")
@@ -137,5 +144,5 @@ statascii <- function(df, flavor = "oneway", pad = 1L, ...) {
 # 
 # ## Reference
 # # `statascii()` borrows heavily  from `asciify()`.
-# # The `asciify()` function was written by @gavinsimpson on StackOverflow (https://stackoverflow.com/questions/13011383) and GitHub Gist (https://gist.github.com/gavinsimpson)
-# # The `statascii()' function was written by @gvelasq2 on Github Gist (https://gist.github.com/gvelasq2)
+# # The `asciify()` function was written by @gavinsimpson in StackOverflow (https://stackoverflow.com/questions/13011383) and GitHub Gist (https://gist.github.com/gavinsimpson).
+# # The `statascii()' function was written by @gvelasq2 in Github Gist (https://gist.github.com/gvelasq2).
