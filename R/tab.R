@@ -44,6 +44,24 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
    if (sort){
      x <- arrange_(x, .dots = "x")
    }
+   x <- select(x, -n)
+   if (ncol(x) == 4) {
+     x <- sapply(format(x, digits = 3L, nsmall = 0L, scientific = FALSE), as.numeric)
+     x <- rbind(
+       x,
+       c("Total",
+         sapply(format(sum(x[,2]), digits = 3L, nsmall = 0L,
+                       scientific = FALSE), as.character),
+         sapply(format(sum(x[,3]), digits = 3L, nsmall = 1L,
+                       scientific = FALSE), as.character),
+         "\xc2\xa0")
+     )
+     x <- as.data.frame(x)
+     statascii(x)
+   }
+   else if (ncol(x) > 4) {
+     statascii(x, flavor = "summary")
+   }
    statascii(x)
    invisible(x)
 }
@@ -53,7 +71,6 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
 tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE, sort = TRUE){
   tab_(x, .dots = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm, sort = sort)
 }
-
 
 #' @export
 #' @rdname tab
@@ -83,9 +100,22 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     x <- arrange_(x, .dots = vars)
   }
   x <- select(x, -n)
-  statascii(x)
+  if (ncol(x) == 4) {
+    x <- sapply(format(x, digits = 3L, nsmall = 0L, scientific = FALSE), as.numeric)
+    x <- rbind(
+      x,
+      c("Total", 
+        sapply(format(sum(x[,2]), digits = 3L, nsmall = 0L, 
+                      scientific = FALSE), as.character),
+        sapply(format(sum(x[,3]), digits = 3L, nsmall = 1L, 
+                      scientific = FALSE), as.character),
+        "\xc2\xa0")
+    )
+    x <- as.data.frame(x)
+    statascii(x)
+  }
+  else if (ncol(x) > 4) {
+    statascii(x, flavor = "summary")
+  }
   invisible(x)
 }
-
-
-
