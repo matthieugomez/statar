@@ -62,7 +62,6 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
    else if (ncol(x) > 4) {
      statascii(x, flavor = "summary")
    }
-   statascii(x)
    invisible(x)
 }
 
