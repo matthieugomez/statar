@@ -58,9 +58,9 @@ tbl_wrap <- function(tbl, M = M, M1 = M1, width = getOption("width")) {
         for (i in 1:length(wrapped)) {
             wrapped[i] <- all_cols[1]
         }
-        for (j in 2:length(col_index)) {
-            current_list <- col_index[j]
-            wrapped[[current_list]] <- as.matrix(paste0(as.matrix(unlist(wrapped[current_list])), as.matrix(unlist(all_cols[j]))))
+        for (i in 2:length(col_index)) {
+            current_list <- col_index[i]
+            wrapped[[current_list]] <- as.matrix(paste0(as.matrix(unlist(wrapped[current_list])), as.matrix(unlist(all_cols[i]))))
         }
         for (i in 1:length(wrapped)) {
             cat(wrapped[[i]], sep = "\n")
@@ -88,7 +88,7 @@ statascii <- function(df, flavor = "oneway", padding = "stata", pad = 1L, ...) {
         colnames(df) <- str_pad(colnames(df), 9L, pad = " ")
     }
     if (padding == "sum_up") {
-      colnames(df) <- str_pad(colnames(df), 5L, pad = " ")
+        colnames(df) <- str_pad(colnames(df), 5L, pad = " ")
     }
     else if (padding == "none") {
     }

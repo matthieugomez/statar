@@ -153,6 +153,7 @@ print_pretty_summary <- function(x, digits = 3){
     x1 <- select_(x, ~-one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
     x2 <-  select_(x, ~-one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
     statascii(x1, flavor = "summary", padding = "sum_up")
+    cat("\n")
     statascii(x2, flavor = "summary", padding = "sum_up")
   } else{
     statascii(x, flavor = "summary", padding = "stata")
