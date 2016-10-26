@@ -30,8 +30,8 @@ tbl_wrap <- function(tbl, M = M, M1 = M1, width = getOption("width")) {
         pos <- matrix(c(M_start, M_end), ncol = 2)
         all_cols <- list()
         if (length(M_rest) > 1L) {
-            for (i in 2:length(M_rest)) {
-                all_cols[[i]] <- as.matrix(str_sub(col_rest, pos[i,1], pos[i,2]))
+            for (i in 1:length(M_rest)) {
+                all_cols[[i+1L]] <- as.matrix(str_sub(col_rest, pos[i,1], pos[i,2]))
             }
         }
         all_cols[[1]] <- col1
