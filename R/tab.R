@@ -36,8 +36,8 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
   x <- group_by_(x, .dots =  "x")
   x <- count_(x, vars = "x", wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum."))
+  x <- mutate_(x, .dots = setNames(list(~format(n/sum(n)*100, digits = 3, nsmall = 1)), "Percent"))
+  x <- mutate_(x, .dots = setNames(list(~format(cumsum(Percent), digits = 3, nsmall = 1)), "Cum."))
   if (na.rm){
      x <- na.omit(x)
    }
@@ -46,7 +46,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
    }
    x <- select(x, -n)
    if (ncol(x) == 4) {
-     x <- sapply(format(x, digits = 3L, nsmall = 0L, scientific = FALSE), as.numeric)
+     # x <- sapply(x, as.numeric)
      x <- rbind(
        x,
        c("Total",
@@ -90,8 +90,8 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
   } 
   x <- count_(x, vars = vars, wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum."))
+  x <- mutate_(x, .dots = setNames(list(~format(n/sum(n)*100, digits = 3, nsmall = 1)), "Percent"))
+  x <- mutate_(x, .dots = setNames(list(~format(cumsum(Percent), digits = 3, nsmall = 1)), "Cum."))
   if (na.rm){
     x <- na.omit(x)
   }
@@ -100,7 +100,7 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
   }
   x <- select(x, -n)
   if (ncol(x) == 4) {
-    x <- sapply(format(x, digits = 3L, nsmall = 0L, scientific = FALSE), as.numeric)
+    x <- sapply(x, as.numeric)
     x <- rbind(
       x,
       c("Total", 
