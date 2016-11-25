@@ -46,7 +46,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
    }
    x <- select(x, -n)
    if (ncol(x) == 4) {
-     # x <- sapply(x, as.numeric)
+     x <- sapply(x, as.numeric)
      x <- rbind(
        x,
        c("Total",
