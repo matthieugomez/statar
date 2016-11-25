@@ -80,7 +80,7 @@ statascii <- function(df, flavor = "oneway", padding = "stata", pad = 1L, ...) {
     if (ncol(df) <= 1L) {
         stop("data.frame must have at least two columns", call. = FALSE)
     }
-    df <- as.matrix(sapply(format(df, digits = 3L, scientific = FALSE), as.character))
+    df <- as.matrix(sapply(df, as.character))
     if (ncol(df) == 1L) {
         df <- t(df)
     }

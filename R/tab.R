@@ -1,12 +1,12 @@
 #' Returns cross tabulation
 #' 
-#' @param x a vector or a data.frame
-#' @param ... Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.
-#' @param i Condition to apply function on certain rows only
-#' @param w Frequency weights. Default to NULL. 
-#' @param na.rm Remove missing values. Default to FALSE
+#' @param x A vector or a data.frame.
+#' @param ... Variable(s) to include. If length is two or more, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.
+#' @param i Condition to apply function on certain rows only.
+#' @param w Frequency weights. Default to NULL.
+#' @param na.rm Remove missing values. Default to FALSE.
 #' @param .dots Used to work around non-standard evaluation.
-#' @param sort Boolean. Default to TRUE
+#' @param sort Boolean. Default to TRUE.
 #' @examples
 #' # setup
 #' library(dplyr)
@@ -15,10 +15,12 @@
 #'   id = sample(c(NA,1:5), N/K, TRUE),
 #'   v1 =  sample(1:5, N/K, TRUE)                       
 #' )
+#' 
 #' # one-way tabulation
 #' tab(df[["id"]])
 #' tab(df, id)
-#' df %>% group_by(id) %>% tab()
+#' df %>% group_by(id) %>% tab
+#' 
 #' # two-way tabulation
 #' df %>% group_by(id) %>% tab(v1)
 #' df %>% tab(id, v1)
@@ -36,8 +38,8 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
   x <- group_by_(x, .dots =  "x")
   x <- count_(x, vars = "x", wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~format(n/sum(n)*100, digits = 3, nsmall = 1)), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~format(cumsum(Percent), digits = 3, nsmall = 1)), "Cum."))
+  x <- mutate_(x, .dots = setNames(list(~formatC(n/sum(n)*100, digits = 1L, format = "f")), "Percent"))
+  x <- mutate_(x, .dots = setNames(list(~formatC(cumsum(Percent), digits = 1L, format = "f")), "Cum."))
   if (na.rm){
      x <- na.omit(x)
    }
@@ -46,16 +48,15 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
    }
    x <- select(x, -n)
    if (ncol(x) == 4) {
-     # x <- sapply(x, as.numeric)
+     x <- sapply(x, as.numeric)
      x <- rbind(
        x,
        c("Total",
-         sapply(format(sum(x[,2]), digits = 3L, nsmall = 0L,
-                       scientific = FALSE), as.character),
-         sapply(format(sum(x[,3]), digits = 3L, nsmall = 1L,
-                       scientific = FALSE), as.character),
+         sapply(formatC(sum(x[,2]), digits = 1L, format = "f"), as.character),
+         "100.0",
          "\u00a0")
      )
+     x[nrow(x)-1L,ncol(x)] <- "100.0"
      x <- as.data.frame(x)
      statascii(x)
    }
@@ -90,8 +91,8 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
   } 
   x <- count_(x, vars = vars, wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~format(n/sum(n)*100, digits = 3, nsmall = 1)), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~format(cumsum(Percent), digits = 3, nsmall = 1)), "Cum."))
+  x <- mutate_(x, .dots = setNames(list(~formatC(n/sum(n)*100, digits = 1L, format = "f")), "Percent"))
+  x <- mutate_(x, .dots = setNames(list(~formatC(cumsum(Percent), digits = 1L, format = "f")), "Cum."))
   if (na.rm){
     x <- na.omit(x)
   }
@@ -104,12 +105,11 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     x <- rbind(
       x,
       c("Total", 
-        sapply(format(sum(x[,2]), digits = 3L, nsmall = 0L, 
-                      scientific = FALSE), as.character),
-        sapply(format(sum(x[,3]), digits = 3L, nsmall = 1L, 
-                      scientific = FALSE), as.character),
+        sapply(formatC(sum(x[,2]), digits = 1L, format = "f"), as.character),
+        "100.0",
         "\u00a0")
     )
+    x[nrow(x)-1L,ncol(x)] <- "100.0"
     x <- as.data.frame(x)
     statascii(x)
   }
