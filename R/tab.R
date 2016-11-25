@@ -54,7 +54,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
                        scientific = FALSE), as.character),
          sapply(format(sum(x[,3]), digits = 3L, nsmall = 1L,
                        scientific = FALSE), as.character),
-         "\xc2\xa0")
+         "\u00a0")
      )
      x <- as.data.frame(x)
      statascii(x)
@@ -108,7 +108,7 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
                       scientific = FALSE), as.character),
         sapply(format(sum(x[,3]), digits = 3L, nsmall = 1L, 
                       scientific = FALSE), as.character),
-        "\xc2\xa0")
+        "\u00a0")
     )
     x <- as.data.frame(x)
     statascii(x)
