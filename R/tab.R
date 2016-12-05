@@ -48,17 +48,12 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
    }
    x <- select(x, -n)
    if (ncol(x) == 4) {
-     x <- sapply(x, as.numeric)
-     x <- rbind(
-       x,
-       c("Total",
-         sapply(formatC(sum(x[,2]), digits = 1L, format = "f"), as.character),
-         "100.0",
-         "\u00a0")
-     )
-     x[nrow(x)-1L,ncol(x)] <- "100.0"
-     x <- as.data.frame(x)
-     statascii(x)
+     total_freq <- formatC(sum(x[, 2]), digits = 0L, format = "f")
+     x <- sapply(x, as.character)
+     x <- rbind(x, c("Total", total_freq, "100.0", "\u00a0"))
+     x[nrow(x) - 1L, ncol(x)] <- "100.0"
+     x <- as_data_frame(x)
+     statascii(x, flavor = "oneway")
    }
    else if (ncol(x) > 4) {
      statascii(x, flavor = "summary")
@@ -101,17 +96,12 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
   }
   x <- select(x, -n)
   if (ncol(x) == 4) {
-    x <- sapply(x, as.numeric)
-    x <- rbind(
-      x,
-      c("Total", 
-        sapply(formatC(sum(x[,2]), digits = 1L, format = "f"), as.character),
-        "100.0",
-        "\u00a0")
-    )
-    x[nrow(x)-1L,ncol(x)] <- "100.0"
-    x <- as.data.frame(x)
-    statascii(x)
+    total_freq <- formatC(sum(x[, 2]), digits = 0L, format = "f")
+    x <- sapply(x, as.character)
+    x <- rbind(x, c("Total", total_freq, "100.0", "\u00a0"))
+    x[nrow(x) - 1L, ncol(x)] <- "100.0"
+    x <- as_data_frame(x)
+    statascii(x, flavor = "oneway")
   }
   else if (ncol(x) > 4) {
     statascii(x, flavor = "summary")
