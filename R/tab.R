@@ -1,12 +1,12 @@
 #' Returns cross tabulation
 #' 
-#' @param x a vector or a data.frame
-#' @param ... Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.
-#' @param i Condition to apply function on certain rows only
-#' @param w Frequency weights. Default to NULL. 
-#' @param na.rm Remove missing values. Default to FALSE
+#' @param x A vector or a data.frame.
+#' @param ... Variable(s) to include. If length is two or more, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.
+#' @param i Condition to apply function on certain rows only.
+#' @param w Frequency weights. Default to NULL.
+#' @param na.rm Remove missing values. Default to FALSE.
 #' @param .dots Used to work around non-standard evaluation.
-#' @param sort Boolean. Default to TRUE
+#' @param sort Boolean. Default to TRUE.
 #' @examples
 #' # setup
 #' library(dplyr)
@@ -15,10 +15,12 @@
 #'   id = sample(c(NA,1:5), N/K, TRUE),
 #'   v1 =  sample(1:5, N/K, TRUE)                       
 #' )
+#' 
 #' # one-way tabulation
 #' tab(df[["id"]])
 #' tab(df, id)
-#' df %>% group_by(id) %>% tab()
+#' df %>% group_by(id) %>% tab
+#' 
 #' # two-way tabulation
 #' df %>% group_by(id) %>% tab(v1)
 #' df %>% tab(id, v1)
@@ -36,8 +38,8 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
   x <- group_by_(x, .dots =  "x")
   x <- count_(x, vars = "x", wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum."))
+  x <- mutate_(x, .dots = setNames(list(~formatC(n/sum(n)*100, digits = 1L, format = "f")), "Percent"))
+  x <- mutate_(x, .dots = setNames(list(~formatC(cumsum(Percent), digits = 1L, format = "f")), "Cum."))
   if (na.rm){
      x <- na.omit(x)
    }
@@ -45,7 +47,17 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
      x <- arrange_(x, .dots = "x")
    }
    x <- select(x, -n)
-   print_pretty(x)
+   if (ncol(x) == 4) {
+     total_freq <- formatC(sum(x[, 2]), digits = 0L, format = "f")
+     x <- sapply(x, as.character)
+     x <- rbind(x, c("Total", total_freq, "100.0", "\u00a0"))
+     x[nrow(x) - 1L, ncol(x)] <- "100.0"
+     x <- as_data_frame(x)
+     statascii(x, flavor = "oneway")
+   }
+   else if (ncol(x) > 4) {
+     statascii(x, flavor = "summary")
+   }
    invisible(x)
 }
 
@@ -54,7 +66,6 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
 tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE, sort = TRUE){
   tab_(x, .dots = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm, sort = sort)
 }
-
 
 #' @export
 #' @rdname tab
@@ -75,8 +86,8 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
   } 
   x <- count_(x, vars = vars, wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum."))
+  x <- mutate_(x, .dots = setNames(list(~formatC(n/sum(n)*100, digits = 1L, format = "f")), "Percent"))
+  x <- mutate_(x, .dots = setNames(list(~formatC(cumsum(Percent), digits = 1L, format = "f")), "Cum."))
   if (na.rm){
     x <- na.omit(x)
   }
@@ -84,9 +95,16 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     x <- arrange_(x, .dots = vars)
   }
   x <- select(x, -n)
-  print_pretty(x)
+  if (ncol(x) == 4) {
+    total_freq <- formatC(sum(x[, 2]), digits = 0L, format = "f")
+    x <- sapply(x, as.character)
+    x <- rbind(x, c("Total", total_freq, "100.0", "\u00a0"))
+    x[nrow(x) - 1L, ncol(x)] <- "100.0"
+    x <- as_data_frame(x)
+    statascii(x, flavor = "oneway")
+  }
+  else if (ncol(x) > 4) {
+    statascii(x, flavor = "summary")
+  }
   invisible(x)
 }
-
-
-
