@@ -56,7 +56,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
      statascii(x, flavor = "oneway")
    }
    else if (ncol(x) > 4) {
-     statascii(x, flavor = "summary")
+     statascii(x, flavor = "summary", separators = TRUE)
    }
    invisible(x)
 }
@@ -104,7 +104,7 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     statascii(x, flavor = "oneway")
   }
   else if (ncol(x) > 4) {
-    statascii(x, flavor = "summary")
+    statascii(x, flavor = "summary", separators = TRUE)
   }
   invisible(x)
 }
