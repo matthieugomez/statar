@@ -137,9 +137,9 @@ statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, s
     )
   }
   nchar_content <- apply(df, 2, function(x) {
-    max(nchar(x))
+    max(nchar(x, keepNA = FALSE))
   })
-  nchar_names <- nchar(colnames(df))
+  nchar_names <- nchar(colnames(df), keepNA = FALSE)
   M <- pmax(nchar_content, nchar_names)
   M1 <- as.integer(c(M[1],
                      sum(M[2:(length(M))]) + (3L * ncol(df)) - 6L))
