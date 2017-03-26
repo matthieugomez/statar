@@ -38,6 +38,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
   x <- setNames(data.frame(x), "x")
   x <- group_by_(x, .dots =  "x")
   if (na.rm){
+    x <- select_(x, .dots = "x")
     x <- na.omit(x)
   }
   x <- count_(x, vars = "x", wt = w)
@@ -86,6 +87,7 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     x <- filter_(x, .dots = interp(~var, var = as.name(newname)))
   }
   if (na.rm){
+    x <- select_(x, .dots = vars)
     x <- na.omit(x)
   }
   x <- count_(x, vars = vars, wt = w)

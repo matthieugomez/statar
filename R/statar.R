@@ -77,6 +77,7 @@
 #' @importFrom stringr str_split
 #' @importFrom stringr str_pad
 #' @importFrom stringr str_sub
+#' @importFrom stringr str_replace_na
 #' @importFrom stringr fixed
 #' @importFrom tidyr gather_
 #' @importFrom tidyr spread

@@ -88,6 +88,7 @@ statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, s
   if (ncol(df) == 1L) {
     df <- t(df)
   }
+  df[, 1] <- str_replace_na(df[, 1])
   if (padding == "stata") {
     colnames(df) <- str_pad(colnames(df), 9L, pad = " ")
   }
