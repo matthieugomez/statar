@@ -20,6 +20,7 @@
 #' tab(df[["id"]])
 #' tab(df, id)
 #' df %>% group_by(id) %>% tab
+#' df %>% tab(id)
 #' 
 #' # two-way tabulation
 #' df %>% group_by(id) %>% tab(v1)
@@ -36,29 +37,30 @@ tab <- function(x, ...) {
 tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
   x <- setNames(data.frame(x), "x")
   x <- group_by_(x, .dots =  "x")
+  if (na.rm){
+    x <- select_(x, .dots = "x")
+    x <- na.omit(x)
+  }
   x <- count_(x, vars = "x", wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
   x <- mutate_(x, .dots = setNames(list(~formatC(n/sum(n)*100, digits = 1L, format = "f")), "Percent"))
   x <- mutate_(x, .dots = setNames(list(~formatC(cumsum(Percent), digits = 1L, format = "f")), "Cum."))
-  if (na.rm){
-     x <- na.omit(x)
-   }
-   if (sort){
-     x <- arrange_(x, .dots = "x")
-   }
-   x <- select(x, -n)
-   if (ncol(x) == 4) {
-     total_freq <- formatC(sum(x[, 2]), digits = 0L, format = "f")
-     x <- sapply(x, as.character)
-     x <- rbind(x, c("Total", total_freq, "100.0", "\u00a0"))
-     x[nrow(x) - 1L, ncol(x)] <- "100.0"
-     x <- as_data_frame(x)
-     statascii(x, flavor = "oneway")
-   }
-   else if (ncol(x) > 4) {
-     statascii(x, flavor = "summary", separators = TRUE)
-   }
-   invisible(x)
+  if (sort){
+    x <- arrange_(x, .dots = "x")
+  }
+  x <- select(x, -n)
+  if (ncol(x) == 4) {
+    total_freq <- formatC(sum(x[, 2]), digits = 0L, format = "f")
+    x <- sapply(x, as.character)
+    x <- rbind(x, c("Total", total_freq, "100.0", "\u00a0"))
+    x[nrow(x) - 1L, ncol(x)] <- "100.0"
+    x <- as_data_frame(x)
+    statascii(x, flavor = "oneway")
+  }
+  else if (ncol(x) > 4) {
+    statascii(x, flavor = "summary", separators = TRUE)
+  }
+  invisible(x)
 }
 
 #' @export
@@ -83,14 +85,15 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     x <- mutate_(x, .dots = setNames(list(i), newname))
     x <- select_(x, .dots = c(vars, wvar, newname))
     x <- filter_(x, .dots = interp(~var, var = as.name(newname)))
-  } 
+  }
+  if (na.rm){
+    x <- select_(x, .dots = vars)
+    x <- na.omit(x)
+  }
   x <- count_(x, vars = vars, wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
   x <- mutate_(x, .dots = setNames(list(~formatC(n/sum(n)*100, digits = 1L, format = "f")), "Percent"))
   x <- mutate_(x, .dots = setNames(list(~formatC(cumsum(Percent), digits = 1L, format = "f")), "Cum."))
-  if (na.rm){
-    x <- na.omit(x)
-  }
   if (sort){
     x <- arrange_(x, .dots = vars)
   }
