@@ -88,7 +88,6 @@ statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, s
   if (ncol(df) == 1L) {
     df <- t(df)
   }
-  df[, 1] <- str_replace_na(df[, 1])
   if (padding == "stata") {
     colnames(df) <- str_pad(colnames(df), 9L, pad = " ")
   }
@@ -138,9 +137,9 @@ statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, s
     )
   }
   nchar_content <- apply(df, 2, function(x) {
-    max(nchar(x, keepNA = FALSE))
+    max(nchar(x))
   })
-  nchar_names <- nchar(colnames(df), keepNA = FALSE)
+  nchar_names <- nchar(colnames(df))
   M <- pmax(nchar_content, nchar_names)
   M1 <- as.integer(c(M[1],
                      sum(M[2:(length(M))]) + (3L * ncol(df)) - 6L))
