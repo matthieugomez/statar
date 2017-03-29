@@ -88,7 +88,7 @@ statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, s
     df <- t(df)
   }
   df[, 1] <- str_replace_na(df[, 1])
-  width = ((getOption("width")) %/% length(colnames(df))) - 4
+  width = (getOption("width") %/% length(colnames(df))) - 4
   colnames(df) <- str_pad(colnames(df), width, pad = " ")
   add_line <- function(n, pad = 1L) {
     tmp <- lapply(n, function(x, pad)

@@ -14,8 +14,6 @@ vignette: >
 `sum_up` prints detailed summary statistics (corresponds to Stata summarize)
 
 ```R
-mtcars %>% tab(gear, carb)
-
 N <- 100
 df <- data_frame(
   id = 1:N,
