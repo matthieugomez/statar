@@ -111,7 +111,7 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
     sum <- bind_cols(data_frame(names), sum)
-    sum <- setNames(sum, c("variable", "N","N_NA","mean","sd","min", "max"))
+    sum <- setNames(sum, c("variable", "Obs","Missing","Mean","StdDev","Min", "Max"))
   } else {
     N <- nrow(M)
     f=function(x){
@@ -141,7 +141,7 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
     sum <- bind_cols(data_frame(names), sum)
-    sum <- setNames(sum,  c("variable", "N","N_NA","mean","sd","skewness","kurtosis","min","p1","p5","p10","p25","p50","p75","p90","p95","p99","max"))
+    sum <- setNames(sum,  c("variable", "Obs","Missing","Mean","StdDev","Skewness","Kurtosis","Min","p1","p5","p10","p25","p50","p75","p90","p95","p99","Max"))
   }
   sum
 }
@@ -149,14 +149,16 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
 
 
 print_pretty_summary <- function(x, digits = 3){
-  if ("skewness" %in% names(x)){
-    x1 <- select_(x, ~-one_of(c("p1","p5","p10","p25","p50","p75","p90","p95","p99")))
-    x2 <-  select_(x, ~-one_of(c("N","N_NA","mean","sd","skewness","kurtosis", "min", "max")))
-    statascii(x1, flavor = "summary", padding = "sum_up")
+  if ("Skewness" %in% names(x)){
+    x1 <- select_(x, ~one_of(c("variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
+    x2 <- select_(x, ~one_of(c("variable", "Min", "p1", "p5", "p10", "p25", "p50")))
+    x3 <- select_(x, ~one_of(c("variable", "p50", "p75", "p90", "p95", "p99", "Max")))
+    statascii(x1, flavor = "summary", padding = "sum_up", digits = digits)
     cat("\n")
-    statascii(x2, flavor = "summary", padding = "sum_up")
+    statascii(x2, flavor = "summary", padding = "sum_up", digits = digits)
+    cat("\n")
+    statascii(x3, flavor = "summary", padding = "sum_up", digits = digits)
   } else{
-    statascii(x, flavor = "summary", padding = "stata")
+    statascii(x, flavor = "summary", padding = "stata", digits = digits)
   }
 }
-

@@ -14,6 +14,8 @@ vignette: >
 `sum_up` prints detailed summary statistics (corresponds to Stata summarize)
 
 ```R
+mtcars %>% tab(gear, carb)
+
 N <- 100
 df <- data_frame(
   id = 1:N,
@@ -31,12 +33,12 @@ df %>% group_by(v1) %>%  sum_up()
 ```R
 N <- 1e2 ; K = 10
 df <- data_frame(
-  id = sample(5, N, TRUE),
-  v1 = sample(5, N, TRUE)
+  id = sample(c(NA,1:5), N/K, TRUE),
+  v1 =  sample(1:5, N/K, TRUE)       
 )
+tab(df, id)
+tab(df, id, na.rm = TRUE)
 tab(df, id, v1)
-tab(df, id, v1, na.rm = TRUE)
-df %>% group_by(id) %>% tab(v1)
 ```
 
 

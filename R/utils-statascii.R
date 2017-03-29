@@ -62,20 +62,20 @@ wrap_tbl <- function(tbl, M = M, M1 = M1, width = getOption("width")) {
     for (i in 2L:length(col_index)) {
       current_list <- col_index[i]
       tbl_wrapped[[current_list]] <- as.matrix(
-        paste0(as.matrix(unlist(wrapped[current_list])),
+        paste0(as.matrix(unlist(tbl_wrapped[current_list])),
                as.matrix(unlist(all_cols[i])))
       )
     }
     for (i in 1L:length(tbl_wrapped)) {
-      cat(wrapped[[i]], sep = "\n")
-      if (i < length(wrapped)) {
+      cat(tbl_wrapped[[i]], sep = "\n")
+      if (i < length(tbl_wrapped)) {
         cat("\n")
       }
     }
   }
 }
 
-statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, separators = FALSE) {
+statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, separators = FALSE, digits = 3) {
   stopifnot(is.data.frame(df))
   if (ncol(df) <= 2L & flavor == "twoway") {
     stop("data.frame must have at least three columns for 'twoway' flavor",
@@ -84,16 +84,16 @@ statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, s
   if (ncol(df) <= 1L) {
     stop("data.frame must have at least two columns", call. = FALSE)
   }
-  df <- as.matrix(sapply(df, as.character))
+  df <- as.matrix(sapply(format(df, digits = digits, scientific = FALSE), as.character))
   if (ncol(df) == 1L) {
     df <- t(df)
   }
   df[, 1] <- str_replace_na(df[, 1])
   if (padding == "stata") {
-    colnames(df) <- str_pad(colnames(df), 9L, pad = " ")
+    colnames(df) <- str_pad(colnames(df), 8L, pad = " ")
   }
   if (padding == "sum_up") {
-    colnames(df) <- str_pad(colnames(df), 5L, pad = " ")
+    colnames(df) <- str_pad(colnames(df), 8L, pad = " ")
   }
   else if (padding == "none") {
   }
