@@ -74,7 +74,6 @@ wrap_tbl <- function(tbl, M = M, M1 = M1, width = getOption("width")) {
     }
   }
 }
-
 statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, separators = FALSE, digits = 3) {
   stopifnot(is.data.frame(df))
   if (ncol(df) <= 2L & flavor == "twoway") {
@@ -89,14 +88,8 @@ statascii <- function(df, ..., flavor = "oneway", padding = "stata", pad = 1L, s
     df <- t(df)
   }
   df[, 1] <- str_replace_na(df[, 1])
-  if (padding == "stata") {
-    colnames(df) <- str_pad(colnames(df), 8L, pad = " ")
-  }
-  if (padding == "sum_up") {
-    colnames(df) <- str_pad(colnames(df), 8L, pad = " ")
-  }
-  else if (padding == "none") {
-  }
+  width = ((getOption("width")) %/% length(colnames(df))) - 4
+  colnames(df) <- str_pad(colnames(df), width, pad = " ")
   add_line <- function(n, pad = 1L) {
     tmp <- lapply(n, function(x, pad)
       paste0(rep("\u2500", x + (2L * pad)),

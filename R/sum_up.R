@@ -74,7 +74,7 @@ sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL,  i = NULL, digits = 3) {
   out <- do_(x, ~describe(., d = d, wname = w, byvars = byvars))
   out <- arrange_(out, .dots = c(byvars, "variable"))
   out <- select_(out, .dots = c(byvars, "variable", setdiff(names(out), c("variable", byvars))))
-  print_pretty_summary(out, digits = digits)
+  print_pretty_summary(out, byvars, digits = digits)
   invisible(out)
 }
 
@@ -148,11 +148,11 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
 
 
 
-print_pretty_summary <- function(x, digits = 3){
+print_pretty_summary <- function(x, byvars, digits = 3){
   if ("Skewness" %in% names(x)){
-    x1 <- select_(x, ~one_of(c("variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
-    x2 <- select_(x, ~one_of(c("variable", "Min", "p1", "p5", "p10", "p25", "p50")))
-    x3 <- select_(x, ~one_of(c("variable", "p50", "p75", "p90", "p95", "p99", "Max")))
+    x1 <- select_(x, ~one_of(c(byvars, "variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
+    x2 <- select_(x, ~one_of(c(byvars, "variable", "Min", "p1", "p5", "p10", "p25", "p50")))
+    x3 <- select_(x, ~one_of(c(byvars, "variable", "p50", "p75", "p90", "p95", "p99", "Max")))
     statascii(x1, flavor = "summary", padding = "sum_up", digits = digits)
     cat("\n")
     statascii(x2, flavor = "summary", padding = "sum_up", digits = digits)
