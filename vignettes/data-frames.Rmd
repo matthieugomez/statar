@@ -11,7 +11,7 @@ vignette: >
 
 
 ## sum_up = summarize
-`sum_up` prints detailed summary statistics (corresponds to Stata summarize)
+`sum_up` prints detailed summary statistics (corresponds to Stata `summarize`)
 
 ```R
 N <- 100
@@ -26,13 +26,13 @@ df %>% group_by(v1) %>%  sum_up()
 ```
 
 ## tab = tabulate
-`tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command just adds Frequency and Cumulative frequency.
+`tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command adds frequency, percent, and cumulative percent.
 
 ```R
 N <- 1e2 ; K = 10
 df <- data_frame(
   id = sample(c(NA,1:5), N/K, TRUE),
-  v1 =  sample(1:5, N/K, TRUE)       
+  v1 = sample(1:5, N/K, TRUE)       
 )
 tab(df, id)
 tab(df, id, na.rm = TRUE)

@@ -13,7 +13,7 @@
 #' N <- 1e2 ; K = 10
 #' df <- data_frame(
 #'   id = sample(c(NA,1:5), N/K, TRUE),
-#'   v1 =  sample(1:5, N/K, TRUE)                       
+#'   v1 = sample(1:5, N/K, TRUE)                       
 #' )
 #' 
 #' # one-way tabulation
