@@ -42,12 +42,11 @@ df <- data_frame(
 # one-way tabulation
 tab(df[["id"]])
 tab(df, id)
+tab(df, id, i = id>=3)
 df \%>\% group_by(id) \%>\% tab
 df \%>\% tab(id)
 
 # two-way tabulation
 df \%>\% group_by(id) \%>\% tab(v1)
 df \%>\% tab(id, v1)
-tab(df, id, i = id>=3)
 }
-

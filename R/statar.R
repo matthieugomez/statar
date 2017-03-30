@@ -60,6 +60,7 @@
 #' @importFrom dplyr bind_cols
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr rbind_all
+#' @importFrom dplyr as_data_frame
 #' @importFrom lazyeval as.lazy
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval lazy_eval
