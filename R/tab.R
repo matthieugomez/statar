@@ -13,19 +13,19 @@
 #' N <- 1e2 ; K = 10
 #' df <- data_frame(
 #'   id = sample(c(NA,1:5), N/K, TRUE),
-#'   v1 =  sample(1:5, N/K, TRUE)                       
+#'   v1 = sample(1:5, N/K, TRUE)                       
 #' )
 #' 
 #' # one-way tabulation
 #' tab(df[["id"]])
 #' tab(df, id)
+#' tab(df, id, i = id>=3)
 #' df %>% group_by(id) %>% tab
 #' df %>% tab(id)
 #' 
 #' # two-way tabulation
 #' df %>% group_by(id) %>% tab(v1)
 #' df %>% tab(id, v1)
-#' tab(df, id, i = id>=3)
 #' @return a data.frame sorted by variables in ..., and with columns "Freq.", "Percent", and "Cum." for counts.
 #' @export
 tab <- function(x, ...) {
