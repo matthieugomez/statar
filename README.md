@@ -11,7 +11,7 @@ The package includes:
 
 You can install 
 
-- The latest released version from [CRAN](http://cran.r-project.org/package=statar) with
+- The latest released version from [CRAN](https://CRAN.R-project.org/package=statar) with
 
 	```R
 	install.packages("statar")

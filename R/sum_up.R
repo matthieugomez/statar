@@ -151,12 +151,12 @@ print_pretty_summary <- function(x, byvars){
     x1 <- select_(x, ~one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
     x2 <- select_(x, ~one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
     x3 <- select_(x, ~one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
-    statascii(x1, flavor = "sum_up", n_groups = length(byvars) + 1)
+    statascii(x1, n_groups = length(byvars) + 1)
     cat("\n")
-    statascii(x2, flavor = "sum_up", n_groups = length(byvars) + 1)
+    statascii(x2, n_groups = length(byvars) + 1)
     cat("\n")
-    statascii(x3, flavor = "sum_up", n_groups = length(byvars) + 1)
+    statascii(x3, n_groups = length(byvars) + 1)
   } else{
-    statascii(x, flavor = "sum_up", n_groups = length(byvars) + 1)
+    statascii(x, n_groups = length(byvars) + 1)
   }
 }

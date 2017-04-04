@@ -61,14 +61,13 @@ add_dash <- function(n1, n2, w = 8L) {
   paste0(left, right)
 }
 
-add_row_oneway <- function(x, n1, n2, w = 8L) {
+add_row <- function(x, n1, n2, w = 8L) {
   left <- paste(sapply(x[1:n1], function(x){paste0(x, " ", "\u2502", " ")}), collapse = "")
   right <- paste(sapply(x[(n1+1):(n1 + n2)], function(x){paste0(x, " ")}), collapse = "")
   paste0(left, right)
   }
 
-
-statascii <- function(df, flavor = "tab", n_groups = 1, w = 8L) {
+statascii <- function(df, n_groups = 1, w = 8L) {
   n1 = n_groups
   n2 = ncol(df) - n1
   df <- prettyformat_dataframe(df, w = w)
@@ -77,28 +76,12 @@ statascii <- function(df, flavor = "tab", n_groups = 1, w = 8L) {
     df <- t(df)
   }
   writeLines(" ")
-  if (flavor == "tab") {
-    table_line <- add_line(n1, n2, w = w)
-    group_dashes <- add_dash(n1, n2, w = w)
-    writeLines(add_row_oneway(colnames(df), n1, n2, w = w))
-    writeLines(table_line)
-    for (i in seq_len(nrow(df))) {
-      writeLines(add_row_oneway(df[i, ], n1, n2, w = w))
-      if ((n1 >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
-        writeLines(group_dashes)
-      }
-    }
-  }
-  else if (flavor == "sum_up") {
-    table_line <- add_line(n1, n2, w = w)
-    group_dashes <- add_dash(n1, n2, w = w)
-    writeLines(add_row_oneway(colnames(df), n1, n2, w = w))
-    writeLines(table_line)
-    for (i in seq_len(nrow(df))) {
-      writeLines(add_row_oneway(df[i, ], n1, n2, w = w))
-      if ((n1 >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
-        writeLines(group_dashes)
-      }
+  writeLines(add_row(colnames(df), n1, n2, w = w))
+  writeLines(add_line(n1, n2, w = w))
+  for (i in seq_len(nrow(df))) {
+    writeLines(add_row(df[i, ], n1, n2, w = w))
+    if ((n1 >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
+      writeLines(add_dash(n1, n2, w = w))
     }
   }
   invisible(df)
