@@ -36,4 +36,3 @@ df1 \%>\% is.panel(year)
 df1 \%>\% group_by(id1) \%>\% is.panel(year)
 df1 \%>\% group_by(id1, id2) \%>\% is.panel(year)
 }
-

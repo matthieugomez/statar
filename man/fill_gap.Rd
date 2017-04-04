@@ -42,4 +42,3 @@ df \%>\% group_by(id) \%>\% fill_gap(datem, full = TRUE)
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest")
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest", full = TRUE)
 }
-

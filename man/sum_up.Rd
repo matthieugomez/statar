@@ -41,4 +41,3 @@ sum_up(df, v2, d = TRUE)
 sum_up(df, v2, d = TRUE, i = v1>3)
 df \%>\% group_by(v1) \%>\% sum_up(starts_with("v"))
 }
-

@@ -18,4 +18,3 @@ pctile(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE)
 \description{
 Weighted quantile of type 2 (similar to Stata _pctile)
 }
-

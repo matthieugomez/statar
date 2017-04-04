@@ -23,4 +23,3 @@ tempname(c("temp1", "temp3"), 4)
 tempname(globalenv())
 tempname(data.frame(temp = 1), n = 3)
 }
-

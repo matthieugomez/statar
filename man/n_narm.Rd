@@ -16,4 +16,3 @@ Count number of non missing observations
                          
 n_narm(1:100, c(NA, 1:99))
 }
-

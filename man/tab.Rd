@@ -44,4 +44,3 @@ df \%>\% tab(id)
 df \%>\% tab(id, v1)
 tab(df, id, i = id>=3)
 }
-

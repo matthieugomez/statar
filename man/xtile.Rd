@@ -29,4 +29,3 @@ xtile(x, n = 3) # 3 groups based on terciles
 xtile(x, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
 xtile(x, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
 }
-

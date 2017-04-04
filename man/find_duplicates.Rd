@@ -26,4 +26,3 @@ returns a data.frame with duplicated rows
 df <- data.frame(a = rep(1:2, each = 3), b = 1:6)
 find_duplicates(df, a)
 }
-

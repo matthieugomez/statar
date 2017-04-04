@@ -12,8 +12,8 @@ test_that("tab() works with NA values", {
   expect_equal(names(a), c("cyl", "Freq.", "Percent", "Cum."))
   expect_equal(a$cyl, c(4, 8, NA))
   expect_equal(a$Freq., c(11, 14, 7))
-  expect_equal(a$Percent, c(34.375, 43.750, 21.875)
-  expect_equal(a$Cum., c(34.375, 78.125, 100.000)
+  expect_equal(a$Percent, c(34.375, 43.750, 21.875))
+  expect_equal(a$Cum., c(34.375, 78.125, 100.000))
 })
 
 # confirm tab() recalculates percentage columns with na.rm = TRUE
