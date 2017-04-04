@@ -11,13 +11,16 @@
 
 
 # format to have width of w characters
-prettyformat_number <- function(x, w = 8L, ispercentage = FALSE) {
+prettyformat_number <- function(x, w = 8L, ispercentage = FALSE, isinteger = FALSE) {
   if (ispercentage) {
     sprintf("%3.2f", x)
   }
-  else if (abs(x - round(x)) <= .Machine$double.eps){
+  else if (isinteger){
     fmt = paste0("%", w, ".0f")
     sprintf(fmt, x)
+  }
+  else if (is.na(x)){
+    "NA"
   }
   else if (abs(x) <= 10^(w-2)) {
     fmt = paste0("%", w - 2, ".", w - 2, "g")
@@ -33,7 +36,7 @@ prettyformat_number <- function(x, w = 8L, ispercentage = FALSE) {
 prettyformat_dataframe <- function(df, w = 8L) {
   for (i in 1:length(colnames(df))){
     if (typeof(df[[i]]) == "double"){
-      df[[i]] = sapply(df[[i]], prettyformat_number, w = w, ispercentage = (colnames(df)[i] %in% c("Percent", "Cum.")))
+      df[[i]] = sapply(df[[i]], prettyformat_number, w = w, ispercentage = (colnames(df)[i] %in% c("Percent", "Cum.")), isinteger = (colnames(df)[i] %in% c("Obs", "Missing", "Freq.")))
     }
     else{
       df[[i]] = format(df[[i]])
@@ -73,7 +76,6 @@ statascii <- function(df, flavor = "tab", n_groups = 1, w = 8L) {
   if (ncol(df) == 1L) {
     df <- t(df)
   }
-  df[, 1] <- str_replace_na(df[, 1])
   writeLines(" ")
   if (flavor == "tab") {
     table_line <- add_line(n1, n2, w = w)

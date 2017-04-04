@@ -31,10 +31,10 @@ tab <- function(x, ...) {
 tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
   x <- setNames(data.frame(x), "x")
   x <- group_by_(x, .dots =  "x")
+  x <- count_(x, vars = "x", wt = w)
   if (na.rm){
      x <- na.omit(x)
    }
-  x <- count_(x, vars = "x", wt = w)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
   x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
   x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum."))
@@ -71,10 +71,10 @@ tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
     x <- select_(x, .dots = c(vars, wvar, newname))
     x <- filter_(x, .dots = interp(~var, var = as.name(newname)))
   } 
+  x <- count_(x, vars = vars, wt = w)
   if (na.rm){
     x <- na.omit(x)
   }
-  x <- count_(x, vars = vars, wt = w)
   x <- ungroup(x)
   x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
   x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))

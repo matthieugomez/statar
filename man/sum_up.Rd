@@ -5,9 +5,9 @@
 \alias{sum_up_}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(x, ..., d = FALSE, w = NULL, i = NULL, digits = 3)
+sum_up(x, ..., d = FALSE, w = NULL, i = NULL)
 
-sum_up_(x, ..., .dots, d = FALSE, w = NULL, i = NULL, digits = 3)
+sum_up_(x, ..., .dots, d = FALSE, w = NULL, i = NULL)
 }
 \arguments{
 \item{x}{a data.frame}
@@ -19,8 +19,6 @@ sum_up_(x, ..., .dots, d = FALSE, w = NULL, i = NULL, digits = 3)
 \item{w}{Weights. Default to NULL.}
 
 \item{i}{Condition}
-
-\item{digits}{Number of significant decimal digits. Default to 3}
 
 \item{.dots}{Used to work around non-standard evaluation.}
 }
