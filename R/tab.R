@@ -43,7 +43,7 @@ tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
      x <- arrange_(x, .dots = "x")
    }
    x <- select(x, -n)
-   statascii(x, flavor = "tab", n_groups = 1)
+   statascii(x, n_groups = 1)
    invisible(x)
 }
 
