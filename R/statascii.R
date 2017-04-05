@@ -1,14 +1,3 @@
-############################################################
-#                                                          #
-#                        statascii                         #
-#           Create Stata-like ASCII tables in R            #
-#                                                          #
-############################################################
-## Reference
-# `statascii()` borrows heavily  from `asciify()`.
-# The `asciify()` function was written by @gavinsimpson in StackOverflow (https://stackoverflow.com/questions/13011383) and GitHub Gist (https://gist.github.com/gavinsimpson).
-# The `statascii()` function was written by @gvelasq2 in Github (https://github.com/gvelasq2/statascii) and Github Gist (https://gist.github.com/gvelasq2).
-
 
 # format a number so that it has a fixed character width of w
 format_fixedwidth_number <- function(x, w = 8L, ispercentage = FALSE, isinteger = FALSE) {
@@ -60,6 +49,13 @@ format_fixedwidth_dataframe <- function(df, w = 8L) {
   }
   df
 }
+
+
+
+## Reference
+# `statascii()` borrows heavily  from `asciify()`.
+# The `asciify()` function was written by @gavinsimpson in StackOverflow (https://stackoverflow.com/questions/13011383) and GitHub Gist (https://gist.github.com/gavinsimpson).
+# The `statascii()` function was written by @gvelasq2 in Github (https://github.com/gvelasq2/statascii) and Github Gist (https://gist.github.com/gvelasq2).
 
 add_line <- function(n1, n2, w = 8L) {
   x = paste(rep("\u2500", w), collapse = "")
