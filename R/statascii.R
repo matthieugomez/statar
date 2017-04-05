@@ -10,25 +10,49 @@
 # The `statascii()` function was written by @gvelasq2 in Github (https://github.com/gvelasq2/statascii) and Github Gist (https://gist.github.com/gvelasq2).
 
 
-# format to have width of w characters
+# format a number so that its width exactly equals to w characters
 prettyformat_number <- function(x, w = 8L, ispercentage = FALSE, isinteger = FALSE) {
-  if (ispercentage) {
-    sprintf("%3.2f", x)
+  if (w < 6) {
+    stop("width w should be greater than or equal to 6")
   }
-  else if (isinteger){
+  if (is.na(x)) {
+    str_pad("NA", width = w, pad = " ")
+  }
+  # documentation for format argument in sprintf:
+  # first number in the format is the minimum width of character to be printred (counting all characters), i.e w.
+  # second number is precision. with e and f, number of digits after decimal point. with g, number of digits.
+  else if (ispercentage) {
+    # print with 2 digits after decimal point
+    fmt = paste0("%", w, ".2f")
+    sprintf(fmt, x)
+  }
+  else if (isinteger) {
+    # print with 0 digits after decimal point
     fmt = paste0("%", w, ".0f")
     sprintf(fmt, x)
   }
-  else if (is.na(x)){
-    "NA"
-  }
-  else if (abs(x) <= 10^(w-2)) {
-    fmt = paste0("%", w - 2, ".", w - 2, "g")
-    sprintf(fmt, x)
-  }
   else{
-    fmt = paste0("%5.", max(w - 6, 0), "e") 
-    sprintf(fmt, x)
+    n = floor(log10(abs(x)))
+    if ((4 - w <= n) & (n <= -1)) {
+      # eg -0.000278
+      # -n is the number of leading zeros
+      # number of digits <= number of characters minus: - if negative, dot, number of leading zeros
+      fmt = paste0("%", w, ".",  w - 2 + n, "g")
+      sprintf(fmt, x)
+    }
+    else if ((0 <= n) & (n <= w - 3)) {
+      # eg -2798.3
+      # n + 1 is the number of left digits
+      # number of digits <= number of characters minus: - if negative, dot
+      fmt = paste0("%", w, ".", w - 2, "g")
+      sprintf(fmt, x)
+    }
+    else{
+      # eg -1.20e-04
+      # number of digits <= number of characters minus: - if negative, the digit before dot, dot, e, -, 2 digits
+      fmt = paste0("%", w, ".", max(w - 7, 0), "e") 
+      sprintf(fmt, x)
+    }
   }
 }
 
@@ -40,8 +64,8 @@ prettyformat_dataframe <- function(df, w = 8L) {
     }
     else{
       df[[i]] = format(df[[i]])
+      df[[i]] = substring(str_pad(df[[i]], width = w, pad = " "), 1, w)
     }
-    df[[i]] = substring(str_pad(df[[i]], width = w, pad = " "), 1, w)
     colnames(df)[i] = substring(str_pad(colnames(df)[i], width = w, pad = " "), 1, w)
   }
   df
@@ -68,21 +92,25 @@ add_row <- function(x, n1, n2, w = 8L) {
   }
 
 statascii <- function(df, n_groups = 1, w = 8L) {
-  n1 = n_groups
-  n2 = ncol(df) - n1
-  df <- prettyformat_dataframe(df, w = w)
-  df <- as.matrix(df)
-  if (ncol(df) == 1L) {
-    df <- t(df)
+  n1 <- n_groups
+  n2 <- ncol(df) - n1
+  if ((w + 3) * n1 + (w + 1) * n2 > getOption("width")) {
+    warning("The summary table is too large to be displayed in ASCII")
   }
-  writeLines(" ")
-  writeLines(add_row(colnames(df), n1, n2, w = w))
-  writeLines(add_line(n1, n2, w = w))
-  for (i in seq_len(nrow(df))) {
-    writeLines(add_row(df[i, ], n1, n2, w = w))
-    if ((n1 >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
-      writeLines(add_dash(n1, n2, w = w))
+  else{
+    df <- prettyformat_dataframe(df, w = w)
+    df <- as.matrix(df)
+    if (ncol(df) == 1L) {
+      df <- t(df)
+    }
+    writeLines(" ")
+    writeLines(add_row(colnames(df), n1, n2, w = w))
+    writeLines(add_line(n1, n2, w = w))
+    for (i in seq_len(nrow(df))) {
+      writeLines(add_row(df[i, ], n1, n2, w = w))
+      if ((n1 >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
+        writeLines(add_dash(n1, n2, w = w))
+      }
     }
   }
-  invisible(df)
 }

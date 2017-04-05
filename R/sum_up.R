@@ -72,7 +72,19 @@ sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL,  i = NULL) {
   out <- do_(x, ~describe(., d = d, wname = w, byvars = byvars))
   out <- arrange_(out, .dots = c(byvars, "Variable"))
   out <- select_(out, .dots = c(byvars, "Variable", setdiff(names(out), c("Variable", byvars))))
-  print_pretty_summary(out, byvars)
+  if (d) {
+    out1 <- select_(out, ~one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
+    out2 <- select_(out, ~one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
+    out3 <- select_(out, ~one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
+    statascii(out1, n_groups = length(byvars) + 1)
+    cat("\n")
+    statascii(out2, n_groups = length(byvars) + 1)
+    cat("\n")
+    statascii(out3, n_groups = length(byvars) + 1)
+  } 
+  else{
+    statascii(out, n_groups = length(byvars) + 1)
+  }
   invisible(out)
 }
 
@@ -142,21 +154,4 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
     sum <- setNames(sum,  c("Variable", "Obs","Missing","Mean","StdDev","Skewness","Kurtosis","Min","p1","p5","p10","p25","p50","p75","p90","p95","p99","Max"))
   }
   sum
-}
-
-
-
-print_pretty_summary <- function(x, byvars){
-  if ("Skewness" %in% names(x)){
-    x1 <- select_(x, ~one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
-    x2 <- select_(x, ~one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
-    x3 <- select_(x, ~one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
-    statascii(x1, n_groups = length(byvars) + 1)
-    cat("\n")
-    statascii(x2, n_groups = length(byvars) + 1)
-    cat("\n")
-    statascii(x3, n_groups = length(byvars) + 1)
-  } else{
-    statascii(x, n_groups = length(byvars) + 1)
-  }
 }
