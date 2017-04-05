@@ -10,8 +10,8 @@
 # The `statascii()` function was written by @gvelasq2 in Github (https://github.com/gvelasq2/statascii) and Github Gist (https://gist.github.com/gvelasq2).
 
 
-# format a number so that its width exactly equals to w characters
-prettyformat_number <- function(x, w = 8L, ispercentage = FALSE, isinteger = FALSE) {
+# format a number so that it has a fixed character width of w
+format_fixedwidth_number <- function(x, w = 8L, ispercentage = FALSE, isinteger = FALSE) {
   if (w < 6) {
     stop("width w should be greater than or equal to 6")
   }
@@ -56,15 +56,14 @@ prettyformat_number <- function(x, w = 8L, ispercentage = FALSE, isinteger = FAL
   }
 }
 
-# format to have fixed width of w
-prettyformat_dataframe <- function(df, w = 8L) {
+# format a dataframe so that columns + column names have a fixed character width of w
+format_fixedwidth_dataframe <- function(df, w = 8L) {
   for (i in 1:length(colnames(df))){
     if (typeof(df[[i]]) == "double"){
-      df[[i]] = sapply(df[[i]], prettyformat_number, w = w, ispercentage = (colnames(df)[i] %in% c("Percent", "Cum.")), isinteger = (colnames(df)[i] %in% c("Obs", "Missing", "Freq.")))
+      df[[i]] = sapply(df[[i]], format_fixedwidth_number, w = w, ispercentage = (colnames(df)[i] %in% c("Percent", "Cum.")), isinteger = (colnames(df)[i] %in% c("Obs", "Missing", "Freq.")))
     }
     else{
-      df[[i]] = format(df[[i]])
-      df[[i]] = substring(str_pad(df[[i]], width = w, pad = " "), 1, w)
+      df[[i]] = substring(str_pad(format(df[[i]]), width = w, pad = " "), 1, w)
     }
     colnames(df)[i] = substring(str_pad(colnames(df)[i], width = w, pad = " "), 1, w)
   }
@@ -98,7 +97,7 @@ statascii <- function(df, n_groups = 1, w = 8L) {
     warning("The summary table is too large to be displayed in ASCII")
   }
   else{
-    df <- prettyformat_dataframe(df, w = w)
+    df <- format_fixedwidth_dataframe(df, w = w)
     df <- as.matrix(df)
     if (ncol(df) == 1L) {
       df <- t(df)
