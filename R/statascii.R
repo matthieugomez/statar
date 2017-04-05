@@ -33,23 +33,14 @@ format_fixedwidth_number <- function(x, w = 8L, ispercentage = FALSE, isinteger 
   }
   else{
     n = floor(log10(abs(x)))
-    if ((4 - w <= n) & (n <= -1)) {
-      # eg -0.000278
-      # -n is the number of leading zeros
-      # number of digits <= number of characters minus: - if negative, dot, number of leading zeros
-      fmt = paste0("%", w, ".",  w - 2 + n, "g")
-      sprintf(fmt, x)
-    }
-    else if ((0 <= n) & (n <= w - 3)) {
-      # eg -2798.3
-      # n + 1 is the number of left digits
-      # number of digits <= number of characters minus: - if negative, dot
-      fmt = paste0("%", w, ".", w - 2, "g")
+    if ((4 - w <= n) &  (n <= w - 3)) {
+      # number of characters= precision, - , dot, number of leading zeros
+      fmt = paste0("%", w, ".",  w - 2 + min(0, n), "g")
       sprintf(fmt, x)
     }
     else{
       # eg -1.20e-04
-      # number of digits <= number of characters minus: - if negative, the digit before dot, dot, e, -, 2 digits
+      # number of characters = -, the digit before dot, dot, precision, e, -, 2 digits
       fmt = paste0("%", w, ".", max(w - 7, 0), "e") 
       sprintf(fmt, x)
     }
