@@ -20,7 +20,7 @@ starwars %>% sum_up(height)
 #─────────┼───────────────────────────────────────────────────────
 #  height │       81        6  174.358  34.7704       66      264 
 
-> starwars %>% group_by(gender) %>% sum_up(height)
+starwars %>% group_by(gender) %>% sum_up(height)
  
 #>   gender │ Variable │      Obs  Missing     Mean   StdDev      Min      Max 
 #> ─────────┼──────────┼───────────────────────────────────────────────────────
@@ -34,7 +34,7 @@ starwars %>% sum_up(height)
 #> ---------┼----------┼-------------------------------------------------------
 #> NA       │   height │        3        0      120  40.7063       96      167 
 
-> starwars %>% tab(gender, eye_color)
+starwars %>% tab(gender, eye_color)
  
 #>   gender │ eye_colo │    Freq.  Percent     Cum. 
 #> ─────────┼──────────┼────────────────────────────
