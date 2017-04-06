@@ -15,13 +15,16 @@ format_fixedwidth_number <- function(x, w = 8L, ispercentage = FALSE, isinteger 
     fmt = paste0("%", w, ".2f")
     sprintf(fmt, x)
   }
-  else if (isinteger) {
+  else if (isinteger | typeof(x) == "integer") {
     # print with 0 digits after decimal point
     fmt = paste0("%", w, ".0f")
     sprintf(fmt, x)
   }
   else{
     n = floor(log10(abs(x)))
+    if (x == 0) {
+      n = 0
+    }
     if ((4 - w <= n) &  (n <= w - 3)) {
       # number of characters= precision, - , dot, number of leading zeros
       fmt = paste0("%", w, ".",  w - 2 + min(0, n), "g")
