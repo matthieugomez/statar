@@ -28,9 +28,8 @@ tab <- function(x, ...) {
 
 #' @export
 #' @method tab default
-tab.default <- function(x, w = NULL, na.rm = FALSE, sort = TRUE) {
-  x <- data_frame(x = x)
-  tab(x, x)
+tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
+  tab(data_frame(x = x), x)
 }
 
 #' @export
