@@ -102,14 +102,16 @@ statascii <- function(df, n_groups = 1, w = 8L) {
 		df <- as.matrix(df)
 		if (ncol(df) == 1L) {
 			df <- t(df)
-		}
-		writeLines(" ")
-		writeLines(add_row(colnames(df), n_groups))
-		writeLines(add_line(wvec, n_groups))
-		for (i in seq_len(nrow(df))) {
-			writeLines(add_row(df[i, ], n_groups))
-			if ((n_groups >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
-				writeLines(add_dash(wvec, n_groups))
+		}		
+		if (nrow(df) > 0){
+			writeLines(" ")
+			writeLines(add_row(colnames(df), n_groups))
+			writeLines(add_line(wvec, n_groups))
+			for (i in seq_len(nrow(df))) {
+				writeLines(add_row(df[i, ], n_groups))
+				if ((n_groups >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
+					writeLines(add_dash(wvec, n_groups))
+				}
 			}
 		}
 	}

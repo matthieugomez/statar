@@ -3,6 +3,11 @@ library(stringr)
 library(statar)
 context("tab")
 
+test_that("tab() works with vector", {
+  a <- tab(c(1, 2, 3))
+  expect_equal(a$x, c(1, 2, 3))
+})
+
 # setup
 df <- mtcars %>% mutate(cyl = recode(cyl, `6` = NA_real_), vs = recode(vs, `0` = NA_real_))
 
