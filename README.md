@@ -13,7 +13,7 @@ The package includes:
 - [vector functions](vignettes/vector.Rmd) (xtile, pctile, winsorize)
 - [graph functions](vignettes/graph.Rmd) (binscatter)
 
-
+Some examples:
 ```R
 library(dplyr)
 library(statar)
