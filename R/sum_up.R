@@ -19,38 +19,18 @@
 #' sum_up(df, v2, d = TRUE, i = v1>3)
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
 #' @return a data.frame 
-#' @export
+
 sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL) {
-  UseMethod("sum_up")
-}
-
-#' @export
-#' @method sum_up default
-sum_up.default <- function(x, ...,  d = FALSE, w = NULL) {
-  if (is.null(w)){
-    x <- setNames(data_frame(x), "x")
-  } else{
-    x <- setNames(data_frame(x, w),  c("x", "weight"))
+  w = enquo(w)
+  i = enquo(i)
+  if (length(rlang::f_rhs(w))){
+    w <- names(select_vars(names(x), !!!w))
   }
-  sum_up_(x, .dots = "x", d = d, w = w)
-}
-
-
-
-#' @export
-#' @method sum_up data.frame
-sum_up.data.frame <- function(x, ...,  d = FALSE, w = NULL,  i = NULL) {
-  sum_up_(x, .dots = lazy_dots(...) , d = d, w = substitute(w), i = substitute(i))
-}
-
-
-#' @export
-#' @rdname sum_up
-sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL,  i = NULL) {
-  w <- names(select_vars_(names(x), w))
+  else{
+    w <- character(0)
+  }
   byvars <- as.character(groups(x))
-  dots <- all_dots(.dots, ..., all_named = TRUE)
-  vars <- select_vars_(names(x), dots, exclude = c(w, byvars))
+  vars <- setdiff(select_vars(names(x), ...), c(w, byvars))
   if (length(vars) == 0) {
      vars <- setdiff(names(x), c(byvars, w))
   }
@@ -59,23 +39,25 @@ sum_up_<- function(x, ..., .dots, d = FALSE,  w= NULL,  i = NULL) {
   vars <- intersect(vars, nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
   newname = NULL
-  if (!is.null(i)){
-      newname <- tempname(x, 1)
-      x <- mutate_(x, .dots = setNames(list(interp(~ as.integer(i), i = i)), newname))
+  if (length(rlang::f_rhs(i))){
+      newname <- as.name(tempname(x, 1))
+      print(quo(mutate(x, !!newname := as.integer(!!i))))
+      x <- mutate(x, !!newname := !!i)
+      x <- mutate(x, !!newname := as.!!i)
       if (length(w)){
-        x <- mutate_(x, .dots = setNames(list(interp(~ w*newname, w = as.name(w), newname = as.name(newname))), newname))
+        x <- mutate(x, !!newname := !!w * !!newname)
       }  
       w <- newname
   }
-  x <- select_(x, .dots = c(vars, byvars, w))
+  x <- select(x,  one_of(c(vars, byvars, w)))
   # bug for do in data.table
-  out <- do_(x, ~describe(., d = d, wname = w, byvars = byvars))
-  out <- arrange_(out, .dots = c(byvars, "Variable"))
-  out <- select_(out, .dots = c(byvars, "Variable", setdiff(names(out), c("Variable", byvars))))
+  out <- do(x, describe(., d = d, wname = !!w, byvars = !!byvars))
+  out <- arrange(out, !!!sapply(c(byvars, "Variable"), as.name))
+  out <- select(out, one_of(c(byvars, "Variable", setdiff(names(out), c("Variable", byvars)))))
   if (d) {
-    out1 <- select_(out, ~one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
-    out2 <- select_(out, ~one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
-    out3 <- select_(out, ~one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
+    out1 <- select(out, one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
+    out2 <- select(out, one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
+    out3 <- select(out, one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
     statascii(out1, n_groups = length(byvars) + 1)
     cat("\n")
     statascii(out2, n_groups = length(byvars) + 1)
