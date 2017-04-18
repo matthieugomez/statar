@@ -28,8 +28,6 @@ spread_.data.table <- function(data, key_col, value_col, fill = NA, convert = FA
   data2
 }
 
-
-
 shallow <- function(x,...){
   shallow_(x = x, vars = lazyeval::lazy_dots(...))
 }
@@ -42,9 +40,3 @@ shallow_ <- function(x, vars) {
     setDT(out)
     out
 }
-
-##' @export
-##' @method spread_ tbl_dt
-#spread_.tbl_dt <- function(data, key_col, value_col, fill = NA, convert = FALSE, drop = TRUE) {
-#  dplyr::tbl_dt(NextMethod())
-#}#

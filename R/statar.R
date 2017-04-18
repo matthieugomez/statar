@@ -59,7 +59,6 @@
 #' @importFrom dplyr data_frame
 #' @importFrom dplyr bind_cols
 #' @importFrom dplyr bind_rows
-#' @importFrom dplyr rbind_all
 #' @importFrom dplyr as_data_frame
 #' @importFrom dplyr one_of
 #' @importFrom lazyeval as.lazy

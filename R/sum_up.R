@@ -3,7 +3,6 @@
 #' @param x a data.frame
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
 #' @param w Weights. Default to NULL. 
-#' @param i Condition
 #' @param d Should detailed summary statistics be printed?
 #' @param .dots Used to work around non-standard evaluation.
 #' @examples
@@ -16,48 +15,36 @@
 #' )
 #' sum_up(df)
 #' sum_up(df, v2, d = TRUE)
-#' sum_up(df, v2, d = TRUE, i = v1>3)
+#' sum_up(df, v2, wt = v1)
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
 #' @return a data.frame 
 
-sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL) {
-  w = enquo(w)
-  i = enquo(i)
-  if (length(rlang::f_rhs(w))){
-    w <- names(select_vars(names(x), !!!w))
+sum_up <- function(x, ...,  d = FALSE, wt = NULL) {
+  wt = enquo(wt)
+  if (rlang::is_null(rlang::f_rhs(wt))) {
+    wtvar <- character(0)
   }
   else{
-    w <- character(0)
+    wtvar <- names(dplyr::select_vars(names(x), !!wt))
   }
-  byvars <- as.character(groups(x))
-  vars <- setdiff(select_vars(names(x), ...), c(w, byvars))
+  byvars <- dplyr::group_vars(x)
+  vars <- setdiff(names(dplyr::select_vars(names(x), ...)), c(wtvar, byvars))
   if (length(vars) == 0) {
-     vars <- setdiff(names(x), c(byvars, w))
+     vars <- setdiff(names(x), c(byvars, wtvar))
   }
   nums <- sapply(x, is.numeric)
   nums_name <- names(nums[nums == TRUE])
   vars <- intersect(vars, nums_name)
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
-  newname = NULL
-  if (length(rlang::f_rhs(i))){
-      newname <- as.name(tempname(x, 1))
-      print(quo(mutate(x, !!newname := as.integer(!!i))))
-      x <- mutate(x, !!newname := !!i)
-      x <- mutate(x, !!newname := as.!!i)
-      if (length(w)){
-        x <- mutate(x, !!newname := !!w * !!newname)
-      }  
-      w <- newname
-  }
-  x <- select(x,  one_of(c(vars, byvars, w)))
+  x <- dplyr::select(x,  dplyr::one_of(c(vars, byvars, wtvar)))
   # bug for do in data.table
-  out <- do(x, describe(., d = d, wname = !!w, byvars = !!byvars))
-  out <- arrange(out, !!!sapply(c(byvars, "Variable"), as.name))
-  out <- select(out, one_of(c(byvars, "Variable", setdiff(names(out), c("Variable", byvars)))))
+  out <- dplyr::do(x, describe(., d = d, wtvar = wtvar, byvars = byvars))
+  out <- dplyr::arrange(out, !!!sapply(c(byvars, "Variable"), as.name))
+  # reorder
   if (d) {
-    out1 <- select(out, one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
-    out2 <- select(out, one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
-    out3 <- select(out, one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
+    out1 <- dplyr::select(out, dplyr::one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
+    out2 <- dplyr::select(out, dplyr::one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
+    out3 <- dplyr::select(out, dplyr::one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
     statascii(out1, n_groups = length(byvars) + 1)
     cat("\n")
     statascii(out2, n_groups = length(byvars) + 1)
@@ -65,6 +52,8 @@ sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL) {
     statascii(out3, n_groups = length(byvars) + 1)
   } 
   else{
+    #reorder
+    out <- dplyr::select(out, dplyr::one_of(c(byvars, "Variable", setdiff(names(out), c("Variable", byvars)))))
     statascii(out, n_groups = length(byvars) + 1)
   }
   invisible(out)
@@ -72,13 +61,13 @@ sum_up <- function(x, ...,  d = FALSE, w = NULL,  i = NULL) {
 
 
 
-describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0)){
+describe <- function(M, d = FALSE, wtvar = character(0),  byvars = character(0)){
   if (length(byvars)){
-    M <- select_(M, ~-one_of(byvars))
+    M <- dplyr::select(M, -dplyr::one_of(byvars))
   }
-  if (length(wname)){
-    w <- M[[wname]]
-    M <- select_(M, ~-one_of(wname))
+  if (length(wtvar)){
+    w <- M[[wtvar]]
+    M <- dplyr::select(M, -dplyr::one_of(wtvar))
   }
   else{
     w <- NULL
@@ -102,7 +91,7 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
     }
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
-    sum <- bind_cols(data_frame(names), sum)
+    sum <- dplyr::bind_cols(data_frame(names), sum)
     sum <- setNames(sum, c("Variable", "Obs","Missing","Mean","StdDev","Min", "Max"))
   } else {
     N <- nrow(M)
@@ -132,7 +121,7 @@ describe <- function(M, d = FALSE, wname = character(0),  byvars = character(0))
     sum <- mclapply(M, f)
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
-    sum <- bind_cols(data_frame(names), sum)
+    sum <- dplyr::bind_cols(data_frame(names), sum)
     sum <- setNames(sum,  c("Variable", "Obs","Missing","Mean","StdDev","Skewness","Kurtosis","Min","p1","p5","p10","p25","p50","p75","p90","p95","p99","Max"))
   }
   sum

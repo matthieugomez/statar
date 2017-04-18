@@ -17,58 +17,26 @@
 #' )
 #' # one-way tabulation
 #' df %>% tab(id)
+#' df %>% tab(id, wt = v1)
 #' # two-way tabulation
 #' df %>% tab(id, v1)
-#' tab(df, id, i = id>=3)
+#' df %>% filter(id >= 3) %>% tab(id)
 #' @return a data.frame sorted by variables in ..., and with columns "Freq.", "Percent", and "Cum." for counts.
 #' @export
-tab <- function(x, ...) {
-  UseMethod("tab")
-}
-
-#' @export
-#' @method tab default
-tab.default <- function(x, ..., w = NULL, na.rm = FALSE, sort = TRUE) {
-  tab(data_frame(x = x), x)
-}
-
-#' @export
-#' @method tab data.frame
-tab.data.frame <- function(x, ..., i = NULL, w = NULL, na.rm = FALSE, sort = TRUE){
-  tab_(x, .dots = lazy_dots(...) , i = lazy(i), w = substitute(w), na.rm = na.rm, sort = sort)
-}
 
 
 #' @export
 #' @rdname tab
-tab_ <- function(x, ..., .dots, i = NULL, w = NULL, na.rm = FALSE, sort = sort){
-  byvars <- as.character(groups(x))
-  wvar <- select_vars_(names(x), w)
-  if (!length(wvar)){
-    wvar <- NULL
-  }
-  dots <- all_dots(.dots, ..., all_named = TRUE)
-  vars <- select_vars_(names(x), dots, exclude = c(wvar, byvars))
-  vars <- c(byvars, vars)
-  if (!is.null(i$expr)){
-    newname <- tempname(x, 1)
-    x <- mutate_(x, .dots = setNames(list(i), newname))
-    x <- select_(x, .dots = c(vars, wvar, newname))
-    x <- filter_(x, .dots = interp(~var, var = as.name(newname)))
-  } 
-  x <- count_(x, vars = vars, wt = w)
+tab <- function(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE){
+  x <- dplyr::count(x, ..., wt = !!enquo(wt))
   if (na.rm){
     x <- na.omit(x)
   }
-  x <- ungroup(x)
-  x <- mutate_(x, .dots = setNames(list(~n), "Freq."))
-  x <- mutate_(x, .dots = setNames(list(~n/sum(n)*100), "Percent"))
-  x <- mutate_(x, .dots = setNames(list(~cumsum(Percent)), "Cum."))
-
+  x <- dplyr::rename(x, Freq. = n)
+  x <- dplyr::mutate(x, Percent = Freq./sum(Freq.)*100, Cum. = cumsum(Percent))
   if (sort){
-    x <- arrange_(x, .dots = vars)
+    x <- dplyr::arrange(x, ...)
   }
-  x <- select(x, -n)
-  statascii(x, n_groups = length(vars))
+  statascii(x, n_groups = ncol(x) - 3)
   invisible(x)
 }
