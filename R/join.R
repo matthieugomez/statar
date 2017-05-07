@@ -91,10 +91,12 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         if (gen %in% names(y)){
           stop(paste0(gen," alreay exists in using"))
         }
-        idm <- tempname(c(names(x),names(y),gen))
-        x <- dplyr::mutate(x, idm = 1L)
-        idu <- tempname(c(names(x),names(y),gen,idm))
-        y <- dplyr::mutate(y, idu = 1L)
+        idm <- tempname(c(names(x), names(y), gen))
+        x <- dplyr::mutate(x, !!idm := 1L)
+        idu <- tempname(c(names(x), names(y), gen, idm))
+        y <- dplyr::mutate(y, !!idu := 1L)
+        idm_symbol = quo(!!as.name(idm))
+        idu_symbol = quo(!!as.name(idu))
       }
       all.x <- FALSE
       all.y <- FALSE
@@ -109,20 +111,22 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       }
 
       if (gen != FALSE){
-        gen = as.name(gen)
+        gen_symbol = quo(!!as.name(gen))
         out <- dplyr::mutate(out, !!gen := 3L)
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idu), 1, !!gen))
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idm), 1, !!gen))
-        out <- dplyr::select(out, -dplyr::one_of(c("idm", "idu")))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idu_symbol), 1, !!gen_symbol))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idm_symbol), 1, !!gen_symbol))
+        out <- dplyr::select_at(out, setdiff(names(out), c(idm, idu)))
       }
     
       if (update){
         for (v in common_names){
-          newvx <- as.name(paste0(v, suffixes[1]))
-          newvy <- as.name(paste0(v, suffixes[2]))
-          out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!newvx) & !is.na(!!newvy), !!newvy, !!newvx))
-          out <- select(out, -one_of(newvy))
-          out <- rename(out, !!v := !!newvx)
+          newvx <- paste0(v, suffixes[1])
+          newvy <- paste0(v, suffixes[2])
+          newvx_symbol = quo(!!as.name(newvx))
+          newvy_symbol = quo(!!as.name(newvy))
+          out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!newvx_symbol) & !is.na(!!newvy_symbol), !!newvy_symbol, !!newvx_symbol))
+          out <- select_at(out, setdiff(names(out), newvy))
+          out <- rename(out, !!v := !!newvx_symbol)
         }
       }
       return(out)

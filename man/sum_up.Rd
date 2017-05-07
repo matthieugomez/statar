@@ -4,14 +4,14 @@
 \alias{sum_up}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(x, ..., d = FALSE, wt = NULL)
+sum_up(df, ..., d = FALSE, wt = NULL)
 }
 \arguments{
-\item{x}{a data.frame}
-
 \item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
+
+\item{x}{a data.frame}
 
 \item{w}{Weights. Default to NULL.}
 
