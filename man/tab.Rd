@@ -7,22 +7,18 @@
 tab(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE)
 }
 \arguments{
-\item{x}{a vector or a data.frame}
+\item{x}{A vector or a data.frame.}
 
 \item{...}{Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.}
 
-\item{na.rm}{Remove missing values. Default to FALSE}
+\item{wt}{Frequency weights. Default to \code{NULL}.}
 
-\item{sort}{Boolean. Default to TRUE}
+\item{na.rm}{Remove missing values. Default to \code{FALSE}.}
 
-\item{i}{Condition to apply function on certain rows only}
-
-\item{w}{Frequency weights. Default to NULL.}
-
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{sort}{Boolean. Default to \code{TRUE}.}
 }
 \value{
-a data.frame sorted by variables in ..., and with columns "Freq.", "Percent", and "Cum." for counts.
+A data.frame sorted by variables in \code{...}, and with columns "Freq.", "Percent", and "Cum." for counts.
 }
 \description{
 Returns cross tabulation
@@ -35,10 +31,12 @@ df <- data_frame(
   id = sample(c(NA,1:5), N/K, TRUE),
   v1 =  sample(1:5, N/K, TRUE)                       
 )
+
 # one-way tabulation
 df \%>\% tab(id)
 df \%>\% tab(id, wt = v1)
+df \%>\% filter(id >= 3) \%>\% tab(id)
+
 # two-way tabulation
 df \%>\% tab(id, v1)
-df \%>\% filter(id >= 3) \%>\% tab(id)
 }
