@@ -65,8 +65,8 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       if (length(intersect(paste0(common_names, suffixes[2]), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix",suffixes[2],"in", common_names,"would create duplicates names in y"), call. = FALSE)
       if (length(common_names)>0){
         for (name in common_names){
-          x <- rename_(x, .dots = setNames(list(interp(~name, name = as.name(name))), paste0(name, suffixes[1])))
-          y <- rename_(y, .dots = setNames(list(interp(~name, name = as.name(name))), paste0(name, suffixes[2])))
+          x <- rename(x, !!paste0(name, suffixes[1]) := !!as.name(name))
+          y <- rename(y, !!paste0(name, suffixes[2]) := !!as.name(name))
         }
       }
     }
@@ -91,44 +91,49 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         if (gen %in% names(y)){
           stop(paste0(gen," alreay exists in using"))
         }
-        idm <- tempname(c(names(x),names(y),gen))
-        x <- mutate_(x, .dots = setNames(list(~1L), idm))
-        idu <- tempname(c(names(x),names(y),gen,idm))
-        y <- mutate_(y, .dots = setNames(list(~1L), idu))
+        idm <- tempname(c(names(x), names(y), gen))
+        x <- dplyr::mutate(x, !!idm := 1L)
+        idu <- tempname(c(names(x), names(y), gen, idm))
+        y <- dplyr::mutate(y, !!idu := 1L)
+        idm_symbol = quo(!!as.name(idm))
+        idu_symbol = quo(!!as.name(idu))
       }
       all.x <- FALSE
       all.y <- FALSE
       if (kind == "left"){
-        out <- left_join(x, y)
+        out <- dplyr::left_join(x, y)
       } else if (kind == "right"){
-        out <- right_join(x, y)
+        out <- dplyr::right_join(x, y)
       } else if (kind == "full"){
-        out <- full_join(x, y)
+        out <- dplyr::full_join(x, y)
       }  else if (kind == "inner"){
-        out <- inner_join(x, y)
+        out <- dplyr::inner_join(x, y)
       }
 
       if (gen != FALSE){
-        out <- mutate_(out, .dots = setNames(list(~3L), gen))
-        out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(v), 1, gen), v=as.name(idu), gen = as.name(gen))), gen))
-        out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(v), 1, gen), v=as.name(idm), gen = as.name(gen))), gen))
-        out <- select_(out, ~- one_of(idm, idu))
+        gen_symbol = quo(!!as.name(gen))
+        out <- dplyr::mutate(out, !!gen := 3L)
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idu_symbol), 1, !!gen_symbol))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idm_symbol), 1, !!gen_symbol))
+        out <- dplyr::select_at(out, setdiff(names(out), c(idm, idu)))
       }
     
       if (update){
         for (v in common_names){
-          newvx <- paste0(v,suffixes[1])
-          newvy <- paste0(v,suffixes[2])
-          out <- mutate_(out, .dots = setNames(list(interp(~ifelse(is.na(newvx) & !is.na(newvy), newvy, newvx), newvx =as.name(newvx), newvy = as.name(newvy))), newvx))
-          out <- select_(out, ~-one_of(newvy))
-          out <- rename_(out, .dots = setNames(list(interp(~v, v = as.name(paste0(v, suffixes[1])))), v))
+          newvx <- paste0(v, suffixes[1])
+          newvy <- paste0(v, suffixes[2])
+          newvx_symbol = quo(!!as.name(newvx))
+          newvy_symbol = quo(!!as.name(newvy))
+          out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!newvx_symbol) & !is.na(!!newvy_symbol), !!newvy_symbol, !!newvx_symbol))
+          out <- select_at(out, setdiff(names(out), newvy))
+          out <- rename(out, !!v := !!newvx_symbol)
         }
       }
       return(out)
     } else if (kind == "semi"){
-        out <- semi_join(x, y)
+        out <- dplyr::semi_join(x, y)
     } else if (kind == "anti"){
-        out <- anti_join(x, y)
+        out <- dplyr::anti_join(x, y)
     }
   }
   return(out)

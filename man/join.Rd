@@ -55,4 +55,3 @@ y <- data.frame(a = c(1,2), b = 10:11)
 join(x, y, kind = "left", on = "a",  update = TRUE)
 join(x, y, kind = "left", on = "a", check = m~1,  update = TRUE)
 }
-

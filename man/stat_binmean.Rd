@@ -71,4 +71,3 @@ g <- ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species))
 g + stat_binmean(n = 10)
 g + stat_binmean(n = 10) + stat_smooth(method = "lm", se = FALSE)
 }
-
