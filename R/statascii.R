@@ -98,7 +98,7 @@ statascii <- function(df, n_groups = 1, w = 8L) {
 	if (sum(wvec) + 3 * n_groups + (length(wvec) - n_groups) > getOption("width")) {
 		warning("The summary table is too large to be displayed in ASCII")
 	} else {
-	  total_freq <- sum(df$Freq.)
+	  total_freq <- sum(df[, 2])
 	  df <- format_fixedwidth_dataframe(df, wvec)
 	  if (ncol(df) == 4L) {
 	    total_row <- dplyr::data_frame("Total", total_freq, "100.00", "")
