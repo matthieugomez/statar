@@ -98,20 +98,31 @@ statascii <- function(df, n_groups = 1, w = 8L) {
 	if (sum(wvec) + 3 * n_groups + (length(wvec) - n_groups) > getOption("width")) {
 		warning("The summary table is too large to be displayed in ASCII")
 	} else {
-		df <- format_fixedwidth_dataframe(df, wvec)
-		df <- as.matrix(df)
-		if (ncol(df) == 1L) {
+	  total_freq <- sum(df$Freq.)
+	  df <- format_fixedwidth_dataframe(df, wvec)
+	  if (ncol(df) == 4L) {
+	    total_row <- dplyr::data_frame("Total", total_freq, "100.00", "")
+	    colnames(total_row) <- colnames(df)
+	    total_row <- format_fixedwidth_dataframe(total_row, wvec)
+	    df <- dplyr::bind_rows(df, total_row)
+	  }
+	  df <- as.matrix(df)
+	  if (ncol(df) == 1L) {
 			df <- t(df)
 		}		
 		if (nrow(df) > 0){
-			writeLines(" ")
 			writeLines(add_row(colnames(df), n_groups))
 			writeLines(add_line(wvec, n_groups))
 			for (i in seq_len(nrow(df))) {
-				writeLines(add_row(df[i, ], n_groups))
-				if ((n_groups >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
-					writeLines(add_dash(wvec, n_groups))
-				}
+			  if (ncol(df) == 4L & i == nrow(df)) {
+			    writeLines(add_line(wvec, n_groups))
+			    writeLines(add_row(df[i, ], n_groups))
+			  } else {
+			    writeLines(add_row(df[i, ], n_groups))
+			    if ((n_groups >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
+			      writeLines(add_dash(wvec, n_groups))
+			    }
+			  }
 			}
 		}
 	}
