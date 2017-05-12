@@ -59,8 +59,8 @@ format_fixedwidth_dataframe <- function(df, wvec) {
 measure_width <- function(df, n_groups = 1, w = 8L) {
 	w_groups = rep(0.0, n_groups)
 	for (i in 1:n_groups) {
-		if (typeof(df[[i]]) ==  "double") {
-		# if tabulate with respect to variable of type double, make sure we get whole variable name
+		if (typeof(df[[i]]) ==  "double" | typeof(df[[i]]) == "integer") {
+		  # if tabulate with respect to variable of type double or integer, make sure we get whole variable name
 			w_groups[i] = max(nchar(colnames(df)[i]), w)
 		} else {
 			w_groups[i] = max(nchar(colnames(df)[i]), nchar(format(df[[i]])))
