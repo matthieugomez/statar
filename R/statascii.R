@@ -71,22 +71,22 @@ measure_width <- function(df, n_groups = 1, w = 8L) {
 
 add_line <- function(wvec, n_groups) {
 	x = sapply(wvec, function(n){paste(rep("\u2500", n), collapse = "")})
-	left <- paste(sapply(x[1:n_groups], function(x){paste0(x, "\u2500", "\u253c", "\u2500")}), collapse = "")
+	left <- paste(sapply(x[1:n_groups], function(x){paste0("\u2500", x, "\u2500", "\u253c")}), collapse = "")
 	right <- paste(sapply(x[(n_groups + 1):length(x)], function(x){paste0(x, "\u2500")}), collapse = "")
-	paste0(left, right)
+	paste(left, right, sep = "\u2500")
 }
 
 add_dash <- function(wvec, n_groups) {
 	x = sapply(wvec, function(n){paste(rep("-", n), collapse = "")})
-	left <- paste(sapply(x[1:n_groups], function(x){paste0(x, "-", "\u253c", "-")}), collapse = "")
+	left <- paste(sapply(x[1:n_groups], function(x){paste0("-", x, "-", "\u253c")}), collapse = "")
 	right <- paste(sapply(x[(n_groups + 1):length(x)], function(x){paste0(x, "-")}), collapse = "")
-	paste0(left, right)
+	paste(left, right, sep = "-")
 }
 
 add_row <- function(x, n_groups) {
-	left <- paste(sapply(x[1:n_groups], function(x){paste0(x, " ", "\u2502", " ")}), collapse = "")
+	left <- paste(sapply(x[1:n_groups], function(x){paste0(" ", x, " ", "\u2502")}), collapse = "")
 	right <- paste(sapply(x[(n_groups + 1):length(x)], function(x){paste0(x, " ")}), collapse = "")
-	paste0(left, right)
+	paste(left, right, sep = " ")
 }
 
 statascii <- function(df, n_groups = 1, w = 8L) {
