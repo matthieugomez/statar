@@ -100,9 +100,7 @@ statascii <- function(df, n_groups = 1, w = 8L) {
 	} else {
 	  # add total row for one-way tabulations
 	  if (ncol(df) == 4L & colnames(df)[2] == "Freq.") {
-	    colname_one <- colnames(df)[1]
-	    total_freq <- sum(df[, 2])
-	    total_row <- dplyr::data_frame(!!colname_one := "Total", Freq. := total_freq, Percent := "100.00", Cum. := "")
+	    total_row <- dplyr::data_frame(!!colnames(df)[1] := "Total", Freq. := sum(df[, 2]), Percent := "100.00", Cum. := "")
 	    total_row <- format_fixedwidth_dataframe(total_row, wvec)
 	    df <- format_fixedwidth_dataframe(df, wvec)
 	    df <- dplyr::bind_rows(df, total_row)
