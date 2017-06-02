@@ -7,23 +7,22 @@
 sum_up(df, ..., d = FALSE, wt = NULL)
 }
 \arguments{
-\item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
+\item{df}{A data frame.}
+
+\item{...}{Variable(s) to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 
-\item{x}{a data.frame}
-
-\item{w}{Weights. Default to NULL.}
-
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{wt}{Frequency weights. Default to \code{NULL}.}
 }
 \value{
-a data.frame
+A data frame.
 }
 \description{
 Gives summary statistics (corresponds to Stata command summarize)
 }
 \examples{
+# setup
 library(dplyr)
 N <- 100
 df <- data_frame(
@@ -31,6 +30,7 @@ df <- data_frame(
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)
 )
+
 sum_up(df)
 sum_up(df, v2, d = TRUE)
 sum_up(df, v2, wt = v1)
