@@ -2,14 +2,14 @@
 % Please edit documentation in R/sum_up.R
 \name{sum_up}
 \alias{sum_up}
-\title{Gives summary statistics (corresponds to Stata command summarize)}
+\title{Gives summary statistics (corresponds to Stata command \code{summarize})}
 \usage{
 sum_up(df, ..., d = FALSE, wt = NULL)
 }
 \arguments{
 \item{df}{A data frame.}
 
-\item{...}{Variable(s) to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
+\item{...}{Variable(s) to include. Defaults to all non-grouping variables. See the \code{\link[dplyr::select()]{select()}} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 
@@ -19,7 +19,7 @@ sum_up(df, ..., d = FALSE, wt = NULL)
 A data frame.
 }
 \description{
-Gives summary statistics (corresponds to Stata command summarize)
+Gives summary statistics (corresponds to Stata command \code{summarize})
 }
 \examples{
 # setup
