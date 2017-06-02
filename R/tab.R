@@ -1,7 +1,7 @@
 #' Returns cross tabulation
 #' 
 #' @param x A vector or a data frame.
-#' @param ... Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.
+#' @param ... Variable(s) to include.
 #' @param wt Frequency weights. Default to \code{NULL}.
 #' @param na.rm Remove missing values. Default to \code{FALSE}.
 #' @param sort Boolean. Default to \code{TRUE}.
@@ -21,7 +21,7 @@
 #' 
 #' # two-way tabulation
 #' df %>% tab(id, v1)
-#' @return A data frame sorted by variables in \code{...}, and with columns "Freq.", "Percent", and "Cum." for counts.
+#' @return A data frame sorted by variables in \code{...}, and with columns 'Freq.', 'Percent', and 'Cum.' for counts. If length is one, a table with a total row is printed. If length is two, a special cross tabulation table is printed. A long data frame is always (invisibly) returned.
 #' @export
 
 #' @export

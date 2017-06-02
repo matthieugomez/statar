@@ -9,7 +9,7 @@ tab(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE)
 \arguments{
 \item{x}{A vector or a data frame.}
 
-\item{...}{Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.}
+\item{...}{Variable(s) to include.}
 
 \item{wt}{Frequency weights. Default to \code{NULL}.}
 
@@ -18,7 +18,7 @@ tab(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE)
 \item{sort}{Boolean. Default to \code{TRUE}.}
 }
 \value{
-A data frame sorted by variables in \code{...}, and with columns "Freq.", "Percent", and "Cum." for counts.
+A data frame sorted by variables in \code{...}, and with columns 'Freq.', 'Percent', and 'Cum.' for counts. If length is one, a table with a total row is printed. If length is two, a special cross tabulation table is printed although a long data frame is always (invisibly) returned.
 }
 \description{
 Returns cross tabulation
