@@ -17,7 +17,7 @@ xtile <- function(x, n = NULL, probs = NULL, cutpoints = NULL, wt = NULL){
     probs <- seq(1/n, 1-1/n, length = n -1)
   }
   if (!is.null(probs)){
-    cutpoints <- pctile(x, probs, w = w, na.rm = TRUE)
+    cutpoints <- pctile(x, probs, wt = wt, na.rm = TRUE)
   }
   # In stata xtile is (-infty, x_p1], (xp1, xpe], like .bincode 
   .bincode(x, c(-Inf, cutpoints , +Inf) , include.lowest = TRUE)
