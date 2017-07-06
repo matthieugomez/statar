@@ -1,10 +1,11 @@
-#' Gives summary statistics (corresponds to Stata command summarize)
+#' Gives summary statistics (corresponds to Stata command \code{summarize})
 #' 
-#' @param df a data.frame
-#' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
+#' @param df A data frame
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \code{\link[dplyr::select()]{select()}} documentation.
 #' @param d Should detailed summary statistics be printed?
-#' @param wt Weights. Default to NULL. 
+#' @param wt Frequency weights. Default to \code{NULL}.
 #' @examples
+#' # setup
 #' library(dplyr)
 #' N <- 100
 #' df <- data_frame(
@@ -12,11 +13,12 @@
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
 #' )
+#' 
 #' sum_up(df)
 #' sum_up(df, v2, d = TRUE)
 #' sum_up(df, v2, wt = v1)
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
-#' @return a data.frame 
+#' @return A data frame.
 #' @export
 
 sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
