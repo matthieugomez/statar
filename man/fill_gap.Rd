@@ -2,15 +2,10 @@
 % Please edit documentation in R/fill_gap.R
 \name{fill_gap}
 \alias{fill_gap}
-\alias{fill_gap_}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
 fill_gap(x, ..., full = FALSE, roll = FALSE, rollends = if (roll ==
   "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE,
-  FALSE))
-
-fill_gap_(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (roll
-  == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE,
   FALSE))
 }
 \arguments{
@@ -42,4 +37,3 @@ df \%>\% group_by(id) \%>\% fill_gap(datem, full = TRUE)
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest")
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest", full = TRUE)
 }
-

@@ -2,25 +2,18 @@
 % Please edit documentation in R/sum_up.R
 \name{sum_up}
 \alias{sum_up}
-\alias{sum_up_}
 \title{Gives summary statistics (corresponds to Stata command summarize)}
 \usage{
-sum_up(x, ..., d = FALSE, w = NULL, i = NULL, digits = 3)
-
-sum_up_(x, ..., .dots, d = FALSE, w = NULL, i = NULL, digits = 3)
+sum_up(df, ..., d = FALSE, wt = NULL)
 }
 \arguments{
-\item{x}{a data.frame}
-
 \item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 
+\item{x}{a data.frame}
+
 \item{w}{Weights. Default to NULL.}
-
-\item{i}{Condition}
-
-\item{digits}{Number of significant decimal digits. Default to 3}
 
 \item{.dots}{Used to work around non-standard evaluation.}
 }
@@ -40,7 +33,6 @@ df <- data_frame(
 )
 sum_up(df)
 sum_up(df, v2, d = TRUE)
-sum_up(df, v2, d = TRUE, i = v1>3)
+sum_up(df, v2, wt = v1)
 df \%>\% group_by(v1) \%>\% sum_up(starts_with("v"))
 }
-

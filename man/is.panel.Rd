@@ -2,12 +2,9 @@
 % Please edit documentation in R/is.panel.R
 \name{is.panel}
 \alias{is.panel}
-\alias{is.panel_}
 \title{Check whether a data.frame is a panel}
 \usage{
-is.panel(x, ...)
-
-is.panel_(x, ..., .dots)
+is.panel(x, ..., .dots)
 }
 \arguments{
 \item{x}{a data frame}
@@ -36,4 +33,3 @@ df1 \%>\% is.panel(year)
 df1 \%>\% group_by(id1) \%>\% is.panel(year)
 df1 \%>\% group_by(id1, id2) \%>\% is.panel(year)
 }
-

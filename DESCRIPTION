@@ -1,6 +1,6 @@
 Package: statar
 Title: Tools Inspired by 'Stata' to Manipulate Tabular Data
-Version: 0.6.2
+Version: 0.6.4
 Authors@R: person("Matthieu","Gomez", email = "mattg@princeton.edu", role =
     c("aut", "cre"))
 Description: A set of tools inspired by 'Stata' to explore data.frames ('summarize',
@@ -12,7 +12,7 @@ Depends:
     R (>= 3.2.0)
 Imports:
     data.table,
-    dplyr (>= 0.5.0),
+    dplyr (>= 0.6.0),
     ggplot2 (>= 2.0.0),
     lazyeval,
     matrixStats,
@@ -25,4 +25,4 @@ Suggests:
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -19,27 +19,21 @@
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
 #' @export
-fill_gap <- function(x, ..., full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
-             else if (roll>=0) c(FALSE,TRUE)
-             else c(TRUE,FALSE)) {
-  fill_gap_(x, .dots = lazy_dots(...), full = full, roll = roll, rollends = rollends)
-}
-
-#' @export
-#' @rdname fill_gap
-fill_gap_ <- function(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
-             else if (roll>=0) c(FALSE,TRUE)
-             else c(TRUE,FALSE)) {
-	byvars <- as.character(groups(x))
-	dots <- all_dots(.dots, ..., all_named = TRUE)
-	timevar <- select_vars_(names(x), dots, exclude = byvars)
+fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+	else if (roll>=0) c(FALSE,TRUE)
+	else c(TRUE,FALSE)) {
+	byvars <- dplyr::group_vars(x)
+	timevar <- setdiff(names(dplyr::select_vars(names(x), ...)), byvars)
+	if (length(timevar) > 1) {
+	    message("There should only be one variable for time")
+	}
 	originalattributes <- attributes(x)$class
 
 	# check byvars, timevar form a panel
-	stopifnot(is.panel_(x, timevar))
+	stopifnot(is.panel(x, !!as.name(timevar)))
 
 	# create id x time 
-	ans <- select_(x, .dots = c(byvars, timevar))
+	ans <- dplyr::select_at(x, c(byvars, timevar))
 	setDT(ans)
 	if (!full){
 		ans <- lazy_eval(interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
@@ -54,7 +48,6 @@ fill_gap_ <- function(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (
 		setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
 	}
 
-
 	# data.table merge with roll
 	setkeyv(ans, c(byvars, timevar))
 	x <- as.data.table(x)
@@ -62,7 +55,7 @@ fill_gap_ <- function(x, ..., .dots, full = FALSE, roll = FALSE, rollends = if (
 	out <- x[ans, allow.cartesian = TRUE, roll = roll, rollends = rollends]
 
 	# re assign group and class attributes
-	out <- group_by_(out, .dots = byvars)
+	out <- dplyr::group_by_at(out, byvars)
 	setattr(out, "class", originalattributes)
 	out
 }

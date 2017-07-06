@@ -18,33 +18,25 @@
 #' df1 %>% group_by(id1) %>% is.panel(year)
 #' df1 %>% group_by(id1, id2) %>% is.panel(year)
 #' @export
-is.panel <- function(x, ...){
-    is.panel_(x, .dots = lazy_dots(...))
-}
-
-#' @export
-#' @rdname  is.panel
-is.panel_ <- function(x, ..., .dots){
-    byvars <- as.character(groups(x))
-    dots <- all_dots(.dots, ..., all_named = TRUE)
-    timevar <- select_vars_(names(x), dots, exclude = byvars)
+is.panel <- function(x, ..., .dots){
+    byvars <- dplyr::group_vars(x)
+    timevar <- setdiff(names(dplyr::select_vars(names(x), ...)), byvars)
     if (length(timevar) > 1) {
         message("There should only be one variable for time")
     }
-    vars = c(byvars, timevar)
     out <- TRUE
     if (anyNA(x[[timevar]])){
         ans <- which(is.na(x[[timevar]]))
         message(paste0("Variable ", timevar, " has missing values in ", length(ans)," row(s): ", paste(as.character(ans),collapse = ",")))
         out <- FALSE
     }
-    overall = group_indices_(ungroup(x), .dots = vars)
+    overall = x %>% group_by(..., add = TRUE) %>% group_indices()
     if (anyDuplicated(overall)){
         groups <- split(seq_along(overall), overall)
         groups <- groups[vapply(groups, length, integer(1)) > 1]
         str <- vapply(groups, function(x) paste0("(", paste0(x, collapse = ","), ")"),
              character(1))
-        message(paste0("Variables (", paste(vars, collapse = " , "), ") have duplicates for rows ", paste(str, collapse = ", ")))
+        message(paste0("Variables (", paste(c(byvars, timevar), collapse = " , "), ") have duplicates for rows ", paste(str, collapse = ", ")))
         out <- FALSE
     }
     out
