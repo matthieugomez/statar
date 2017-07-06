@@ -20,7 +20,7 @@
 #' @export
 
 sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
-  wt = enquo(wt)
+  wt = dplyr::enquo(wt)
   if (rlang::is_null(rlang::f_rhs(wt))) {
     wtvar <- character(0)
   }
@@ -38,7 +38,7 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
   df <- dplyr::select_at(df, c(vars, byvars, wtvar))
   # bug for do in data.table
-  df <- dplyr::do(df, describe(., d = d, wtvar = wtvar, byvars = byvars))
+  df <- dplyr::do(df, describe(!!rlang::sym("."), d = d, wtvar = wtvar, byvars = byvars))
   out <- dplyr::arrange_at(df, c(byvars, "Variable"))
   # reorder
   if (d) {

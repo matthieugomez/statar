@@ -32,7 +32,7 @@ tab <- function(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE){
     x <- na.omit(x)
   }
   x <- dplyr::rename(x, Freq. = n)
-  x <- dplyr::mutate(x, Percent = (!!dplyr::quo(Freq.))/sum(!!dplyr::quo(Freq.))*100, Cum. = cumsum(!!dplyr::quo(Percent)))
+  x <- dplyr::mutate(x, Percent = (!!rlang::sym("Freq."))/sum(!!rlang::sym("Freq."))*100, Cum. = cumsum(!!rlang::sym("Percent")))
   if (sort){
     x <- dplyr::arrange(x, ...)
   }
