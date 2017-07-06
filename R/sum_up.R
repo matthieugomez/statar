@@ -2,7 +2,7 @@
 #' 
 #' @param x a data.frame
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param w Weights. Default to NULL. 
+#' @param wt Weights. Default to NULL. 
 #' @param d Should detailed summary statistics be printed?
 #' @param .dots Used to work around non-standard evaluation.
 #' @examples
@@ -105,7 +105,7 @@ describe <- function(df, d = FALSE, wtvar = character(0),  byvars = character(0)
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
-        sum_quantile <- pctile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), w = w_omit)
+        sum_quantile <- pctile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), wt = w_omit)
       } else{
         x_omit <- na.omit(x)
         m <- mean(x_omit)

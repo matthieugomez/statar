@@ -65,8 +65,8 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       if (length(intersect(paste0(common_names, suffixes[2]), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix",suffixes[2],"in", common_names,"would create duplicates names in y"), call. = FALSE)
       if (length(common_names)>0){
         for (name in common_names){
-          x <- rename(x, !!paste0(name, suffixes[1]) := !!as.name(name))
-          y <- rename(y, !!paste0(name, suffixes[2]) := !!as.name(name))
+          x <- rename(x, !!paste0(name, suffixes[1]) := !!rlang::sym(name))
+          y <- rename(y, !!paste0(name, suffixes[2]) := !!rlang::sym(name))
         }
       }
     }
@@ -95,8 +95,6 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         x <- dplyr::mutate(x, !!idm := 1L)
         idu <- tempname(c(names(x), names(y), gen, idm))
         y <- dplyr::mutate(y, !!idu := 1L)
-        idm_symbol = quo(!!as.name(idm))
-        idu_symbol = quo(!!as.name(idu))
       }
       all.x <- FALSE
       all.y <- FALSE
@@ -111,10 +109,9 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       }
 
       if (gen != FALSE){
-        gen_symbol = quo(!!as.name(gen))
         out <- dplyr::mutate(out, !!gen := 3L)
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idu_symbol), 1, !!gen_symbol))
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!idm_symbol), 1, !!gen_symbol))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idu)), 1, !!rlang::sym(gen)))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idm)), 1, !!rlang::sym(gen)))
         out <- dplyr::select_at(out, setdiff(names(out), c(idm, idu)))
       }
     
@@ -122,11 +119,9 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         for (v in common_names){
           newvx <- paste0(v, suffixes[1])
           newvy <- paste0(v, suffixes[2])
-          newvx_symbol = quo(!!as.name(newvx))
-          newvy_symbol = quo(!!as.name(newvy))
-          out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!newvx_symbol) & !is.na(!!newvy_symbol), !!newvy_symbol, !!newvx_symbol))
+          out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!rlang::sym(newvx)) & !is.na(!!rlang::sym(newvy)), !!rlang::sym(newvy), !!rlang::sym(newvx)))
           out <- select_at(out, setdiff(names(out), newvy))
-          out <- rename(out, !!v := !!newvx_symbol)
+          out <- rename(out, !!v := !!rlang::sym(newvx))
         }
       }
       return(out)
