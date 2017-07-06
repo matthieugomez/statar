@@ -2,10 +2,8 @@
 #' 
 #' @param x a vector or a data.frame
 #' @param ... Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.
-#' @param i Condition to apply function on certain rows only
-#' @param w Frequency weights. Default to NULL. 
+#' @param wt Frequency weights. Default to NULL. 
 #' @param na.rm Remove missing values. Default to FALSE
-#' @param .dots Used to work around non-standard evaluation.
 #' @param sort Boolean. Default to TRUE
 #' @examples
 #' # setup

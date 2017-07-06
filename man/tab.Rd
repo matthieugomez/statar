@@ -11,15 +11,11 @@ tab(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE)
 
 \item{...}{Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.}
 
+\item{wt}{Frequency weights. Default to NULL.}
+
 \item{na.rm}{Remove missing values. Default to FALSE}
 
 \item{sort}{Boolean. Default to TRUE}
-
-\item{i}{Condition to apply function on certain rows only}
-
-\item{w}{Frequency weights. Default to NULL.}
-
-\item{.dots}{Used to work around non-standard evaluation.}
 }
 \value{
 a data.frame sorted by variables in ..., and with columns "Freq.", "Percent", and "Cum." for counts.

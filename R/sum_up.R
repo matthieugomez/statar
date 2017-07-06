@@ -1,10 +1,9 @@
 #' Gives summary statistics (corresponds to Stata command summarize)
 #' 
-#' @param x a data.frame
+#' @param df a data.frame
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param wt Weights. Default to NULL. 
 #' @param d Should detailed summary statistics be printed?
-#' @param .dots Used to work around non-standard evaluation.
+#' @param wt Weights. Default to NULL. 
 #' @examples
 #' library(dplyr)
 #' N <- 100
@@ -18,6 +17,7 @@
 #' sum_up(df, v2, wt = v1)
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
 #' @return a data.frame 
+#' @export
 
 sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   wt = enquo(wt)
