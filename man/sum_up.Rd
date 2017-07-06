@@ -9,7 +9,7 @@ sum_up(df, ..., d = FALSE, wt = NULL)
 \arguments{
 \item{df}{A data frame}
 
-\item{...}{Variables to include. Defaults to all non-grouping variables. See the \code{\link[dplyr::select()]{select()}} documentation.}
+\item{...}{Variables to include. Defaults to all non-grouping variables. See the \code{\link[dplyr]{select()}} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 
