@@ -120,7 +120,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
           newvx <- paste0(v, suffixes[1])
           newvy <- paste0(v, suffixes[2])
           out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!rlang::sym(newvx)) & !is.na(!!rlang::sym(newvy)), !!rlang::sym(newvy), !!rlang::sym(newvx)))
-          out <- select_at(out, setdiff(names(out), newvy))
+          out <- dplyr::select_at(out, setdiff(names(out), newvy))
           out <- rename(out, !!v := !!rlang::sym(newvx))
         }
       }
