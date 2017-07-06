@@ -4,7 +4,7 @@
 \alias{xtile}
 \title{Bin variable in groups (similar to Stata xtile)}
 \usage{
-xtile(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL)
+xtile(x, n = NULL, probs = NULL, cutpoints = NULL, wt = NULL)
 }
 \arguments{
 \item{x}{A vector}
@@ -15,7 +15,7 @@ xtile(x, n = NULL, probs = NULL, cutpoints = NULL, w = NULL)
 
 \item{cutpoints}{Cutpoints to use when \code{nq} is not specified.  For instance \code{cutpoints = 0.4} creates two groups, one for observations equal or below 0.4, one for observations superior to 0.4.}
 
-\item{w}{A variable specifying weight in case the option n_quantiles is specified.}
+\item{wt}{A variable specifying weight in case the option n_quantiles is specified.}
 }
 \value{
 An integer vector representing groups corresponding to cutpoints. Includes missing values when present in the original vector.
