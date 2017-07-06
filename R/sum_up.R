@@ -1,10 +1,9 @@
 #' Gives summary statistics (corresponds to Stata command summarize)
 #' 
-#' @param x a data.frame
+#' @param df a data.frame
 #' @param ... Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.
-#' @param w Weights. Default to NULL. 
 #' @param d Should detailed summary statistics be printed?
-#' @param .dots Used to work around non-standard evaluation.
+#' @param wt Weights. Default to NULL. 
 #' @examples
 #' library(dplyr)
 #' N <- 100
@@ -18,9 +17,10 @@
 #' sum_up(df, v2, wt = v1)
 #' df %>% group_by(v1) %>% sum_up(starts_with("v"))
 #' @return a data.frame 
+#' @export
 
 sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
-  wt = enquo(wt)
+  wt = dplyr::enquo(wt)
   if (rlang::is_null(rlang::f_rhs(wt))) {
     wtvar <- character(0)
   }
@@ -38,7 +38,7 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
   df <- dplyr::select_at(df, c(vars, byvars, wtvar))
   # bug for do in data.table
-  df <- dplyr::do(df, describe(., d = d, wtvar = wtvar, byvars = byvars))
+  df <- dplyr::do(df, describe(!!rlang::sym("."), d = d, wtvar = wtvar, byvars = byvars))
   out <- dplyr::arrange_at(df, c(byvars, "Variable"))
   # reorder
   if (d) {
@@ -105,7 +105,7 @@ describe <- function(df, d = FALSE, wtvar = character(0),  byvars = character(0)
         sum_higher[1] <- sqrt(sum_higher[1])
         sum_higher[2] <- sum_higher[2]/sum_higher[1]^3
         sum_higher[3] <- sum_higher[3]/sum_higher[1]^4
-        sum_quantile <- pctile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), w = w_omit)
+        sum_quantile <- pctile(x_omit, c(0, 0.01, 0.05, 0.1, 0.25, 0.50, 0.75, 0.9, 0.95, 0.99, 1), wt = w_omit)
       } else{
         x_omit <- na.omit(x)
         m <- mean(x_omit)

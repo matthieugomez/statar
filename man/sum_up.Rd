@@ -7,15 +7,13 @@
 sum_up(df, ..., d = FALSE, wt = NULL)
 }
 \arguments{
+\item{df}{a data.frame}
+
 \item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
 
 \item{d}{Should detailed summary statistics be printed?}
 
-\item{x}{a data.frame}
-
-\item{w}{Weights. Default to NULL.}
-
-\item{.dots}{Used to work around non-standard evaluation.}
+\item{wt}{Weights. Default to NULL.}
 }
 \value{
 a data.frame

@@ -29,8 +29,8 @@ winsorize <- function(x, probs = NULL, cutpoints = NULL , replace = c(cutpoints[
   top <- x > cutpoints[2]
   if (verbose){
     length <- length(x)
-    message(paste(100*sum(bottom, na.rm = TRUE)/length,"% observations replaced at the bottom"))
-    message(paste(100*sum(top, na.rm = TRUE)/length,"% observations replaced at the top"))
+    message(paste(sprintf("%3.2f", 100*sum(bottom, na.rm = TRUE)/length),"% observations replaced at the bottom"))
+    message(paste(sprintf("%3.2f", 100*sum(top, na.rm = TRUE)/length),"% observations replaced at the top"))
   }
   x[bottom] <- replace[1]
   x[top] <- replace[2]

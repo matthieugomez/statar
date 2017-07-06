@@ -4,14 +4,14 @@
 \alias{pctile}
 \title{Weighted quantile of type 2 (similar to Stata _pctile)}
 \usage{
-pctile(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE)
+pctile(x, probs = c(0.25, 0.5, 0.75), wt = NULL, na.rm = FALSE)
 }
 \arguments{
 \item{x}{A vector}
 
 \item{probs}{A vector of probabilities}
 
-\item{w}{A weight vector}
+\item{wt}{A weight vector}
 
 \item{na.rm}{Should missing values be returned?}
 }

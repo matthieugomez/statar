@@ -2,18 +2,18 @@
 #'
 #' @param x A vector
 #' @param probs A vector of probabilities
-#' @param w A weight vector
+#' @param wt A weight vector
 #' @param na.rm Should missing values be returned?
 #' @export
-pctile <- function(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE){
-  if (is.null(w)){
+pctile <- function(x, probs = c(0.25, 0.5, 0.75), wt = NULL, na.rm = FALSE){
+  if (is.null(wt)){
     quantile(x = x, type = 2, probs = probs, na.rm = na.rm)
   } else{
-      if (anyNA(x) | anyNA(w)) {
+      if (anyNA(x) | anyNA(wt)) {
         if (na.rm) {
-          na <- is.na(x) | is.na(w)
+          na <- is.na(x) | is.na(wt)
           x <- x[!na]
-          w <- w[!na]
+          wt <- wt[!na]
         }
         else{
           stop("Missing values not allowed when na.rm is FALSE", call. = FALSE)
@@ -21,7 +21,7 @@ pctile <- function(x, probs = c(0.25, 0.5, 0.75), w = NULL, na.rm = FALSE){
       }
       # Ensure x and w in ascending order of x
       order <- order(x)
-      cumsum <- cumsum(w[order])
+      cumsum <- cumsum(wt[order])
       n <- cumsum[length(cumsum)]
       # follow definition of quantile 2 
       index <- n * probs

@@ -2,10 +2,8 @@
 #' 
 #' @param x a vector or a data.frame
 #' @param ... Variable(s) to include. If length is two, a special cross tabulation table is printed although a long data.frame is always (invisibly) returned.
-#' @param i Condition to apply function on certain rows only
-#' @param w Frequency weights. Default to NULL. 
+#' @param wt Frequency weights. Default to NULL. 
 #' @param na.rm Remove missing values. Default to FALSE
-#' @param .dots Used to work around non-standard evaluation.
 #' @param sort Boolean. Default to TRUE
 #' @examples
 #' # setup
@@ -28,12 +26,13 @@
 #' @export
 #' @rdname tab
 tab <- function(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE){
-  x <- dplyr::count(x, ..., wt = !!enquo(wt))
+  wt = dplyr::enquo(wt)
+  x <- dplyr::count(x, ..., wt = !!wt)
   if (na.rm){
     x <- na.omit(x)
   }
   x <- dplyr::rename(x, Freq. = n)
-  x <- dplyr::mutate(x, Percent = Freq./sum(Freq.)*100, Cum. = cumsum(Percent))
+  x <- dplyr::mutate(x, Percent = (!!rlang::sym("Freq."))/sum(!!rlang::sym("Freq."))*100, Cum. = cumsum(!!rlang::sym("Percent")))
   if (sort){
     x <- dplyr::arrange(x, ...)
   }
