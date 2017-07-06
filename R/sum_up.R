@@ -1,7 +1,7 @@
 #' Gives summary statistics (corresponds to Stata command \code{summarize})
 #' 
 #' @param df A data frame
-#' @param ... Variables to include. Defaults to all non-grouping variables. See the \code{\link[dplyr]{select()}} documentation.
+#' @param ... Variables to include. Defaults to all non-grouping variables. See the \code{\link[=dplyr]{select()}} documentation.
 #' @param d Should detailed summary statistics be printed?
 #' @param wt Frequency weights. Default to \code{NULL}.
 #' @examples
