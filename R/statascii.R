@@ -59,8 +59,8 @@ format_fixedwidth_dataframe <- function(df, wvec) {
 measure_width <- function(df, n_groups = 1, w = 8L) {
 	w_groups = rep(0.0, n_groups)
 	for (i in 1:n_groups) {
-		if (typeof(df[[i]]) ==  "double") {
-		# if tabulate with respect to variable of type double, make sure we get whole variable name
+		if (typeof(df[[i]]) ==  "double" | typeof(df[[i]]) == "integer") {
+		# if tabulate with respect to variable of type double or integer, make sure we get whole variable name
 			w_groups[i] = max(nchar(colnames(df)[i]), w)
 		} else {
 			w_groups[i] = max(nchar(colnames(df)[i]), nchar(format(df[[i]])))
@@ -71,22 +71,22 @@ measure_width <- function(df, n_groups = 1, w = 8L) {
 
 add_line <- function(wvec, n_groups) {
 	x = sapply(wvec, function(n){paste(rep("\u2500", n), collapse = "")})
-	left <- paste(sapply(x[1:n_groups], function(x){paste0(x, "\u2500", "\u253c", "\u2500")}), collapse = "")
+	left <- paste(sapply(x[1:n_groups], function(x){paste0("\u2500", x, "\u2500", "\u253c")}), collapse = "")
 	right <- paste(sapply(x[(n_groups + 1):length(x)], function(x){paste0(x, "\u2500")}), collapse = "")
-	paste0(left, right)
+	paste(left, right, sep = "\u2500")
 }
 
 add_dash <- function(wvec, n_groups) {
 	x = sapply(wvec, function(n){paste(rep("-", n), collapse = "")})
-	left <- paste(sapply(x[1:n_groups], function(x){paste0(x, "-", "\u253c", "-")}), collapse = "")
+	left <- paste(sapply(x[1:n_groups], function(x){paste0("-", x, "-", "\u253c")}), collapse = "")
 	right <- paste(sapply(x[(n_groups + 1):length(x)], function(x){paste0(x, "-")}), collapse = "")
-	paste0(left, right)
+	paste(left, right, sep = "-")
 }
 
 add_row <- function(x, n_groups) {
-	left <- paste(sapply(x[1:n_groups], function(x){paste0(x, " ", "\u2502", " ")}), collapse = "")
+	left <- paste(sapply(x[1:n_groups], function(x){paste0(" ", x, " ", "\u2502")}), collapse = "")
 	right <- paste(sapply(x[(n_groups + 1):length(x)], function(x){paste0(x, " ")}), collapse = "")
-	paste0(left, right)
+	paste(left, right, sep = " ")
 }
 
 statascii <- function(df, n_groups = 1, w = 8L) {
@@ -98,19 +98,31 @@ statascii <- function(df, n_groups = 1, w = 8L) {
 	if (sum(wvec) + 3 * n_groups + (length(wvec) - n_groups) > getOption("width")) {
 		warning("The summary table is too large to be displayed in ASCII")
 	} else {
-		df <- format_fixedwidth_dataframe(df, wvec)
-		df <- as.matrix(df)
-		if (ncol(df) == 1L) {
-			df <- t(df)
-		}		
+	  # add total row for one-way tabulations
+	  if (ncol(df) == 4L & colnames(df)[2] == "Freq.") {
+	    total_row <- dplyr::data_frame(!!colnames(df)[1] := "Total", !!rlang::sym("Freq.") := sum(df[, 2]), !!rlang::sym("Percent") := "100.00", !!rlang::sym("Cum.") := "")
+	    total_row <- format_fixedwidth_dataframe(total_row, wvec)
+	    df <- format_fixedwidth_dataframe(df, wvec)
+	    df <- dplyr::bind_rows(df, total_row)
+	  } else {
+	    df <- format_fixedwidth_dataframe(df, wvec)
+	  }
+	  df <- as.matrix(df) 
+	  if (ncol(df) == 1L) {
+	    df <- t(df)
+		}	
 		if (nrow(df) > 0){
-			writeLines(" ")
 			writeLines(add_row(colnames(df), n_groups))
 			writeLines(add_line(wvec, n_groups))
 			for (i in seq_len(nrow(df))) {
-				writeLines(add_row(df[i, ], n_groups))
-				if ((n_groups >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
-					writeLines(add_dash(wvec, n_groups))
+			  if (ncol(df) == 4L & i == nrow(df)) {
+			    writeLines(add_line(wvec, n_groups))
+			    writeLines(add_row(df[i, ], n_groups))
+			  } else {
+			    writeLines(add_row(df[i, ], n_groups))
+			    if ((n_groups >= 2) && (i < nrow(df)) && (df[i, 1] != df[i + 1L, 1])) {
+					  writeLines(add_dash(wvec, n_groups))
+			    }
 				}
 			}
 		}
