@@ -188,20 +188,9 @@ winsorize(v, cutpoints = c(1, 50))
 
 ```R
 ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
-```
-<img src="output_2_0.png" height = "400">
-
-```R
 ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) 
-```
-<img src="output_3_0.png" height = "400">
-
-Since `stat_binmean` is just a layer for ggplo2, you can surimpose any model fit 
-
-```R
 ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
 ```
-<img src="output_4_0.png" height = "400">
 
 
 
