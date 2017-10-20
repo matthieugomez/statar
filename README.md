@@ -13,68 +13,200 @@ The package includes:
 - [vector functions](vignettes/vector.Rmd) (xtile, pctile, winsorize)
 - [graph functions](vignettes/graph.Rmd) (binscatter)
 
-Some examples:
+# Data Frame Functions
+### sum_up = summarize
+`sum_up` prints detailed summary statistics (corresponds to Stata `summarize`)
+
 ```R
-library(dplyr)
-library(statar)
+N <- 100
+df <- data_frame(
+  id = 1:N,
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+)
+sum_up(df)
+df %>% sum_up(starts_with("v"), d = TRUE)
+df %>% group_by(v1) %>%  sum_up()
+```
 
-starwars %>% sum_up(height)
- 
-#Variable │      Obs  Missing     Mean   StdDev      Min      Max 
-#─────────┼───────────────────────────────────────────────────────
-#  height │       81        6  174.358  34.7704       66      264 
+### tab = tabulate
+`tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command adds frequency, percent, and cumulative percent.
 
-starwars %>% group_by(gender) %>% sum_up(height)
-
-#>  gender │ Variable │      Obs  Missing     Mean   StdDev      Min      Max 
-#>─────────┼──────────┼───────────────────────────────────────────────────────
-#>  female │   height │       17        2  165.471  23.0302       96      213 
-#>---------┼----------┼-------------------------------------------------------
-#>hermap~e │   height │        1        0      175       NA      175      175 
-#>---------┼----------┼-------------------------------------------------------
-#>    male │   height │       59        3  179.237  35.3916       66      264 
-#>---------┼----------┼-------------------------------------------------------
-#>    none │   height │        1        1      200       NA      200      200 
-#>---------┼----------┼-------------------------------------------------------
-#>      NA │   height │        3        0      120  40.7063       96      167
-
-starwars %>% tab(gender, eye_color)
- 
-#>       gender │     eye_color │    Freq.  Percent     Cum. 
-#>──────────────┼───────────────┼────────────────────────────
-#>       female │         black │        2     2.30     2.30 
-#>       female │          blue │        6     6.90     9.20 
-#>       female │         brown │        5     5.75    14.94 
-#>       female │         hazel │        2     2.30    17.24 
-#>       female │     red, blue │        1     1.15    18.39 
-#>       female │       unknown │        1     1.15    19.54 
-#>       female │         white │        1     1.15    20.69 
-#>       female │        yellow │        1     1.15    21.84 
-#>--------------┼---------------┼----------------------------
-#>hermaphrodite │        orange │        1     1.15    22.99 
-#>--------------┼---------------┼----------------------------
-#>         male │         black │        7     8.05    31.03 
-#>         male │          blue │       13    14.94    45.98 
-#>         male │     blue-gray │        1     1.15    47.13 
-#>         male │         brown │       16    18.39    65.52 
-#>         male │          dark │        1     1.15    66.67 
-#>         male │          gold │        1     1.15    67.82 
-#>         male │ green, yellow │        1     1.15    68.97 
-#>         male │         hazel │        1     1.15    70.11 
-#>         male │        orange │        7     8.05    78.16 
-#>         male │          pink │        1     1.15    79.31 
-#>         male │           red │        2     2.30    81.61 
-#>         male │       unknown │        2     2.30    83.91 
-#>         male │        yellow │        9    10.34    94.25 
-#>--------------┼---------------┼----------------------------
-#>         none │         black │        1     1.15    95.40 
-#>         none │           red │        1     1.15    96.55 
-#>--------------┼---------------┼----------------------------
-#>           NA │           red │        2     2.30    98.85 
-#>           NA │        yellow │        1     1.15   100.00 
+```R
+N <- 1e2 ; K = 10
+df <- data_frame(
+  id = sample(c(NA,1:5), N/K, TRUE),
+  v1 = sample(1:5, N/K, TRUE)       
+)
+tab(df, id)
+tab(df, id, na.rm = TRUE)
+tab(df, id, v1)
 ```
 
 
+
+### join = merge
+`join` is a wrapper for dplyr merge functionalities, with two added functions
+
+- The option `check` checks there are no duplicates in the master or using data.tables (as in Stata).
+
+  ```r
+  # merge m:1 v1
+  join(x, y, kind = "full", check = m~1) 
+  ```
+- The option `gen` specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
+
+  ```r
+  # merge m:1 v1, gen(_merge) 
+  join(x, y, kind = "full", gen = "_merge") 
+  ```
+
+- The option `update` allows to update missing values of the master dataset by the value in the using dataset
+
+
+# Panel Data Functions
+
+### Elapsed dates
+
+The classes "monthly" and "quarterly"  print as dates and are compatible with usual time extraction (ie `month`, `year`, etc). Yet, they are stored as integers representing the number of elapsed periods since 1970/01/0 (resp in week, months, quarters). This is particularly handy for simple algebra:
+
+```R
+ # elapsed dates
+ library(lubridate)
+ date <- mdy(c("04/03/1992", "01/04/1992", "03/15/1992"))  
+ datem <- as.monthly(date)
+ # displays as a period
+ datem
+ #> [1] "1992m04" "1992m01" "1992m03"
+ # behaves as an integer for numerical operations:
+ datem + 1
+ #> [1] "1992m05" "1992m02" "1992m04"
+ # behaves as a date for period extractions:
+ year(datem)
+ #> [1] 1992 1992 1992
+```
+
+
+### lag / lead
+
+`tlag`/`tlead` a vector with respect to a number of periods, **not** with respect to the number of rows
+
+```R
+year <- c(1989, 1991, 1992)
+value <- c(4.1, 4.5, 3.3)
+tlag(value, 1, time = year)
+library(lubridate)
+date <- mdy(c("01/04/1992", "03/15/1992", "04/03/1992"))
+datem <- as.monthly(date)
+value <- c(4.1, 4.5, 3.3)
+tlag(value, time = datem) 
+```
+
+
+In constrast to comparable functions in `zoo` and `xts`, these functions can be applied to any vector and be used within  a `dplyr` chain:
+
+
+```R
+df <- data_frame(
+    id    = c(1, 1, 1, 2, 2),
+    year  = c(1989, 1991, 1992, 1991, 1992),
+    value = c(4.1, 4.5, 3.3, 3.2, 5.2)
+)
+df %>% group_by(id) %>% mutate(value_l = tlag(value, time = year))
+```
+
+### is.panel
+`is.panel` checks whether a dataset is a panel i.e. the  time variable is never missing and the combinations (id, time) are unique.
+
+```R
+df <- data_frame(
+    id1    = c(1, 1, 1, 2, 2),
+    id2   = 1:5,
+    year  = c(1991, 1993, NA, 1992, 1992),
+    value = c(4.1, 4.5, 3.3, 3.2, 5.2)
+)
+df %>% group_by(id1) %>% is.panel(year)
+df1 <- df %>% filter(!is.na(year))
+df1 %>% is.panel(year)
+df1 %>% group_by(id1) %>% is.panel(year)
+df1 %>% group_by(id1, id2) %>% is.panel(year)
+```
+
+
+
+### fill_gap
+fill_gap transforms a unbalanced panel into a balanced panel.  It corresponds to the stata command `tsfill`. Missing observations are added as rows with missing values.
+```R
+df <- data_frame(
+    id    = c(1, 1, 1, 2),
+    datem  = as.monthly(mdy(c("04/03/1992", "01/04/1992", "03/15/1992", "05/11/1992"))),
+    value = c(4.1, 4.5, 3.3, 3.2)
+)
+df %>% group_by(id) %>% fill_gap(datem)
+df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
+df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
+```
+
+
+# Vector Functions
+
+```R
+
+# sample_mode returns the statistical mode
+sample_mode(c(1, 2, 2))
+sample_mode(c(1, 2))
+sample_mode(c(NA, NA, 1))
+sample_mode(c(NA, NA, 1), na.rm = TRUE)
+
+# pctile computes quantile and weighted quantile of type 2 (similarly to Stata _pctile)
+v <- c(NA, 1:10)                   
+pctile(v, probs = c(0.3, 0.7), na.rm = TRUE) 
+
+# xtile creates integer variable for quantile categories (corresponds to Stata xtile)
+v <- c(NA, 1:10)                   
+xtile(v, n_quantiles = 3) # 3 groups based on terciles
+xtile(v, probs = c(0.3, 0.7)) # 3 groups based on two quantiles
+xtile(v, cutpoints = c(2, 3)) # 3 groups based on two cutpoints
+
+# winsorize (default based on 5 x interquartile range)
+v <- c(1:4, 99)
+winsorize(v)
+winsorize(v, replace = NA)
+winsorize(v, probs = c(0.01, 0.99))
+winsorize(v, cutpoints = c(1, 50))
+```
+
+
+
+
+
+
+# Graph Functions
+### stat_binmean
+
+`stat_binmean()` is a `stat` for ggplot2. It returns the mean of `y` and `x` within bins of `x`. It's a bareborne version of the Stata command [binscatter](https://github.com/michaelstepner/binscatter)
+
+```R
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
+```
+<img src="output_2_0.png" height = "400">
+
+```R
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) 
+```
+<img src="output_3_0.png" height = "400">
+
+Since `stat_binmean` is just a layer for ggplo2, you can surimpose any model fit 
+
+```R
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
+```
+<img src="output_4_0.png" height = "400">
+
+
+
+
+# Installation
 You can install 
 
 - The latest released version from [CRAN](https://CRAN.R-project.org/package=statar) with
