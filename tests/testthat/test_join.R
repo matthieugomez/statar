@@ -99,3 +99,42 @@ test_that("bivariate anti join has x columns, missing rows", {
   expect_equal(j2$b, 4)
 })
 
+# Test the merge variable (gen = "m") -------------------------------------
+
+test_that("the merge variable column correctly mark results", {
+    j <- join(a, b, "x", kind = "full", gen = "m") 
+    
+    master_df  <- join(a, b, "x", kind = "anti")
+    using_df   <- join(b, a, "x", kind = "anti")
+    matched_df <- join(a, b, "x", kind = "inner")
+    
+    j1 <- join(j, master_df, kind = "right")
+    j2 <- join(j, using_df, kind = "right")
+    j3 <- join(j, matched_df, kind = "right")
+    
+    expect_equal(unique(j1$m), 1)
+    expect_equal(unique(j2$m), 2)
+    expect_equal(unique(j3$m), 3)
+})
+
+test_that("if left join, the merge variable should not contain value 2", {
+    j1 <- join(a, a, "x", kind = "left", gen = "m")
+    j2 <- join(a, b, "x", kind = "left", gen = "m")
+    
+    m1 <- j1$m
+    m2 <- j2$m
+    
+    expect_true(all(unique(m1) %in% c(1L, 3L)))
+    expect_true(all(unique(m2) %in% c(1L, 3L)))
+})
+
+test_that("if right join, the merge variable should not contain value 1", {
+    j1 <- join(a, a, "x", kind = "right", gen = "m")
+    j2 <- join(a, b, "x", kind = "right", gen = "m")
+    
+    m1 <- j1$m
+    m2 <- j2$m
+    
+    expect_true(all(unique(m1) %in% c(2L, 3L)))
+    expect_true(all(unique(m2) %in% c(2L, 3L)))
+})
