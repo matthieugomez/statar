@@ -110,8 +110,8 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
 
       if (gen != FALSE){
         out <- dplyr::mutate(out, !!gen := 3L)
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idu)), 2L, !!rlang::sym(gen)))
-        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idm)), 1L, !!rlang::sym(gen)))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idu)), 1L, !!rlang::sym(gen)))
+        out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idm)), 2L, !!rlang::sym(gen)))
         out <- dplyr::select_at(out, setdiff(names(out), c(idm, idu)))
       }
     
