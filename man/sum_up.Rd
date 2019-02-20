@@ -4,16 +4,10 @@
 \alias{sum_up}
 \title{Gives summary statistics (deprecated)}
 \usage{
-sum_up(df, ..., d = FALSE, wt = NULL)
+sum_up(...)
 }
 \arguments{
-\item{df}{a data.frame}
-
-\item{...}{Variables to include. Defaults to all non-grouping variables. See the \link[dplyr]{select} documentation.}
-
-\item{d}{Should detailed summary statistics be printed?}
-
-\item{wt}{Weights. Default to NULL.}
+\item{...}{arguments}
 }
 \value{
 a data.frame
