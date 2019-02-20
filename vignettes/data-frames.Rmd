@@ -9,22 +9,6 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-
-## sum_up = summarize
-`sum_up` prints detailed summary statistics (corresponds to Stata `summarize`)
-
-```R
-N <- 100
-df <- data_frame(
-  id = 1:N,
-  v1 = sample(5, N, TRUE),
-  v2 = sample(1e6, N, TRUE)
-)
-sum_up(df)
-df %>% sum_up(starts_with("v"), d = TRUE)
-df %>% group_by(v1) %>%  sum_up()
-```
-
 ## tab = tabulate
 `tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command adds frequency, percent, and cumulative percent.
 

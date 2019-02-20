@@ -13,9 +13,9 @@ fill_gap(x, ..., full = FALSE, roll = FALSE, rollends = if (roll ==
 
 \item{...}{a time variable}
 
-\item{full}{A boolean. When full = FALSE (default) rows are filled with respect to min and max of \code{...} within each group. When full = TRUE, rows are filled with respect to min and max of \code{...} in the whole datasets.}
+\item{full}{A boolean. When full = FALSE (default), the function creates rows corresponding to all missing times between the min and max of \code{...} within each group. When full = TRUE, the function creates rows corresponding to all missing times between the min and max of \code{...} in the whole dataset.}
 
-\item{roll}{When roll is a positive number, this limits how far values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is used.}
+\item{roll}{When roll is a positive number, values are carried forward. roll=TRUE is equivalent to roll=+Inf. When roll is a negative number, values are rolled backwards; i.e., next observation carried backwards (NOCB). Use -Inf for unlimited roll back. When roll is "nearest", the nearest value is used. Default to FALSE (no rolling)}
 
 \item{rollends}{A logical vector length 2 (a single logical is recycled). When rolling forward (e.g. roll=TRUE) if a value is past the last observation within each group defined by the join columns, rollends[2]=TRUE will roll the last value forwards. rollends[1]=TRUE will roll the first value backwards if the value is before it. If rollends=FALSE the value of i must fall in a gap in x but not after the end or before the beginning of the data, for that group defined by all but the last join column. When roll is a finite number, that limit is also applied when rolling the end}
 }
@@ -26,12 +26,12 @@ Add rows corresponding to gaps in some variable
 library(dplyr)
 library(lubridate)
 df <- data_frame(
-    id    = c(1, 1, 1, 2),
-    datem  = as.monthly(mdy(c("04/03/1992", "01/04/1992", "03/15/1992", "05/11/1992"))),
+    id    = c(1, 1, 1, 1),
+    datem  = as.monthly(mdy(c("01/01/1992", "02/01/1992", "04/01/1992", "7/11/1992"))),
     value = c(4.1, 4.5, 3.3, 3.2)
 )
 df \%>\% group_by(id) \%>\% fill_gap(datem)
-df \%>\% group_by(id) \%>\% fill_gap(datem, full = TRUE)
+df \%>\% group_by(id) \%>\% fill_gap(datem, roll = 1)
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest")
 df \%>\% group_by(id) \%>\% fill_gap(datem, roll = "nearest", full = TRUE)
 }
