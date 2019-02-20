@@ -19,9 +19,9 @@
 #' @return a data.frame 
 #' @export
 #' 
-sum_up <- function(...){
+sum_up <- function(df, ...,  d = FALSE, wt = NULL){
   .Deprecated("skim", package = "skimr", "sum_up is deprecated. User skim from the skimr package")
-  sum_up2(...)
+  sum_up2(df,..., d = d, wt = wt)
 }
 
 
