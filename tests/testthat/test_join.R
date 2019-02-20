@@ -138,3 +138,13 @@ test_that("if right join, the merge variable should not contain value 1", {
     expect_true(all(unique(m1) %in% c(2L, 3L)))
     expect_true(all(unique(m2) %in% c(2L, 3L)))
 })
+
+# Test the key integrity check -------------------------------------
+
+e <- as.data.frame(c)
+f <- as.data.frame(d)
+
+test_that("the check correctly interprets duplicated identifiers", {
+  expect_error(join(e, f, c("x", "y"), kind = "full", check = 1~m), ".*x$")
+  expect_error(join(e, f, c("x", "y"), kind = "full", check = m~1), ".*y$")
+})
