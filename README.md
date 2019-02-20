@@ -8,45 +8,11 @@ statar
 This package contains R functions corresponding to useful Stata commands.
 
 The package includes:
-- [data.frame functions](vignettes/data-frames.Rmd) (summarize, tabulate, merge)
 - [panel data functions](vignettes/panel-data.Rmd) (monthly/quarterly dates, lead/lag, fillin)
+- [data.frame functions](vignettes/data-frames.Rmd) (tabulate, merge)
 - [vector functions](vignettes/vector.Rmd) (xtile, pctile, winsorize)
 - [graph functions](vignettes/graph.Rmd) (binscatter)
 
-# Data Frame Functions
-### tab = tabulate
-`tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command adds frequency, percent, and cumulative percent.
-
-```R
-N <- 1e2 ; K = 10
-df <- data_frame(
-  id = sample(c(NA,1:5), N/K, TRUE),
-  v1 = sample(1:5, N/K, TRUE)       
-)
-tab(df, id)
-tab(df, id, na.rm = TRUE)
-tab(df, id, v1)
-```
-
-
-
-### join = merge
-`join` is a wrapper for dplyr merge functionalities, with two added functions
-
-- The option `check` checks there are no duplicates in the master or using data.tables (as in Stata).
-
-  ```r
-  # merge m:1 v1
-  join(x, y, kind = "full", check = m~1) 
-  ```
-- The option `gen` specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
-
-  ```r
-  # merge m:1 v1, gen(_merge) 
-  join(x, y, kind = "full", gen = "_merge") 
-  ```
-
-- The option `update` allows to update missing values of the master dataset by the value in the using dataset
 
 
 # Panel Data Functions
@@ -131,6 +97,41 @@ df %>% group_by(id) %>% fill_gap(datem)
 df %>% group_by(id) %>% fill_gap(datem, full = TRUE)
 df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 ```
+
+# Data Frame Functions
+### tab = tabulate
+`tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command adds frequency, percent, and cumulative percent.
+
+```R
+N <- 1e2 ; K = 10
+df <- data_frame(
+  id = sample(c(NA,1:5), N/K, TRUE),
+  v1 = sample(1:5, N/K, TRUE)       
+)
+tab(df, id)
+tab(df, id, na.rm = TRUE)
+tab(df, id, v1)
+```
+
+
+
+### join = merge
+`join` is a wrapper for dplyr merge functionalities, with two added functions
+
+- The option `check` checks there are no duplicates in the master or using data.tables (as in Stata).
+
+  ```r
+  # merge m:1 v1
+  join(x, y, kind = "full", check = m~1) 
+  ```
+- The option `gen` specifies the name of a new variable that identifies non matched and matched rows (as in Stata).
+
+  ```r
+  # merge m:1 v1, gen(_merge) 
+  join(x, y, kind = "full", gen = "_merge") 
+  ```
+
+- The option `update` allows to update missing values of the master dataset by the value in the using dataset
 
 
 # Vector Functions
