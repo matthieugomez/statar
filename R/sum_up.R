@@ -16,13 +16,9 @@
 #' @return a data.frame 
 #' @export
 #' 
-sum_up <- function(...){
-  .Deprecated("skim", package = "skimr", "sum_up is deprecated. User skim from the skimr package")
-  sum_up2(...)
-}
 
 
-sum_up2 <- function(df, ...,  d = FALSE, wt = NULL) {
+sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   wt = dplyr::enquo(wt)
   if (rlang::is_null(rlang::f_rhs(wt))) {
     wtvar <- character(0)
