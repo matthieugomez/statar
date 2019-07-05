@@ -18,7 +18,7 @@ Gives summary statistics (deprecated)
 \examples{
 library(dplyr)
 N <- 100
-df <- data_frame(
+df <- tibble(
   id = 1:N,
   v1 = sample(5, N, TRUE),
   v2 = sample(1e6, N, TRUE)

@@ -21,7 +21,7 @@ Check whether a data.frame is a panel
 }
 \examples{
 library(dplyr)
-df <- data_frame(
+df <- tibble(
     id1    = c(1, 1, 1, 2, 2),
     id2   = 1:5,
     year  = c(1991, 1993, NA, 1992, 1992),

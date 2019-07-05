@@ -2,7 +2,7 @@ library(statar)
 library(lubridate)
 library(data.table)
 context("fill")
-df <- data_frame(
+df <- tibble(
     id    = c(1, 1, 1, 2),
     datem  = as.monthly(mdy(c("04/03/1992", "01/04/1992", "03/15/1992", "05/11/1992"))),
     value = c(4.1, 4.5, 3.3, 3.2)

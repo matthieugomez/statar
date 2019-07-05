@@ -58,7 +58,7 @@ In constrast to comparable functions in `zoo` and `xts`, these functions can be 
 
 
 ```R
-df <- data_frame(
+df <- tibble(
     id    = c(1, 1, 1, 2, 2),
     year  = c(1989, 1991, 1992, 1991, 1992),
     value = c(4.1, 4.5, 3.3, 3.2, 5.2)
@@ -70,7 +70,7 @@ df %>% group_by(id) %>% mutate(value_l = tlag(value, time = year))
 `is.panel` checks whether a dataset is a panel i.e. the  time variable is never missing and the combinations (id, time) are unique.
 
 ```R
-df <- data_frame(
+df <- tibble(
     id1    = c(1, 1, 1, 2, 2),
     id2   = 1:5,
     year  = c(1991, 1993, NA, 1992, 1992),
@@ -88,7 +88,7 @@ df1 %>% group_by(id1, id2) %>% is.panel(year)
 ### fill_gap
 fill_gap transforms a unbalanced panel into a balanced panel.  It corresponds to the stata command `tsfill`. Missing observations are added as rows with missing values.
 ```R
-df <- data_frame(
+df <- tibble(
     id    = c(1, 1, 1, 2),
     datem  = as.monthly(mdy(c("04/03/1992", "01/04/1992", "03/15/1992", "05/11/1992"))),
     value = c(4.1, 4.5, 3.3, 3.2)
@@ -99,12 +99,27 @@ df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 ```
 
 # Data Frame Functions
+### sum_up = summarize
+`sum_up` prints detailed summary statistics (corresponds to Stata `summarize`)
+
+```R
+N <- 100
+df <- tibble(
+  id = 1:N,
+  v1 = sample(5, N, TRUE),
+  v2 = sample(1e6, N, TRUE)
+)
+sum_up(df)
+df %>% sum_up(starts_with("v"), d = TRUE)
+df %>% group_by(v1) %>%  sum_up()
+```
+
 ### tab = tabulate
 `tab` prints distinct rows with their count. Compared to the dplyr function `count`, this command adds frequency, percent, and cumulative percent.
 
 ```R
 N <- 1e2 ; K = 10
-df <- data_frame(
+df <- tibble(
   id = sample(c(NA,1:5), N/K, TRUE),
   v1 = sample(1:5, N/K, TRUE)       
 )

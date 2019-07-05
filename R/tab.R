@@ -9,7 +9,7 @@
 #' # setup
 #' library(dplyr)
 #' N <- 1e2 ; K = 10
-#' df <- data_frame(
+#' df <- tibble(
 #'   id = sample(c(NA,1:5), N/K, TRUE),
 #'   v1 =  sample(1:5, N/K, TRUE)                       
 #' )

@@ -4,7 +4,7 @@
 #' @examples
 #' library(dplyr)
 #' N <- 100
-#' df <- data_frame(
+#' df <- tibble(
 #'   id = 1:N,
 #'   v1 = sample(5, N, TRUE),
 #'   v2 = sample(1e6, N, TRUE)
@@ -90,7 +90,7 @@ describe <- function(df, d = FALSE, wtvar = character(0),  byvars = character(0)
     }
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
-    sum <- dplyr::bind_cols(data_frame(names), sum)
+    sum <- dplyr::bind_cols(tibble(names), sum)
     sum <- setNames(sum, c("Variable", "Obs","Missing","Mean","StdDev","Min", "Max"))
   } else {
     N <- nrow(df)
@@ -120,7 +120,7 @@ describe <- function(df, d = FALSE, wtvar = character(0),  byvars = character(0)
     sum <- mclapply(df, f)
     sum <- do.call(cbind, sum)
     sum <- as.data.frame(t(sum))
-    sum <- dplyr::bind_cols(data_frame(names), sum)
+    sum <- dplyr::bind_cols(tibble(names), sum)
     sum <- setNames(sum,  c("Variable", "Obs","Missing","Mean","StdDev","Skewness","Kurtosis","Min","p1","p5","p10","p25","p50","p75","p90","p95","p99","Max"))
   }
   sum

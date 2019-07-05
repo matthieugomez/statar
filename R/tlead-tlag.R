@@ -12,7 +12,7 @@
 #' date <- as.monthly(mdy(c("01/04/1992", "03/15/1992", "04/03/1992")))
 #' tlag(value, time = date) 
 #' library(dplyr)
-#' df <- data_frame(
+#' df <- tibble(
 #'    id    = c(1, 2, 2),
 #'    date  = date,
 #'    value = value

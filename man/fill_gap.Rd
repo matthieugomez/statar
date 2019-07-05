@@ -25,7 +25,7 @@ Add rows corresponding to gaps in some variable
 \examples{
 library(dplyr)
 library(lubridate)
-df <- data_frame(
+df <- tibble(
     id    = c(1, 1, 1, 1),
     datem  = as.monthly(mdy(c("01/01/1992", "02/01/1992", "04/01/1992", "7/11/1992"))),
     value = c(4.1, 4.5, 3.3, 3.2)

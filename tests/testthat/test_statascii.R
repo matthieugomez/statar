@@ -78,7 +78,7 @@ test_that("format_fixedwidth correctly abbreviates", {
 })
 
 
-df <- data_frame(
+df <- tibble(
   check_rightalign = as.factor(c("Lorem ipsum dolor", "sit amet, consectetur adipiscing elit,", "sed do eiusmod tempor")),
   longvarname = c(0, 1, 2)
 )
