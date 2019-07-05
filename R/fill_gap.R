@@ -22,7 +22,7 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	else if (roll>=0) c(FALSE,TRUE)
 	else c(TRUE,FALSE)) {
 	byvars <- dplyr::group_vars(x)
-	timevar <- setdiff(names(dplyr::select_vars(names(x), ...)), byvars)
+	timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
 	if (length(timevar) > 1) {
 	    message("There should only be one variable for time")
 	}

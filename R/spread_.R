@@ -32,7 +32,7 @@ shallow <- function(x,...){
   shallow_(x = x, vars = lazyeval::lazy_dots(...))
 }
 shallow_ <- function(x, vars) {
-    vars <- names(select_vars_(names(x), vars))
+    vars <- names(tidyselect::vars_select(names(x), vars))
     if (length(vars) == 0) {
        vars <- names(x)
     }

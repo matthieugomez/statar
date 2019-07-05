@@ -20,7 +20,7 @@
 #' @export
 is.panel <- function(x, ..., .dots){
     byvars <- dplyr::group_vars(x)
-    timevar <- setdiff(names(dplyr::select_vars(names(x), ...)), byvars)
+    timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
     if (length(timevar) > 1) {
         message("There should only be one variable for time")
     }

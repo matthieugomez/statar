@@ -12,6 +12,7 @@ Depends:
     R (>= 3.2.0)
 Imports:
     data.table,
+    tidyselect,
     dplyr (>= 0.6.0),
     ggplot2 (>= 2.0.0),
     lazyeval,

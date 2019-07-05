@@ -24,10 +24,10 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
     wtvar <- character(0)
   }
   else{
-    wtvar <- names(dplyr::select_vars(names(df), !!wt))
+    wtvar <- names(tidyselect::vars_select(names(df), !!wt))
   }
   byvars <- dplyr::group_vars(df)
-  vars <- setdiff(names(dplyr::select_vars(names(df), ...)), c(wtvar, byvars))
+  vars <- setdiff(names(tidyselect::vars_select(names(df), ...)), c(wtvar, byvars))
   if (length(vars) == 0) {
      vars <- setdiff(names(df), c(byvars, wtvar))
   }
