@@ -45,7 +45,7 @@ StatBinmean <-  ggproto("StatBinmean", Stat,
         data <- data %>% dplyr::mutate(binx = xtile(x, n = n, w = weight)) 
       }
       else{
-        data <- data %>% dplyr::mutate(binx = ntile(x, n)) 
+        data <- data %>% dplyr::mutate(binx = xtile(x, n)) 
       }
    }
 
