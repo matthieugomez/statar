@@ -1,6 +1,6 @@
 library(statar)
 library(lubridate)
-library(data.table)
+library(dplyr)
 context("fill")
 df <- tibble(
     id    = c(1, 1, 1, 2),
