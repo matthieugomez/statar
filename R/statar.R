@@ -61,6 +61,7 @@
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr as_data_frame
 #' @importFrom dplyr one_of
+#' @importFrom dplyr tibble
 #' @importFrom lazyeval as.lazy
 #' @importFrom lazyeval lazy_dots
 #' @importFrom lazyeval lazy_eval
