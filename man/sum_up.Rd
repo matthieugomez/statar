@@ -4,7 +4,7 @@
 \alias{sum_up}
 \title{Gives summary statistics (deprecated)}
 \usage{
-sum_up(...)
+sum_up(df, ..., d = FALSE, wt = NULL)
 }
 \arguments{
 \item{...}{arguments}
