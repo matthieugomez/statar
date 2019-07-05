@@ -13,8 +13,7 @@ Depends:
 Imports:
     data.table,
     tidyselect,
-    tibble,
-    dplyr (>= 0.6.0),
+    dplyr (>= 0.8.0),
     ggplot2 (>= 2.0.0),
     lazyeval,
     matrixStats,
