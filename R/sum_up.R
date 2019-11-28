@@ -36,7 +36,7 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   nums <- sapply(df, is.numeric)
   nums_name <- names(nums[nums == TRUE])
   vars <- intersect(vars, nums_name)
-  if (!length(vars)) stop("Please select at least one non-numeric variable", call. = FALSE)
+  if (!length(vars)) stop("Please select at least one numeric variable", call. = FALSE)
   df <- dplyr::select_at(df, c(vars, byvars, wtvar))
   # bug for do in data.table
   df <- dplyr::do(df, describe(!!rlang::sym("."), d = d, wtvar = wtvar, byvars = byvars))
