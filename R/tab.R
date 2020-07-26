@@ -26,13 +26,13 @@
 #' @export
 #' @rdname tab
 tab <- function(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE){
-  wt = dplyr::enquo(wt)
-  x <- dplyr::count(x, ..., wt = !!wt)
+  x <- dplyr::count(x, ..., wt = {{wt}})
   if (na.rm){
     x <- na.omit(x)
   }
   x <- dplyr::rename(x, Freq. = n)
-  x <- dplyr::mutate(x, Percent = (!!rlang::sym("Freq."))/sum(!!rlang::sym("Freq."))*100, Cum. = cumsum(!!rlang::sym("Percent")))
+  freq = sym("Freq.")
+  x <- dplyr::mutate(x, Percent = {{freq}}/sum({{freq}})*100, Cum. = cumsum(Percent))
   if (sort){
     x <- dplyr::arrange(x, ...)
   }

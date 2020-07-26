@@ -32,7 +32,7 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	stopifnot(is.panel(x, !!rlang::sym(timevar)))
 
 	# create id x time 
-	ans <- dplyr::select(x, one_of(c(byvars, timevar)))
+	ans <- dplyr::select(x, all_of(c(byvars, timevar)))
 	setDT(ans)
 	if (!full){
 		ans <- lazy_eval(interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
@@ -55,7 +55,7 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	out <- x[ans, allow.cartesian = TRUE, roll = roll, rollends = rollends]
 
 	# re assign group and class attributes
-	out <- dplyr::group_by(out, across(one_of(byvars)))
+	out <- dplyr::group_by(out, across(all_of(byvars)))
 	setattr(out, "class", originalattributes)
 	out
 }

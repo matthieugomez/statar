@@ -36,15 +36,15 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   nums_name <- names(nums[nums == TRUE])
   vars <- intersect(vars, nums_name)
   if (!length(vars)) stop("Please select at least one numeric variable", call. = FALSE)
-  df <- dplyr::select(df, one_of(c(vars, byvars, wtvar)))
+  df <- dplyr::select(df, all_of(c(vars, byvars, wtvar)))
   # bug for do in data.table
   df <- dplyr::summarize(df, describe(across(), d = d, wtvar = wtvar, byvars = byvars))
-  out <- dplyr::arrange(df, across(one_of(c(byvars, "Variable"))))
+  out <- dplyr::arrange(df, across(all_of(c(byvars, "Variable"))))
   # reorder
   if (d) {
-    out1 <- dplyr::select(out, one_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
-    out2 <- dplyr::select(out, one_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
-    out3 <- dplyr::select(out, one_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
+    out1 <- dplyr::select(out, all_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
+    out2 <- dplyr::select(out, all_of(c(byvars, "Variable", "Min", "p1", "p5", "p10", "p25", "p50")))
+    out3 <- dplyr::select(out, all_of(c(byvars, "Variable", "p50", "p75", "p90", "p95", "p99", "Max")))
     statascii(out1, n_groups = length(byvars) + 1)
     cat("\n")
     statascii(out2, n_groups = length(byvars) + 1)
@@ -53,7 +53,7 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   } 
   else{
     #reorder
-    out <- dplyr::select(out, one_of(c(byvars, "Variable", setdiff(names(out), c(byvars, "Variable")))))
+    out <- dplyr::select(out, all_of(c(byvars, "Variable", setdiff(names(out), c(byvars, "Variable")))))
     statascii(out, n_groups = length(byvars) + 1)
   }
   invisible(out)
@@ -63,11 +63,11 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
 
 describe <- function(df, d = FALSE, wtvar = character(0),  byvars = character(0)){
   if (length(byvars)){
-    df <- dplyr::select(df, one_of(setdiff(names(df), byvars)))
+    df <- dplyr::select(df, all_of(setdiff(names(df), byvars)))
   }
   if (length(wtvar)){
     w <- df[[wtvar]]
-    df <- dplyr::select(df, one_of(setdiff(names(df), wtvar)))
+    df <- dplyr::select(df, all_of(setdiff(names(df), wtvar)))
   }
   else{
     w <- NULL

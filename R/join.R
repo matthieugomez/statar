@@ -112,7 +112,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         out <- dplyr::mutate(out, !!gen := 3L)
         out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idu)), 1L, !!rlang::sym(gen)))
         out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idm)), 2L, !!rlang::sym(gen)))
-        out <- dplyr::select(out, one_of(setdiff(names(out), c(idm, idu))))
+        out <- dplyr::select(out, all_of(setdiff(names(out), c(idm, idu))))
       }
     
       if (update){
@@ -120,7 +120,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
           newvx <- paste0(v, suffixes[1])
           newvy <- paste0(v, suffixes[2])
           out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!rlang::sym(newvx)) & !is.na(!!rlang::sym(newvy)), !!rlang::sym(newvy), !!rlang::sym(newvx)))
-          out <- dplyr::select(out, one_of(setdiff(names(out), newvy)))
+          out <- dplyr::select(out, all_of(setdiff(names(out), newvy)))
           out <- rename(out, !!v := !!rlang::sym(newvx))
         }
       }
