@@ -30,7 +30,7 @@ is.panel <- function(x, ..., .dots){
         message(paste0("Variable ", timevar, " has missing values in ", length(ans)," row(s): ", paste(as.character(ans),collapse = ",")))
         out <- FALSE
     }
-    overall = x %>% group_by(..., add = TRUE) %>% dplyr::group_indices()
+    overall = x %>% group_by(..., .add = TRUE) %>% dplyr::group_indices()
     if (anyDuplicated(overall)){
         groups <- split(seq_along(overall), overall)
         groups <- groups[vapply(groups, length, integer(1)) > 1]
