@@ -5,11 +5,21 @@
 \alias{winsorise}
 \title{Winsorize a numeric vector}
 \usage{
-winsorize(x, probs = NULL, cutpoints = NULL,
-  replace = c(cutpoints[1], cutpoints[2]), verbose = TRUE)
+winsorize(
+  x,
+  probs = NULL,
+  cutpoints = NULL,
+  replace = c(cutpoints[1], cutpoints[2]),
+  verbose = TRUE
+)
 
-winsorise(x, probs = NULL, cutpoints = NULL,
-  replace = c(cutpoints[1], cutpoints[2]), verbose = TRUE)
+winsorise(
+  x,
+  probs = NULL,
+  cutpoints = NULL,
+  replace = c(cutpoints[1], cutpoints[2]),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{A vector of values}

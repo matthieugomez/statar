@@ -4,9 +4,18 @@
 \alias{join}
 \title{Join two data frames together}
 \usage{
-join(x, y, kind, on = intersect(names(x), names(y)), suffixes = c(".x",
-  ".y"), check = m ~ m, gen = FALSE, inplace = FALSE,
-  update = FALSE, type)
+join(
+  x,
+  y,
+  kind,
+  on = intersect(names(x), names(y)),
+  suffixes = c(".x", ".y"),
+  check = m ~ m,
+  gen = FALSE,
+  inplace = FALSE,
+  update = FALSE,
+  type
+)
 }
 \arguments{
 \item{x}{The master data.frame}

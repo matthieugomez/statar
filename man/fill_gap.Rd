@@ -4,9 +4,14 @@
 \alias{fill_gap}
 \title{Add rows corresponding to gaps in some variable}
 \usage{
-fill_gap(x, ..., full = FALSE, roll = FALSE, rollends = if (roll ==
-  "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else c(TRUE,
-  FALSE))
+fill_gap(
+  x,
+  ...,
+  full = FALSE,
+  roll = FALSE,
+  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE)
+    else c(TRUE, FALSE)
+)
 }
 \arguments{
 \item{x}{A data frame}
