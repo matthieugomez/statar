@@ -4,14 +4,12 @@
 \alias{is.panel}
 \title{Check whether a data.frame is a panel}
 \usage{
-is.panel(x, ..., .dots)
+is.panel(x, ...)
 }
 \arguments{
 \item{x}{a data frame}
 
 \item{...}{a time variable}
-
-\item{.dots}{Used to work around non standard evaluation}
 }
 \value{
 The function \code{is.panel} check that there are no duplicate combinations of the variables in ... and that no observation is missing for the last variable in ... (the time variable).

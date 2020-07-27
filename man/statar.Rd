@@ -4,3 +4,6 @@
 \name{statar}
 \alias{statar}
 \title{A package for applied research}
+\description{
+A package for applied research
+}

@@ -32,30 +32,30 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	stopifnot(is.panel(x, !!rlang::sym(timevar)))
 
 	# create id x time 
-	ans <- dplyr::select(x, all_of(c(byvars, timevar)))
-	setDT(ans)
+	ans <- dplyr::select(x, dplyr::all_of(c(byvars, timevar)))
+	data.table::setDT(ans)
 	if (!full){
-		ans <- lazy_eval(interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
+		ans <- lazyeval::lazy_eval(lazyeval::interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
 	}
 	else{
 		a <- min(ans[[timevar]])
 		b <- max(ans[[timevar]])
-		ans <- lazy_eval(interp(~ans[, list(seq(a, b, by = 1L)), by = c(byvars)], a = a, b = b))
+		ans <- lazyeval::lazy_eval(lazyeval::interp(~ans[, list(seq(a, b, by = 1L)), by = c(byvars)], a = a, b = b))
 	}
-	setnames(ans, c(byvars, timevar))
+	data.table::setnames(ans, c(byvars, timevar))
 	for (name in names(attributes(get(timevar, x)))){
-		setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
+		data.table::setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
 	}
 	print(ans)
 
 	# data.table merge with roll
-	setkeyv(ans, c(byvars, timevar))
-	x <- as.data.table(x)
-	setkeyv(x, c(byvars, timevar))
+	data.table::setkeyv(ans, c(byvars, timevar))
+	x <- data.table::as.data.table(x)
+	data.table::setkeyv(x, c(byvars, timevar))
 	out <- x[ans, allow.cartesian = TRUE, roll = roll, rollends = rollends]
 
 	# re assign group and class attributes
-	out <- dplyr::group_by(out, across(all_of(byvars)))
-	setattr(out, "class", originalattributes)
+	out <- dplyr::group_by(out, dplyr::across(dplyr::all_of(byvars)))
+	data.table::setattr(out, "class", originalattributes)
 	out
 }

@@ -2,7 +2,6 @@
 #' 
 #' @param x a data frame
 #' @param ... a time variable
-#' @param .dots Used to work around non standard evaluation
 #' @return The function \code{is.panel} check that there are no duplicate combinations of the variables in ... and that no observation is missing for the last variable in ... (the time variable). 
 #' @examples
 #' library(dplyr)
@@ -18,7 +17,7 @@
 #' df1 %>% group_by(id1) %>% is.panel(year)
 #' df1 %>% group_by(id1, id2) %>% is.panel(year)
 #' @export
-is.panel <- function(x, ..., .dots){
+is.panel <- function(x, ...){
     byvars <- dplyr::group_vars(x)
     timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
     if (length(timevar) > 1) {
@@ -30,7 +29,7 @@ is.panel <- function(x, ..., .dots){
         message(paste0("Variable ", timevar, " has missing values in ", length(ans)," row(s): ", paste(as.character(ans),collapse = ",")))
         out <- FALSE
     }
-    overall = x %>% group_by(..., .add = TRUE) %>% dplyr::group_indices()
+    overall = x %>% dplyr::group_by(..., .add = TRUE) %>% dplyr::group_indices()
     if (anyDuplicated(overall)){
         groups <- split(seq_along(overall), overall)
         groups <- groups[vapply(groups, length, integer(1)) > 1]

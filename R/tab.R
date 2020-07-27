@@ -28,11 +28,13 @@
 tab <- function(x, ..., wt = NULL, na.rm = FALSE, sort = TRUE){
   x <- dplyr::count(x, ..., wt = {{wt}})
   if (na.rm){
-    x <- na.omit(x)
+    x <- stats::na.omit(x)
   }
-  x <- dplyr::rename(x, Freq. = n)
+  n = sym("n")
+  x <- dplyr::rename(x, Freq. = {{n}})
   freq = sym("Freq.")
-  x <- dplyr::mutate(x, Percent = {{freq}}/sum({{freq}})*100, Cum. = cumsum(Percent))
+  percent = sym("Percent")
+  x <- dplyr::mutate(x, Percent = {{freq}}/sum({{freq}})*100, Cum. = cumsum({{percent}}))
   if (sort){
     x <- dplyr::arrange(x, ...)
   }

@@ -65,8 +65,8 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       if (length(intersect(paste0(common_names, suffixes[2]), setdiff(names(y),common_names)))>0) stop(paste("Adding the suffix",suffixes[2],"in", common_names,"would create duplicates names in y"), call. = FALSE)
       if (length(common_names)>0){
         for (name in common_names){
-          x <- rename(x, !!paste0(name, suffixes[1]) := !!rlang::sym(name))
-          y <- rename(y, !!paste0(name, suffixes[2]) := !!rlang::sym(name))
+          x <- dplyr::rename(x, !!paste0(name, suffixes[1]) := !!rlang::sym(name))
+          y <- dplyr::rename(y, !!paste0(name, suffixes[2]) := !!rlang::sym(name))
         }
       }
     }
@@ -112,7 +112,7 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
         out <- dplyr::mutate(out, !!gen := 3L)
         out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idu)), 1L, !!rlang::sym(gen)))
         out <- dplyr::mutate(out, !!gen := ifelse(is.na(!!rlang::sym(idm)), 2L, !!rlang::sym(gen)))
-        out <- dplyr::select(out, all_of(setdiff(names(out), c(idm, idu))))
+        out <- dplyr::select(out, dplyr::all_of(setdiff(names(out), c(idm, idu))))
       }
     
       if (update){
@@ -120,8 +120,8 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
           newvx <- paste0(v, suffixes[1])
           newvy <- paste0(v, suffixes[2])
           out <- dplyr::mutate(out, !!newvx := ifelse(is.na(!!rlang::sym(newvx)) & !is.na(!!rlang::sym(newvy)), !!rlang::sym(newvy), !!rlang::sym(newvx)))
-          out <- dplyr::select(out, all_of(setdiff(names(out), newvy)))
-          out <- rename(out, !!v := !!rlang::sym(newvx))
+          out <- dplyr::select(out, dplyr::all_of(setdiff(names(out), newvy)))
+          out <- dplyr::rename(out, !!v := !!rlang::sym(newvx))
         }
       }
       return(out)

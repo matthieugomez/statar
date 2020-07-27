@@ -2,7 +2,7 @@
 # format element so that it has a fixed character width of w
 format_fixedwidth <- function(x, w = 8L, ispercentage = FALSE) {
 	if (is.na(x)) {
-		str_pad("NA", width = w, pad = " ")
+		stringr::str_pad("NA", width = w, pad = " ")
 	}
 	else if (typeof(x) == "double"){
 		if (ispercentage) {
@@ -33,7 +33,7 @@ format_fixedwidth <- function(x, w = 8L, ispercentage = FALSE) {
 			}
 		}
 	} else {
-		out = str_pad(format(x), width = w, pad = " ", side = "left")
+		out = stringr::str_pad(format(x), width = w, pad = " ", side = "left")
 		# if string longer than w, abbreviate it
 		if (nchar(out) > w){
 			out = paste0(substring(out, 1, w - 2), "~", substring(out, nchar(out), nchar(out)))

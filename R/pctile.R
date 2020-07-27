@@ -7,7 +7,7 @@
 #' @export
 pctile <- function(x, probs = c(0.25, 0.5, 0.75), wt = NULL, na.rm = FALSE){
   if (is.null(wt)){
-    quantile(x = x, type = 2, probs = probs, na.rm = na.rm)
+    stats::quantile(x = x, type = 2, probs = probs, na.rm = na.rm)
   } else{
       if (anyNA(x) | anyNA(wt)) {
         if (na.rm) {

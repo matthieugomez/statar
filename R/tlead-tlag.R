@@ -26,7 +26,7 @@ NULL
 #' @rdname tlead-tlag
 tlead <- function(x, n = 1L, time, default = NA) {
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
-  if (n_distinct(time) < length(time)) stop("time has duplicate elements")
+  if (dplyr::n_distinct(time) < length(time)) stop("time has duplicate elements")
   index <- match(time + n, time, incomparables = NA) 
   out <- x[index]
   if (!is.na(default)) out[which(is.na(index))] <- default
@@ -41,7 +41,7 @@ tlead <- function(x, n = 1L, time, default = NA) {
 #' @rdname tlead-tlag
 tlag <- function(x, n = 1L, time, default = NA) { 
   if (!is.numeric(n) | (length(n)>1)) stop("n must be a numeric of length one")
-  if (n_distinct(time) < length(time)) stop("time has duplicate elements")
+  if (dplyr::n_distinct(time) < length(time)) stop("time has duplicate elements")
   index <- match(time - n, time, incomparables = NA)
   out <- x[index]
   if (!is.na(default)) out[which(is.na(index))] <- default
