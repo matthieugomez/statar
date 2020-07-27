@@ -19,8 +19,7 @@ Imports:
     matrixStats,
     methods,
     rlang,
-    stringr,
-    tidyr
+    stringr
 Suggests:
     knitr,
     lubridate,
