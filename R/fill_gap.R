@@ -18,21 +18,21 @@
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 #' df %>% group_by(id) %>% fill_gap(datem, roll = "nearest", full = TRUE)
 #' @export
-fill_gap <- function(x, timevar,  full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
+fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="nearest") c(TRUE,TRUE)
 	else if (roll>=0) c(FALSE,TRUE)
 	else c(TRUE,FALSE)) {
 	byvars <- dplyr::group_vars(x)
+	timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
 	if (length(timevar) > 1) {
-	    message("There should only be one variable for time")
+		message("There should only be one variable for time")
 	}
 	originalattributes <- attributes(x)$class
-
 	# check byvars, timevar form a panel
-	stopifnot(is.panel(x, {{timevar}}))
-
+	stopifnot(is.panel(x, .data[[timevar]]))
 	# create id x time 
-	ans <- dplyr::select(x, dplyr::all_of(byvars), timevar)
+	ans <- dplyr::select(x, dplyr::all_of(byvars), .data[[timevar]])
 	data.table::setDT(ans)
+	print(timevar)
 	if (!full){
 		ans <- lazyeval::lazy_eval(lazyeval::interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
 	}
@@ -41,6 +41,7 @@ fill_gap <- function(x, timevar,  full = FALSE, roll = FALSE, rollends = if (rol
 		b <- max(ans[[timevar]])
 		ans <- lazyeval::lazy_eval(lazyeval::interp(~ans[, list(seq(a, b, by = 1L)), by = c(byvars)], a = a, b = b))
 	}
+	print("ok3")
 	data.table::setnames(ans, c(byvars, timevar))
 	for (name in names(attributes(get(timevar, x)))){
 		data.table::setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
