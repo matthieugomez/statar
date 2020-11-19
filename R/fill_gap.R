@@ -28,7 +28,7 @@ fill_gap <- function(x, timevar,  full = FALSE, roll = FALSE, rollends = if (rol
 	originalattributes <- attributes(x)$class
 
 	# check byvars, timevar form a panel
-	stopifnot(is.panel(x, {{timevar}})
+	stopifnot(is.panel(x, {{timevar}}))
 
 	# create id x time 
 	ans <- dplyr::select(x, dplyr::all_of(byvars), timevar)
