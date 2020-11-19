@@ -52,11 +52,11 @@ StatBinmean <-  ggproto("StatBinmean", Stat,
    # compute mean within (group, binx)
    data <- data %>% dplyr::group_by(group, binx)
     if ("weight" %in% names(data)){
-      data <- data %>% dplyr::mutate(x = weighted.mean(x, w = w, na.rm = na.rm), y = weighted.mean(y, w = w, na.rm = na.rm))
+      data <- data %>% dplyr::mutate(x = weighted.mean(x, w = weight, na.rm = na.rm), y = weighted.mean(y, w = weight, na.rm = na.rm))
     }
     else{
       data <-  data %>% dplyr::mutate(x = mean(x, na.rm = na.rm), y = mean(y, na.rm = na.rm)) 
     }
-    data %>%  dplyr::slice(1) %>% ungroup() %>% dplyr::filter(!is.na(binx))
+    data %>%  dplyr::slice(1) %>% dplyr::ungroup() %>% dplyr::filter(!is.na(binx))
   }
 )
