@@ -40,7 +40,6 @@ as.character(datem)
 datem + 1
 df <- tibble(datem)
 # filter(df, month(datem) == 1)
-lag(c(1, 2, 3), n = 1, along_with = datem)
 seq(datem[1], datem[2])
 as.Date(datem)
 as.POSIXlt(datem)
