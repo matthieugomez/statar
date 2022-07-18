@@ -1,6 +1,6 @@
 Package: statar
 Title: Tools Inspired by 'Stata' to Manipulate Tabular Data
-Version: 0.7.3
+Version: 0.7.4
 Authors@R: person("Matthieu","Gomez", email = "mg3901@columbia.edu", role =
     c("aut", "cre"))
 Description: A set of tools inspired by 'Stata' to explore data.frames ('summarize',
