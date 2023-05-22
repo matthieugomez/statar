@@ -9,8 +9,8 @@ fill_gap(
   ...,
   full = FALSE,
   roll = FALSE,
-  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE)
-    else c(TRUE, FALSE)
+  rollends = if (roll == "nearest") c(TRUE, TRUE) else if (roll >= 0) c(FALSE, TRUE) else
+    c(TRUE, FALSE)
 )
 }
 \arguments{

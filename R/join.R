@@ -32,7 +32,7 @@
 #' join(x, y, kind = "left", on = "a", check = m~1,  update = TRUE)
 
 #' @export
-join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x",".y"), check = m~m,  gen = FALSE, inplace = FALSE, update = FALSE, type){
+join =  function(x, y, kind,on = intersect(names(x),names(y)), suffixes = c(".x",".y"), check = m~m,  gen = FALSE, inplace = FALSE, update = FALSE, type){
 
   #kind
   if (!missing(type)){
@@ -99,13 +99,13 @@ join =  function(x, y, kind ,on = intersect(names(x),names(y)), suffixes = c(".x
       all.x <- FALSE
       all.y <- FALSE
       if (kind == "left"){
-        out <- dplyr::left_join(x, y)
+        out <- dplyr::left_join(x, y, relationship = "many-to-many")
       } else if (kind == "right"){
-        out <- dplyr::right_join(x, y)
+        out <- dplyr::right_join(x, y, relationship = "many-to-many")
       } else if (kind == "full"){
-        out <- dplyr::full_join(x, y)
+        out <- dplyr::full_join(x, y, relationship = "many-to-many")
       }  else if (kind == "inner"){
-        out <- dplyr::inner_join(x, y)
+        out <- dplyr::inner_join(x, y, relationship = "many-to-many")
       }
 
       if (gen != FALSE){

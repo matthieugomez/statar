@@ -32,7 +32,6 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	# create id x time 
 	ans <- dplyr::select(x, dplyr::all_of(byvars), .data[[timevar]])
 	data.table::setDT(ans)
-	print(timevar)
 	if (!full){
 		ans <- lazyeval::lazy_eval(lazyeval::interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
 	}
@@ -41,12 +40,10 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 		b <- max(ans[[timevar]])
 		ans <- lazyeval::lazy_eval(lazyeval::interp(~ans[, list(seq(a, b, by = 1L)), by = c(byvars)], a = a, b = b))
 	}
-	print("ok3")
 	data.table::setnames(ans, c(byvars, timevar))
 	for (name in names(attributes(get(timevar, x)))){
 		data.table::setattr(ans[[timevar]], name, attributes(get(timevar, x))[[name]]) 
 	}
-	print(ans)
 
 	# data.table merge with roll
 	data.table::setkeyv(ans, c(byvars, timevar))
@@ -55,7 +52,7 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	out <- x[ans, allow.cartesian = TRUE, roll = roll, rollends = rollends]
 
 	# re assign group and class attributes
-	out <- dplyr::group_by(out, dplyr::across(dplyr::all_of(byvars)))
+	out <- dplyr::group_by(out, dplyr::pick(dplyr::all_of(byvars)))
 	data.table::setattr(out, "class", originalattributes)
 	out
 }

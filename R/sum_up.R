@@ -38,8 +38,8 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   if (!length(vars)) stop("Please select at least one numeric variable", call. = FALSE)
   df <- dplyr::select(df, dplyr::all_of(c(vars, byvars, wtvar)))
   # bug for do in data.table
-  df <- dplyr::summarize(df, describe(dplyr::across(), d = d, wtvar = wtvar, byvars = byvars))
-  out <- dplyr::arrange(df, dplyr::across(dplyr::all_of(c(byvars, "Variable"))))
+  df <- dplyr::reframe(df, describe(dplyr::pick(dplyr::everything()), d = d, wtvar = wtvar, byvars = byvars))
+  out <- dplyr::arrange(df, dplyr::pick(dplyr::all_of(c(byvars, "Variable"))))
   # reorder
   if (d) {
     out1 <- dplyr::select(out, dplyr::all_of(c(byvars, "Variable", "Obs", "Missing", "Mean", "StdDev", "Skewness", "Kurtosis")))
