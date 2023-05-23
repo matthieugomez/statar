@@ -1,6 +1,7 @@
 statar
 ======
-[![test-build](https://github.com/matthieugomez/statar/workflows/R-CMD-check/badge.svg)](https://github.com/matthieugomez/statar/actions)
+
+[![R-CMD-check](https://github.com/matthieugomez/statar/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/matthieugomez/statar/actions/workflows/check-standard.yaml)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/statar)](https://cran.r-project.org/package=statar)
 [![codecov](https://codecov.io/gh/matthieugomez/statar/branch/master/graph/badge.svg?token=ffBd83Pefl)](https://codecov.io/gh/matthieugomez/statar)
 
