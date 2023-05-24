@@ -179,12 +179,14 @@ df %>% group_by(id) %>% fill_gap(datem, roll = "nearest")
 # Graph Functions
 ### stat_binmean
 
-`stat_binmean()` is a `stat` for ggplot2. It returns the mean of `y` and `x` within bins of `x`. It's a bareborne version of the Stata command [binscatter](https://github.com/michaelstepner/binscatter)
+`stat_binmean()` (a `stat` for ggplot2) returns the mean of `y` and `x` within 20 bins of `x`. It's a barebone version of the Stata command [binscatter](https://github.com/michaelstepner/binscatter)
 
 ```R
 ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length)) + stat_binmean()
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) 
-ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n=10) + stat_smooth(method = "lm", se = FALSE)
+# change number of bins
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean(n = 10) 
+# add regression line
+ggplot(iris, aes(x = Sepal.Width , y = Sepal.Length, color = Species)) + stat_binmean() + stat_smooth(method = "lm", se = FALSE)
 ```
 
 
