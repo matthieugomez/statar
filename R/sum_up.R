@@ -37,7 +37,6 @@ sum_up <- function(df, ...,  d = FALSE, wt = NULL) {
   vars <- intersect(vars, nums_name)
   if (!length(vars)) stop("Please select at least one numeric variable", call. = FALSE)
   df <- dplyr::select(df, dplyr::all_of(c(vars, byvars, wtvar)))
-  # bug for do in data.table
   df <- dplyr::reframe(df, describe(dplyr::pick(dplyr::everything()), d = d, wtvar = wtvar, byvars = byvars))
   out <- dplyr::arrange(df, dplyr::pick(dplyr::all_of(c(byvars, "Variable"))))
   # reorder
