@@ -19,7 +19,12 @@
 #' @export
 is.panel <- function(x, ...){
     byvars <- dplyr::group_vars(x)
-    timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
+    timevar <- tidyselect::eval_select(
+      expr = expr(c(...)),
+      data = x,
+      allow_rename = FALSE
+    )
+    timevar <- names(timevar)
     if (length(timevar) > 1) {
         message("There should only be one variable for time")
     }
@@ -29,7 +34,7 @@ is.panel <- function(x, ...){
         message(paste0("Variable ", timevar, " has missing values in ", length(ans)," row(s): ", paste(as.character(ans),collapse = ",")))
         out <- FALSE
     }
-    overall = x %>% dplyr::group_by(..., .add = TRUE) %>% dplyr::group_indices()
+    overall = x %>% dplyr::group_by(dplyr::across(tidyselect::any_of(timevar)), .add = TRUE) %>% dplyr::group_indices()
     if (anyDuplicated(overall)){
         groups <- split(seq_along(overall), overall)
         groups <- groups[vapply(groups, length, integer(1)) > 1]

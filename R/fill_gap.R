@@ -22,15 +22,20 @@ fill_gap <- function(x, ...,  full = FALSE, roll = FALSE, rollends = if (roll=="
 	else if (roll>=0) c(FALSE,TRUE)
 	else c(TRUE,FALSE)) {
 	byvars <- dplyr::group_vars(x)
-	timevar <- setdiff(names(tidyselect::vars_select(names(x), ...)), byvars)
+	timevar <- tidyselect::eval_select(
+	  expr = expr(c(...)),
+	  data = x,
+	  allow_rename = FALSE
+	)
+	timevar <- names(timevar)
 	if (length(timevar) > 1) {
 		message("There should only be one variable for time")
 	}
 	originalattributes <- attributes(x)$class
 	# check byvars, timevar form a panel
-	stopifnot(is.panel(x, .data[[timevar]]))
+	stopifnot(is.panel(x, tidyselect::any_of(timevar)))
 	# create id x time 
-	ans <- dplyr::select(x, dplyr::all_of(byvars), .data[[timevar]])
+	ans <- dplyr::select(x, dplyr::all_of(byvars), dplyr::all_of(timevar))
 	data.table::setDT(ans)
 	if (!full){
 		ans <- lazyeval::lazy_eval(lazyeval::interp(~ans[, list(seq(min(v), max(v), by = 1L)), by = c(byvars)], v = as.name(timevar)))
