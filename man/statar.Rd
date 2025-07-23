@@ -8,3 +8,15 @@
 \description{
 A package for applied research
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/matthieugomez/statar}
+  \item Report bugs at \url{https://github.com/matthieugomez/statar/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Matthieu Gomez \email{mg3901@columbia.edu}
+
+}
